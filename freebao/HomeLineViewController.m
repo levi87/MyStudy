@@ -66,6 +66,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    NSLog(@"[levi]viewWillAppear...");
     [super viewWillAppear:animated];
     if (shouldLoad)
     {
@@ -100,15 +101,17 @@
     }
     else
     {
-        [self getDataFromCD];
-        
-        if (!statuesArr || statuesArr.count == 0) {
-            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-            [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
-        }
-        
-        [manager getUserID];
-        [manager getHOtTrendsDaily];
+//        [self getDataFromCD];
+//        
+//        if (!statuesArr || statuesArr.count == 0) {
+//            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+//            [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
+//        }
+//        
+//        [manager getUserID];
+//        [manager getHOtTrendsDaily];
+        [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+        [manager FBGetHomeline:0 UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     }
 }
 

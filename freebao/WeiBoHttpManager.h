@@ -248,6 +248,8 @@ typedef enum {
     SinaCommentAStatus,             //对一条微博进行评论
     
     FreebaoLogin,
+    FreebaoGetUserInfo,
+    FreebaoGetHomeline,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -466,5 +468,11 @@ typedef enum {
 
 //Freebao登陆
 -(void)didFreebaoLogin:(NSString*)username Password:(NSString*)password Token:(NSString*)token Platform:(NSString*)platform;
+
+//Freebao获取用户信息
+-(void)didFreebaoGetUserInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
+
+//Freebao获取微博信息
+-(void)didFreebaoGetHomeline:(NSInteger)cicleId UserId:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 @end

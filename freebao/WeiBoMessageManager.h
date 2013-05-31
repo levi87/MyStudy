@@ -237,4 +237,10 @@
 
 //Freebao登陆
 -(void)FBLogin:(NSString*)username Password:(NSString*)password Token:(NSString*)token;
+
+//Freebao获取用户信息
+-(void)FBGetUserInfoWithUsetId:(NSString*)userId PassId:(NSString*)passId;
+
+//Freebao获取微博
+-(void)FBGetHomeline:(NSInteger)circleId UserId:(NSString*)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

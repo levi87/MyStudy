@@ -827,6 +827,36 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoGetUserInfoWithUserId:(NSString *)aUserId PassId:(NSString *)passId{
+    NSURL *url = [NSURL URLWithString:kRequestUserInfoUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    self.authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetUserInfo];
+    [requestQueue addOperation:item];
+}
+
+- (void)didFreebaoGetHomeline:(NSInteger)cicleId UserId:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestTimeLinesUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    self.authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    if (cicleId != 0)
+    {
+        [item setPostValue:[NSNumber numberWithInteger:cicleId]      forKey:@"query.teamId"];
+    }
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetHomeline];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -872,8 +902,9 @@
     
     //认证失败
     //{"error":"auth faild!","error_code":21301,"request":"/2/statuses/home_timeline.json"}
-    SBJsonParser    *parser     = [[SBJsonParser alloc] init];    
-    id  returnObject = [parser objectWithString:responseString];
+//    SBJsonParser    *parser     = [[SBJsonParser alloc] init];    
+//    id  returnObject = [parser objectWithString:responseString];
+    id returnObject = [NSJSONSerialization JSONObjectWithData:[request responseData] options:nil error:nil];
     if ([returnObject isKindOfClass:[NSDictionary class]]) {
         NSString *errorString = [returnObject  objectForKey:@"error"];
         if (errorString != nil && ([errorString isEqualToString:@"auth faild!"] || 
@@ -1317,6 +1348,24 @@
 //                [delegate didCommentAStatus:NO];
 //            }
 //        }
+    }
+    //Freebao获取用户信息
+    if (requestType == FreebaoGetUserInfo) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request UserInfo Success...");
+        } else {
+            NSLog(@"[levi] request UserInfo failed...");
+        }
+    }
+    
+    if (requestType == FreebaoGetHomeline) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request HomeLine Success...");
+        } else {
+            NSLog(@"[levi] request HomeLine failed...");
+        }
     }
 }
 

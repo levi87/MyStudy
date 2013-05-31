@@ -251,8 +251,19 @@ static WeiBoMessageManager * instance=nil;
     [httpManager commentAStatus:weiboID content:content];
 }
 
+//Freebao 登陆
 -(void)FBLogin:(NSString *)username Password:(NSString *)password Token:(NSString *)token {
     [httpManager didFreebaoLogin:username Password:password Token:token Platform:@"2"];
+}
+
+//Freebao 获取用户信息
+-(void)FBGetUserInfoWithUsetId:(NSString *)userId PassId:(NSString *)passId{
+    [httpManager didFreebaoGetUserInfoWithUserId:userId PassId:passId];
+}
+
+//Freebao 获取微博信息
+-(void)FBGetHomeline:(NSInteger)circleId UserId:(NSString *)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoGetHomeline:circleId UserId:userId Page:page PageSize:pageSize PassId:passId];
 }
 
 #pragma mark - WeiBoHttpDelegate
