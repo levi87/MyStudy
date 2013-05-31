@@ -45,7 +45,7 @@
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
     
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserID:)      name:MMSinaGotUserID            object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:MMSinaGotHomeLine          object:nil];
+//    [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:MMSinaGotHomeLine          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:MMSinaGotUserInfo          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(relogin)            name:NeedToReLogin              object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:MMSinaGotUnreadCount       object:nil];
@@ -104,7 +104,7 @@
 //        [self getDataFromCD];
 //        
 //        if (!statuesArr || statuesArr.count == 0) {
-//            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
 //            [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
 //        }
 //        
@@ -204,6 +204,8 @@
 
 -(void)didGetHomeLine:(NSNotification*)sender
 {
+    NSLog(@"[levi]receive notification....");
+//    return;
     if ([sender.object count] == 1) {
         NSDictionary *dic = [sender.object objectAtIndex:0];
         NSString *error = [dic objectForKey:@"error"];

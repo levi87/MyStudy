@@ -1363,6 +1363,33 @@
         NSMutableDictionary *tmpDic = returnObject;
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request HomeLine Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            
+            NSArray *contents = [resultMap objectForKey:@"messageList"];
+            if (contents == nil)    // 有些时候返回的格式是contents
+            {
+                contents = [resultMap objectForKey:@"contents"];
+            }
+            
+            NSMutableArray *timeline = [NSMutableArray array];
+            for (NSInteger index=0; index<[contents count]; index++) {
+                NSDictionary *statusInfo = [contents objectAtIndex:index];
+                Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
+                //传给L_Status
+                if (status != nil) {
+                    NSLog(@"[levi]status Id %lld, status Time %ld, status image %@, status body %@, status platform %@, status name %@,status user url %@",
+                          status.statusId,
+                          status.createdAt,
+                          status.sourceUrl,
+                          status.text,
+                          status.source,
+                          status.user.screenName,
+                          status.user.profileImageUrl);
+                }
+                [timeline addObject:status];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE object:timeline];
+            NSLog(@"[levi] status array count : %d",[timeline count]);
         } else {
             NSLog(@"[levi] request HomeLine failed...");
         }

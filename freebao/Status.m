@@ -189,9 +189,118 @@
 	return self;
 }
 
+- (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
+    NSLog(@"[levi] item dic %@", dic);
+	if (self = [super init]) {
+		statusId = [dic getLongLongValueValueForKey:@"contentid" defaultValue:-1];
+		statusKey = [[NSNumber alloc]initWithLongLong:statusId];
+		createdAt = [dic getTimeValueForKey:@"historyInfo" defaultValue:0];
+		text = [dic getStringValueForKey:@"contentbody" defaultValue:@""];
+        self.sourceUrl = [dic getStringValueForKey:@"sourceImage" defaultValue:@""];
+		
+		// parse source parameter
+		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
+        //		NSRange r = [src rangeOfString:@"<a href"];
+        //		NSRange end;
+        //		if (r.location != NSNotFound) {
+        //			NSRange start = [src rangeOfString:@"<a href=\""];
+        //			if (start.location != NSNotFound) {
+        //				int l = [src length];
+        //				NSRange fromRang = NSMakeRange(start.location + start.length, l-start.length-start.location);
+        //				end   = [src rangeOfString:@"\"" options:NSCaseInsensitiveSearch
+        //                                     range:fromRang];
+        //				if (end.location != NSNotFound) {
+        //					r.location = start.location + start.length;
+        //					r.length = end.location - r.location;
+        //					self.sourceUrl = [src substringWithRange:r];
+        //				}
+        //				else {
+        //					self.sourceUrl = @"";
+        //				}
+        //			}
+        //			else {
+        //				self.sourceUrl = @"";
+        //			}
+        //			start = [src rangeOfString:@"\">"];
+        //			end   = [src rangeOfString:@"</a>"];
+        //			if (start.location != NSNotFound && end.location != NSNotFound) {
+        //				r.location = start.location + start.length;
+        //				r.length = end.location - r.location;
+        //				self.source = [src substringWithRange:r];
+        //			}
+        //			else {
+        //				self.source = @"";
+        //			}
+        //		}
+        //		else {
+        //			self.source = src;
+        //		}
+        self.source = src;
+		
+		favorited = [dic getBoolValueForKey:@"favorited" defaultValue:NO];
+		truncated = [dic getBoolValueForKey:@"truncated" defaultValue:NO];
+		
+        //		NSDictionary* geoDic = [dic objectForKey:@"geo"];
+        //		if (geoDic && [geoDic isKindOfClass:[NSDictionary class]]) {
+        //			NSArray *coordinates = [geoDic objectForKey:@"coordinates"];
+        //			if (coordinates && coordinates.count == 2) {
+        longitude = [[dic getStringValueForKey:@"longgitude" defaultValue:@"0"] doubleValue];
+        latitude = [[dic getStringValueForKey:@"latitude" defaultValue:@"0"] doubleValue];
+        //			}
+        //		}
+		
+		inReplyToStatusId = [dic getLongLongValueValueForKey:@"in_reply_to_status_id" defaultValue:-1];
+		inReplyToUserId = [dic getIntValueForKey:@"in_reply_to_user_id" defaultValue:-1];
+		inReplyToScreenName = [dic getStringValueForKey:@"in_reply_to_screen_name" defaultValue:@""];
+		thumbnailPic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
+		bmiddlePic = [dic getStringValueForKey:@"middleImage" defaultValue:@""];
+		originalPic = [dic getStringValueForKey:@"sourceImage" defaultValue:@""];
+		
+        commentsCount = [dic getIntValueForKey:@"replytimes" defaultValue:-1];
+        retweetsCount = [dic getIntValueForKey:@"zftimes" defaultValue:-1];
+        
+        //		NSDictionary* userDic = [dic objectForKey:@"user"];
+        //		if (userDic) {
+        //			user = [[User userWithJsonDictionary:userDic] retain];
+        //		}
+        user = [[User alloc] init];
+        user.screenName = [dic getStringValueForKey:@"nickname" defaultValue:@""];
+        user.userId = [[dic getStringValueForKey:@"contentuid" defaultValue:@"0"] integerValue];
+        user.profileImageUrl = [dic getStringValueForKey:@"facePath" defaultValue:@""];
+		
+		NSDictionary* retweetedStatusDic = [dic objectForKey:@"contentComments"];
+        NSLog(@"[levi]retwwtedStatusDic %@", retweetedStatusDic);
+        //		if (retweetedStatusDic) {
+        //			self.retweetedStatus = [Status statusWithJsonDictionary:retweetedStatusDic];
+        //
+        //            //有转发的博文
+        //            if (retweetedStatus && ![retweetedStatus isEqual:[NSNull null]])
+        //            {
+        //                hasRetwitter = YES;
+        //                
+        //                NSString *url = retweetedStatus.thumbnailPic;
+        //                haveRetwitterImage = (url != nil && [url length] != 0 ? YES : NO);
+        //            }
+        //		}
+        //        //无转发
+        //        else
+        //        {
+        hasRetwitter = NO;
+        NSString *url = thumbnailPic;
+        hasImage = (url != nil && [url length] != 0 ? YES : NO);
+        //        }
+	}
+	return self;
+}
+
 + (Status*)statusWithJsonDictionary:(NSDictionary*)dic
 {
 	return [[Status alloc] initWithJsonDictionary:dic];
+}
+
++ (Status*)statusWithJsonDictionaryFreebao:(NSDictionary *)dic
+{
+    return [[Status alloc] initWithJsonDictionaryFreebao:dic];
 }
 
 

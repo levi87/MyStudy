@@ -86,6 +86,10 @@
 
 + (Status*)statusWithJsonDictionary:(NSDictionary*)dic;
 
+- (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic;
+
++ (Status*)statusWithJsonDictionaryFreebao:(NSDictionary *)dic;
+
 - (StatusCDItem*)updateStatusCDItem:(StatusCDItem*)sts index:(int)theIndex isHomeLine:(BOOL) isHome;
 
 - (Status*)updataStatusFromStatusCDItem:(StatusCDItem*)sts;
