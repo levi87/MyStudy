@@ -9,16 +9,27 @@
 #import "AppDelegate.h"
 
 #import "ViewController.h"
+#import "HomeLineViewController.h"
+#import "LoginViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+
+    HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
+    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:HomeVC];
+    
+    LoginViewController *Login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    UINavigationController *navLogin = [[UINavigationController alloc] initWithRootViewController:Login];
+    
+    self.tabBarController = [[UITabBarController alloc] init];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nil];
+    self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
+
+    [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
     return YES;
 }
 
