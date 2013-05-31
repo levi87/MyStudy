@@ -177,6 +177,7 @@
 //得到图片
 -(void)getAvatar:(NSNotification*)sender
 {
+    NSLog(@"[levi]receive img.............freebao....");
     NSDictionary * dic = sender.object;
     NSString * url          = [dic objectForKey:HHNetDataCacheURLKey];
     NSNumber *indexNumber   = [dic objectForKey:HHNetDataCacheIndex];
@@ -221,6 +222,7 @@
     //得到的是转发的图片
     if (sts.retweetedStatus && ![sts.retweetedStatus isEqual:[NSNull null]])
     {
+        NSLog(@"[levi]receive retwitter....img....freebao...");
         if ([url isEqualToString:sts.retweetedStatus.thumbnailPic])
         {
             sts.statusImage = image;

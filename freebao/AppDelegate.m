@@ -11,8 +11,17 @@
 #import "ViewController.h"
 #import "HomeLineViewController.h"
 #import "LoginViewController.h"
+#import "FollowerVC.h"
+#import "SettingVC.h"
+#import "ProfileVC.h"
+#import "FollowAndFansVC.h"
+#import "MetionsStatusesVC.h"
+#import "ZJTProfileViewController.h"
 
 @implementation AppDelegate
+@synthesize managedObjContext = _managedObjContext;
+@synthesize managedObjModel = _managedObjModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

@@ -7,7 +7,6 @@
 //
 
 #import "StatusCDItem.h"
-#import "StatusCDItem.h"
 #import "UserCDItem.h"
 
 

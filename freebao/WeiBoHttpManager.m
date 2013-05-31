@@ -1300,8 +1300,10 @@
             [[NSUserDefaults standardUserDefaults] setObject:passwordKey forKey:FB_PASSWORD_KEY];
             [[NSUserDefaults standardUserDefaults] setObject:usrId forKey:FB_USER_ID];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_LOGIN_SUCCESS object:nil];
         } else {
             NSLog(@"[levi] login failed...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_LOGIN_FAILED object:nil];
         }
 //        if (dic)
 //        {

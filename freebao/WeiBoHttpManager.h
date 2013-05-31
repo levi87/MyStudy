@@ -42,6 +42,16 @@
 #define FB_USER_NAME                @"username"
 #define FB_USER_PASSWORD            @"password"
 
+//FB_NOTIFICATION
+
+#define FB_NOTIC_LOGIN_SUCCESS      @"fb_success"
+#define FB_NOTIC_LOGIN_FAILED       @"fb_failed"
+
+//FB_HOMELINE
+#define FB_GET_HOMELINE             @"fb_get_homeline"
+#define FB_GET_USERINFO             @"fb_get_userinfo"
+#define FB_GET_UNREAD_COUNT         @"fb_get_unread_count"
+
 /*
  Freebao
  */

@@ -484,9 +484,20 @@
     
 }
 
+- (void)OnResultLoginSuccess {
+    NSLog(@"[levi] success disappear...");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)OnResultLoginFailed {
+    NSLog(@"[levi] failed alert...");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginSuccess) name:FB_NOTIC_LOGIN_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginFailed) name:FB_NOTIC_LOGIN_FAILED object:nil];
     
     if (FALSE) {
         [loginViewBac_ setFrame:CGRectMake(0, 0, 320, 568)];
@@ -771,12 +782,8 @@ int a=0;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    self.usernameTextField = nil;
-    self.passwordTextField = nil;
-    self.rememberPasswordButton = nil;
-    self.autoLoginButton = nil;
-    self.tableView = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_NOTIC_LOGIN_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_NOTIC_LOGIN_FAILED object:nil];
 }
 
 -(IBAction)clearKeyBorad{
