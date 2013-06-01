@@ -29,12 +29,21 @@
 
     HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:HomeVC];
+    nav1.navigationBar.tintColor = [UIColor blackColor];
+//    [nav1.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar_background"] forBarMetrics:UIBarMetricsDefault];
+    nav1.tabBarItem.image = [UIImage imageNamed:@"tabbar_home"];
+    
+    SettingVC *Settings= [[SettingVC alloc] init];
+    UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:Settings];
+    nav2.navigationBar.tintColor = [UIColor blackColor];
+//    [nav2.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar_background"] forBarMetrics:UIBarMetricsDefault];
+    nav2.tabBarItem.image = [UIImage imageNamed:@"tabbar_more"];
     
     LoginViewController *Login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     UINavigationController *navLogin = [[UINavigationController alloc] initWithRootViewController:Login];
     
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nav2, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
 
