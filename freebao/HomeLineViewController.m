@@ -71,9 +71,9 @@
     if (shouldLoad)
     {
         shouldLoad = NO;
-        [manager getUserID];
-        [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
+//        [manager getUserID];
+//        [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+//        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
     }
 }
 
@@ -104,7 +104,7 @@
 //        [self getDataFromCD];
 //        
 //        if (!statuesArr || statuesArr.count == 0) {
-            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+//            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
 //            [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
 //        }
 //        
@@ -160,7 +160,9 @@
 //上拉
 -(void)refresh
 {
-    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
+//    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
+    NSLog(@"[levi]refresh page %d", _page);
+    [manager FBGetHomeline:0 UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:_page PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     _shouldAppendTheDataArr = YES;
 }
 
@@ -250,8 +252,10 @@
 }
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+    NSLog(@"[levi] didtrigger...");
     _reloading = YES;
-	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+//	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+    [manager FBGetHomeline:0 UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     _shouldAppendTheDataArr = NO;
 }
 

@@ -253,8 +253,8 @@
 		inReplyToUserId = [dic getIntValueForKey:@"in_reply_to_user_id" defaultValue:-1];
 		inReplyToScreenName = [dic getStringValueForKey:@"in_reply_to_screen_name" defaultValue:@""];
 		thumbnailPic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
-		bmiddlePic = [dic getStringValueForKey:@"middleImage" defaultValue:@""];
-		originalPic = [dic getStringValueForKey:@"sourceImage" defaultValue:@""];
+		bmiddlePic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
+		originalPic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
 		
         commentsCount = [dic getIntValueForKey:@"replytimes" defaultValue:-1];
         retweetsCount = [dic getIntValueForKey:@"zftimes" defaultValue:-1];
@@ -268,27 +268,27 @@
         user.userId = [[dic getStringValueForKey:@"contentuid" defaultValue:@"0"] integerValue];
         user.profileImageUrl = [dic getStringValueForKey:@"facePath" defaultValue:@""];
 		
-		NSDictionary* retweetedStatusDic = [dic objectForKey:@"contentComments"];
+		NSDictionary* retweetedStatusDic = [dic objectForKey:@"content"];
         NSLog(@"[levi]retwwtedStatusDic %@", retweetedStatusDic);
-        //		if (retweetedStatusDic) {
-        //			self.retweetedStatus = [Status statusWithJsonDictionary:retweetedStatusDic];
-        //
-        //            //有转发的博文
-        //            if (retweetedStatus && ![retweetedStatus isEqual:[NSNull null]])
-        //            {
-        //                hasRetwitter = YES;
-        //                
-        //                NSString *url = retweetedStatus.thumbnailPic;
-        //                haveRetwitterImage = (url != nil && [url length] != 0 ? YES : NO);
-        //            }
-        //		}
-        //        //无转发
-        //        else
-        //        {
+        if ([NSJSONSerialization isValidJSONObject:[dic objectForKey:@"content"]]) {
+			self.retweetedStatus = [Status statusWithJsonDictionaryFreebao:retweetedStatusDic];
+
+            //有转发的博文
+            if (retweetedStatus && ![retweetedStatus isEqual:[NSNull null]])
+            {
+                hasRetwitter = YES;
+                
+                NSString *url = retweetedStatus.thumbnailPic;
+                haveRetwitterImage = (url != nil && [url length] != 0 ? YES : NO);
+            }
+        }
+        //无转发
+        else
+        {
         hasRetwitter = NO;
         NSString *url = thumbnailPic;
         hasImage = (url != nil && [url length] != 0 ? YES : NO);
-        //        }
+        }
 	}
 	return self;
 }
