@@ -276,6 +276,7 @@ enum  {
     
     UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(replyActionSheet)];
     self.navigationItem.rightBarButtonItem = retwitterBtn;
+    [self.navigationItem.leftBarButtonItem setTarget:self];
     
     contentImageV.hidden = !_hasImage;
     contentImageBackgroundView.hidden = !_hasImage;
@@ -289,6 +290,16 @@ enum  {
     CGRect frame = table.frame;
     frame.size.height = frame.size.height + REFRESH_FOOTER_HEIGHT;
     table.frame = frame;
+    CGRect tmpFrame = self.ToolsBarView.frame;
+    tmpFrame.origin.y = tmpFrame.origin.y + 432;
+    self.ToolsBarView.frame = tmpFrame;
+    [self.navigationController.view addSubview:self.ToolsBarView];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    CGRect frame = self.tableView.frame;
+    frame.size.height = frame.size.height - 45;
+    self.tableView.frame = frame;
 }
 
 -(void)viewDidUnload
@@ -326,6 +337,10 @@ enum  {
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [self.ToolsBarView removeFromSuperview];
 }
 
 -(UINib*)commentCellNib
@@ -423,7 +438,7 @@ enum  {
 
 - (void)refresh {
     [manager getCommentListWithID:status.statusId maxID:_maxID page:_page];
-//    [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view]; 
+//    [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
 }
 
 -(void)follow
@@ -787,6 +802,7 @@ enum  {
 
 - (IBAction)popViewC:(id)sender 
 {
+    [self.ToolsBarView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

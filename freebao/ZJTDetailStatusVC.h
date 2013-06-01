@@ -85,5 +85,6 @@
 @property (retain, nonatomic) IBOutlet UIImageView *commentCountImageView;
 @property (retain, nonatomic) IBOutlet UIImageView *vipImageView;
 @property (retain, nonatomic) Comment *clickedComment;
+@property (strong, nonatomic) IBOutlet UIView *ToolsBarView;
 
 @end
