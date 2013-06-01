@@ -81,8 +81,85 @@
 	
 }
 
+- (Comment*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
+    
+	if (self = [super init]) {
+        NSLog(@"[levi]comment item %@", dic);
+		commentId = [dic getLongLongValueValueForKey:@"commentId" defaultValue:-1];
+		commentKey = [[NSNumber alloc]initWithLongLong:commentId];
+		createdAt = [dic getTimeValueForKey:@"historyInfo" defaultValue:0];
+		text = [dic getStringValueForKey:@"commentBody" defaultValue:@""];
+		
+		// parse source parameter
+		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
+//		NSRange r = [src rangeOfString:@"<a href"];
+//		NSRange end;
+//		if (r.location != NSNotFound) {
+//			NSRange start = [src rangeOfString:@"<a href=\""];
+//			if (start.location != NSNotFound) {
+//				int l = [src length];
+//				NSRange fromRang = NSMakeRange(start.location + start.length, l-start.length-start.location);
+//				end   = [src rangeOfString:@"\"" options:NSCaseInsensitiveSearch
+//									 range:fromRang];
+//				if (end.location != NSNotFound) {
+//					r.location = start.location + start.length;
+//					r.length = end.location - r.location;
+//					self.sourceUrl = [src substringWithRange:r];
+//				}
+//				else {
+//					self.sourceUrl = @"";
+//				}
+//			}
+//			else {
+//				self.sourceUrl = @"";
+//			}
+//			start = [src rangeOfString:@"\">"];
+//			end   = [src rangeOfString:@"</a>"];
+//			if (start.location != NSNotFound && end.location != NSNotFound) {
+//				r.location = start.location + start.length;
+//				r.length = end.location - r.location;
+//				self.source = [src substringWithRange:r];
+//			}
+//			else {
+//				self.source = @"";
+//			}
+//		}
+//		else {
+			self.source = src;
+//		}
+        
+		favorited = [dic getBoolValueForKey:@"favorited" defaultValue:NO];
+		truncated = [dic getBoolValueForKey:@"truncated" defaultValue:NO];
+		
+//		NSDictionary* userDic = [dic objectForKey:@"user"];
+//		if (userDic) {
+//			user = [User userWithJsonDictionary:userDic];
+//		}
+        user = [[User alloc] init];
+        user.screenName = [dic getStringValueForKey:@"nickname" defaultValue:@""];
+        user.userId = [[dic getStringValueForKey:@"commentUid" defaultValue:@"0"] integerValue];
+        user.profileImageUrl = [dic getStringValueForKey:@"facePath" defaultValue:@""];
+		
+//		NSDictionary* statusDic = [dic objectForKey:@"status"];
+//		if (statusDic) {
+//			status = [Status statusWithJsonDictionaryFreebao:statusDic];
+//		}
+		
+		NSDictionary* replyCommentDic = [dic objectForKey:@"reply_comment"];
+		if (replyCommentDic) {
+			replyComment = [Comment commentWithJsonDictionaryFreebao:replyCommentDic];
+		}
+		
+	}
+	return self;
+}
+
 + (Comment*)commentWithJsonDictionary:(NSDictionary*)dic {
 	return [[Comment alloc] initWithJsonDictionary:dic];
+}
+
++ (Comment*)commentWithJsonDictionaryFreebao:(NSDictionary *)dic {
+    return [[Comment alloc] initWithJsonDictionaryFreebao:dic];
 }
 
 

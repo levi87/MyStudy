@@ -42,6 +42,10 @@
 
 - (Comment*)initWithJsonDictionary:(NSDictionary*)dic;
 
+- (Comment*)initWithJsonDictionaryFreebao:(NSDictionary *)dic;
+
 + (Comment*)commentWithJsonDictionary:(NSDictionary*)dic;
+
++ (Comment*)commentWithJsonDictionaryFreebao:(NSDictionary *)dic;
 
 @end

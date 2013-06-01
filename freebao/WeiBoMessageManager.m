@@ -266,6 +266,11 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetHomeline:circleId UserId:userId Page:page PageSize:pageSize PassId:passId];
 }
 
+//Freebao 获取微博评论
+-(void)FBGetCommentWithHomelineId:(NSInteger)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoGetCommentWithHomelineId:StatusId StatusType:statusType Page:page PageSize:pageSize PassId:passId];
+}
+
 #pragma mark - WeiBoHttpDelegate
 //获取最新的公共微博
 -(void)didGetPublicTimelineWithStatues:(NSArray *)statusArr
