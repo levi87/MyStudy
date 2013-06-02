@@ -17,6 +17,7 @@
 #import "FollowAndFansVC.h"
 #import "MetionsStatusesVC.h"
 #import "ZJTProfileViewController.h"
+#import "MessageViewController.h"
 
 @implementation AppDelegate
 @synthesize managedObjContext = _managedObjContext;
@@ -35,15 +36,21 @@
     
     SettingVC *Settings= [[SettingVC alloc] init];
     UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:Settings];
-    nav2.navigationBar.tintColor = [UIColor blackColor];
 //    [nav2.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar_background"] forBarMetrics:UIBarMetricsDefault];
+    nav2.navigationBar.tintColor = [UIColor blackColor];
     nav2.tabBarItem.image = [UIImage imageNamed:@"tabbar_more"];
+    
+    MetionsStatusesVC *MesVC = [[MetionsStatusesVC alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
+    UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:MesVC];
+//    [nav2.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar_background"] forBarMetrics:UIBarMetricsDefault];
+    nav3.navigationBar.tintColor = [UIColor blackColor];
+    nav3.tabBarItem.image = [UIImage imageNamed:@"tabbar_message_center"];
     
     LoginViewController *Login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
     UINavigationController *navLogin = [[UINavigationController alloc] initWithRootViewController:Login];
     
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nav2, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nav3, nav2, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
 

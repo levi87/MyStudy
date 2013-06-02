@@ -17,9 +17,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"@我";
+//    self.title = @"消息";
+//    [self.navigationController.navigationBar setHidden:YES];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar_background"] forBarMetrics:UIBarMetricsDefault];
+    MessageUIView *titleView = [MessageUIView instanceTitleView];
+    titleView.delegate = self;
+    [self.navigationItem setTitleView:titleView];
     [defaultNotifCenter addObserver:self selector:@selector(didGetMetionsStatus:)    name:MMSinaGotMetionsStatuses   object:nil];
-    
 }
 
 - (void)viewDidUnload
@@ -38,6 +42,20 @@
     
     [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view]; 
 //    [[ZJTStatusBarAlertWindow getInstance] showWithString:@"正在载入，请稍后..."];
+}
+
+- (void)returnValueToShow:(id)sender {
+    UIButton *btn = sender;
+    NSString *tmpStr = btn.restorationIdentifier;
+    if ([tmpStr isEqualToString:@"atBtn"]) {
+        NSLog(@"atButton");
+    } else if ([tmpStr isEqualToString:@"mentionsBtn"]) {
+        NSLog(@"mentionButton");
+    } else if ([tmpStr isEqualToString:@"messageBtn"]) {
+        NSLog(@"messageButton");
+    } else if ([tmpStr isEqualToString:@"noticeBtn"]) {
+        NSLog(@"noticeButton");
+    }
 }
 
 -(void)didGetMetionsStatus:(NSNotification*)sender

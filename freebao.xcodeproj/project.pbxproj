@@ -285,6 +285,16 @@
 		DBA6407C1759AEDB00ECCE6F /* toolbar_refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640711759AEDB00ECCE6F /* toolbar_refresh.png */; };
 		DBA6407D1759AEDB00ECCE6F /* toolbar_retweet_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640721759AEDB00ECCE6F /* toolbar_retweet_highlighted.png */; };
 		DBA6407E1759AEDB00ECCE6F /* toolbar_retweet.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640731759AEDB00ECCE6F /* toolbar_retweet.png */; };
+		DBA640881759DB3C00ECCE6F /* navigationbar_comments.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640841759DB3C00ECCE6F /* navigationbar_comments.png */; };
+		DBA640891759DB3C00ECCE6F /* navigationbar_mentions.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640851759DB3C00ECCE6F /* navigationbar_mentions.png */; };
+		DBA6408A1759DB3C00ECCE6F /* navigationbar_messages.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640861759DB3C00ECCE6F /* navigationbar_messages.png */; };
+		DBA6408B1759DB3C00ECCE6F /* navigationbar_notice.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640871759DB3C00ECCE6F /* navigationbar_notice.png */; };
+		DBA6408D1759DB4900ECCE6F /* navigationbar_floating_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA6408C1759DB4900ECCE6F /* navigationbar_floating_bar.png */; };
+		DBA6408F1759DCB500ECCE6F /* tabbar_message_center@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA6408E1759DCB500ECCE6F /* tabbar_message_center@2x.png */; };
+		DBA640951759E2CE00ECCE6F /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA640931759E2CE00ECCE6F /* MessageViewController.m */; };
+		DBA640961759E2CE00ECCE6F /* MessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA640941759E2CE00ECCE6F /* MessageViewController.xib */; };
+		DBA6409A175A07C900ECCE6F /* MessageUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA64099175A07C800ECCE6F /* MessageUIView.m */; };
+		DBA6409C175A07E100ECCE6F /* MessageUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA6409B175A07E100ECCE6F /* MessageUIView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -668,6 +678,18 @@
 		DBA640711759AEDB00ECCE6F /* toolbar_refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_refresh.png; sourceTree = "<group>"; };
 		DBA640721759AEDB00ECCE6F /* toolbar_retweet_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_retweet_highlighted.png; sourceTree = "<group>"; };
 		DBA640731759AEDB00ECCE6F /* toolbar_retweet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_retweet.png; sourceTree = "<group>"; };
+		DBA640841759DB3C00ECCE6F /* navigationbar_comments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_comments.png; sourceTree = "<group>"; };
+		DBA640851759DB3C00ECCE6F /* navigationbar_mentions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_mentions.png; sourceTree = "<group>"; };
+		DBA640861759DB3C00ECCE6F /* navigationbar_messages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_messages.png; sourceTree = "<group>"; };
+		DBA640871759DB3C00ECCE6F /* navigationbar_notice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_notice.png; sourceTree = "<group>"; };
+		DBA6408C1759DB4900ECCE6F /* navigationbar_floating_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_floating_bar.png; sourceTree = "<group>"; };
+		DBA6408E1759DCB500ECCE6F /* tabbar_message_center@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_message_center@2x.png"; sourceTree = "<group>"; };
+		DBA640921759E2CD00ECCE6F /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		DBA640931759E2CE00ECCE6F /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		DBA640941759E2CE00ECCE6F /* MessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageViewController.xib; sourceTree = "<group>"; };
+		DBA64098175A07C800ECCE6F /* MessageUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageUIView.h; sourceTree = "<group>"; };
+		DBA64099175A07C800ECCE6F /* MessageUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageUIView.m; sourceTree = "<group>"; };
+		DBA6409B175A07E100ECCE6F /* MessageUIView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageUIView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -790,6 +812,12 @@
 		DB6433B617585A03005CAD2F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DBA6408E1759DCB500ECCE6F /* tabbar_message_center@2x.png */,
+				DBA6408C1759DB4900ECCE6F /* navigationbar_floating_bar.png */,
+				DBA640841759DB3C00ECCE6F /* navigationbar_comments.png */,
+				DBA640851759DB3C00ECCE6F /* navigationbar_mentions.png */,
+				DBA640861759DB3C00ECCE6F /* navigationbar_messages.png */,
+				DBA640871759DB3C00ECCE6F /* navigationbar_notice.png */,
 				DBA640691759AEDB00ECCE6F /* toolbar_background.png */,
 				DBA6406A1759AEDB00ECCE6F /* toolbar_comment_highlighted.png */,
 				DBA6406B1759AEDB00ECCE6F /* toolbar_comment.png */,
@@ -1053,6 +1081,9 @@
 				DB9FCEFF1758250800AE837D /* HomeLineViewController.h */,
 				DB9FCF001758250800AE837D /* HomeLineViewController.m */,
 				DB9FCF011758250800AE837D /* HomeLineViewController.xib */,
+				DBA640921759E2CD00ECCE6F /* MessageViewController.h */,
+				DBA640931759E2CE00ECCE6F /* MessageViewController.m */,
+				DBA640941759E2CE00ECCE6F /* MessageViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -1096,6 +1127,9 @@
 				DB9FCFA817582E6700AE837D /* ZJTAddTrendTableViewController.xib */,
 				DB9FCF051758257600AE837D /* StatusViewContrillerBase.h */,
 				DB9FCF061758257600AE837D /* StatusViewContrillerBase.m */,
+				DBA64098175A07C800ECCE6F /* MessageUIView.h */,
+				DBA64099175A07C800ECCE6F /* MessageUIView.m */,
+				DBA6409B175A07E100ECCE6F /* MessageUIView.xib */,
 			);
 			name = OtherTabsVCs;
 			sourceTree = "<group>";
@@ -1523,6 +1557,14 @@
 				DBA6407C1759AEDB00ECCE6F /* toolbar_refresh.png in Resources */,
 				DBA6407D1759AEDB00ECCE6F /* toolbar_retweet_highlighted.png in Resources */,
 				DBA6407E1759AEDB00ECCE6F /* toolbar_retweet.png in Resources */,
+				DBA640881759DB3C00ECCE6F /* navigationbar_comments.png in Resources */,
+				DBA640891759DB3C00ECCE6F /* navigationbar_mentions.png in Resources */,
+				DBA6408A1759DB3C00ECCE6F /* navigationbar_messages.png in Resources */,
+				DBA6408B1759DB3C00ECCE6F /* navigationbar_notice.png in Resources */,
+				DBA6408D1759DB4900ECCE6F /* navigationbar_floating_bar.png in Resources */,
+				DBA6408F1759DCB500ECCE6F /* tabbar_message_center@2x.png in Resources */,
+				DBA640961759E2CE00ECCE6F /* MessageViewController.xib in Resources */,
+				DBA6409C175A07E100ECCE6F /* MessageUIView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1622,6 +1664,8 @@
 				DB6433AC17584D2B005CAD2F /* EmojiView.m in Sources */,
 				DB6433B4175856FA005CAD2F /* LoginViewController.m in Sources */,
 				DB6434BB1758AC2C005CAD2F /* ImageCache.xcdatamodel in Sources */,
+				DBA640951759E2CE00ECCE6F /* MessageViewController.m in Sources */,
+				DBA6409A175A07C900ECCE6F /* MessageUIView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

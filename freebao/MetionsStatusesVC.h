@@ -7,7 +7,8 @@
 //
 
 #import "StatusViewContrillerBase.h"
+#import "MessageUIView.h"
 
-@interface MetionsStatusesVC : StatusViewContrillerBase
+@interface MetionsStatusesVC : StatusViewContrillerBase<MessageUIViewDelegate>
 
 @end
