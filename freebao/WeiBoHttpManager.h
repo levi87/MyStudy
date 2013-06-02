@@ -52,6 +52,7 @@
 #define FB_GET_USERINFO             @"fb_get_userinfo"
 #define FB_GET_UNREAD_COUNT         @"fb_get_unread_count"
 #define FB_GET_COMMENT              @"fb_get_comment"
+#define FB_GET_MENTION              @"fb_get_mention"
 
 /*
  Freebao
@@ -252,6 +253,7 @@ typedef enum {
     FreebaoGetUserInfo,
     FreebaoGetHomeline,
     FreebaoGetComment,
+    FreebaoGetMention,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -479,5 +481,8 @@ typedef enum {
 
 //Freebao获取微博评论
 -(void)didFreebaoGetCommentWithHomelineId :(NSInteger)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;
+
+//Freebao获取Mentions
+-(void)didFreebaoGetMentionsWithUserId:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 @end

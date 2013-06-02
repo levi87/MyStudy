@@ -889,6 +889,20 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoGetMentionsWithUserId:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestMyRepliesUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    self.authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetMention];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -1447,6 +1461,41 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_COMMENT object:commentDic];
         } else {
             NSLog(@"[levi] request Comments failed...");
+        }
+    }
+
+    if (requestType == FreebaoGetMention) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Mentions Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            
+            NSArray *contents = [resultMap objectForKey:@"messageList"];
+            if (contents == nil)    // 有些时候返回的格式是contents
+            {
+                contents = [resultMap objectForKey:@"contents"];
+            }
+            
+            NSMutableArray *mentions = [NSMutableArray array];
+            for (NSInteger index=0; index<[contents count]; index++) {
+                NSDictionary *statusInfo = [contents objectAtIndex:index];
+                Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
+                //传给L_Status
+                if (status != nil) {
+                    NSLog(@"[levi]status Id %lld, status Time %ld, status image %@, status body %@, status platform %@, status name %@,status user url %@",
+                          status.statusId,
+                          status.createdAt,
+                          status.sourceUrl,
+                          status.text,
+                          status.source,
+                          status.user.screenName,
+                          status.user.profileImageUrl);
+                }
+                [mentions addObject:status];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_MENTION object:mentions];
+        } else {
+            NSLog(@"[levi] request Mentions failed...");
         }
     }
 }

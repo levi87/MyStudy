@@ -23,12 +23,14 @@
     MessageUIView *titleView = [MessageUIView instanceTitleView];
     titleView.delegate = self;
     [self.navigationItem setTitleView:titleView];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetMetionsStatus:)    name:MMSinaGotMetionsStatuses   object:nil];
+//    [defaultNotifCenter addObserver:self selector:@selector(didGetMetionsStatus:)    name:MMSinaGotMetionsStatuses   object:nil];
+    [defaultNotifCenter addObserver:self selector:@selector(didGetMetionsStatus:)    name:FB_GET_MENTION   object:nil];
 }
 
 - (void)viewDidUnload
 {
-    [defaultNotifCenter removeObserver:self name:MMSinaGotMetionsStatuses object:nil];
+//    [defaultNotifCenter removeObserver:self name:MMSinaGotMetionsStatuses object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_MENTION object:nil];
     [super viewDidUnload];
 }
 
@@ -38,7 +40,8 @@
         return;
     }
     
-    [manager getMetionsStatuses];
+//    [manager getMetionsStatuses];
+    [manager FBGetMentionsWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view]; 
 //    [[ZJTStatusBarAlertWindow getInstance] showWithString:@"正在载入，请稍后..."];
@@ -69,6 +72,10 @@
     [[SHKActivityIndicator currentIndicator] hide];
 //    [[ZJTStatusBarAlertWindow getInstance] hide];
     [self refreshVisibleCellsImages];
+}
+
+-(void)refresh {
+    NSLog(@"[levi]mentions refresh....");
 }
 
 @end
