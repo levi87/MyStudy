@@ -11,7 +11,7 @@
 #import "User.h"
 #import "JSTwitterCoreTextView.h"
 
-#define IMAGE_VIEW_HEIGHT 80.0f
+#define IMAGE_VIEW_HEIGHT 160.0f
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 8.0
 #define FONT_SIZE 15.0
@@ -58,10 +58,11 @@
 @property (retain, nonatomic) NSIndexPath *cellIndexPath;
 @property (retain, nonatomic) IBOutlet UILabel *fromLB;
 @property (retain, nonatomic) IBOutlet UILabel *timeLB;
-@property (retain, nonatomic) IBOutlet UIImageView *vipImageView;
 @property (retain, nonatomic) IBOutlet UIImageView *commentCountImageView;
 @property (retain, nonatomic) IBOutlet UIImageView *retweetCountImageView;
 @property (retain, nonatomic) IBOutlet UIImageView *haveImageFlagImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *headBgImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
 
 @property (nonatomic,retain)JSTwitterCoreTextView *JSContentTF;
 @property (nonatomic,retain)JSTwitterCoreTextView *JSRetitterContentTF;

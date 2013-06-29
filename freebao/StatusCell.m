@@ -24,12 +24,12 @@
 @synthesize cellIndexPath;
 @synthesize fromLB;
 @synthesize timeLB;
-@synthesize vipImageView;
 @synthesize commentCountImageView;
 @synthesize retweetCountImageView;
 @synthesize haveImageFlagImageView;
 @synthesize JSContentTF = _JSContentTF;
 @synthesize JSRetitterContentTF = _JSRetitterContentTF;
+@synthesize mainImageView;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -50,14 +50,40 @@
         _JSContentTF.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         [self.contentView addSubview:_JSContentTF];
     }
-    
+    [self setCellLayout:YES];
     return _JSContentTF;
+}
+
+- (void)setCellLayout:(BOOL)value {
+    if (value) {
+        self.mainImageView.frame = CGRectMake(10, 0, 300, 300);
+        self.mainImageView.image = [UIImage imageNamed:@"largeImage.jpg"];
+        [self.mainImageView setHidden:NO];
+        self.avatarImage.frame = CGRectMake(6, 306, 32, 32);
+        self.userNameLB.frame = CGRectMake(49, 305, 165, 20);
+        self.timeLB.frame = CGRectMake(216, 301, 100, 21);
+        self.haveImageFlagImageView.frame = CGRectMake(194, 305, 14, 14);
+        self.headBgImageView.frame = CGRectMake(2, 303, 40, 40);
+        CGRect frameJS = CGRectMake(40, 340, 280, 80);
+        
+        _JSContentTF.frame = frameJS;
+    } else {
+        [self.mainImageView setHidden:YES];
+        self.avatarImage.frame = CGRectMake(6, 6, 32, 32);
+        self.userNameLB.frame = CGRectMake(49, 5, 165, 20);
+        self.timeLB.frame = CGRectMake(216, 1, 100, 21);
+        self.haveImageFlagImageView.frame = CGRectMake(194, 5, 14, 14);
+        self.headBgImageView.frame = CGRectMake(2, 3, 40, 40);
+        CGRect frameJS = CGRectMake(40, 30, 280, 80);
+        
+        _JSContentTF.frame = frameJS;
+    }
 }
 
 -(JSTwitterCoreTextView*)JSRetitterContentTF
 {    
     if (_JSRetitterContentTF == nil) {
-        _JSRetitterContentTF = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(10, 0, 270, 80)];
+        _JSRetitterContentTF = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(0, 0, 280, 80)];
         [_JSRetitterContentTF setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_JSRetitterContentTF setDelegate:self];
         [_JSRetitterContentTF setFontName:FONT];
@@ -105,9 +131,7 @@
     timeLB.text = status.timestamp;
     
     Status  *retwitterStatus    = status.retweetedStatus;
-    User *theUser = status.user;
     
-    vipImageView.hidden = !theUser.verified;
     BOOL haveImage = NO;
     
     CGRect frame;
@@ -176,7 +200,7 @@
     frame = retwitterMainV.frame;
     
     if (haveRetwitterImage) 
-        frame.size.height = self.JSRetitterContentTF.frame.size.height + IMAGE_VIEW_HEIGHT + 15;
+        frame.size.height = self.JSRetitterContentTF.frame.size.height + IMAGE_VIEW_HEIGHT + 15 + 220;
     else 
         frame.size.height = self.JSRetitterContentTF.frame.size.height + 5;
     
@@ -191,13 +215,19 @@
     //转发的图片
     frame = retwitterContentImage.frame;
     frame.origin.y = self.JSRetitterContentTF.frame.size.height;
-    frame.size.height = IMAGE_VIEW_HEIGHT;
+//    frame.size.height = IMAGE_VIEW_HEIGHT;
+    frame.origin.x = -30;
+    frame.size.height = 300;
+    frame.size.width = 300;
     retwitterContentImage.frame = frame;
     
     //正文的图片
     frame = contentImage.frame;
     frame.origin.y = self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y - 5.0f;
-    frame.size.height = IMAGE_VIEW_HEIGHT;
+//    frame.size.height = IMAGE_VIEW_HEIGHT;
+    frame.origin.x = 10;
+    frame.size.height = 300;
+    frame.size.width = 300;
     contentImage.frame = frame;
     
     //背景设置

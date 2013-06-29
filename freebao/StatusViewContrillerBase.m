@@ -283,6 +283,7 @@
 {
     NSInteger  row = indexPath.row;
     StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
+//    [cell setCellLayout];
     
     if (row >= [statuesArr count]) {
         return cell;

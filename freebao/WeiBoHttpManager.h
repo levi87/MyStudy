@@ -59,16 +59,16 @@
  */
 #define kDefaultRequestPageSize         20
 //测试环境 （你妹）
-#define kHostUrl                        @"http://t.freebao.com/"
-#define kRegisterUrl                    @"http://t.freebao.com"
-#define CItMessageUrl                   @"t.freebao.com"
-#define CityMessage                     @"@t.freebao.com"
+//#define kHostUrl                        @"http://t.freebao.com/"
+//#define kRegisterUrl                    @"http://t.freebao.com"
+//#define CItMessageUrl                   @"t.freebao.com"
+//#define CityMessage                     @"@t.freebao.com"
 
 //正式环境
-//#define kHostUrl                        @"http://m.freebao.com/"
-//#define kRegisterUrl                    @"http://m.freebao.com"
-//#define CItMessageUrl                   @"m.freebao.com"
-//#define CityMessage                     @"@m.freebao.com"
+#define kHostUrl                        @"http://m.freebao.com/"
+#define kRegisterUrl                    @"http://m.freebao.com"
+#define CItMessageUrl                   @"m.freebao.com"
+#define CityMessage                     @"@m.freebao.com"
 
 #define kqqloginUrl                     kHostUrl@"oauth/loginQQ.html"
 #define kqqBindUrl                     kHostUrl@"oauth/bangDingQQUser.html"

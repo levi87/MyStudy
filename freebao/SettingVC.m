@@ -190,9 +190,9 @@ enum {
 
 -(void)logout
 {
-    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-    webV.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:webV animated:YES];
+//    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
+//    webV.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:webV animated:YES];
 }
 
 -(void)didGetUserInfo:(NSNotification*)sender

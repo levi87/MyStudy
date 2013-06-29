@@ -89,18 +89,18 @@
     if (statuesArr != nil && statuesArr.count != 0) {
         return;
     }
-    NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
+//    NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
     NSLog([manager isNeedToRefreshTheToken] == YES ? @"need to login":@"did login");
-    if (authToken == nil || [manager isNeedToRefreshTheToken])
-    {
-        shouldLoad = YES;
-        OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-        webV.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webV animated:NO];
-//        [webV release];
-    }
-    else
-    {
+//    if (authToken == nil || [manager isNeedToRefreshTheToken])
+//    {
+//        shouldLoad = YES;
+//        OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
+//        webV.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:webV animated:NO];
+////        [webV release];
+//    }
+//    else
+//    {
 //        [self getDataFromCD];
 //        
 //        if (!statuesArr || statuesArr.count == 0) {
@@ -112,7 +112,7 @@
 //        [manager getHOtTrendsDaily];
         [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         [manager FBGetHomeline:0 UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    }
+//    }
 }
 
 - (void)twitter
@@ -208,23 +208,23 @@
 {
     NSLog(@"[levi]receive notification....");
 //    return;
-    if ([sender.object count] == 1) {
-        NSDictionary *dic = [sender.object objectAtIndex:0];
-        NSString *error = [dic objectForKey:@"error"];
-        if (error && ![error isEqual:[NSNull null]]) {
-            if ([error isEqualToString:@"expired_token"])
-            {
-                [[SHKActivityIndicator currentIndicator] hide];
-                //                [[ZJTStatusBarAlertWindow getInstance] hide];
-                shouldLoad = YES;
-                OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-                webV.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:webV animated:NO];
-//                [webV release];
-            }
-            return;
-        }
-    }
+//    if ([sender.object count] == 1) {
+//        NSDictionary *dic = [sender.object objectAtIndex:0];
+//        NSString *error = [dic objectForKey:@"error"];
+//        if (error && ![error isEqual:[NSNull null]]) {
+//            if ([error isEqualToString:@"expired_token"])
+//            {
+//                [[SHKActivityIndicator currentIndicator] hide];
+//                //                [[ZJTStatusBarAlertWindow getInstance] hide];
+//                shouldLoad = YES;
+//                OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
+//                webV.hidesBottomBarWhenPushed = YES;
+//                [self.navigationController pushViewController:webV animated:NO];
+////                [webV release];
+//            }
+//            return;
+//        }
+//    }
     
     [self stopLoading];
     [self doneLoadingTableViewData];

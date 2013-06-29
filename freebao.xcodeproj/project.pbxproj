@@ -178,8 +178,6 @@
 		DB9FCF14175826D100AE837D /* LPFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCF0A175826D100AE837D /* LPFriendCell.m */; };
 		DB9FCF15175826D100AE837D /* LPFriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB9FCF0B175826D100AE837D /* LPFriendCell.xib */; };
 		DB9FCF16175826D100AE837D /* LPBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCF0D175826D100AE837D /* LPBaseCell.m */; };
-		DB9FCF17175826D100AE837D /* StatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCF0F175826D100AE837D /* StatusCell.m */; };
-		DB9FCF18175826D100AE837D /* StatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB9FCF10175826D100AE837D /* StatusCell.xib */; };
 		DB9FCF19175826D100AE837D /* ZJTCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCF12175826D100AE837D /* ZJTCommentCell.m */; };
 		DB9FCF1A175826D100AE837D /* ZJTCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB9FCF13175826D100AE837D /* ZJTCommentCell.xib */; };
 		DB9FCF311758279200AE837D /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCF1E1758279200AE837D /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -295,6 +293,8 @@
 		DBA640961759E2CE00ECCE6F /* MessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA640941759E2CE00ECCE6F /* MessageViewController.xib */; };
 		DBA6409A175A07C900ECCE6F /* MessageUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA64099175A07C800ECCE6F /* MessageUIView.m */; };
 		DBA6409C175A07E100ECCE6F /* MessageUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA6409B175A07E100ECCE6F /* MessageUIView.xib */; };
+		DBBE598D177E966B00FC055B /* StatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBE598B177E966B00FC055B /* StatusCell.m */; };
+		DBBE598E177E966B00FC055B /* StatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBBE598C177E966B00FC055B /* StatusCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -508,9 +508,6 @@
 		DB9FCF0B175826D100AE837D /* LPFriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LPFriendCell.xib; sourceTree = "<group>"; };
 		DB9FCF0C175826D100AE837D /* LPBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPBaseCell.h; sourceTree = "<group>"; };
 		DB9FCF0D175826D100AE837D /* LPBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPBaseCell.m; sourceTree = "<group>"; };
-		DB9FCF0E175826D100AE837D /* StatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCell.h; sourceTree = "<group>"; };
-		DB9FCF0F175826D100AE837D /* StatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCell.m; sourceTree = "<group>"; };
-		DB9FCF10175826D100AE837D /* StatusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusCell.xib; sourceTree = "<group>"; };
 		DB9FCF11175826D100AE837D /* ZJTCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZJTCommentCell.h; sourceTree = "<group>"; };
 		DB9FCF12175826D100AE837D /* ZJTCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZJTCommentCell.m; sourceTree = "<group>"; };
 		DB9FCF13175826D100AE837D /* ZJTCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZJTCommentCell.xib; sourceTree = "<group>"; };
@@ -690,6 +687,9 @@
 		DBA64098175A07C800ECCE6F /* MessageUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageUIView.h; sourceTree = "<group>"; };
 		DBA64099175A07C800ECCE6F /* MessageUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageUIView.m; sourceTree = "<group>"; };
 		DBA6409B175A07E100ECCE6F /* MessageUIView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageUIView.xib; sourceTree = "<group>"; };
+		DBBE598A177E966B00FC055B /* StatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCell.h; sourceTree = "<group>"; };
+		DBBE598B177E966B00FC055B /* StatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCell.m; sourceTree = "<group>"; };
+		DBBE598C177E966B00FC055B /* StatusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1142,9 +1142,9 @@
 				DB9FCF0B175826D100AE837D /* LPFriendCell.xib */,
 				DB9FCF0C175826D100AE837D /* LPBaseCell.h */,
 				DB9FCF0D175826D100AE837D /* LPBaseCell.m */,
-				DB9FCF0E175826D100AE837D /* StatusCell.h */,
-				DB9FCF0F175826D100AE837D /* StatusCell.m */,
-				DB9FCF10175826D100AE837D /* StatusCell.xib */,
+				DBBE598A177E966B00FC055B /* StatusCell.h */,
+				DBBE598B177E966B00FC055B /* StatusCell.m */,
+				DBBE598C177E966B00FC055B /* StatusCell.xib */,
 				DB9FCF11175826D100AE837D /* ZJTCommentCell.h */,
 				DB9FCF12175826D100AE837D /* ZJTCommentCell.m */,
 				DB9FCF13175826D100AE837D /* ZJTCommentCell.xib */,
@@ -1389,7 +1389,6 @@
 				A2FF2CCB17544E4C00D31B2F /* icon.png in Resources */,
 				DB9FCF031758250800AE837D /* HomeLineViewController.xib in Resources */,
 				DB9FCF15175826D100AE837D /* LPFriendCell.xib in Resources */,
-				DB9FCF18175826D100AE837D /* StatusCell.xib in Resources */,
 				DB9FCF1A175826D100AE837D /* ZJTCommentCell.xib in Resources */,
 				DB9FCF8817582B9800AE837D /* ImageBrowser.xib in Resources */,
 				DB9FCFAA17582E6700AE837D /* ZJTAddTrendTableViewController.xib in Resources */,
@@ -1565,6 +1564,7 @@
 				DBA6408F1759DCB500ECCE6F /* tabbar_message_center@2x.png in Resources */,
 				DBA640961759E2CE00ECCE6F /* MessageViewController.xib in Resources */,
 				DBA6409C175A07E100ECCE6F /* MessageUIView.xib in Resources */,
+				DBBE598E177E966B00FC055B /* StatusCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1589,7 +1589,6 @@
 				DB9FCF071758257600AE837D /* StatusViewContrillerBase.m in Sources */,
 				DB9FCF14175826D100AE837D /* LPFriendCell.m in Sources */,
 				DB9FCF16175826D100AE837D /* LPBaseCell.m in Sources */,
-				DB9FCF17175826D100AE837D /* StatusCell.m in Sources */,
 				DB9FCF19175826D100AE837D /* ZJTCommentCell.m in Sources */,
 				DB9FCF311758279200AE837D /* ASIAuthenticationDialog.m in Sources */,
 				DB9FCF321758279200AE837D /* ASIDataCompressor.m in Sources */,
@@ -1666,6 +1665,7 @@
 				DB6434BB1758AC2C005CAD2F /* ImageCache.xcdatamodel in Sources */,
 				DBA640951759E2CE00ECCE6F /* MessageViewController.m in Sources */,
 				DBA6409A175A07C900ECCE6F /* MessageUIView.m in Sources */,
+				DBBE598D177E966B00FC055B /* StatusCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
