@@ -168,7 +168,7 @@
             [[HHNetDataCacheManager getInstance] getDataWithURL:status.retweetedStatus.thumbnailPic withIndex:inPath.row];
         }
         else {
-            cell.contentImage.image = status.statusImage;
+            cell.mainImageView.image = status.statusImage;
             cell.retwitterContentImage.image = status.statusImage;
         }
     }
@@ -214,7 +214,7 @@
     if([url isEqualToString:sts.thumbnailPic])
     {
         sts.statusImage = image;
-        cell.contentImage.image = sts.statusImage;
+        cell.mainImageView.image = sts.statusImage;
         cell.retwitterContentImage.image = sts.statusImage;
     }
     
@@ -308,7 +308,8 @@
         }
     }
     cell.avatarImage.image = status.user.avatarImage;
-    cell.contentImage.image = status.statusImage;
+//    cell.contentImage.image = status.statusImage;
+    cell.mainImageView.image = status.statusImage;
     cell.retwitterContentImage.image = status.statusImage;
     
     //开始绘制第一个cell时，隐藏indecator.
@@ -323,6 +324,7 @@
 #pragma mark - UITableViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  
 {
+    NSLog(@"[levi] height forrowat... %d", indexPath.row);
     NSInteger  row = indexPath.row;
     
     if (row >= [statuesArr count]) {
@@ -357,6 +359,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    return;
     NSInteger  row = indexPath.row;
     if (row >= [statuesArr count]) {
 //        NSLog(@"didSelectRowAtIndexPath error ,index = %d,count = %d",row,[statuesArr count]);
@@ -411,6 +414,16 @@
             [browserView addSubview:gifView];
         }
     }
+}
+
+-(void)cellExpandForTranslate:(StatusCell *)theCell {
+    NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
+    NSIndexPath *indexPath = theCell.cellIndexPath;
+    CGRect frame = theCell.frame;
+    frame.size.height = frame.size.height + 500;
+    theCell.contentTF.text = @"just for text...";
+    theCell.frame = frame;
+    [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 -(void)cellImageDidTaped:(StatusCell *)theCell image:(UIImage *)image

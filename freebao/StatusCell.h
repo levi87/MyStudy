@@ -25,6 +25,8 @@
 -(void)cellLinkDidTaped:(StatusCell *)theCell link:(NSString*)link;
 -(void)cellTextDidTaped:(StatusCell *)theCell;
 
+-(void)cellExpandForTranslate:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>

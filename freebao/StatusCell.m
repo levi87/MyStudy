@@ -57,7 +57,7 @@
 - (void)setCellLayout:(BOOL)value {
     if (value) {
         self.mainImageView.frame = CGRectMake(10, 0, 300, 300);
-        self.mainImageView.image = [UIImage imageNamed:@"largeImage.jpg"];
+//        self.mainImageView.image = [UIImage imageNamed:@"largeImage.jpg"];
         [self.mainImageView setHidden:NO];
         self.avatarImage.frame = CGRectMake(6, 306, 32, 32);
         self.userNameLB.frame = CGRectMake(49, 305, 165, 20);
@@ -251,6 +251,7 @@
 
 -(IBAction)tapDetected:(id)sender
 {
+    NSLog(@"[levi]tap...");
     UITapGestureRecognizer*tap = (UITapGestureRecognizer*)sender;
     
     UIImageView *imageView = (UIImageView*)tap.view;
@@ -259,12 +260,14 @@
         {
             [delegate cellImageDidTaped:self image:contentImage.image];
         }
-    }
-    else if ([imageView isEqual:retwitterContentImage])
-    {
+    } else if ([imageView isEqual:retwitterContentImage]) {
         if ([delegate respondsToSelector:@selector(cellImageDidTaped:image:)])
         {
             [delegate cellImageDidTaped:self image:retwitterContentImage.image];
+        }
+    } else if ([imageView isEqual:mainImageView]) {
+        if ([delegate respondsToSelector:@selector(cellExpandForTranslate:)]) {
+            [delegate cellExpandForTranslate:self];
         }
     }
 }
