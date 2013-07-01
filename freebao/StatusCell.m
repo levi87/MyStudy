@@ -31,12 +31,13 @@
 @synthesize JSContentTF = _JSContentTF;
 @synthesize JSRetitterContentTF = _JSRetitterContentTF;
 @synthesize mainImageView;
+@synthesize commentToolBarView;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
     
     if (_JSContentTF == nil) {
-        _JSContentTF = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(40, 20, 280, 80)];
+        _JSContentTF = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(0, 20, 308, 80)];
         [_JSContentTF setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_JSContentTF setDelegate:self];
         [_JSContentTF setFontName:FONT];
@@ -57,16 +58,16 @@
 
 - (void)setCellLayout:(BOOL)value {
     if (value) {
-        self.mainImageView.frame = CGRectMake(10, 0, 300, 300);
+        self.mainImageView.frame = CGRectMake(0, 0, 320, 320);
 //        self.mainImageView.image = [UIImage imageNamed:@"largeImage.jpg"];
         [self.mainImageView setHidden:NO];
-        self.avatarImage.frame = CGRectMake(6, 306, 32, 32);
-        self.userNameLB.frame = CGRectMake(49, 305, 165, 20);
-        self.timeLB.frame = CGRectMake(216, 301, 100, 21);
-        self.haveImageFlagImageView.frame = CGRectMake(194, 305, 14, 14);
-        self.headBgImageView.frame = CGRectMake(2, 303, 40, 40);
+        self.avatarImage.frame = CGRectMake(6, 326, 32, 32);
+        self.userNameLB.frame = CGRectMake(49, 325, 165, 20);
+        self.timeLB.frame = CGRectMake(216, 321, 100, 21);
+        self.haveImageFlagImageView.frame = CGRectMake(194, 325, 14, 14);
+        self.headBgImageView.frame = CGRectMake(2, 323, 40, 40);
         CGRect frameJS = _JSContentTF.frame;
-        frameJS.origin.y = 340;
+        frameJS.origin.y = 360;
         
         _JSContentTF.frame = frameJS;
     } else {
@@ -86,7 +87,7 @@
 -(JSTwitterCoreTextView*)JSRetitterContentTF
 {    
     if (_JSRetitterContentTF == nil) {
-        _JSRetitterContentTF = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(0, 0, 280, 80)];
+        _JSRetitterContentTF = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(0, 0, 308, 80)];
         [_JSRetitterContentTF setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_JSRetitterContentTF setDelegate:self];
         [_JSRetitterContentTF setFontName:FONT];
@@ -119,11 +120,9 @@
 -(void)adjustTheHeightOf:(JSTwitterCoreTextView *)jsView withText:(NSString*)text
 {
     CGFloat height = [StatusCell getJSHeight:text jsViewWith:jsView.frame.size.width];
-    NSLog(@"[levi] content %@, height %f", text, height);
     CGRect textFrame = [jsView frame];
     textFrame.size.height = height;
     [jsView setFrame:textFrame];
-    NSLog(@"[levi] jsview %f, height %f", jsView.frame.size.height, self.JSContentTF.frame.size.height);
 }
 
 -(void)updateCellTextWith:(Status*)status
@@ -178,6 +177,10 @@
                 haveRetwitterImage:NO];//计算cell的高度，以及背景图的处理
     }
     haveImageFlagImageView.hidden = !haveImage;
+
+    CGRect tmpframe = self.commentToolBarView.frame;
+    tmpframe.origin.y = fromLB.frame.origin.y - 30;
+    self.commentToolBarView.frame = tmpframe;
 }
 
 -(void)adjustMainImagePosition:(CGFloat)height {
@@ -277,14 +280,14 @@
         retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
     }
     if (retwitterMainV.hidden == NO) {
-        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 25;
+        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 55;
     }
     else if(hasImage)
     {
-        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 35;
+        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 65;
     }
     else {
-        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 35;
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 65;
     }
 }
 

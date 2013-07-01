@@ -13,7 +13,7 @@
 
 #define IMAGE_VIEW_HEIGHT 80.0f
 #define PADDING_TOP 8.0
-#define PADDING_LEFT 8.0
+#define PADDING_LEFT 6.0
 #define FONT_SIZE 15.0
 #define FONT @"Helvetica"
 
@@ -46,6 +46,7 @@
     JSTwitterCoreTextView *_JSRetitterContentTF;
     UIImageView *retwitterContentImage;
     NSIndexPath *cellIndexPath;
+    UIView *commentToolBarView;
 }
 @property (retain, nonatomic) IBOutlet UILabel *countLB;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
@@ -70,6 +71,7 @@
 
 @property (nonatomic,retain)JSTwitterCoreTextView *JSContentTF;
 @property (nonatomic,retain)JSTwitterCoreTextView *JSRetitterContentTF;
+@property (retain, nonatomic) IBOutlet UIView *commentToolBarView;
 
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage;
 -(void)updateCellTextWith:(Status*)status;
