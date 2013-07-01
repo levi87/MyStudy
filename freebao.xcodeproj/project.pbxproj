@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2291EA2178122C700DFAFBB /* tabbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2291EA1178122C700DFAFBB /* tabbarView.m */; };
+		A2291EB0178122E900DFAFBB /* tabbar_0.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA4178122E900DFAFBB /* tabbar_0.png */; };
+		A2291EB1178122E900DFAFBB /* tabbar_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA5178122E900DFAFBB /* tabbar_0@2x.png */; };
+		A2291EB2178122E900DFAFBB /* tabbar_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA6178122E900DFAFBB /* tabbar_1.png */; };
+		A2291EB3178122E900DFAFBB /* tabbar_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA7178122E900DFAFBB /* tabbar_1@2x.png */; };
+		A2291EB4178122E900DFAFBB /* tabbar_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA8178122E900DFAFBB /* tabbar_3.png */; };
+		A2291EB5178122E900DFAFBB /* tabbar_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA9178122E900DFAFBB /* tabbar_3@2x.png */; };
+		A2291EB6178122E900DFAFBB /* tabbar_4.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EAA178122E900DFAFBB /* tabbar_4.png */; };
+		A2291EB7178122E900DFAFBB /* tabbar_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EAB178122E900DFAFBB /* tabbar_4@2x.png */; };
+		A2291EB8178122E900DFAFBB /* tabbar_mainbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EAC178122E900DFAFBB /* tabbar_mainbtn.png */; };
+		A2291EB9178122E900DFAFBB /* tabbar_mainbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EAD178122E900DFAFBB /* tabbar_mainbtn@2x.png */; };
+		A2291EBA178122E900DFAFBB /* tabbar_mainbtn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EAE178122E900DFAFBB /* tabbar_mainbtn_bg.png */; };
+		A2291EBB178122E900DFAFBB /* tabbar_mainbtn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EAF178122E900DFAFBB /* tabbar_mainbtn_bg@2x.png */; };
+		A2291EBF178124CD00DFAFBB /* tabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2291EBD178124CD00DFAFBB /* tabbarViewController.m */; };
+		A2291EC0178124CD00DFAFBB /* tabbarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2291EBE178124CD00DFAFBB /* tabbarViewController.xib */; };
 		A2FF2CA217544BF200D31B2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FF2CA117544BF200D31B2F /* UIKit.framework */; };
 		A2FF2CA417544BF200D31B2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FF2CA317544BF200D31B2F /* Foundation.framework */; };
 		A2FF2CA617544BF200D31B2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FF2CA517544BF200D31B2F /* CoreGraphics.framework */; };
@@ -298,6 +313,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A2291EA0178122C700DFAFBB /* tabbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabbarView.h; sourceTree = "<group>"; };
+		A2291EA1178122C700DFAFBB /* tabbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabbarView.m; sourceTree = "<group>"; };
+		A2291EA4178122E900DFAFBB /* tabbar_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_0.png; sourceTree = "<group>"; };
+		A2291EA5178122E900DFAFBB /* tabbar_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_0@2x.png"; sourceTree = "<group>"; };
+		A2291EA6178122E900DFAFBB /* tabbar_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_1.png; sourceTree = "<group>"; };
+		A2291EA7178122E900DFAFBB /* tabbar_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_1@2x.png"; sourceTree = "<group>"; };
+		A2291EA8178122E900DFAFBB /* tabbar_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_3.png; sourceTree = "<group>"; };
+		A2291EA9178122E900DFAFBB /* tabbar_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_3@2x.png"; sourceTree = "<group>"; };
+		A2291EAA178122E900DFAFBB /* tabbar_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_4.png; sourceTree = "<group>"; };
+		A2291EAB178122E900DFAFBB /* tabbar_4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_4@2x.png"; sourceTree = "<group>"; };
+		A2291EAC178122E900DFAFBB /* tabbar_mainbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_mainbtn.png; sourceTree = "<group>"; };
+		A2291EAD178122E900DFAFBB /* tabbar_mainbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_mainbtn@2x.png"; sourceTree = "<group>"; };
+		A2291EAE178122E900DFAFBB /* tabbar_mainbtn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_mainbtn_bg.png; sourceTree = "<group>"; };
+		A2291EAF178122E900DFAFBB /* tabbar_mainbtn_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_mainbtn_bg@2x.png"; sourceTree = "<group>"; };
+		A2291EBC178124CD00DFAFBB /* tabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabbarViewController.h; sourceTree = "<group>"; };
+		A2291EBD178124CD00DFAFBB /* tabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabbarViewController.m; sourceTree = "<group>"; };
+		A2291EBE178124CD00DFAFBB /* tabbarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = tabbarViewController.xib; sourceTree = "<group>"; };
 		A2FF2C9D17544BF200D31B2F /* freebao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = freebao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2FF2CA117544BF200D31B2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A2FF2CA317544BF200D31B2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -717,6 +749,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A2291E9F178122B400DFAFBB /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				A2291EA3178122D600DFAFBB /* TabbarImage */,
+				A2291EA0178122C700DFAFBB /* tabbarView.h */,
+				A2291EA1178122C700DFAFBB /* tabbarView.m */,
+				A2291EBC178124CD00DFAFBB /* tabbarViewController.h */,
+				A2291EBD178124CD00DFAFBB /* tabbarViewController.m */,
+				A2291EBE178124CD00DFAFBB /* tabbarViewController.xib */,
+			);
+			name = Tabbar;
+			sourceTree = "<group>";
+		};
+		A2291EA3178122D600DFAFBB /* TabbarImage */ = {
+			isa = PBXGroup;
+			children = (
+				A2291EA4178122E900DFAFBB /* tabbar_0.png */,
+				A2291EA5178122E900DFAFBB /* tabbar_0@2x.png */,
+				A2291EA6178122E900DFAFBB /* tabbar_1.png */,
+				A2291EA7178122E900DFAFBB /* tabbar_1@2x.png */,
+				A2291EA8178122E900DFAFBB /* tabbar_3.png */,
+				A2291EA9178122E900DFAFBB /* tabbar_3@2x.png */,
+				A2291EAA178122E900DFAFBB /* tabbar_4.png */,
+				A2291EAB178122E900DFAFBB /* tabbar_4@2x.png */,
+				A2291EAC178122E900DFAFBB /* tabbar_mainbtn.png */,
+				A2291EAD178122E900DFAFBB /* tabbar_mainbtn@2x.png */,
+				A2291EAE178122E900DFAFBB /* tabbar_mainbtn_bg.png */,
+				A2291EAF178122E900DFAFBB /* tabbar_mainbtn_bg@2x.png */,
+			);
+			name = TabbarImage;
+			sourceTree = "<group>";
+		};
 		A2FF2C9217544BF200D31B2F = {
 			isa = PBXGroup;
 			children = (
@@ -1013,6 +1077,7 @@
 		DB9FCEE4175823EA00AE837D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				A2291E9F178122B400DFAFBB /* Tabbar */,
 				DB6433B617585A03005CAD2F /* Images */,
 				DB64339F17584D21005CAD2F /* FaceView */,
 				DB9FCFDD1758304200AE837D /* SVWebViewController */,
@@ -1565,6 +1630,19 @@
 				DBA640961759E2CE00ECCE6F /* MessageViewController.xib in Resources */,
 				DBA6409C175A07E100ECCE6F /* MessageUIView.xib in Resources */,
 				DBBE598E177E966B00FC055B /* StatusCell.xib in Resources */,
+				A2291EB0178122E900DFAFBB /* tabbar_0.png in Resources */,
+				A2291EB1178122E900DFAFBB /* tabbar_0@2x.png in Resources */,
+				A2291EB2178122E900DFAFBB /* tabbar_1.png in Resources */,
+				A2291EB3178122E900DFAFBB /* tabbar_1@2x.png in Resources */,
+				A2291EB4178122E900DFAFBB /* tabbar_3.png in Resources */,
+				A2291EB5178122E900DFAFBB /* tabbar_3@2x.png in Resources */,
+				A2291EB6178122E900DFAFBB /* tabbar_4.png in Resources */,
+				A2291EB7178122E900DFAFBB /* tabbar_4@2x.png in Resources */,
+				A2291EB8178122E900DFAFBB /* tabbar_mainbtn.png in Resources */,
+				A2291EB9178122E900DFAFBB /* tabbar_mainbtn@2x.png in Resources */,
+				A2291EBA178122E900DFAFBB /* tabbar_mainbtn_bg.png in Resources */,
+				A2291EBB178122E900DFAFBB /* tabbar_mainbtn_bg@2x.png in Resources */,
+				A2291EC0178124CD00DFAFBB /* tabbarViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1666,6 +1744,8 @@
 				DBA640951759E2CE00ECCE6F /* MessageViewController.m in Sources */,
 				DBA6409A175A07C900ECCE6F /* MessageUIView.m in Sources */,
 				DBBE598D177E966B00FC055B /* StatusCell.m in Sources */,
+				A2291EA2178122C700DFAFBB /* tabbarView.m in Sources */,
+				A2291EBF178124CD00DFAFBB /* tabbarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1751,8 +1831,8 @@
 				INFOPLIST_FILE = "freebao/freebao-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
+				PROVISIONING_PROFILE = "AC062A87-B20F-473D-8034-939DFA6614BB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC062A87-B20F-473D-8034-939DFA6614BB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1767,8 +1847,8 @@
 				INFOPLIST_FILE = "freebao/freebao-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
+				PROVISIONING_PROFILE = "AC062A87-B20F-473D-8034-939DFA6614BB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC062A87-B20F-473D-8034-939DFA6614BB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

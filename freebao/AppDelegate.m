@@ -18,6 +18,7 @@
 #import "MetionsStatusesVC.h"
 #import "ZJTProfileViewController.h"
 #import "MessageViewController.h"
+#import "tabbarViewController.h"
 
 @implementation AppDelegate
 @synthesize managedObjContext = _managedObjContext;
@@ -51,7 +52,9 @@
     
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nav3, nav2, nil];
-    self.window.rootViewController = self.tabBarController;
+
+    tabbarViewController *tabBarVC = [[tabbarViewController alloc] init];
+    self.window.rootViewController = tabBarVC;
     [self.window makeKeyAndVisible];
 
     [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
