@@ -11,7 +11,7 @@
 #import "User.h"
 #import "JSTwitterCoreTextView.h"
 
-#define IMAGE_VIEW_HEIGHT 160.0f
+#define IMAGE_VIEW_HEIGHT 80.0f
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 8.0
 #define FONT_SIZE 15.0
@@ -36,6 +36,7 @@
     UIImageView *avatarImage;
     JSTwitterCoreTextView *_JSContentTF;
     UITextView *contentTF;
+    UITextView *translateContentTF;
     UILabel *userNameLB;
     UIImageView *bgImage;
     UIImageView *contentImage;
@@ -49,6 +50,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *countLB;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
 @property (retain, nonatomic) IBOutlet UITextView *contentTF;
+@property (retain, nonatomic) IBOutlet UITextView *translateContentTF;
 @property (retain, nonatomic) IBOutlet UILabel *userNameLB;
 @property (retain, nonatomic) IBOutlet UIImageView *bgImage;
 @property (retain, nonatomic) IBOutlet UIImageView *contentImage;
@@ -72,4 +74,6 @@
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage;
 -(void)updateCellTextWith:(Status*)status;
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
+-(void)showTranslateTV:(CGFloat)height;
+-(void)adjustMainImagePosition:(CGFloat)height;
 @end

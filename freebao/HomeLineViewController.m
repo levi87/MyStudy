@@ -181,10 +181,10 @@
 
 -(void)relogin
 {
-    shouldLoad = YES;
-    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-    webV.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:webV animated:NO];
+//    shouldLoad = YES;
+//    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
+//    webV.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:webV animated:NO];
 }
 
 -(void)didGetUserID:(NSNotification*)sender

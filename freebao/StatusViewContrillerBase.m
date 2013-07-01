@@ -421,8 +421,10 @@
     for (int i = theCell.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
         StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + height, tmpCell.frame.size.width, tmpCell.frame.size.height);
+//        [tmpCell adjustMainImagePosition:100];
     }
     theCell.frame = CGRectMake(theCell.frame.origin.x, theCell.frame.origin.y, theCell.frame.size.width, theCell.frame.size.height + height);
+    [theCell showTranslateTV:100];
 }
 
 -(void)cellImageDidTaped:(StatusCell *)theCell image:(UIImage *)image

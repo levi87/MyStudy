@@ -16,6 +16,7 @@
 @synthesize countLB;
 @synthesize avatarImage;
 @synthesize contentTF;
+@synthesize translateContentTF;
 @synthesize userNameLB;
 @synthesize bgImage;
 @synthesize contentImage;
@@ -64,7 +65,8 @@
         self.timeLB.frame = CGRectMake(216, 301, 100, 21);
         self.haveImageFlagImageView.frame = CGRectMake(194, 305, 14, 14);
         self.headBgImageView.frame = CGRectMake(2, 303, 40, 40);
-        CGRect frameJS = CGRectMake(40, 340, 280, 80);
+        CGRect frameJS = _JSContentTF.frame;
+        frameJS.origin.y = 340;
         
         _JSContentTF.frame = frameJS;
     } else {
@@ -74,7 +76,8 @@
         self.timeLB.frame = CGRectMake(216, 1, 100, 21);
         self.haveImageFlagImageView.frame = CGRectMake(194, 5, 14, 14);
         self.headBgImageView.frame = CGRectMake(2, 3, 40, 40);
-        CGRect frameJS = CGRectMake(40, 30, 280, 80);
+        CGRect frameJS = _JSContentTF.frame;
+        frameJS.origin.y = 30;
         
         _JSContentTF.frame = frameJS;
     }
@@ -116,9 +119,11 @@
 -(void)adjustTheHeightOf:(JSTwitterCoreTextView *)jsView withText:(NSString*)text
 {
     CGFloat height = [StatusCell getJSHeight:text jsViewWith:jsView.frame.size.width];
+    NSLog(@"[levi] content %@, height %f", text, height);
     CGRect textFrame = [jsView frame];
     textFrame.size.height = height;
     [jsView setFrame:textFrame];
+    NSLog(@"[levi] jsview %f, height %f", jsView.frame.size.height, self.JSContentTF.frame.size.height);
 }
 
 -(void)updateCellTextWith:(Status*)status
@@ -156,7 +161,7 @@
         self.contentImage.hidden = YES;
         
         NSString *url = status.retweetedStatus.thumbnailPic;
-        self.retwitterContentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
+//        self.retwitterContentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
         haveImage = !self.retwitterContentImage.hidden;
         [self setTFHeightWithImage:NO 
                 haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO];//计算cell的高度，以及背景图的处理
@@ -167,7 +172,7 @@
     {
         self.retwitterMainV.hidden = YES;
         NSString *url = status.thumbnailPic;
-        self.contentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
+//        self.contentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
         haveImage = !self.contentImage.hidden;
         [self setTFHeightWithImage:url != nil && [url length] != 0 ? YES : NO 
                 haveRetwitterImage:NO];//计算cell的高度，以及背景图的处理
@@ -175,10 +180,44 @@
     haveImageFlagImageView.hidden = !haveImage;
 }
 
+-(void)adjustMainImagePosition:(CGFloat)height {
+    CGRect frame = self.mainImageView.frame;
+    frame.origin.y = frame.origin.y + height;
+    self.mainImageView.frame = frame;
+}
+
+//增加翻译的高度并显示翻译
+-(void)showTranslateTV:(CGFloat)height {
+    self.translateContentTF.hidden = NO;
+    NSLog(@"[levi]jscontentTF %f", self.JSContentTF.frame.size.height);
+    self.translateContentTF.frame = CGRectMake(self.JSContentTF.frame.origin.x, self.JSContentTF.frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF], self.JSContentTF.frame.size.width, [self returnTranslateHeight:self.translateContentTF]);
+    
+    CGRect frame = self.retwitterMainV.frame;
+    
+    frame.origin.y = frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF];
+    self.retwitterMainV.frame = frame;
+
+    frame = self.retwitterContentImage.frame;
+    frame.origin.y = frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF];
+    self.retwitterContentImage.frame = frame;
+}
+
+-(CGFloat)returnTranslateHeightWithJSContent:(JSCoreTextView*)originJSview {
+    return [StatusCell getJSHeight:originJSview.text jsViewWith:originJSview.frame.size.width];
+}
+
+-(CGFloat)returnTranslateHeight:(UITextView*)translateView {
+    return [StatusCell getJSHeight:translateView.text jsViewWith:translateView.frame.size.width];
+}
+
 //计算cell的高度，以及背景图的处理
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage
 {
-    
+    hasImage = FALSE;
+    haveRetwitterImage = FALSE;
+    if (!self.translateContentTF.isHidden) {
+        self.translateContentTF.hidden = YES;
+    }
     //博文Text
     CGRect frame;
     [self adjustTheHeightOf:self.JSContentTF withText:self.JSContentTF.text];
@@ -200,7 +239,7 @@
     frame = retwitterMainV.frame;
     
     if (haveRetwitterImage) 
-        frame.size.height = self.JSRetitterContentTF.frame.size.height + IMAGE_VIEW_HEIGHT + 15 + 220;
+        frame.size.height = self.JSRetitterContentTF.frame.size.height + IMAGE_VIEW_HEIGHT + 15;
     else 
         frame.size.height = self.JSRetitterContentTF.frame.size.height + 5;
     
@@ -215,19 +254,19 @@
     //转发的图片
     frame = retwitterContentImage.frame;
     frame.origin.y = self.JSRetitterContentTF.frame.size.height;
-//    frame.size.height = IMAGE_VIEW_HEIGHT;
-    frame.origin.x = -30;
-    frame.size.height = 300;
-    frame.size.width = 300;
+    frame.size.height = IMAGE_VIEW_HEIGHT;
+//    frame.origin.x = -30;
+//    frame.size.height = 300;
+//    frame.size.width = 300;
     retwitterContentImage.frame = frame;
     
     //正文的图片
     frame = contentImage.frame;
     frame.origin.y = self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y - 5.0f;
-//    frame.size.height = IMAGE_VIEW_HEIGHT;
-    frame.origin.x = 10;
-    frame.size.height = 300;
-    frame.size.width = 300;
+    frame.size.height = IMAGE_VIEW_HEIGHT;
+//    frame.origin.x = 10;
+//    frame.size.height = 300;
+//    frame.size.width = 300;
     contentImage.frame = frame;
     
     //背景设置
