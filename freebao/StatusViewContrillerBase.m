@@ -416,14 +416,13 @@
     }
 }
 
--(void)cellExpandForTranslate:(StatusCell *)theCell {
+-(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height{
     NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
-    NSIndexPath *indexPath = theCell.cellIndexPath;
-    CGRect frame = theCell.frame;
-    frame.size.height = frame.size.height + 500;
-    theCell.contentTF.text = @"just for text...";
-    theCell.frame = frame;
-    [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+    for (int i = theCell.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + height, tmpCell.frame.size.width, tmpCell.frame.size.height);
+    }
+    theCell.frame = CGRectMake(theCell.frame.origin.x, theCell.frame.origin.y, theCell.frame.size.width, theCell.frame.size.height + height);
 }
 
 -(void)cellImageDidTaped:(StatusCell *)theCell image:(UIImage *)image

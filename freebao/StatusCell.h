@@ -25,7 +25,7 @@
 -(void)cellLinkDidTaped:(StatusCell *)theCell link:(NSString*)link;
 -(void)cellTextDidTaped:(StatusCell *)theCell;
 
--(void)cellExpandForTranslate:(StatusCell *)theCell;
+-(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height;
 
 @end
 

@@ -266,8 +266,8 @@
             [delegate cellImageDidTaped:self image:retwitterContentImage.image];
         }
     } else if ([imageView isEqual:mainImageView]) {
-        if ([delegate respondsToSelector:@selector(cellExpandForTranslate:)]) {
-            [delegate cellExpandForTranslate:self];
+        if ([delegate respondsToSelector:@selector(cellExpandForTranslate:Height:)]) {
+            [delegate cellExpandForTranslate:self Height:100];
         }
     }
 }
