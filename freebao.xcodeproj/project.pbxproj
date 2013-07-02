@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A20218BD1782C00D00815B6F /* ng-chat.png in Resources */ = {isa = PBXBuildFile; fileRef = A20218B81782C00D00815B6F /* ng-chat.png */; };
+		A20218BE1782C00D00815B6F /* ng-contact.png in Resources */ = {isa = PBXBuildFile; fileRef = A20218B91782C00D00815B6F /* ng-contact.png */; };
+		A20218BF1782C00D00815B6F /* ng-more.png in Resources */ = {isa = PBXBuildFile; fileRef = A20218BA1782C00D00815B6F /* ng-more.png */; };
+		A20218C01782C00D00815B6F /* ng-post.png in Resources */ = {isa = PBXBuildFile; fileRef = A20218BB1782C00D00815B6F /* ng-post.png */; };
+		A20218C11782C00D00815B6F /* ng-social.png in Resources */ = {isa = PBXBuildFile; fileRef = A20218BC1782C00D00815B6F /* ng-social.png */; };
 		A2291EA2178122C700DFAFBB /* tabbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2291EA1178122C700DFAFBB /* tabbarView.m */; };
 		A2291EB0178122E900DFAFBB /* tabbar_0.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA4178122E900DFAFBB /* tabbar_0.png */; };
 		A2291EB1178122E900DFAFBB /* tabbar_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA5178122E900DFAFBB /* tabbar_0@2x.png */; };
@@ -313,6 +318,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A20218B81782C00D00815B6F /* ng-chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ng-chat.png"; sourceTree = "<group>"; };
+		A20218B91782C00D00815B6F /* ng-contact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ng-contact.png"; sourceTree = "<group>"; };
+		A20218BA1782C00D00815B6F /* ng-more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ng-more.png"; sourceTree = "<group>"; };
+		A20218BB1782C00D00815B6F /* ng-post.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ng-post.png"; sourceTree = "<group>"; };
+		A20218BC1782C00D00815B6F /* ng-social.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ng-social.png"; sourceTree = "<group>"; };
 		A2291EA0178122C700DFAFBB /* tabbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabbarView.h; sourceTree = "<group>"; };
 		A2291EA1178122C700DFAFBB /* tabbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabbarView.m; sourceTree = "<group>"; };
 		A2291EA4178122E900DFAFBB /* tabbar_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_0.png; sourceTree = "<group>"; };
@@ -765,6 +775,11 @@
 		A2291EA3178122D600DFAFBB /* TabbarImage */ = {
 			isa = PBXGroup;
 			children = (
+				A20218B81782C00D00815B6F /* ng-chat.png */,
+				A20218B91782C00D00815B6F /* ng-contact.png */,
+				A20218BA1782C00D00815B6F /* ng-more.png */,
+				A20218BB1782C00D00815B6F /* ng-post.png */,
+				A20218BC1782C00D00815B6F /* ng-social.png */,
 				A2291EA4178122E900DFAFBB /* tabbar_0.png */,
 				A2291EA5178122E900DFAFBB /* tabbar_0@2x.png */,
 				A2291EA6178122E900DFAFBB /* tabbar_1.png */,
@@ -1643,6 +1658,11 @@
 				A2291EBA178122E900DFAFBB /* tabbar_mainbtn_bg.png in Resources */,
 				A2291EBB178122E900DFAFBB /* tabbar_mainbtn_bg@2x.png in Resources */,
 				A2291EC0178124CD00DFAFBB /* tabbarViewController.xib in Resources */,
+				A20218BD1782C00D00815B6F /* ng-chat.png in Resources */,
+				A20218BE1782C00D00815B6F /* ng-contact.png in Resources */,
+				A20218BF1782C00D00815B6F /* ng-more.png in Resources */,
+				A20218C01782C00D00815B6F /* ng-post.png in Resources */,
+				A20218C11782C00D00815B6F /* ng-social.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1831,8 +1851,8 @@
 				INFOPLIST_FILE = "freebao/freebao-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AC062A87-B20F-473D-8034-939DFA6614BB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC062A87-B20F-473D-8034-939DFA6614BB";
+				PROVISIONING_PROFILE = "C0062B19-F4B1-4595-BD26-09CC361A0D7E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0062B19-F4B1-4595-BD26-09CC361A0D7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1847,8 +1867,8 @@
 				INFOPLIST_FILE = "freebao/freebao-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AC062A87-B20F-473D-8034-939DFA6614BB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC062A87-B20F-473D-8034-939DFA6614BB";
+				PROVISIONING_PROFILE = "C0062B19-F4B1-4595-BD26-09CC361A0D7E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C0062B19-F4B1-4595-BD26-09CC361A0D7E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

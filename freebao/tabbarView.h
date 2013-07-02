@@ -11,6 +11,7 @@
 
 @interface tabbarView : UIView
 
+@property(nonatomic,strong) UIView *navigationBarView;
 @property(nonatomic,strong) UIImageView *tabbarView;
 @property(nonatomic,strong) UIImageView *tabbarViewCenter;
 

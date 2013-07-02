@@ -37,8 +37,21 @@
     _page = 1;
     _maxID = -1;
     _shouldAppendTheDataArr = NO;
-    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
-    self.navigationItem.rightBarButtonItem = retwitterBtn;
+//    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
+//    self.navigationItem.rightBarButtonItem = retwitterBtn;
+    UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    UILabel *tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tittleLabel.textAlignment = UITextAlignmentCenter;
+    [tittleLabel setBackgroundColor:[UIColor clearColor]];
+    tittleLabel.text = @"Freebao";
+    tittleLabel.textColor = [UIColor whiteColor];
+    [TittleView addSubview: tittleLabel];
+    tittleLabel.center = CGPointMake(160, 22);
+    UIView *TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+    [self.navigationController.view addSubview:TittleView];
+    [self.navigationController.view addSubview:TittleLineView];
 
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];

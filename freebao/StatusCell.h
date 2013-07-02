@@ -47,6 +47,9 @@
     UIImageView *retwitterContentImage;
     NSIndexPath *cellIndexPath;
     UIView *commentToolBarView;
+    JSTwitterCoreTextView *_line1Comment;
+    JSTwitterCoreTextView *_line2Comment;
+    JSTwitterCoreTextView *_line3Comment;
 }
 @property (retain, nonatomic) IBOutlet UILabel *countLB;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
@@ -71,7 +74,13 @@
 
 @property (nonatomic,retain)JSTwitterCoreTextView *JSContentTF;
 @property (nonatomic,retain)JSTwitterCoreTextView *JSRetitterContentTF;
+
+@property (nonatomic,retain)JSTwitterCoreTextView *line1Comment;
+@property (nonatomic,retain)JSTwitterCoreTextView *line2Comment;
+@property (nonatomic,retain)JSTwitterCoreTextView *line3Comment;
+
 @property (retain, nonatomic) IBOutlet UIView *commentToolBarView;
+@property (retain, nonatomic) IBOutlet UIView *CommentView;
 
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage;
 -(void)updateCellTextWith:(Status*)status;

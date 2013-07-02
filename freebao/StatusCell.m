@@ -32,6 +32,9 @@
 @synthesize JSRetitterContentTF = _JSRetitterContentTF;
 @synthesize mainImageView;
 @synthesize commentToolBarView;
+@synthesize line1Comment = _line1Comment;
+@synthesize line2Comment = _line2Comment;
+@synthesize line3Comment = _line3Comment;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -177,10 +180,62 @@
                 haveRetwitterImage:NO];//计算cell的高度，以及背景图的处理
     }
     haveImageFlagImageView.hidden = !haveImage;
-
-    CGRect tmpframe = self.commentToolBarView.frame;
-    tmpframe.origin.y = fromLB.frame.origin.y - 30;
-    self.commentToolBarView.frame = tmpframe;
+    
+    if (_line1Comment == nil) {
+        _line1Comment = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 20, 230, 21)];
+        [_line1Comment setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_line1Comment setDelegate:self];
+        [_line1Comment setFontName:FONT];
+        [_line1Comment setFontSize:FONT_SIZE];
+        [_line1Comment setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_line1Comment setBackgroundColor:[UIColor clearColor]];
+        [_line1Comment setPaddingTop:0];
+        [_line1Comment setPaddingLeft:0];
+        //        _JSRetitterContentTF.userInteractionEnabled = NO;
+        _line1Comment.backgroundColor = [UIColor clearColor];
+        _line1Comment.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line1Comment.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        [self.CommentView addSubview:_line1Comment];
+    }
+    if (_line2Comment == nil) {
+        _line2Comment = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 40, 230, 21)];
+        [_line2Comment setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_line2Comment setDelegate:self];
+        [_line2Comment setFontName:FONT];
+        [_line2Comment setFontSize:FONT_SIZE];
+        [_line2Comment setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_line2Comment setBackgroundColor:[UIColor clearColor]];
+        [_line2Comment setPaddingTop:0];
+        [_line2Comment setPaddingLeft:0];
+        //        _JSRetitterContentTF.userInteractionEnabled = NO;
+        _line2Comment.backgroundColor = [UIColor clearColor];
+        _line2Comment.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line2Comment.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        [self.CommentView addSubview:_line2Comment];
+    }
+    if (_line3Comment == nil) {
+        _line3Comment = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 59, 230, 21)];
+        [_line3Comment setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_line3Comment setDelegate:self];
+        [_line3Comment setFontName:FONT];
+        [_line3Comment setFontSize:FONT_SIZE];
+        [_line3Comment setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_line3Comment setBackgroundColor:[UIColor clearColor]];
+        [_line3Comment setPaddingTop:0];
+        [_line3Comment setPaddingLeft:0];
+        //        _JSRetitterContentTF.userInteractionEnabled = NO;
+        _line3Comment.backgroundColor = [UIColor clearColor];
+        _line3Comment.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line3Comment.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        [self.CommentView addSubview:_line3Comment];
+    }
+    _line1Comment.text = @"nice to meet you,beauty.";
+    _line2Comment.text = @"@Echo924 可以讲中文吗？";
+    _line3Comment.text = @"这个是要说西瓜小，还是要说...";
+    
+    CGRect tmpframe = self.CommentView.frame;
+    tmpframe.origin.y = fromLB.frame.origin.y - 80;
+    self.CommentView.frame = tmpframe;
 }
 
 -(void)adjustMainImagePosition:(CGFloat)height {
@@ -280,14 +335,14 @@
         retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
     }
     if (retwitterMainV.hidden == NO) {
-        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 55;
+        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 80;
     }
     else if(hasImage)
     {
-        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 65;
+        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 80;
     }
     else {
-        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 65;
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 80;
     }
 }
 

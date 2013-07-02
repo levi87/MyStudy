@@ -21,11 +21,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    CGFloat orginHeight = self.view.frame.size.height- 60;
+    CGFloat orginHeight = self.view.frame.size.height- 45.5;
     if (iPhone5) {
-        orginHeight = self.view.frame.size.height- 60 + addHeight;
+        orginHeight = self.view.frame.size.height- 45.5 + addHeight;
     }
-    _tabbar = [[tabbarView alloc]initWithFrame:CGRectMake(0,  orginHeight, 320, 60)];
+    NSLog(@"[levi] %f", self.view.frame.size.height);
+    _tabbar = [[tabbarView alloc]initWithFrame:CGRectMake(0,  orginHeight, 320, 45.5)];
     _tabbar.delegate = self;
     [self.view addSubview:_tabbar];
     
@@ -49,7 +50,7 @@
     
     UIViewController *viewController = data[@"viewController"];
     viewController.view.tag = SELECTED_VIEW_CONTROLLER_TAG;
-    viewController.view.frame = CGRectMake(0,0,self.view.frame.size.width, self.view.frame.size.height- 50);
+    viewController.view.frame = CGRectMake(0,0,self.view.frame.size.width, self.view.frame.size.height);
     
     [self.view insertSubview:viewController.view belowSubview:_tabbar];
 
@@ -61,7 +62,9 @@
     
     HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:HomeVC];
-    nav1.navigationBar.tintColor = [UIColor blackColor];
+    [nav1.navigationBar setTintColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    [nav1.navigationBar setBackgroundColor:[UIColor clearColor]];
+    [nav1.navigationBar setHidden:YES];
     
     SettingVC *Settings= [[SettingVC alloc] init];
     
