@@ -383,6 +383,12 @@
         [self.delegate cellTextDidTaped:self];
     }
 }
+- (IBAction)likerTap:(id)sender {
+    if ([delegate respondsToSelector:@selector(cellLikerDidTaped:)])
+    {
+        [delegate cellLikerDidTaped:self];
+    }
+}
 
 - (void)dealloc {
 }

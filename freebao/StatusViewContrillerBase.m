@@ -150,6 +150,10 @@
 {
     NSArray *cellArr = [self.table visibleCells];
     for (StatusCell *cell in cellArr) {
+        if ([cell.reuseIdentifier isEqualToString:@"BlankCell"]) {
+            NSLog(@"[levi] BlankCell");
+            return;
+        }
         NSIndexPath *inPath = [self.table indexPathForCell:cell];
         Status *status = [statuesArr objectAtIndex:inPath.row];
         User *user = status.user;
@@ -276,12 +280,22 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [statuesArr count];
+    return [statuesArr count] + 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger  row = indexPath.row;
+    
+    if (row == 0) {
+        static NSString *CellIdentifier = @"BlankCell";
+        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        return cell;
+    }
+    
     StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
 //    [cell setCellLayout];
     
@@ -325,6 +339,9 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  
 {
     NSLog(@"[levi] height forrowat... %d", indexPath.row);
+    if (indexPath.row == 0) {
+        return 44;
+    }
     NSInteger  row = indexPath.row;
     
     if (row >= [statuesArr count]) {

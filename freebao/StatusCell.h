@@ -27,6 +27,8 @@
 
 -(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height;
 
+-(void)cellLikerDidTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>

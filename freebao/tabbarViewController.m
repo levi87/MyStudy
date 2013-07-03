@@ -11,6 +11,9 @@
 
 #define SELECTED_VIEW_CONTROLLER_TAG 98456345
 
+#define HIDE_TABBAR @"10000"
+#define SHOW_TABBAR @"10001"
+
 @interface tabbarViewController ()
 
 @end
@@ -32,6 +35,20 @@
     
     _arrayViewcontrollers = [self getViewcontrollers];
     [self touchBtnAtIndex:0];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSelf) name:HIDE_TABBAR object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSelf) name:SHOW_TABBAR object:nil];
+}
+
+- (void)hideSelf {
+    [_tabbar setHidden:YES];
+}
+
+- (void)showSelf {
+    [_tabbar setHidden:NO];
+}
+
+- (void)viewDidUnload {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning

@@ -11,6 +11,9 @@
 #import "ZJTStatusBarAlertWindow.h"
 #import "CoreDataManager.h"
 
+#define HIDE_TABBAR @"10000"
+#define SHOW_TABBAR @"10001"
+
 @interface HomeLineViewController ()
 -(void)timerOnActive;
 -(void)getDataFromCD;
@@ -41,17 +44,27 @@
 //    self.navigationItem.rightBarButtonItem = retwitterBtn;
     UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
-    UILabel *tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
     tittleLabel.text = @"Freebao";
     tittleLabel.textColor = [UIColor whiteColor];
     [TittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 7, 12)];
+//    backButton.backgroundColor = [UIColor blackColor];
+    backButton.titleLabel.text = @"Back";
+    backButton.titleLabel.textColor = [UIColor blackColor];
+    [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
+    [imgV setFrame:CGRectMake(0, 0, 7, 12)];
+    [backButton addSubview:imgV];
     UIView *TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     [self.navigationController.view addSubview:TittleView];
     [self.navigationController.view addSubview:TittleLineView];
+    [self.navigationController.view addSubview:backButton];
+    backButton.hidden = YES;
 
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
@@ -63,6 +76,13 @@
     [defaultNotifCenter addObserver:self selector:@selector(relogin)            name:NeedToReLogin              object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:MMSinaGotUnreadCount       object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
+}
+
+- (void)backButtonAction {
+    NSLog(@"[levi]back...");
+    backButton.hidden = YES;
+    tittleLabel.text = @"Freebao";
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload {
@@ -81,6 +101,7 @@
 {
     NSLog(@"[levi]viewWillAppear...");
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
     if (shouldLoad)
     {
         shouldLoad = NO;
@@ -284,6 +305,16 @@
     
     [[ZJTStatusBarAlertWindow getInstance] showWithString:[NSString stringWithFormat:@"有%@条新微博",num]];
     [[ZJTStatusBarAlertWindow getInstance] performSelector:@selector(hide) withObject:nil afterDelay:10];
+}
+
+
+-(void)cellLikerDidTaped:(StatusCell *)theCell {
+    LikersViewController *likeVC = [[LikersViewController alloc] init];
+//    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:likeVC];
+//    [nav1.navigationBar setHidden:YES];
+    tittleLabel.text = @"Likers";
+    backButton.hidden = NO;
+    [self.navigationController pushViewController:likeVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

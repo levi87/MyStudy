@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "StatusViewContrillerBase.h"
 #import "TwitterVC.h"
-#import "OAuthWebView.h"
+#import "LikersViewController.h"
+#import "AppDelegate.h"
+#define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface HomeLineViewController : StatusViewContrillerBase
 {
@@ -17,6 +19,8 @@
     int _page;
     long long _maxID;
     BOOL _shouldAppendTheDataArr;
+    UILabel *tittleLabel;
+    UIButton *backButton;
 }
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;
