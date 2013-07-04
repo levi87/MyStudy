@@ -13,7 +13,6 @@
 @synthesize retwitterBgImage;
 @synthesize retwitterContentTF;
 @synthesize retwitterContentImage;
-@synthesize countLB;
 @synthesize avatarImage;
 @synthesize contentTF;
 @synthesize translateContentTF;
@@ -25,8 +24,6 @@
 @synthesize cellIndexPath;
 @synthesize fromLB;
 @synthesize timeLB;
-@synthesize commentCountImageView;
-@synthesize retweetCountImageView;
 @synthesize JSContentTF = _JSContentTF;
 @synthesize JSRetitterContentTF = _JSRetitterContentTF;
 @synthesize mainImageView;
@@ -59,7 +56,6 @@
 }
 
 - (void)setCellLayout:(BOOL)value {
-    self.iconLocationImageView.image = [UIImage imageNamed:@"toolbar_more.png"];
     if (value) {
         self.mainImageView.frame = CGRectMake(0, 0, 320, 320);
         [self.mainImageView setHidden:NO];
@@ -124,27 +120,27 @@
     self.contentTF.text = status.text;
     self.JSContentTF.text = status.text;
     self.userNameLB.text = status.user.screenName;
-    countLB.text = [NSString stringWithFormat:@"  :%d     :%d",status.commentsCount,status.retweetsCount];
-    fromLB.text = [NSString stringWithFormat:@"来自:%@",status.source];
+//    countLB.text = [NSString stringWithFormat:@"  :%d     :%d",status.commentsCount,status.retweetsCount];
+//    fromLB.text = [NSString stringWithFormat:@"来自:%@",status.source];
     timeLB.text = status.timestamp;
     
     Status  *retwitterStatus    = status.retweetedStatus;
     
     BOOL haveImage = NO;
     
-    CGRect frame;
-    frame = countLB.frame;
-    CGFloat padding = 320 - frame.origin.x - frame.size.width;
-    
-    frame = retweetCountImageView.frame;
-    CGSize size = [[NSString stringWithFormat:@"%d",status.retweetsCount] sizeWithFont:[UIFont systemFontOfSize:12.0]];
-    frame.origin.x = 320 - padding - size.width - retweetCountImageView.frame.size.width - 5;
-    retweetCountImageView.frame = frame;
-    
-    frame = commentCountImageView.frame;
-    size = [[NSString stringWithFormat:@"%d     :%d",status.commentsCount,status.retweetsCount] sizeWithFont:[UIFont systemFontOfSize:12.0]];
-    frame.origin.x = 320 - padding - size.width - commentCountImageView.frame.size.width - 5;
-    commentCountImageView.frame = frame;
+//    CGRect frame;
+//    frame = countLB.frame;
+//    CGFloat padding = 320 - frame.origin.x - frame.size.width;
+//    
+//    frame = retweetCountImageView.frame;
+//    CGSize size = [[NSString stringWithFormat:@"%d",status.retweetsCount] sizeWithFont:[UIFont systemFontOfSize:12.0]];
+//    frame.origin.x = 320 - padding - size.width - retweetCountImageView.frame.size.width - 5;
+//    retweetCountImageView.frame = frame;
+//    
+//    frame = commentCountImageView.frame;
+//    size = [[NSString stringWithFormat:@"%d     :%d",status.commentsCount,status.retweetsCount] sizeWithFont:[UIFont systemFontOfSize:12.0]];
+//    frame.origin.x = 320 - padding - size.width - commentCountImageView.frame.size.width - 5;
+//    commentCountImageView.frame = frame;
     
     //有转发
     if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]]) 
@@ -273,11 +269,11 @@
     //转发博文Text
     [self adjustTheHeightOf:self.JSRetitterContentTF withText:self.JSRetitterContentTF.text];
     
-    frame = timeLB.frame;
-    CGSize size = [timeLB.text sizeWithFont:[UIFont systemFontOfSize:13.0]];
-    frame.size = size;
-    frame.origin.x = 320 - 10 - size.width;
-    timeLB.frame = frame;
+//    frame = timeLB.frame;
+//    CGSize size = [timeLB.text sizeWithFont:[UIFont systemFontOfSize:13.0]];
+//    frame.size = size;
+//    frame.origin.x = 320 - 10 - size.width;
+//    timeLB.frame = frame;
     
     //转发的主View
     frame = retwitterMainV.frame;
@@ -373,6 +369,13 @@
     if ([delegate respondsToSelector:@selector(cellLikerDidTaped:)])
     {
         [delegate cellLikerDidTaped:self];
+    }
+}
+- (IBAction)commentTap:(id)sender {
+    NSLog(@"[levi]comment tap...");
+    if ([delegate respondsToSelector:@selector(cellCommentDidTaped:)])
+    {
+        [delegate cellCommentDidTaped:self];
     }
 }
 

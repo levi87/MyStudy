@@ -29,6 +29,8 @@
 
 -(void)cellLikerDidTaped:(StatusCell *)theCell;
 
+-(void)cellCommentDidTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>
@@ -53,7 +55,6 @@
     JSTwitterCoreTextView *_line2Comment;
     JSTwitterCoreTextView *_line3Comment;
 }
-@property (retain, nonatomic) IBOutlet UILabel *countLB;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
 @property (retain, nonatomic) IBOutlet UITextView *contentTF;
 @property (retain, nonatomic) IBOutlet UITextView *translateContentTF;
@@ -68,8 +69,6 @@
 @property (retain, nonatomic) NSIndexPath *cellIndexPath;
 @property (retain, nonatomic) IBOutlet UILabel *fromLB;
 @property (retain, nonatomic) IBOutlet UILabel *timeLB;
-@property (retain, nonatomic) IBOutlet UIImageView *commentCountImageView;
-@property (retain, nonatomic) IBOutlet UIImageView *retweetCountImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *headBgImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
 

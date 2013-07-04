@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentsCell.h"
+#import "AppDelegate.h"
+#import "BlankCell.h"
 
-@interface CommentsViewController : UITableViewController
+@interface CommentsViewController : UITableViewController {
+@private
+    NSMutableArray *headPhotos;
+}
+
+-(void)clearCache;
 
 @end

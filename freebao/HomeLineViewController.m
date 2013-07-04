@@ -309,12 +309,21 @@
 
 
 -(void)cellLikerDidTaped:(StatusCell *)theCell {
-    LikersViewController *likeVC = [[LikersViewController alloc] init];
-//    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:likeVC];
-//    [nav1.navigationBar setHidden:YES];
+    if (likeVC == nil) {
+        likeVC = [[LikersViewController alloc] init];
+    }
     tittleLabel.text = @"Likers";
     backButton.hidden = NO;
     [self.navigationController pushViewController:likeVC animated:YES];
+}
+
+-(void)cellCommentDidTaped:(StatusCell *)theCell {
+    if (commentVC == nil) {
+        commentVC = [[CommentsViewController alloc] init];
+    }
+    tittleLabel.text = @"Comments";
+    backButton.hidden = NO;
+    [self.navigationController pushViewController:commentVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

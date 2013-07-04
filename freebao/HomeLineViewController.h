@@ -10,6 +10,7 @@
 #import "StatusViewContrillerBase.h"
 #import "TwitterVC.h"
 #import "LikersViewController.h"
+#import "CommentsViewController.h"
 #import "AppDelegate.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
@@ -21,6 +22,9 @@
     BOOL _shouldAppendTheDataArr;
     UILabel *tittleLabel;
     UIButton *backButton;
+    
+    LikersViewController *likeVC;
+    CommentsViewController *commentVC;
 }
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;
