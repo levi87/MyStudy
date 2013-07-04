@@ -27,7 +27,6 @@
 @synthesize timeLB;
 @synthesize commentCountImageView;
 @synthesize retweetCountImageView;
-@synthesize haveImageFlagImageView;
 @synthesize JSContentTF = _JSContentTF;
 @synthesize JSRetitterContentTF = _JSRetitterContentTF;
 @synthesize mainImageView;
@@ -60,26 +59,18 @@
 }
 
 - (void)setCellLayout:(BOOL)value {
+    self.iconLocationImageView.image = [UIImage imageNamed:@"toolbar_more.png"];
     if (value) {
         self.mainImageView.frame = CGRectMake(0, 0, 320, 320);
-//        self.mainImageView.image = [UIImage imageNamed:@"largeImage.jpg"];
         [self.mainImageView setHidden:NO];
-        self.avatarImage.frame = CGRectMake(6, 326, 32, 32);
-        self.userNameLB.frame = CGRectMake(49, 325, 165, 20);
-        self.timeLB.frame = CGRectMake(216, 321, 100, 21);
-        self.haveImageFlagImageView.frame = CGRectMake(194, 325, 14, 14);
-        self.headBgImageView.frame = CGRectMake(2, 323, 40, 40);
+        self.HeadView.frame = CGRectMake(0, 323, 40, 40);
         CGRect frameJS = _JSContentTF.frame;
         frameJS.origin.y = 360;
         
         _JSContentTF.frame = frameJS;
     } else {
         [self.mainImageView setHidden:YES];
-        self.avatarImage.frame = CGRectMake(6, 6, 32, 32);
-        self.userNameLB.frame = CGRectMake(49, 5, 165, 20);
-        self.timeLB.frame = CGRectMake(216, 1, 100, 21);
-        self.haveImageFlagImageView.frame = CGRectMake(194, 5, 14, 14);
-        self.headBgImageView.frame = CGRectMake(2, 3, 40, 40);
+        self.HeadView.frame = CGRectMake(0, 3, 40, 40);
         CGRect frameJS = _JSContentTF.frame;
         frameJS.origin.y = 30;
         
@@ -179,7 +170,6 @@
         [self setTFHeightWithImage:url != nil && [url length] != 0 ? YES : NO 
                 haveRetwitterImage:NO];//计算cell的高度，以及背景图的处理
     }
-    haveImageFlagImageView.hidden = !haveImage;
     
     if (_line1Comment == nil) {
         _line1Comment = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 20, 230, 21)];
@@ -288,10 +278,6 @@
     frame.size = size;
     frame.origin.x = 320 - 10 - size.width;
     timeLB.frame = frame;
-    
-    frame = haveImageFlagImageView.frame;
-    frame.origin.x = timeLB.frame.origin.x - haveImageFlagImageView.frame.size.width - 8;
-    haveImageFlagImageView.frame = frame;
     
     //转发的主View
     frame = retwitterMainV.frame;

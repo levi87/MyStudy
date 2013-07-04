@@ -70,7 +70,6 @@
 @property (retain, nonatomic) IBOutlet UILabel *timeLB;
 @property (retain, nonatomic) IBOutlet UIImageView *commentCountImageView;
 @property (retain, nonatomic) IBOutlet UIImageView *retweetCountImageView;
-@property (retain, nonatomic) IBOutlet UIImageView *haveImageFlagImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *headBgImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
 
@@ -83,10 +82,12 @@
 
 @property (retain, nonatomic) IBOutlet UIView *commentToolBarView;
 @property (retain, nonatomic) IBOutlet UIView *CommentView;
+@property (weak, nonatomic) IBOutlet UIImageView *iconLocationImageView;
 
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage;
 -(void)updateCellTextWith:(Status*)status;
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
 -(void)showTranslateTV:(CGFloat)height;
 -(void)adjustMainImagePosition:(CGFloat)height;
+@property (retain, nonatomic) IBOutlet UIView *HeadView;
 @end
