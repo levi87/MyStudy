@@ -79,11 +79,11 @@
     
     HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:HomeVC];
-    [nav1.navigationBar setTintColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
-    [nav1.navigationBar setBackgroundColor:[UIColor clearColor]];
     [nav1.navigationBar setHidden:YES];
     
-    SettingVC *Settings= [[SettingVC alloc] init];
+    ConversationViewController *ConvVC = [[ConversationViewController alloc] initWithNibName:@"ConversationViewController" bundle:nil];
+    UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:ConvVC];
+    [nav2.navigationBar setHidden:YES];
     
     MetionsStatusesVC *MesVC = [[MetionsStatusesVC alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:MesVC];
@@ -91,6 +91,7 @@
     
     tabBarItems = [NSArray arrayWithObjects:
                    [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav1, @"viewController",@"主页",@"title", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav2, @"viewController",@"主页",@"title", nil],
                    [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav3, @"viewController",@"主页",@"title", nil],nil];
     return tabBarItems;
     

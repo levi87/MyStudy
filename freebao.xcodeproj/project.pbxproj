@@ -48,6 +48,31 @@
 		A274AB7A1783BA11009D9523 /* LikersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB791783BA11009D9523 /* LikersCell.m */; };
 		A274AB871783D2D1009D9523 /* BlankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB861783D2D1009D9523 /* BlankCell.m */; };
 		A274AB8B178405E0009D9523 /* icon-back.png in Resources */ = {isa = PBXBuildFile; fileRef = A274AB8A178405E0009D9523 /* icon-back.png */; };
+		A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85DD178651C800170907 /* ConversationViewController.m */; };
+		A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE85DE178651C800170907 /* ConversationViewController.xib */; };
+		A2DE85E41786520100170907 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85E31786520100170907 /* ConversationCell.m */; };
+		A2DE85F9178661AD00170907 /* NSBubbleData.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85EF178661AD00170907 /* NSBubbleData.m */; };
+		A2DE85FA178661AD00170907 /* UIBubbleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85F1178661AD00170907 /* UIBubbleTableView.m */; };
+		A2DE85FB178661AD00170907 /* UIBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85F3178661AD00170907 /* UIBubbleTableViewCell.m */; };
+		A2DE85FC178661AD00170907 /* UIBubbleHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85F5178661AD00170907 /* UIBubbleHeaderTableViewCell.m */; };
+		A2DE85FD178661AD00170907 /* UIBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85F7178661AD00170907 /* UIBubbleTypingTableViewCell.m */; };
+		A2DE86011786628500170907 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85FF1786628400170907 /* ChatViewController.m */; };
+		A2DE86021786628500170907 /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86001786628500170907 /* ChatViewController.xib */; };
+		A2DE860E17869DAA00170907 /* bubbleMine.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860417869DAA00170907 /* bubbleMine.png */; };
+		A2DE860F17869DAA00170907 /* bubbleMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860517869DAA00170907 /* bubbleMine@2x.png */; };
+		A2DE861017869DAA00170907 /* bubbleSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860617869DAA00170907 /* bubbleSomeone.png */; };
+		A2DE861117869DAA00170907 /* bubbleSomeone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860717869DAA00170907 /* bubbleSomeone@2x.png */; };
+		A2DE861217869DAA00170907 /* missingAvatar.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860817869DAA00170907 /* missingAvatar.png */; };
+		A2DE861317869DAA00170907 /* missingAvatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860917869DAA00170907 /* missingAvatar@2x.png */; };
+		A2DE861417869DAA00170907 /* typingMine.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860A17869DAA00170907 /* typingMine.png */; };
+		A2DE861517869DAA00170907 /* typingMine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860B17869DAA00170907 /* typingMine@2x.png */; };
+		A2DE861617869DAA00170907 /* typingSomeone.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860C17869DAA00170907 /* typingSomeone.png */; };
+		A2DE861717869DAA00170907 /* typingSomeone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE860D17869DAA00170907 /* typingSomeone@2x.png */; };
+		A2DE861917869DB900170907 /* halloween.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A2DE861817869DB900170907 /* halloween.jpg */; };
+		A2DE861E1786AFC500170907 /* bg_chat_blue_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE861A1786AFC500170907 /* bg_chat_blue_normal@2x.png */; };
+		A2DE86251786BC8800170907 /* bg_chat_white_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86241786BC8800170907 /* bg_chat_white_normal.png */; };
+		A2DE86271786C2D200170907 /* bg_chat_white_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */; };
+		A2DE86291786C31000170907 /* bg_chat_blue_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86281786C31000170907 /* bg_chat_blue_normal.png */; };
 		A2FF2CA217544BF200D31B2F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FF2CA117544BF200D31B2F /* UIKit.framework */; };
 		A2FF2CA417544BF200D31B2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FF2CA317544BF200D31B2F /* Foundation.framework */; };
 		A2FF2CA617544BF200D31B2F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FF2CA517544BF200D31B2F /* CoreGraphics.framework */; };
@@ -392,6 +417,42 @@
 		A274AB851783D2D1009D9523 /* BlankCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankCell.h; sourceTree = "<group>"; };
 		A274AB861783D2D1009D9523 /* BlankCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlankCell.m; sourceTree = "<group>"; };
 		A274AB8A178405E0009D9523 /* icon-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-back.png"; sourceTree = "<group>"; };
+		A2DE85DC178651C800170907 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
+		A2DE85DD178651C800170907 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
+		A2DE85DE178651C800170907 /* ConversationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
+		A2DE85E21786520100170907 /* ConversationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationCell.h; sourceTree = "<group>"; };
+		A2DE85E31786520100170907 /* ConversationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationCell.m; sourceTree = "<group>"; };
+		A2DE85EE178661AD00170907 /* NSBubbleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBubbleData.h; sourceTree = "<group>"; };
+		A2DE85EF178661AD00170907 /* NSBubbleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBubbleData.m; sourceTree = "<group>"; };
+		A2DE85F0178661AD00170907 /* UIBubbleTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableView.h; sourceTree = "<group>"; };
+		A2DE85F1178661AD00170907 /* UIBubbleTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableView.m; sourceTree = "<group>"; };
+		A2DE85F2178661AD00170907 /* UIBubbleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewCell.h; sourceTree = "<group>"; };
+		A2DE85F3178661AD00170907 /* UIBubbleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTableViewCell.m; sourceTree = "<group>"; };
+		A2DE85F4178661AD00170907 /* UIBubbleHeaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleHeaderTableViewCell.h; sourceTree = "<group>"; };
+		A2DE85F5178661AD00170907 /* UIBubbleHeaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleHeaderTableViewCell.m; sourceTree = "<group>"; };
+		A2DE85F6178661AD00170907 /* UIBubbleTypingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTypingTableViewCell.h; sourceTree = "<group>"; };
+		A2DE85F7178661AD00170907 /* UIBubbleTypingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTypingTableViewCell.m; sourceTree = "<group>"; };
+		A2DE85F8178661AD00170907 /* UIBubbleTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewDataSource.h; sourceTree = "<group>"; };
+		A2DE85FE1786628400170907 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		A2DE85FF1786628400170907 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		A2DE86001786628500170907 /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
+		A2DE860417869DAA00170907 /* bubbleMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleMine.png; sourceTree = "<group>"; };
+		A2DE860517869DAA00170907 /* bubbleMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleMine@2x.png"; sourceTree = "<group>"; };
+		A2DE860617869DAA00170907 /* bubbleSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bubbleSomeone.png; sourceTree = "<group>"; };
+		A2DE860717869DAA00170907 /* bubbleSomeone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubbleSomeone@2x.png"; sourceTree = "<group>"; };
+		A2DE860817869DAA00170907 /* missingAvatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missingAvatar.png; sourceTree = "<group>"; };
+		A2DE860917869DAA00170907 /* missingAvatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missingAvatar@2x.png"; sourceTree = "<group>"; };
+		A2DE860A17869DAA00170907 /* typingMine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typingMine.png; sourceTree = "<group>"; };
+		A2DE860B17869DAA00170907 /* typingMine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typingMine@2x.png"; sourceTree = "<group>"; };
+		A2DE860C17869DAA00170907 /* typingSomeone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = typingSomeone.png; sourceTree = "<group>"; };
+		A2DE860D17869DAA00170907 /* typingSomeone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "typingSomeone@2x.png"; sourceTree = "<group>"; };
+		A2DE861817869DB900170907 /* halloween.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = halloween.jpg; sourceTree = "<group>"; };
+		A2DE861A1786AFC500170907 /* bg_chat_blue_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_chat_blue_normal@2x.png"; sourceTree = "<group>"; };
+		A2DE86221786BC4900170907 /* bg_chat_blue_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_chat_blue_normal@2x.png"; sourceTree = "<group>"; };
+		A2DE86231786BC5F00170907 /* bg_chat_white_pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_chat_white_pressed@2x.png"; sourceTree = "<group>"; };
+		A2DE86241786BC8800170907 /* bg_chat_white_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_chat_white_normal.png; sourceTree = "<group>"; };
+		A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_chat_white_normal@2x.png"; sourceTree = "<group>"; };
+		A2DE86281786C31000170907 /* bg_chat_blue_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_chat_blue_normal.png; sourceTree = "<group>"; };
 		A2FF2C9D17544BF200D31B2F /* freebao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = freebao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2FF2CA117544BF200D31B2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A2FF2CA317544BF200D31B2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -898,6 +959,49 @@
 			name = EGOImageView;
 			sourceTree = "<group>";
 		};
+		A2DE85ED1786617500170907 /* ChatCell */ = {
+			isa = PBXGroup;
+			children = (
+				A2DE860317869D9500170907 /* BubbleImage */,
+				A2DE85EE178661AD00170907 /* NSBubbleData.h */,
+				A2DE85EF178661AD00170907 /* NSBubbleData.m */,
+				A2DE85F0178661AD00170907 /* UIBubbleTableView.h */,
+				A2DE85F1178661AD00170907 /* UIBubbleTableView.m */,
+				A2DE85F2178661AD00170907 /* UIBubbleTableViewCell.h */,
+				A2DE85F3178661AD00170907 /* UIBubbleTableViewCell.m */,
+				A2DE85F4178661AD00170907 /* UIBubbleHeaderTableViewCell.h */,
+				A2DE85F5178661AD00170907 /* UIBubbleHeaderTableViewCell.m */,
+				A2DE85F6178661AD00170907 /* UIBubbleTypingTableViewCell.h */,
+				A2DE85F7178661AD00170907 /* UIBubbleTypingTableViewCell.m */,
+				A2DE85F8178661AD00170907 /* UIBubbleTableViewDataSource.h */,
+			);
+			name = ChatCell;
+			sourceTree = "<group>";
+		};
+		A2DE860317869D9500170907 /* BubbleImage */ = {
+			isa = PBXGroup;
+			children = (
+				A2DE86281786C31000170907 /* bg_chat_blue_normal.png */,
+				A2DE861A1786AFC500170907 /* bg_chat_blue_normal@2x.png */,
+				A2DE86221786BC4900170907 /* bg_chat_blue_normal@2x.png */,
+				A2DE86241786BC8800170907 /* bg_chat_white_normal.png */,
+				A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */,
+				A2DE86231786BC5F00170907 /* bg_chat_white_pressed@2x.png */,
+				A2DE861817869DB900170907 /* halloween.jpg */,
+				A2DE860417869DAA00170907 /* bubbleMine.png */,
+				A2DE860517869DAA00170907 /* bubbleMine@2x.png */,
+				A2DE860617869DAA00170907 /* bubbleSomeone.png */,
+				A2DE860717869DAA00170907 /* bubbleSomeone@2x.png */,
+				A2DE860817869DAA00170907 /* missingAvatar.png */,
+				A2DE860917869DAA00170907 /* missingAvatar@2x.png */,
+				A2DE860A17869DAA00170907 /* typingMine.png */,
+				A2DE860B17869DAA00170907 /* typingMine@2x.png */,
+				A2DE860C17869DAA00170907 /* typingSomeone.png */,
+				A2DE860D17869DAA00170907 /* typingSomeone@2x.png */,
+			);
+			name = BubbleImage;
+			sourceTree = "<group>";
+		};
 		A2FF2C9217544BF200D31B2F = {
 			isa = PBXGroup;
 			children = (
@@ -1281,6 +1385,12 @@
 				A274AB731783B9BC009D9523 /* LikersViewController.h */,
 				A274AB741783B9BC009D9523 /* LikersViewController.m */,
 				A274AB751783B9BC009D9523 /* LikersViewController.xib */,
+				A2DE85DC178651C800170907 /* ConversationViewController.h */,
+				A2DE85DD178651C800170907 /* ConversationViewController.m */,
+				A2DE85DE178651C800170907 /* ConversationViewController.xib */,
+				A2DE85FE1786628400170907 /* ChatViewController.h */,
+				A2DE85FF1786628400170907 /* ChatViewController.m */,
+				A2DE86001786628500170907 /* ChatViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -1334,6 +1444,7 @@
 		DB9FCF08175826AC00AE837D /* TableCell */ = {
 			isa = PBXGroup;
 			children = (
+				A2DE85ED1786617500170907 /* ChatCell */,
 				DB9FCF09175826D100AE837D /* LPFriendCell.h */,
 				DB9FCF0A175826D100AE837D /* LPFriendCell.m */,
 				DB9FCF0B175826D100AE837D /* LPFriendCell.xib */,
@@ -1351,6 +1462,8 @@
 				A274AB861783D2D1009D9523 /* BlankCell.m */,
 				A23631E21785604A00BA0DED /* CommentsCell.h */,
 				A23631E31785604A00BA0DED /* CommentsCell.m */,
+				A2DE85E21786520100170907 /* ConversationCell.h */,
+				A2DE85E31786520100170907 /* ConversationCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -1797,6 +1910,23 @@
 				A23631E017854E1900BA0DED /* con-voice-image.png in Resources */,
 				A23631E117854E1900BA0DED /* con-voice.png in Resources */,
 				A23631E61785674100BA0DED /* icon-contury01.png in Resources */,
+				A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */,
+				A2DE86021786628500170907 /* ChatViewController.xib in Resources */,
+				A2DE860E17869DAA00170907 /* bubbleMine.png in Resources */,
+				A2DE860F17869DAA00170907 /* bubbleMine@2x.png in Resources */,
+				A2DE861017869DAA00170907 /* bubbleSomeone.png in Resources */,
+				A2DE861117869DAA00170907 /* bubbleSomeone@2x.png in Resources */,
+				A2DE861217869DAA00170907 /* missingAvatar.png in Resources */,
+				A2DE861317869DAA00170907 /* missingAvatar@2x.png in Resources */,
+				A2DE861417869DAA00170907 /* typingMine.png in Resources */,
+				A2DE861517869DAA00170907 /* typingMine@2x.png in Resources */,
+				A2DE861617869DAA00170907 /* typingSomeone.png in Resources */,
+				A2DE861717869DAA00170907 /* typingSomeone@2x.png in Resources */,
+				A2DE861917869DB900170907 /* halloween.jpg in Resources */,
+				A2DE861E1786AFC500170907 /* bg_chat_blue_normal@2x.png in Resources */,
+				A2DE86251786BC8800170907 /* bg_chat_white_normal.png in Resources */,
+				A2DE86271786C2D200170907 /* bg_chat_white_normal@2x.png in Resources */,
+				A2DE86291786C31000170907 /* bg_chat_blue_normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1910,6 +2040,14 @@
 				A274AB7A1783BA11009D9523 /* LikersCell.m in Sources */,
 				A274AB871783D2D1009D9523 /* BlankCell.m in Sources */,
 				A23631E41785604A00BA0DED /* CommentsCell.m in Sources */,
+				A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */,
+				A2DE85E41786520100170907 /* ConversationCell.m in Sources */,
+				A2DE85F9178661AD00170907 /* NSBubbleData.m in Sources */,
+				A2DE85FA178661AD00170907 /* UIBubbleTableView.m in Sources */,
+				A2DE85FB178661AD00170907 /* UIBubbleTableViewCell.m in Sources */,
+				A2DE85FC178661AD00170907 /* UIBubbleHeaderTableViewCell.m in Sources */,
+				A2DE85FD178661AD00170907 /* UIBubbleTypingTableViewCell.m in Sources */,
+				A2DE86011786628500170907 /* ChatViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
