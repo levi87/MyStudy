@@ -12,6 +12,8 @@
 
 #import "AppDelegate.h"
 
+#define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
+
 #define columns 2
 #define rows 3
 #define itemsPerPage 6
@@ -484,8 +486,12 @@
     
 }
 
-- (void)OnResultLoginSuccess {
-    NSLog(@"[levi] success disappear...");
+- (void)OnResultLoginSuccess:(NSNotification*)result {
+//    NSMutableDictionary *tmp = [result object];
+//    NSString *passId = [tmp objectForKey:@"passId"];
+//    NSString *passwordKey = [tmp objectForKey:@"passwordKey"];
+//    NSString *usrId = [tmp objectForKey:@"userId"];
+    [KAppDelegate connect];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -496,7 +502,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginSuccess) name:FB_NOTIC_LOGIN_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginSuccess:) name:FB_NOTIC_LOGIN_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginFailed) name:FB_NOTIC_LOGIN_FAILED object:nil];
     
     if (FALSE) {

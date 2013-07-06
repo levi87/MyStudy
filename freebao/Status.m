@@ -190,7 +190,7 @@
 }
 
 - (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
-    NSLog(@"[levi] item dic %@", dic);
+//    NSLog(@"[levi] item dic %@", dic);
 	if (self = [super init]) {
 		statusId = [dic getLongLongValueValueForKey:@"contentid" defaultValue:-1];
 		statusKey = [[NSNumber alloc]initWithLongLong:statusId];

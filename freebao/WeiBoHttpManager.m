@@ -944,7 +944,7 @@
     NSDictionary *userInformation = [request userInfo];
     RequestType requestType = [[userInformation objectForKey:USER_INFO_KEY_TYPE] intValue];
     NSString * responseString = [request responseString];
-    NSLog(@"responseString = %@",responseString);
+//    NSLog(@"responseString = %@",responseString);
     
     //认证失败
     //{"error":"auth faild!","error_code":21301,"request":"/2/statuses/home_timeline.json"}
@@ -1377,7 +1377,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:passwordKey forKey:FB_PASSWORD_KEY];
             [[NSUserDefaults standardUserDefaults] setObject:usrId forKey:FB_USER_ID];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_LOGIN_SUCCESS object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_LOGIN_SUCCESS object:tmp];
         } else {
             NSLog(@"[levi] login failed...");
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_LOGIN_FAILED object:nil];

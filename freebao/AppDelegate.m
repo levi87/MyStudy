@@ -24,6 +24,9 @@
 @synthesize managedObjContext = _managedObjContext;
 @synthesize managedObjModel = _managedObjModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize xmppStream = _xmppStream;
+@synthesize xmppReconnect = _xmppReconnect;
+@synthesize gSocket = _gSocket;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -86,6 +89,102 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void)setupStream {
+    if (_xmppStream == nil) {
+        _xmppStream = [[XMPPStream alloc] init];
+        [_xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    }
+    if (_xmppReconnect == nil) {
+        _xmppReconnect = [[XMPPReconnect alloc] init];
+        [_xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
+        [_xmppReconnect activate:_xmppStream];
+    }
+}
+
+-(void)goOnline {
+    XMPPPresence *presence = [XMPPPresence presence];
+    [_xmppStream sendElement:presence];
+}
+
+-(void)goOffline {
+    XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
+    [_xmppStream sendElement:presence];
+}
+
+-(BOOL)connect {
+    NSLog(@"[XMPP]--------------------login--------------------");
+    [self setupStream];
+
+    NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID];
+    password = [[NSUserDefaults standardUserDefaults] objectForKey:FB_PASSWORD_KEY];
+    
+    if (![_xmppStream isDisconnected]) {
+        return YES;
+    }
+    if (userId == nil || password == nil) {
+        return NO;
+    }
+    NSLog(@"[XMPP] jid %@ psw %@", [NSString stringWithFormat:@"%@%@", userId, CityMessage],CItMessageUrl);
+    [_xmppStream setMyJID:[XMPPJID jidWithString:[NSString stringWithFormat:@"%@%@", userId, CityMessage]]];
+    [_xmppStream setHostName:CItMessageUrl];
+    [_xmppStream setHostPort:5222];
+    
+    NSError *error = nil;
+    if (![_xmppStream connectWithTimeout:60 error:&error]) {
+        NSLog(@"cant connect %@", CItMessageUrl);
+        return NO;
+    }
+    return YES;
+}
+
+-(void)xmppReconnect:(XMPPReconnect *)sender didDetectAccidentalDisconnect:(SCNetworkConnectionFlags)connectionFlags {
+    NSLog(@"[XMPP] reconnect");
+}
+
+-(void)disConnect {
+    [self goOffline];
+    if (_xmppStream != nil) {
+        [_xmppStream disconnect];
+    }
+}
+
+/*XMPPStreamDelegate*/
+
+-(void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket {
+    NSLog(@"[XMPP] socket connect...");
+    _gSocket = socket;
+}
+
+-(void)xmppStreamWillConnect:(XMPPStream *)sender {
+    NSLog(@"[XMPP] will connect...");
+}
+
+-(void)xmppStreamDidConnect:(XMPPStream *)sender {
+    NSLog(@"[XMPP]streamDidConnect...");
+    isOpen = YES;
+    NSError *error = nil;
+    [_xmppStream authenticateWithPassword:password error:&error];
+}
+
+-(void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    NSLog(@"[XMPP] Authenticate success.");
+    [self goOnline];
+}
+
+-(void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
+    NSLog(@"[XMPP] Receive Message %@", message);
+
+    //消息委托
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//    [dict setObject:msg forKey:@"msg"];
+//    [dict setObject:from forKey:@"sender"];
+//    [messageDelegate newMessageReceived:dict];
+}
+
+-(void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(DDXMLElement *)error {
+    NSLog(@"[XMPP]did not authenticate...");
 }
 
 @end
