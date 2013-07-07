@@ -218,6 +218,30 @@
 		A2FF2CBE17544BF200D31B2F /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2FF2CBC17544BF200D31B2F /* ViewController.xib */; };
 		A2FF2CC917544E4200D31B2F /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2FF2CC817544E4200D31B2F /* icon@2x.png */; };
 		A2FF2CCB17544E4C00D31B2F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A2FF2CCA17544E4C00D31B2F /* icon.png */; };
+		DB1B1E391789378E00B90C75 /* UIView+AnimationOptionsForCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */; };
+		DB1B1E4A1789396900B90C75 /* face.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3C1789396900B90C75 /* face.png */; };
+		DB1B1E4B1789396900B90C75 /* face@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3D1789396900B90C75 /* face@2x.png */; };
+		DB1B1E4C1789396900B90C75 /* faceDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3E1789396900B90C75 /* faceDelete.png */; };
+		DB1B1E4D1789396900B90C75 /* faceDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3F1789396900B90C75 /* faceDelete@2x.png */; };
+		DB1B1E4E1789396900B90C75 /* facesBack.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E401789396900B90C75 /* facesBack.png */; };
+		DB1B1E4F1789396900B90C75 /* facesBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E411789396900B90C75 /* facesBack@2x.png */; };
+		DB1B1E501789396900B90C75 /* InputBack.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E421789396900B90C75 /* InputBack.png */; };
+		DB1B1E511789396900B90C75 /* InputBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E431789396900B90C75 /* InputBack@2x.png */; };
+		DB1B1E521789396900B90C75 /* Speak.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E441789396900B90C75 /* Speak.png */; };
+		DB1B1E531789396900B90C75 /* Speak@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E451789396900B90C75 /* Speak@2x.png */; };
+		DB1B1E541789396900B90C75 /* Text.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E461789396900B90C75 /* Text.png */; };
+		DB1B1E551789396900B90C75 /* Text@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E471789396900B90C75 /* Text@2x.png */; };
+		DB1B1E561789396900B90C75 /* Voice.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E481789396900B90C75 /* Voice.png */; };
+		DB1B1E571789396900B90C75 /* Voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E491789396900B90C75 /* Voice@2x.png */; };
+		DB1B1E6B17893AEA00B90C75 /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E5A17893AEA00B90C75 /* Emoji.m */; };
+		DB1B1E6C17893AEA00B90C75 /* EmojiEmoticons.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E5C17893AEA00B90C75 /* EmojiEmoticons.m */; };
+		DB1B1E6D17893AEA00B90C75 /* EmojiMapSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E5E17893AEA00B90C75 /* EmojiMapSymbols.m */; };
+		DB1B1E6E17893AEA00B90C75 /* EmojiPictographs.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E6017893AEA00B90C75 /* EmojiPictographs.m */; };
+		DB1B1E6F17893AEA00B90C75 /* EmojiTransport.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E6217893AEA00B90C75 /* EmojiTransport.m */; };
+		DB1B1E7017893AEA00B90C75 /* FaceToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E6417893AEA00B90C75 /* FaceToolBar.m */; };
+		DB1B1E7117893AEA00B90C75 /* FacialView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E6617893AEA00B90C75 /* FacialView.m */; };
+		DB1B1E7217893AEA00B90C75 /* UIExpandingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E6817893AEA00B90C75 /* UIExpandingTextView.m */; };
+		DB1B1E7317893AEA00B90C75 /* UIExpandingTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E6A17893AEA00B90C75 /* UIExpandingTextViewInternal.m */; };
 		DB6433781758435E005CAD2F /* SelectXYData.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433771758435E005CAD2F /* SelectXYData.m */; };
 		DB6433921758488E005CAD2F /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB64337F1758488E005CAD2F /* SBJsonParser.m */; };
 		DB6433931758488E005CAD2F /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433811758488E005CAD2F /* SBJsonStreamParser.m */; };
@@ -230,11 +254,6 @@
 		DB64339A1758488E005CAD2F /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = DB64338F1758488E005CAD2F /* SBJsonStreamWriterState.m */; };
 		DB64339B1758488E005CAD2F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433911758488E005CAD2F /* SBJsonWriter.m */; };
 		DB64339E175849E8005CAD2F /* NSStringEx.m in Sources */ = {isa = PBXBuildFile; fileRef = DB64339D175849E8005CAD2F /* NSStringEx.m */; };
-		DB6433A917584D2B005CAD2F /* FaceScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433A117584D2B005CAD2F /* FaceScrollView.m */; };
-		DB6433AA17584D2B005CAD2F /* FaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433A317584D2B005CAD2F /* FaceView.m */; };
-		DB6433AB17584D2B005CAD2F /* Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433A517584D2B005CAD2F /* Emoji.m */; };
-		DB6433AC17584D2B005CAD2F /* EmojiView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433A717584D2B005CAD2F /* EmojiView.m */; };
-		DB6433AD17584D2B005CAD2F /* emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB6433A817584D2B005CAD2F /* emoji.plist */; };
 		DB6433B4175856FA005CAD2F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6433B2175856FA005CAD2F /* LoginViewController.m */; };
 		DB6433B5175856FA005CAD2F /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB6433B3175856FA005CAD2F /* LoginViewController.xib */; };
 		DB6433DF17585A22005CAD2F /* playvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6433B817585A21005CAD2F /* playvideo.png */; };
@@ -879,6 +898,40 @@
 		A2FF2CC817544E4200D31B2F /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		A2FF2CCA17544E4C00D31B2F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		DB1B1E3517892C0800B90C75 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
+		DB1B1E371789378E00B90C75 /* UIView+AnimationOptionsForCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnimationOptionsForCurve.h"; sourceTree = "<group>"; };
+		DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnimationOptionsForCurve.m"; sourceTree = "<group>"; };
+		DB1B1E3C1789396900B90C75 /* face.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = face.png; sourceTree = "<group>"; };
+		DB1B1E3D1789396900B90C75 /* face@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "face@2x.png"; sourceTree = "<group>"; };
+		DB1B1E3E1789396900B90C75 /* faceDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faceDelete.png; sourceTree = "<group>"; };
+		DB1B1E3F1789396900B90C75 /* faceDelete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "faceDelete@2x.png"; sourceTree = "<group>"; };
+		DB1B1E401789396900B90C75 /* facesBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facesBack.png; sourceTree = "<group>"; };
+		DB1B1E411789396900B90C75 /* facesBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facesBack@2x.png"; sourceTree = "<group>"; };
+		DB1B1E421789396900B90C75 /* InputBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = InputBack.png; sourceTree = "<group>"; };
+		DB1B1E431789396900B90C75 /* InputBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "InputBack@2x.png"; sourceTree = "<group>"; };
+		DB1B1E441789396900B90C75 /* Speak.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Speak.png; sourceTree = "<group>"; };
+		DB1B1E451789396900B90C75 /* Speak@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Speak@2x.png"; sourceTree = "<group>"; };
+		DB1B1E461789396900B90C75 /* Text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Text.png; sourceTree = "<group>"; };
+		DB1B1E471789396900B90C75 /* Text@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Text@2x.png"; sourceTree = "<group>"; };
+		DB1B1E481789396900B90C75 /* Voice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Voice.png; sourceTree = "<group>"; };
+		DB1B1E491789396900B90C75 /* Voice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Voice@2x.png"; sourceTree = "<group>"; };
+		DB1B1E5917893AEA00B90C75 /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
+		DB1B1E5A17893AEA00B90C75 /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
+		DB1B1E5B17893AEA00B90C75 /* EmojiEmoticons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiEmoticons.h; sourceTree = "<group>"; };
+		DB1B1E5C17893AEA00B90C75 /* EmojiEmoticons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiEmoticons.m; sourceTree = "<group>"; };
+		DB1B1E5D17893AEA00B90C75 /* EmojiMapSymbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiMapSymbols.h; sourceTree = "<group>"; };
+		DB1B1E5E17893AEA00B90C75 /* EmojiMapSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiMapSymbols.m; sourceTree = "<group>"; };
+		DB1B1E5F17893AEA00B90C75 /* EmojiPictographs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiPictographs.h; sourceTree = "<group>"; };
+		DB1B1E6017893AEA00B90C75 /* EmojiPictographs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiPictographs.m; sourceTree = "<group>"; };
+		DB1B1E6117893AEA00B90C75 /* EmojiTransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiTransport.h; sourceTree = "<group>"; };
+		DB1B1E6217893AEA00B90C75 /* EmojiTransport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiTransport.m; sourceTree = "<group>"; };
+		DB1B1E6317893AEA00B90C75 /* FaceToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceToolBar.h; sourceTree = "<group>"; };
+		DB1B1E6417893AEA00B90C75 /* FaceToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceToolBar.m; sourceTree = "<group>"; };
+		DB1B1E6517893AEA00B90C75 /* FacialView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacialView.h; sourceTree = "<group>"; };
+		DB1B1E6617893AEA00B90C75 /* FacialView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacialView.m; sourceTree = "<group>"; };
+		DB1B1E6717893AEA00B90C75 /* UIExpandingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIExpandingTextView.h; sourceTree = "<group>"; };
+		DB1B1E6817893AEA00B90C75 /* UIExpandingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIExpandingTextView.m; sourceTree = "<group>"; };
+		DB1B1E6917893AEA00B90C75 /* UIExpandingTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIExpandingTextViewInternal.h; sourceTree = "<group>"; };
+		DB1B1E6A17893AEA00B90C75 /* UIExpandingTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIExpandingTextViewInternal.m; sourceTree = "<group>"; };
 		DB6433761758435E005CAD2F /* SelectXYData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectXYData.h; sourceTree = "<group>"; };
 		DB6433771758435E005CAD2F /* SelectXYData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectXYData.m; sourceTree = "<group>"; };
 		DB64337D1758488E005CAD2F /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
@@ -904,15 +957,6 @@
 		DB6433911758488E005CAD2F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		DB64339C175849E8005CAD2F /* NSStringEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringEx.h; sourceTree = "<group>"; };
 		DB64339D175849E8005CAD2F /* NSStringEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringEx.m; sourceTree = "<group>"; };
-		DB6433A017584D2B005CAD2F /* FaceScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceScrollView.h; sourceTree = "<group>"; };
-		DB6433A117584D2B005CAD2F /* FaceScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceScrollView.m; sourceTree = "<group>"; };
-		DB6433A217584D2B005CAD2F /* FaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceView.h; sourceTree = "<group>"; };
-		DB6433A317584D2B005CAD2F /* FaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceView.m; sourceTree = "<group>"; };
-		DB6433A417584D2B005CAD2F /* Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Emoji.h; sourceTree = "<group>"; };
-		DB6433A517584D2B005CAD2F /* Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Emoji.m; sourceTree = "<group>"; };
-		DB6433A617584D2B005CAD2F /* EmojiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmojiView.h; sourceTree = "<group>"; };
-		DB6433A717584D2B005CAD2F /* EmojiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmojiView.m; sourceTree = "<group>"; };
-		DB6433A817584D2B005CAD2F /* emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = emoji.plist; sourceTree = "<group>"; };
 		DB6433B1175856FA005CAD2F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		DB6433B2175856FA005CAD2F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		DB6433B3175856FA005CAD2F /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -1373,6 +1417,7 @@
 		A2DE85ED1786617500170907 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DB1B1E3A1789394000B90C75 /* InputToolbar */,
 				A2DE860317869D9500170907 /* BubbleImage */,
 				A2DE85EE178661AD00170907 /* NSBubbleData.h */,
 				A2DE85EF178661AD00170907 /* NSBubbleData.m */,
@@ -1385,6 +1430,8 @@
 				A2DE85F6178661AD00170907 /* UIBubbleTypingTableViewCell.h */,
 				A2DE85F7178661AD00170907 /* UIBubbleTypingTableViewCell.m */,
 				A2DE85F8178661AD00170907 /* UIBubbleTableViewDataSource.h */,
+				DB1B1E371789378E00B90C75 /* UIView+AnimationOptionsForCurve.h */,
+				DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -2249,20 +2296,59 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DB64339F17584D21005CAD2F /* FaceView */ = {
+		DB1B1E3A1789394000B90C75 /* InputToolbar */ = {
 			isa = PBXGroup;
 			children = (
-				DB6433A017584D2B005CAD2F /* FaceScrollView.h */,
-				DB6433A117584D2B005CAD2F /* FaceScrollView.m */,
-				DB6433A217584D2B005CAD2F /* FaceView.h */,
-				DB6433A317584D2B005CAD2F /* FaceView.m */,
-				DB6433A417584D2B005CAD2F /* Emoji.h */,
-				DB6433A517584D2B005CAD2F /* Emoji.m */,
-				DB6433A617584D2B005CAD2F /* EmojiView.h */,
-				DB6433A717584D2B005CAD2F /* EmojiView.m */,
-				DB6433A817584D2B005CAD2F /* emoji.plist */,
+				DB1B1E581789397300B90C75 /* Emoji */,
+				DB1B1E3B1789395F00B90C75 /* Image */,
 			);
-			name = FaceView;
+			name = InputToolbar;
+			sourceTree = "<group>";
+		};
+		DB1B1E3B1789395F00B90C75 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				DB1B1E3C1789396900B90C75 /* face.png */,
+				DB1B1E3D1789396900B90C75 /* face@2x.png */,
+				DB1B1E3E1789396900B90C75 /* faceDelete.png */,
+				DB1B1E3F1789396900B90C75 /* faceDelete@2x.png */,
+				DB1B1E401789396900B90C75 /* facesBack.png */,
+				DB1B1E411789396900B90C75 /* facesBack@2x.png */,
+				DB1B1E421789396900B90C75 /* InputBack.png */,
+				DB1B1E431789396900B90C75 /* InputBack@2x.png */,
+				DB1B1E441789396900B90C75 /* Speak.png */,
+				DB1B1E451789396900B90C75 /* Speak@2x.png */,
+				DB1B1E461789396900B90C75 /* Text.png */,
+				DB1B1E471789396900B90C75 /* Text@2x.png */,
+				DB1B1E481789396900B90C75 /* Voice.png */,
+				DB1B1E491789396900B90C75 /* Voice@2x.png */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
+		DB1B1E581789397300B90C75 /* Emoji */ = {
+			isa = PBXGroup;
+			children = (
+				DB1B1E5917893AEA00B90C75 /* Emoji.h */,
+				DB1B1E5A17893AEA00B90C75 /* Emoji.m */,
+				DB1B1E5B17893AEA00B90C75 /* EmojiEmoticons.h */,
+				DB1B1E5C17893AEA00B90C75 /* EmojiEmoticons.m */,
+				DB1B1E5D17893AEA00B90C75 /* EmojiMapSymbols.h */,
+				DB1B1E5E17893AEA00B90C75 /* EmojiMapSymbols.m */,
+				DB1B1E5F17893AEA00B90C75 /* EmojiPictographs.h */,
+				DB1B1E6017893AEA00B90C75 /* EmojiPictographs.m */,
+				DB1B1E6117893AEA00B90C75 /* EmojiTransport.h */,
+				DB1B1E6217893AEA00B90C75 /* EmojiTransport.m */,
+				DB1B1E6317893AEA00B90C75 /* FaceToolBar.h */,
+				DB1B1E6417893AEA00B90C75 /* FaceToolBar.m */,
+				DB1B1E6517893AEA00B90C75 /* FacialView.h */,
+				DB1B1E6617893AEA00B90C75 /* FacialView.m */,
+				DB1B1E6717893AEA00B90C75 /* UIExpandingTextView.h */,
+				DB1B1E6817893AEA00B90C75 /* UIExpandingTextView.m */,
+				DB1B1E6917893AEA00B90C75 /* UIExpandingTextViewInternal.h */,
+				DB1B1E6A17893AEA00B90C75 /* UIExpandingTextViewInternal.m */,
+			);
+			name = Emoji;
 			sourceTree = "<group>";
 		};
 		DB6433B617585A03005CAD2F /* Images */ = {
@@ -2479,7 +2565,6 @@
 			children = (
 				A2291E9F178122B400DFAFBB /* Tabbar */,
 				DB6433B617585A03005CAD2F /* Images */,
-				DB64339F17584D21005CAD2F /* FaceView */,
 				DB9FCFDD1758304200AE837D /* SVWebViewController */,
 				DB9FCF7017582B8900AE837D /* ImageBrowser */,
 				DB9FCF08175826AC00AE837D /* TableCell */,
@@ -2893,7 +2978,6 @@
 				DB9FCFFC1758329300AE837D /* OAuthWebView.xib in Resources */,
 				DB9FD01A17583E8A00AE837D /* Default.png in Resources */,
 				DB9FD01B17583E8D00AE837D /* Default@2x.png in Resources */,
-				DB6433AD17584D2B005CAD2F /* emoji.plist in Resources */,
 				DB6433B5175856FA005CAD2F /* LoginViewController.xib in Resources */,
 				DB6433DF17585A22005CAD2F /* playvideo.png in Resources */,
 				DB6433E017585A22005CAD2F /* Iphone_icon_city2.png in Resources */,
@@ -3100,6 +3184,20 @@
 				A2DE86291786C31000170907 /* bg_chat_blue_normal.png in Resources */,
 				A2FAEE4A1788169E00F3F1E8 /* README.txt in Resources */,
 				A2FAEE4F1788169E00F3F1E8 /* build-libidn.sh in Resources */,
+				DB1B1E4A1789396900B90C75 /* face.png in Resources */,
+				DB1B1E4B1789396900B90C75 /* face@2x.png in Resources */,
+				DB1B1E4C1789396900B90C75 /* faceDelete.png in Resources */,
+				DB1B1E4D1789396900B90C75 /* faceDelete@2x.png in Resources */,
+				DB1B1E4E1789396900B90C75 /* facesBack.png in Resources */,
+				DB1B1E4F1789396900B90C75 /* facesBack@2x.png in Resources */,
+				DB1B1E501789396900B90C75 /* InputBack.png in Resources */,
+				DB1B1E511789396900B90C75 /* InputBack@2x.png in Resources */,
+				DB1B1E521789396900B90C75 /* Speak.png in Resources */,
+				DB1B1E531789396900B90C75 /* Speak@2x.png in Resources */,
+				DB1B1E541789396900B90C75 /* Text.png in Resources */,
+				DB1B1E551789396900B90C75 /* Text@2x.png in Resources */,
+				DB1B1E561789396900B90C75 /* Voice.png in Resources */,
+				DB1B1E571789396900B90C75 /* Voice@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3192,10 +3290,6 @@
 				DB64339A1758488E005CAD2F /* SBJsonStreamWriterState.m in Sources */,
 				DB64339B1758488E005CAD2F /* SBJsonWriter.m in Sources */,
 				DB64339E175849E8005CAD2F /* NSStringEx.m in Sources */,
-				DB6433A917584D2B005CAD2F /* FaceScrollView.m in Sources */,
-				DB6433AA17584D2B005CAD2F /* FaceView.m in Sources */,
-				DB6433AB17584D2B005CAD2F /* Emoji.m in Sources */,
-				DB6433AC17584D2B005CAD2F /* EmojiView.m in Sources */,
 				DB6433B4175856FA005CAD2F /* LoginViewController.m in Sources */,
 				DB6434BB1758AC2C005CAD2F /* ImageCache.xcdatamodel in Sources */,
 				DBA640951759E2CE00ECCE6F /* MessageViewController.m in Sources */,
@@ -3348,6 +3442,16 @@
 				A2FAEE4C1788169E00F3F1E8 /* DDXMLDocument.m in Sources */,
 				A2FAEE4D1788169E00F3F1E8 /* DDXMLElement.m in Sources */,
 				A2FAEE4E1788169E00F3F1E8 /* DDXMLNode.m in Sources */,
+				DB1B1E391789378E00B90C75 /* UIView+AnimationOptionsForCurve.m in Sources */,
+				DB1B1E6B17893AEA00B90C75 /* Emoji.m in Sources */,
+				DB1B1E6C17893AEA00B90C75 /* EmojiEmoticons.m in Sources */,
+				DB1B1E6D17893AEA00B90C75 /* EmojiMapSymbols.m in Sources */,
+				DB1B1E6E17893AEA00B90C75 /* EmojiPictographs.m in Sources */,
+				DB1B1E6F17893AEA00B90C75 /* EmojiTransport.m in Sources */,
+				DB1B1E7017893AEA00B90C75 /* FaceToolBar.m in Sources */,
+				DB1B1E7117893AEA00B90C75 /* FacialView.m in Sources */,
+				DB1B1E7217893AEA00B90C75 /* UIExpandingTextView.m in Sources */,
+				DB1B1E7317893AEA00B90C75 /* UIExpandingTextViewInternal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

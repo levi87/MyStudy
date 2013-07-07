@@ -1,21 +1,21 @@
 //
 //  Emoji.h
-//  FreeBao
+//  Emoji
 //
-//  Created by ye bingwei on 12-2-21.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Created by Aliksandr Andrashuk on 26.10.12.
+//  Copyright (c) 2012 Aliksandr Andrashuk. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
+#define MAKE_Q(x) @#x
+#define MAKE_EM(x,y) MAKE_Q(x##y)
+#define MAKE_EMOJI(x) MAKE_EM(\U000,x)
+#define EMOJI_METHOD(x,y) + (NSString *)x { return MAKE_EMOJI(y); }
+#define EMOJI_HMETHOD(x) + (NSString *)x;
+#define EMOJI_CODE_TO_SYMBOL(x) ((((0x808080F0 | (x & 0x3F000) >> 4) | (x & 0xFC0) << 10) | (x & 0x1C0000) << 18) | (x & 0x3F) << 24);
+
 @interface Emoji : NSObject
-{
-@private
-    NSString *text_;        // 对应的文字，如[qq]
-    NSString *fileName_;    // 对应的名字，如88_thumb.gif
-}
-
-@property(nonatomic, retain) NSString *text;
-@property(nonatomic, retain) NSString *fileName;
-
++ (NSString *)emojiWithCode:(int)code;
++ (NSArray *)allEmoji;
 @end

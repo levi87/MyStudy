@@ -10,9 +10,12 @@
 #import "UIBubbleTableView.h"
 #import "UIBubbleTableViewDataSource.h"
 #import "NSBubbleData.h"
+#import "UIView+AnimationOptionsForCurve.h"
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
+
+#define INPUT_HEIGHT 40.0f
 
 @interface ChatViewController () {
     
@@ -35,9 +38,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
+    bar.delegate=self;
+//    [self.view addSubview:bar];
     // Do any additional setup after loading the view from its nib.
-    self.chatBarView.backgroundColor = [UIColor colorWithRed:46/255 green:46/255 blue:46/255 alpha:1];
+//    self.chatBarView.backgroundColor = [UIColor colorWithRed:46/255 green:46/255 blue:46/255 alpha:1];
     
+    bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
     heyBubble.avatar = [UIImage imageNamed:@"avatar1.png"];
     
@@ -70,11 +77,50 @@
     bubbleTable.typingBubble = NSBubbleTypingTypeNobody;
     
     [bubbleTable reloadData];
+}
+
+-(void)sendTextAction:(NSString *)inputText {
+    NSLog(@"[ssss]");
+}
+
+-(void)showKeyboard:(CGRect)frame {
+    NSLog(@"show");
+    NSLog(@"[levi]toolbar frame y %f", frame.origin.y);
+//    [bubbleTable setContentOffset:CGPointMake(bubbleTable.contentOffset.x, bubbleTable.contentOffset.y - (415 - frame.origin.y) ) animated:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
+    }completion:^(BOOL finished){
+        if (finished) {
+            [self scrollToBottomAnimated:YES];
+        }
+    }];
+}
+
+- (void)scrollToBottomAnimated:(BOOL)animated
+{
+    NSInteger sections = [bubbleTable numberOfSections];
+    NSInteger rows = [bubbleTable numberOfRowsInSection:sections - 1];
+    NSLog(@"[levi] rows %d", rows);
     
-    // Keyboard events
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
+    if(rows > 0) {
+        [bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:sections - 1]
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:animated];
+    }
+}
+
+-(void)hideKeyboard:(CGRect)frame {
+    NSLog(@"hide");
+    NSLog(@"[levi]toolbar frame y %f", frame.origin.y);
+    [UIView animateWithDuration:0.3 animations:^{
+        [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
+    }completion:^(BOOL finished){
+        if (finished) {
+        }
+    }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -104,41 +150,5 @@
 - (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row
 {
     return [bubbleData objectAtIndex:row];
-}
-
-#pragma mark - Keyboard events
-
-- (void)keyboardWasShown:(NSNotification*)aNotification
-{
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    [UIView animateWithDuration:0.2f animations:^{
-        
-//        CGRect frame = textInputView.frame;
-//        frame.origin.y -= kbSize.height;
-//        textInputView.frame = frame;
-        
-        CGRect frame = bubbleTable.frame;
-        frame.size.height -= kbSize.height;
-        bubbleTable.frame = frame;
-    }];
-}
-
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification
-{
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    [UIView animateWithDuration:0.2f animations:^{
-        
-//        CGRect frame = textInputView.frame;
-//        frame.origin.y += kbSize.height;
-//        textInputView.frame = frame;
-        
-        CGRect frame = bubbleTable.frame;
-        frame.size.height += kbSize.height;
-        bubbleTable.frame = frame;
-    }];
 }
 @end
