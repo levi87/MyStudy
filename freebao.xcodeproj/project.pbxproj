@@ -858,7 +858,6 @@
 		A2FAEDD41788169E00F3F1E8 /* idn-int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "idn-int.h"; sourceTree = "<group>"; };
 		A2FAEDD51788169E00F3F1E8 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libidn.a; sourceTree = "<group>"; };
 		A2FAEDD61788169E00F3F1E8 /* stringprep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringprep.h; sourceTree = "<group>"; };
-		A2FAEE51178816C300F3F1E8 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		A2FF2C9D17544BF200D31B2F /* freebao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = freebao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2FF2CA117544BF200D31B2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A2FF2CA317544BF200D31B2F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -879,6 +878,7 @@
 		A2FF2CC617544DFC00D31B2F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		A2FF2CC817544E4200D31B2F /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		A2FF2CCA17544E4C00D31B2F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		DB1B1E3517892C0800B90C75 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		DB6433761758435E005CAD2F /* SelectXYData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectXYData.h; sourceTree = "<group>"; };
 		DB6433771758435E005CAD2F /* SelectXYData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectXYData.m; sourceTree = "<group>"; };
 		DB64337D1758488E005CAD2F /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
@@ -1370,7 +1370,7 @@
 			name = EGOImageView;
 			sourceTree = "<group>";
 		};
-		A2DE85ED1786617500170907 /* ChatCell */ = {
+		A2DE85ED1786617500170907 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
 				A2DE860317869D9500170907 /* BubbleImage */,
@@ -1386,7 +1386,7 @@
 				A2DE85F7178661AD00170907 /* UIBubbleTypingTableViewCell.m */,
 				A2DE85F8178661AD00170907 /* UIBubbleTableViewDataSource.h */,
 			);
-			name = ChatCell;
+			name = Chat;
 			sourceTree = "<group>";
 		};
 		A2DE860317869D9500170907 /* BubbleImage */ = {
@@ -1439,13 +1439,13 @@
 		A2FAEC9B1788168700F3F1E8 /* XMPP */ = {
 			isa = PBXGroup;
 			children = (
+				DB1B1E3517892C0800B90C75 /* XMPPFramework.h */,
 				A2FAEC9C1788169E00F3F1E8 /* Authentication */,
 				A2FAECB01788169E00F3F1E8 /* Categories */,
 				A2FAECB71788169E00F3F1E8 /* Core */,
 				A2FAECCB1788169E00F3F1E8 /* Extensions */,
 				A2FAEDA21788169E00F3F1E8 /* Utilities */,
 				A2FAEDAF1788169E00F3F1E8 /* Vendor */,
-				A2FAEE51178816C300F3F1E8 /* XMPPFramework.h */,
 			);
 			name = XMPP;
 			sourceTree = "<group>";
@@ -2568,6 +2568,7 @@
 		DB9FCF041758256400AE837D /* OtherTabsVCs */ = {
 			isa = PBXGroup;
 			children = (
+				A2DE85ED1786617500170907 /* Chat */,
 				DB9FCFD817582F7A00AE837D /* TwitterVC.h */,
 				DB9FCFD917582F7A00AE837D /* TwitterVC.m */,
 				DB9FCFDA17582F7A00AE837D /* TwitterVC.xib */,
@@ -2614,7 +2615,6 @@
 		DB9FCF08175826AC00AE837D /* TableCell */ = {
 			isa = PBXGroup;
 			children = (
-				A2DE85ED1786617500170907 /* ChatCell */,
 				DB9FCF09175826D100AE837D /* LPFriendCell.h */,
 				DB9FCF0A175826D100AE837D /* LPFriendCell.m */,
 				DB9FCF0B175826D100AE837D /* LPFriendCell.xib */,
@@ -3439,8 +3439,8 @@
 					"\"$(SRCROOT)/freebao/Extensions\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
+				PROVISIONING_PROFILE = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3461,8 +3461,8 @@
 					"\"$(SRCROOT)/freebao/Extensions\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
+				PROVISIONING_PROFILE = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

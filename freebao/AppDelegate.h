@@ -7,22 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "XMPP.h"
-#import "XMPPReconnect.h"
+#import "XMPPFramework.h"
 
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate,XMPPStreamDelegate,XMPPReconnectDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate,XMPPStreamDelegate,XMPPReconnectDelegate,XMPPRosterDelegate>
 {
     NSManagedObjectContext         *_managedObjContext;
     NSManagedObjectModel           *_managedObjModel;
     NSPersistentStoreCoordinator   *_persistentStoreCoordinator;
 
-    XMPPStream *_xmppStream;
-    XMPPReconnect *_xmppReconnect;
-    GCDAsyncSocket *_gSocket;
+    XMPPStream *xmppStream;
+	XMPPReconnect *xmppReconnect;
+    XMPPRoster *xmppRoster;
+	XMPPRosterCoreDataStorage *xmppRosterStorage;
+    XMPPvCardCoreDataStorage *xmppvCardStorage;
+	XMPPvCardTempModule *xmppvCardTempModule;
+	XMPPvCardAvatarModule *xmppvCardAvatarModule;
+	XMPPCapabilities *xmppCapabilities;
+	XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
     
-    BOOL isOpen;
+    BOOL allowSelfSignedCertificates;
+	BOOL allowSSLHostNameMismatch;
+	
+	BOOL isXmppConnected;
     NSString *password;
 }
 
@@ -36,18 +44,20 @@
 @property (nonatomic,retain,readonly) NSManagedObjectModel           *managedObjModel;
 @property (nonatomic,retain,readonly) NSPersistentStoreCoordinator   *persistentStoreCoordinator;
 
-@property (nonatomic,readonly) XMPPStream *xmppStream;
-@property (nonatomic,readonly) XMPPReconnect *xmppReconnect;
-@property (nonatomic,readonly) GCDAsyncSocket *gSocket;
+@property (nonatomic, strong, readonly) XMPPStream *xmppStream;
+@property (nonatomic, strong, readonly) XMPPReconnect *xmppReconnect;
+@property (nonatomic, strong, readonly) XMPPRoster *xmppRoster;
+@property (nonatomic, strong, readonly) XMPPRosterCoreDataStorage *xmppRosterStorage;
+@property (nonatomic, strong, readonly) XMPPvCardTempModule *xmppvCardTempModule;
+@property (nonatomic, strong, readonly) XMPPvCardAvatarModule *xmppvCardAvatarModule;
+@property (nonatomic, strong, readonly) XMPPCapabilities *xmppCapabilities;
+@property (nonatomic, strong, readonly) XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
+
+- (NSManagedObjectContext *)managedObjectContext_roster;
+- (NSManagedObjectContext *)managedObjectContext_capabilities;
 
 //是否连接
 -(BOOL)connect;
 //断开连接
--(void)disConnect;
-//设置XMPPStream
--(void)setupStream;
-//上线
--(void)goOnline;
-//下线
--(void)goOffline;
+-(void)disconnect;
 @end
