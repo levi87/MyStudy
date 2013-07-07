@@ -40,9 +40,10 @@
     [super viewDidLoad];
     FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
     bar.delegate=self;
-//    [self.view addSubview:bar];
-    // Do any additional setup after loading the view from its nib.
-//    self.chatBarView.backgroundColor = [UIColor colorWithRed:46/255 green:46/255 blue:46/255 alpha:1];
+    
+    //Note to reader - the blue initial button is inset 3px on all sides from
+    // the initial frame you provide.  You should provide a square rect of any
+    // size.
     
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];

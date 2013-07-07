@@ -42,6 +42,7 @@
 @synthesize xmppvCardAvatarModule;
 @synthesize xmppCapabilities;
 @synthesize xmppCapabilitiesStorage;
+@synthesize commChat = _commChat;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

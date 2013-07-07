@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "XMPPFramework.h"
+#import "ChatViewController.h"
 
 @class ViewController;
 
@@ -32,6 +33,7 @@
 	
 	BOOL isXmppConnected;
     NSString *password;
+    ChatViewController *_commChat;
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -55,6 +57,8 @@
 
 - (NSManagedObjectContext *)managedObjectContext_roster;
 - (NSManagedObjectContext *)managedObjectContext_capabilities;
+
+@property (strong, nonatomic) ChatViewController *commChat;
 
 //是否连接
 -(BOOL)connect;

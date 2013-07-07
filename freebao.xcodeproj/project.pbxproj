@@ -384,6 +384,7 @@
 		DB6434B817588803005CAD2F /* noImage50x118.png in Resources */ = {isa = PBXBuildFile; fileRef = DB64349E17588803005CAD2F /* noImage50x118.png */; };
 		DB6434B917588803005CAD2F /* noImage50x118@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB64349F17588803005CAD2F /* noImage50x118@2x.png */; };
 		DB6434BB1758AC2C005CAD2F /* ImageCache.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = DB6434BA1758AC2C005CAD2F /* ImageCache.xcdatamodel */; };
+		DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DB991F7A17898E7700A518AA /* OCExpandableButton.m */; };
 		DB9FCEEA1758241C00AE837D /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEE71758241C00AE837D /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB9FCEEB1758241C00AE837D /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEE91758241C00AE837D /* PullRefreshTableViewController.m */; };
 		DB9FCEF11758245B00AE837D /* JSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEEE1758245B00AE837D /* JSCoreTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1088,6 +1089,8 @@
 		DB64349E17588803005CAD2F /* noImage50x118.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noImage50x118.png; sourceTree = "<group>"; };
 		DB64349F17588803005CAD2F /* noImage50x118@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noImage50x118@2x.png"; sourceTree = "<group>"; };
 		DB6434BA1758AC2C005CAD2F /* ImageCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageCache.xcdatamodel; sourceTree = "<group>"; };
+		DB991F7917898E7700A518AA /* OCExpandableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCExpandableButton.h; sourceTree = "<group>"; };
+		DB991F7A17898E7700A518AA /* OCExpandableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCExpandableButton.m; sourceTree = "<group>"; };
 		DB9FCEE61758241C00AE837D /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		DB9FCEE71758241C00AE837D /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		DB9FCEE81758241C00AE837D /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
@@ -1417,6 +1420,7 @@
 		A2DE85ED1786617500170907 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				DB991F7817898E5C00A518AA /* ExpandButton */,
 				DB1B1E3A1789394000B90C75 /* InputToolbar */,
 				A2DE860317869D9500170907 /* BubbleImage */,
 				A2DE85EE178661AD00170907 /* NSBubbleData.h */,
@@ -2560,6 +2564,15 @@
 			name = WeiboImages;
 			sourceTree = "<group>";
 		};
+		DB991F7817898E5C00A518AA /* ExpandButton */ = {
+			isa = PBXGroup;
+			children = (
+				DB991F7917898E7700A518AA /* OCExpandableButton.h */,
+				DB991F7A17898E7700A518AA /* OCExpandableButton.m */,
+			);
+			name = ExpandButton;
+			sourceTree = "<group>";
+		};
 		DB9FCEE4175823EA00AE837D /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3452,6 +3465,7 @@
 				DB1B1E7117893AEA00B90C75 /* FacialView.m in Sources */,
 				DB1B1E7217893AEA00B90C75 /* UIExpandingTextView.m in Sources */,
 				DB1B1E7317893AEA00B90C75 /* UIExpandingTextViewInternal.m in Sources */,
+				DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

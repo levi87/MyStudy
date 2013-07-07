@@ -16,6 +16,7 @@
 #import <UIKit/UIKit.h>
 #import "FacialView.h"
 #import "UIExpandingTextView.h"
+#import "OCExpandableButton.h"
 
 @protocol FaceToolBarDelegate <NSObject>
 -(void)sendTextAction:(NSString *)inputText;

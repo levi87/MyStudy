@@ -8,6 +8,12 @@
 
 #import "FaceToolBar.h"
 
+@interface FaceToolBar() {
+    OCExpandableButton *button;
+}
+
+@end
+
 @implementation FaceToolBar
 @synthesize theSuperView,delegate;
 - (id)initWithFrame:(CGRect)frame
@@ -26,6 +32,22 @@
         //初始化为NO
         keyboardIsShow=NO;
         self.theSuperView=superView;
+        //OCExpandButton
+        NSMutableArray *subviews = [[NSMutableArray alloc] init];
+        
+        for(int i = 0; i < 4; i++) {
+            UIButton *numberButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70.f, 30.f)];
+            numberButton.backgroundColor = [UIColor clearColor];
+            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            numberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+            numberButton.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+            [numberButton addTarget:self action:@selector(tapped) forControlEvents:UIControlEventTouchUpInside];
+            [subviews addObject:numberButton];
+        }
+        button = [[OCExpandableButton alloc] initWithFrame:CGRectMake(-39, superView.bounds.size.height - 57, 39, 39) subviews:subviews];
+        //You can change the alignment with:
+        button.alignment = OCExpandableButtonAlignmentLeft;
+        [superView addSubview:button];
         //默认toolBar在视图最下方
         toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f,superView.bounds.size.height - toolBarHeight,superView.bounds.size.width,toolBarHeight)];
         toolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
@@ -166,6 +188,9 @@
     }
 }
 -(void)showKb:(CGRect)frame {
+    CGRect tmpFrame = button.frame;
+    tmpFrame.origin.y = toolBar.frame.origin.y - tmpFrame.size.height;
+    button.frame = tmpFrame;
     if ([delegate respondsToSelector:@selector(showKeyboard:)])
     {
         [delegate showKeyboard:frame];
@@ -173,14 +198,29 @@
 }
 
 -(void)hideKb:(CGRect)frame {
+    CGRect tmpFrame = button.frame;
+    tmpFrame.origin.y = toolBar.frame.origin.y - tmpFrame.size.height;
+    button.frame = tmpFrame;
     if ([delegate respondsToSelector:@selector(hideKeyboard:)])
     {
         [delegate hideKeyboard:frame];
     }
 }
 -(void)voiceChange{
-    [self dismissKeyBoard];
+//    [self dismissKeyBoard];
+//    [self showEb:toolBar.frame];
+    NSLog(@"[levi]show expand button");
+    CGRect tmpFrame = button.frame;
+    tmpFrame.origin.y = toolBar.frame.origin.y - tmpFrame.size.height;
+    button.frame = tmpFrame;
+    [button open];
 }
+
+- (void)tapped {
+    NSLog(@"tapped");
+    [button close];
+}
+
 -(void)disFaceKeyboard{
     //如果直接点击表情，通过toolbar的位置来判断
     if (toolBar.frame.origin.y== self.theSuperView.bounds.size.height - toolBarHeight&&toolBar.frame.size.height==toolBarHeight) {
@@ -213,6 +253,7 @@
         [UIView animateWithDuration:Time animations:^{
             [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height-keyboardHeight,self.theSuperView.frame.size.width, keyboardHeight)];
         }];
+        [self hideKb:toolBar.frame];
         [pageControl setHidden:NO];
         [textView resignFirstResponder];
     }

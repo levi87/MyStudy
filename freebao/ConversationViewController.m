@@ -10,6 +10,9 @@
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
+#import "AppDelegate.h"
+
+#define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface ConversationViewController ()
 
@@ -268,13 +271,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row != 0) {
-        ChatViewController *chat = [[ChatViewController alloc] init];
+        if (KAppDelegate.commChat == nil) {
+            KAppDelegate.commChat = [[ChatViewController alloc] init];
+        }
 //        if (commentVC == nil) {
 //            commentVC = [[CommentsViewController alloc] init];
 //        }
         tittleLabel.text = @"Test";
         backButton.hidden = NO;
-        [self.navigationController pushViewController:chat animated:YES];
+        [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
     }
 }
 
