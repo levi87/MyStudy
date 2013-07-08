@@ -51,7 +51,7 @@
         _JSContentTF.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         [self.contentView addSubview:_JSContentTF];
     }
-    [self setCellLayout:YES];
+//    [self setCellLayout:YES];
     return _JSContentTF;
 }
 
@@ -117,6 +117,14 @@
 
 -(void)updateCellTextWith:(Status*)status
 {
+    if (!status.hasImage) {
+        [self.mainImageView setHidden:YES];
+        self.HeadView.frame = CGRectMake(0, 0, 40, 40);
+        CGRect frameJS = _JSContentTF.frame;
+        frameJS.origin.y = 30;
+        
+        _JSContentTF.frame = frameJS;
+    }
     self.contentTF.text = status.text;
     self.JSContentTF.text = status.text;
     self.userNameLB.text = status.user.screenName;
@@ -152,7 +160,12 @@
         NSString *url = status.retweetedStatus.thumbnailPic;
 //        self.retwitterContentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
         haveImage = !self.retwitterContentImage.hidden;
-        [self setTFHeightWithImage:NO 
+        if (status.hasImage) {
+            [self setCellLayout:YES];
+        } else {
+            [self setCellLayout:NO];
+        }
+        [self setTFHeightWithImage:NO
                 haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO];//计算cell的高度，以及背景图的处理
     }
     
@@ -163,6 +176,11 @@
         NSString *url = status.thumbnailPic;
 //        self.contentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
         haveImage = !self.contentImage.hidden;
+        if (status.hasImage) {
+            [self setCellLayout:YES];
+        } else {
+            [self setCellLayout:NO];
+        }
         [self setTFHeightWithImage:url != nil && [url length] != 0 ? YES : NO 
                 haveRetwitterImage:NO];//计算cell的高度，以及背景图的处理
     }
@@ -222,6 +240,7 @@
     CGRect tmpframe = self.CommentView.frame;
     tmpframe.origin.y = fromLB.frame.origin.y - 80;
     self.CommentView.frame = tmpframe;
+    [self.CommentView setHidden:YES];
 }
 
 -(void)adjustMainImagePosition:(CGFloat)height {
