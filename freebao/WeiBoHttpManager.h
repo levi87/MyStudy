@@ -58,20 +58,18 @@
  Freebao
  */
 #define kDefaultRequestPageSize         20
-//测试环境 （你妹）
-//#define kHostUrl                        @"http://t.freebao.com/"
-//#define kRegisterUrl                    @"http://t.freebao.com"
-//#define CItMessageUrl                   @"t.freebao.com"
-//#define CityMessage                     @"@t.freebao.com"
+//测试环境
+#define kHostUrl                        @"http://t.freebao.com/"
+#define kRegisterUrl                    @"http://t.freebao.com"
+#define CItMessageUrl                   @"t.freebao.com"
+#define CityMessage                     @"@t.freebao.com"
 
 //正式环境
-#define kHostUrl                        @"http://m.freebao.com/"
-#define kRegisterUrl                    @"http://m.freebao.com"
-#define CItMessageUrl                   @"m.freebao.com"
-#define CityMessage                     @"@m.freebao.com"
+//#define kHostUrl                        @"http://m.freebao.com/"
+//#define kRegisterUrl                    @"http://m.freebao.com"
+//#define CItMessageUrl                   @"m.freebao.com"
+//#define CityMessage                     @"@m.freebao.com"
 
-#define kqqloginUrl                     kHostUrl@"oauth/loginQQ.html"
-#define kqqBindUrl                     kHostUrl@"oauth/bangDingQQUser.html"
 //推送
 #define kpushUrl                         kHostUrl@"apple/setToken.html"
 #define kyaoqingUrel                    kHostUrl@"invite/sendCommon.html"
@@ -138,7 +136,7 @@
 #define kLoginUrl                       kHostUrl@"login/login.html"
 #define kLogoutUrl                      kHostUrl@"login/logout.html"
 #define kRequestCirclesUrl              kHostUrl@"team/findUserTeams.html"
-#define kRequestTimeLinesUrl            kHostUrl@"content/findFriendsContent.html"
+#define kRequestTimeLinesUrl            kHostUrl@"content/findFriendsPost.html"
 #define kRequestRecommendedUsers        kHostUrl@"clientUser/recommendFriendList.html"
 #define kRequestFriendsUrl              kHostUrl@"friend/followList.html"
 #define KFollowUrl                      kHostUrl@"friend/followFriend.html"
@@ -477,7 +475,7 @@ typedef enum {
 -(void)didFreebaoGetUserInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
 
 //Freebao获取微博信息
--(void)didFreebaoGetHomeline:(NSInteger)cicleId UserId:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+-(void)didFreebaoGetHomeline:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 //Freebao获取微博评论
 -(void)didFreebaoGetCommentWithHomelineId :(NSInteger)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;

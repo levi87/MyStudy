@@ -839,19 +839,14 @@
     [requestQueue addOperation:item];
 }
 
-- (void)didFreebaoGetHomeline:(NSInteger)cicleId UserId:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+- (void)didFreebaoGetHomeline:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
     NSURL *url = [NSURL URLWithString:kRequestTimeLinesUrl];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
-    self.authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
     
     [item setPostValue:aUserId    forKey:@"userId"];
     [item setPostValue:passId      forKey:@"passId"];
     [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
     [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
-    if (cicleId != 0)
-    {
-        [item setPostValue:[NSNumber numberWithInteger:cicleId]      forKey:@"query.teamId"];
-    }
     
     [self setPostUserInfo:item withRequestType:FreebaoGetHomeline];
     [requestQueue addOperation:item];
@@ -1411,11 +1406,7 @@
             NSLog(@"[levi] request HomeLine Success...");
             NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
             
-            NSArray *contents = [resultMap objectForKey:@"messageList"];
-            if (contents == nil)    // 有些时候返回的格式是contents
-            {
-                contents = [resultMap objectForKey:@"contents"];
-            }
+            NSArray *contents = [resultMap objectForKey:@"posts"];
             
             NSMutableArray *timeline = [NSMutableArray array];
             for (NSInteger index=0; index<[contents count]; index++) {
@@ -1423,7 +1414,7 @@
                 Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
                 //传给L_Status
                 if (status != nil) {
-                    NSLog(@"[levi]status Id %lld, status Time %ld, status image %@, status body %@, status platform %@, status name %@,status user url %@",
+                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
                           status.statusId,
                           status.createdAt,
                           status.sourceUrl,
@@ -1482,7 +1473,7 @@
                 Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
                 //传给L_Status
                 if (status != nil) {
-                    NSLog(@"[levi]status Id %lld, status Time %ld, status image %@, status body %@, status platform %@, status name %@,status user url %@",
+                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
                           status.statusId,
                           status.createdAt,
                           status.sourceUrl,

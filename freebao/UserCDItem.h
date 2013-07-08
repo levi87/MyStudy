@@ -1,9 +1,9 @@
 //
 //  UserCDItem.h
-//  zjtSinaWeiboClient
+//  freebao
 //
-//  Created by Jianting Zhu on 12-6-23.
-//  Copyright (c) 2012年 ZUST. All rights reserved.
+//  Created by freebao on 13-7-8.
+//  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,7 +15,7 @@
 @property (nonatomic, retain) NSNumber * allowAllActMsg;
 @property (nonatomic, retain) NSData * avatarImage;
 @property (nonatomic, retain) NSString * city;
-@property (nonatomic, retain) NSNumber * createdAt;
+@property (nonatomic, retain) NSString * createdAt;
 @property (nonatomic, retain) NSString * domain;
 @property (nonatomic, retain) NSNumber * favoritesCount;
 @property (nonatomic, retain) NSNumber * followersCount;

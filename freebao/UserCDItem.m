@@ -1,9 +1,9 @@
 //
 //  UserCDItem.m
-//  zjtSinaWeiboClient
+//  freebao
 //
-//  Created by Jianting Zhu on 12-6-23.
-//  Copyright (c) 2012年 ZUST. All rights reserved.
+//  Created by freebao on 13-7-8.
+//  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
 #import "UserCDItem.h"

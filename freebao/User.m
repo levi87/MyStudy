@@ -69,7 +69,7 @@
     self.avatarImage = img;
     
     self.city = us.city;
-    self.createdAt = us.createdAt.longValue;
+    self.createdAt = us.createdAt;
     self.domain = us.domain;              
     self.followersCount = us.followersCount.intValue;
     self.followersCount = us.favoritesCount.intValue;
@@ -145,11 +145,11 @@
     allowAllActMsg	= ([dic objectForKey:@"allow_all_act_msg"]       == [NSNull null]) ? 0 : [[dic objectForKey:@"allow_all_act_msg"] boolValue];  
     geoEnabled		= ([dic objectForKey:@"geo_enabled"]   == [NSNull null]) ? 0 : [[dic objectForKey:@"geo_enabled"] boolValue];
     
-	NSString *stringOfCreatedAt   = [dic objectForKey:@"created_at"];
-    if ((id)stringOfCreatedAt == [NSNull null]) {
-        stringOfCreatedAt = @"";
-    }
-    createdAt = (long)[stringOfCreatedAt longLongValue];
+//	NSString *stringOfCreatedAt   = [dic objectForKey:@"created_at"];
+//    if ((id)stringOfCreatedAt == [NSNull null]) {
+//        stringOfCreatedAt = @"";
+//    }
+    createdAt = [dic objectForKey:@"created_at"];
 	
     if ((id)screenName == [NSNull null]) screenName = @"";
     if ((id)name == [NSNull null]) name = @"";

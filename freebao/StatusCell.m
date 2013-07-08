@@ -122,7 +122,7 @@
     self.userNameLB.text = status.user.screenName;
 //    countLB.text = [NSString stringWithFormat:@"  :%d     :%d",status.commentsCount,status.retweetsCount];
 //    fromLB.text = [NSString stringWithFormat:@"来自:%@",status.source];
-    timeLB.text = status.timestamp;
+    timeLB.text = status.createdAt;
     
     Status  *retwitterStatus    = status.retweetedStatus;
     

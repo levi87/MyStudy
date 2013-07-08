@@ -25,7 +25,7 @@
 {
     sts.bmiddlePic          = self.bmiddlePic;
     sts.commentsCount       = [NSNumber numberWithInt:self.commentsCount];
-    sts.createdAt           = [NSNumber numberWithLong:self.createdAt];
+    sts.createdAt           = self.createdAt;
     sts.favorited           = [NSNumber numberWithBool:self.favorited];
     sts.hasImage            = [NSNumber numberWithBool:self.hasImage];
     sts.hasReply            = [NSNumber numberWithBool:self.hasReply];
@@ -60,7 +60,7 @@
 {
     self.bmiddlePic         = sts.bmiddlePic;       
     self.commentsCount      = sts.commentsCount.intValue;
-    self.createdAt          = sts.createdAt.longValue;
+    self.createdAt          = sts.createdAt;
     self.favorited          = sts.favorited.boolValue;
     self.hasImage           = sts.hasImage.boolValue;
     self.hasReply           = sts.hasReply.boolValue;
@@ -97,7 +97,7 @@
 	if (self = [super init]) {
 		statusId = [dic getLongLongValueValueForKey:@"id" defaultValue:-1];
 		statusKey = [[NSNumber alloc]initWithLongLong:statusId];
-		createdAt = [dic getTimeValueForKey:@"created_at" defaultValue:0];
+		createdAt = [dic getStringValueForKey:@"created_at" defaultValue:@"0"];
 		text = [dic getStringValueForKey:@"text" defaultValue:@""];
 		
 		// parse source parameter
@@ -181,9 +181,9 @@
         //无转发
         else 
         {
-            hasRetwitter = NO;
-            NSString *url = thumbnailPic;
-            hasImage = (url != nil && [url length] != 0 ? YES : NO);
+//            hasRetwitter = NO;
+//            NSString *url = thumbnailPic;
+//            hasImage = (url != nil && [url length] != 0 ? YES : NO);
         }
 	}
 	return self;
@@ -192,14 +192,35 @@
 - (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
 //    NSLog(@"[levi] item dic %@", dic);
 	if (self = [super init]) {
-		statusId = [dic getLongLongValueValueForKey:@"contentid" defaultValue:-1];
+		statusId = [dic getLongLongValueValueForKey:@"contentId" defaultValue:-1];
 		statusKey = [[NSNumber alloc]initWithLongLong:statusId];
-		createdAt = [dic getTimeValueForKey:@"historyInfo" defaultValue:0];
-		text = [dic getStringValueForKey:@"contentbody" defaultValue:@""];
+		createdAt = [dic getStringValueForKey:@"create_at" defaultValue:@""];
+		text = [dic getStringValueForKey:@"text" defaultValue:@""];
         self.sourceUrl = [dic getStringValueForKey:@"sourceImage" defaultValue:@""];
 		
 		// parse source parameter
 		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
+        
+        NSString *tmpStr = [dic getStringValueForKey:@"postVO" defaultValue:@"blank"];
+        NSLog(@"[TEST] %@",tmpStr);
+        if (tmpStr != @"blank") {
+            hasImage = TRUE;
+            thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+            bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+            originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+        } else {
+            NSLog(@"[TEST]..........");
+            NSString *postVOstr = [[dic objectForKey:@"postVO"] getStringValueForKey:@"original_pic" defaultValue:@"blank"];
+            NSLog(@"[TEST] 111%@",postVOstr);
+            if (postVOstr != @"blank") {
+                hasImage = TRUE;
+                thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+                bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+                originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+            } else {
+                hasImage = FALSE;
+            }
+        }
         //		NSRange r = [src rangeOfString:@"<a href"];
         //		NSRange end;
         //		if (r.location != NSNotFound) {
@@ -252,9 +273,9 @@
 		inReplyToStatusId = [dic getLongLongValueValueForKey:@"in_reply_to_status_id" defaultValue:-1];
 		inReplyToUserId = [dic getIntValueForKey:@"in_reply_to_user_id" defaultValue:-1];
 		inReplyToScreenName = [dic getStringValueForKey:@"in_reply_to_screen_name" defaultValue:@""];
-		thumbnailPic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
-		bmiddlePic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
-		originalPic = [dic getStringValueForKey:@"mediabody" defaultValue:@""];
+//		thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+//		bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+//		originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
 		
         commentsCount = [dic getIntValueForKey:@"replytimes" defaultValue:-1];
         retweetsCount = [dic getIntValueForKey:@"zftimes" defaultValue:-1];
@@ -264,9 +285,9 @@
         //			user = [[User userWithJsonDictionary:userDic] retain];
         //		}
         user = [[User alloc] init];
-        user.screenName = [dic getStringValueForKey:@"nickname" defaultValue:@""];
-        user.userId = [[dic getStringValueForKey:@"contentuid" defaultValue:@"0"] integerValue];
-        user.profileImageUrl = [dic getStringValueForKey:@"facePath" defaultValue:@""];
+        user.screenName = [dic getStringValueForKey:@"user_name" defaultValue:@""];
+        user.userId = [[dic getStringValueForKey:@"user_id" defaultValue:@"0"] integerValue];
+        user.profileImageUrl = [dic getStringValueForKey:@"user_face_path" defaultValue:@""];
 		
 		NSDictionary* retweetedStatusDic = [dic objectForKey:@"content"];
         NSLog(@"[levi]retwwtedStatusDic %@", retweetedStatusDic);
@@ -285,9 +306,9 @@
         //无转发
         else
         {
-        hasRetwitter = NO;
-        NSString *url = thumbnailPic;
-        hasImage = (url != nil && [url length] != 0 ? YES : NO);
+//        hasRetwitter = NO;
+//        NSString *url = thumbnailPic;
+//        hasImage = (url != nil && [url length] != 0 ? YES : NO);
         }
 	}
 	return self;
@@ -306,46 +327,46 @@
 
 - (NSString*)timestamp
 {
-	NSString *_timestamp;
-    // Calculate distance time string
-    //
-    time_t now;
-    time(&now);
-    
-    int distance = (int)difftime(now, createdAt);
-    if (distance < 0) distance = 0;
-    
-    if (distance < 60) {
-        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"秒前" : @"秒前"];
-    }
-    else if (distance < 60 * 60) {  
-        distance = distance / 60;
-        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"分钟前" : @"分钟前"];
-    }  
-    else if (distance < 60 * 60 * 24) {
-        distance = distance / 60 / 60;
-        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"小时前" : @"小时前"];
-    }
-    else if (distance < 60 * 60 * 24 * 7) {
-        distance = distance / 60 / 60 / 24;
-        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"天前" : @"天前"];
-    }
-    else if (distance < 60 * 60 * 24 * 7 * 4) {
-        distance = distance / 60 / 60 / 24 / 7;
-        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"周前" : @"周前"];
-    }
-    else {
-        static NSDateFormatter *dateFormatter = nil;
-        if (dateFormatter == nil) {
-            dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-        }
-        
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:createdAt];        
-        _timestamp = [dateFormatter stringFromDate:date];
-    }
-    return _timestamp;
+//	NSString *_timestamp;
+//    // Calculate distance time string
+//    //
+//    time_t now;
+//    time(&now);
+//    
+//    int distance = (int)difftime(now, createdAt);
+//    if (distance < 0) distance = 0;
+//    
+//    if (distance < 60) {
+//        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"秒前" : @"秒前"];
+//    }
+//    else if (distance < 60 * 60) {  
+//        distance = distance / 60;
+//        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"分钟前" : @"分钟前"];
+//    }  
+//    else if (distance < 60 * 60 * 24) {
+//        distance = distance / 60 / 60;
+//        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"小时前" : @"小时前"];
+//    }
+//    else if (distance < 60 * 60 * 24 * 7) {
+//        distance = distance / 60 / 60 / 24;
+//        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"天前" : @"天前"];
+//    }
+//    else if (distance < 60 * 60 * 24 * 7 * 4) {
+//        distance = distance / 60 / 60 / 24 / 7;
+//        _timestamp = [NSString stringWithFormat:@"%d%@", distance, (distance == 1) ? @"周前" : @"周前"];
+//    }
+//    else {
+//        static NSDateFormatter *dateFormatter = nil;
+//        if (dateFormatter == nil) {
+//            dateFormatter = [[NSDateFormatter alloc] init];
+//            [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+//            [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+//        }
+//        
+//        NSDate *date = [NSDate dateWithTimeIntervalSince1970:createdAt];        
+//        _timestamp = [dateFormatter stringFromDate:date];
+//    }
+//    return _timestamp;
 }
 
 

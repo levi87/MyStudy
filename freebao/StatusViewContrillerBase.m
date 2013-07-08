@@ -155,6 +155,9 @@
             return;
         }
         NSIndexPath *inPath = [self.table indexPathForCell:cell];
+        if (inPath.row == [statuesArr count]) {
+            return;
+        }
         Status *status = [statuesArr objectAtIndex:inPath.row];
         User *user = status.user;
         
@@ -287,7 +290,7 @@
 {
     NSInteger  row = indexPath.row;
     
-    if (row == 0) {
+    if (row == 0 || row == [statuesArr count]) {
         static NSString *CellIdentifier = @"BlankCell";
         BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
@@ -307,6 +310,11 @@
     status.cellIndexPath = indexPath;
     cell.delegate = self;
     cell.cellIndexPath = indexPath;
+    if (status.hasImage) {
+        NSLog(@"[levi] has Image");
+    } else {
+        NSLog(@"[levi] has not Image");
+    }
     [cell updateCellTextWith:status];
     if (self.table.dragging == NO && self.table.decelerating == NO)
     {
@@ -582,7 +590,7 @@
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     _reloading = YES;
-	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+//	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{

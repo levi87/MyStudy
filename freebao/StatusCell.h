@@ -89,4 +89,5 @@
 -(void)showTranslateTV:(CGFloat)height;
 -(void)adjustMainImagePosition:(CGFloat)height;
 @property (retain, nonatomic) IBOutlet UIView *HeadView;
+- (void)setCellLayout:(BOOL)value;
 @end

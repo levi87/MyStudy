@@ -262,8 +262,8 @@ static WeiBoMessageManager * instance=nil;
 }
 
 //Freebao 获取微博信息
--(void)FBGetHomeline:(NSInteger)circleId UserId:(NSString *)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
-    [httpManager didFreebaoGetHomeline:circleId UserId:userId Page:page PageSize:pageSize PassId:passId];
+-(void)FBGetHomeline:(NSString *)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoGetHomeline:userId Page:page PageSize:pageSize PassId:passId];
 }
 
 //Freebao 获取微博评论
