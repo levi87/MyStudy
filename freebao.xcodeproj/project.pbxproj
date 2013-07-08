@@ -36,6 +36,7 @@
 		A23631E117854E1900BA0DED /* con-voice.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631DA17854E1900BA0DED /* con-voice.png */; };
 		A23631E41785604A00BA0DED /* CommentsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A23631E31785604A00BA0DED /* CommentsCell.m */; };
 		A23631E61785674100BA0DED /* icon-contury01.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631E51785674100BA0DED /* icon-contury01.png */; };
+		A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = A2383E6B178A4C2300BA749F /* CustomToolbar.m */; };
 		A274AB5E1783B830009D9523 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB5D1783B830009D9523 /* EGOCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A274AB621783B849009D9523 /* EGOImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB611783B849009D9523 /* EGOImageButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A274AB681783B862009D9523 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB651783B862009D9523 /* EGOImageLoader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -550,6 +551,8 @@
 		A23631E21785604A00BA0DED /* CommentsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsCell.h; sourceTree = "<group>"; };
 		A23631E31785604A00BA0DED /* CommentsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsCell.m; sourceTree = "<group>"; };
 		A23631E51785674100BA0DED /* icon-contury01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-contury01.png"; sourceTree = "<group>"; };
+		A2383E6A178A4C2300BA749F /* CustomToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomToolbar.h; sourceTree = "<group>"; };
+		A2383E6B178A4C2300BA749F /* CustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomToolbar.m; sourceTree = "<group>"; };
 		A274AB5C1783B830009D9523 /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		A274AB5D1783B830009D9523 /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		A274AB601783B849009D9523 /* EGOImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageButton.h; sourceTree = "<group>"; };
@@ -2351,6 +2354,8 @@
 				DB1B1E6817893AEA00B90C75 /* UIExpandingTextView.m */,
 				DB1B1E6917893AEA00B90C75 /* UIExpandingTextViewInternal.h */,
 				DB1B1E6A17893AEA00B90C75 /* UIExpandingTextViewInternal.m */,
+				A2383E6A178A4C2300BA749F /* CustomToolbar.h */,
+				A2383E6B178A4C2300BA749F /* CustomToolbar.m */,
 			);
 			name = Emoji;
 			sourceTree = "<group>";
@@ -3466,6 +3471,7 @@
 				DB1B1E7217893AEA00B90C75 /* UIExpandingTextView.m in Sources */,
 				DB1B1E7317893AEA00B90C75 /* UIExpandingTextViewInternal.m in Sources */,
 				DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */,
+				A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3557,8 +3563,8 @@
 					"\"$(SRCROOT)/freebao/Extensions\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
+				PROVISIONING_PROFILE = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3579,8 +3585,8 @@
 					"\"$(SRCROOT)/freebao/Extensions\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D827C3E-ECC0-40A7-826B-30A87E32C16F";
+				PROVISIONING_PROFILE = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -80,8 +80,14 @@
     [bubbleTable reloadData];
 }
 
--(void)sendTextAction:(NSString *)inputText {
+-(void)sendTextAction:(NSString *)inputText Frame:(CGRect)frame {
     NSLog(@"[ssss]");
+    [UIView animateWithDuration:0.2 animations:^{
+        [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
+    }completion:^(BOOL finished){
+        if (finished) {
+        }
+    }];
 }
 
 -(void)showKeyboard:(CGRect)frame {

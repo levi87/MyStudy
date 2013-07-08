@@ -17,16 +17,17 @@
 #import "FacialView.h"
 #import "UIExpandingTextView.h"
 #import "OCExpandableButton.h"
+#import "CustomToolbar.h"
 
 @protocol FaceToolBarDelegate <NSObject>
--(void)sendTextAction:(NSString *)inputText;
+-(void)sendTextAction:(NSString *)inputText Frame:(CGRect)frame;
 
 -(void)showKeyboard:(CGRect)frame;
 -(void)hideKeyboard:(CGRect)frame;
 @end
 @interface FaceToolBar : UIToolbar<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
 {
-    UIToolbar *toolBar;//工具栏
+    CustomToolbar *toolBar;//工具栏
     UIExpandingTextView *textView;//文本输入框
     UIButton *faceButton ;
     UIButton *voiceButton;

@@ -49,11 +49,11 @@
         button.alignment = OCExpandableButtonAlignmentLeft;
         [superView addSubview:button];
         //默认toolBar在视图最下方
-        toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f,superView.bounds.size.height - toolBarHeight,superView.bounds.size.width,toolBarHeight)];
+        toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f,superView.bounds.size.height - toolBarHeight,superView.bounds.size.width,toolBarHeight)];
         toolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-        UIEdgeInsets insets = UIEdgeInsetsMake(40, 0, 40, 0);
-        [toolBar setBackgroundImage:[[UIImage imageNamed:@"keyBoardBack"] resizableImageWithCapInsets:insets] forToolbarPosition:0 barMetrics:0];
-        [toolBar setBarStyle:UIBarStyleBlack];
+//        UIEdgeInsets insets = UIEdgeInsetsMake(40, 0, 40, 0);
+//        [toolBar setBackgroundImage:[[UIImage imageNamed:@"keyBoardBack"] resizableImageWithCapInsets:insets] forToolbarPosition:0 barMetrics:0];
+//        [toolBar setBarStyle:UIBarStyleDefault];
        
         //可以自适应高度的文本输入框
         textView = [[UIExpandingTextView alloc] initWithFrame:CGRectMake(40, 5, 210, 36)];
@@ -76,7 +76,7 @@
         [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
         [faceButton addTarget:self action:@selector(disFaceKeyboard) forControlEvents:UIControlEventTouchUpInside];
         faceButton.frame = CGRectMake(toolBar.bounds.size.width - 70.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
-        [toolBar addSubview:faceButton];
+//        [toolBar addSubview:faceButton];
         
         //表情按钮
         sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -85,7 +85,7 @@
         sendButton.enabled=NO;
 //        [sendButton setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
         [sendButton addTarget:self action:@selector(sendAction) forControlEvents:UIControlEventTouchUpInside];
-        sendButton.frame = CGRectMake(toolBar.bounds.size.width - 40.0f,toolBar.bounds.size.height-38.0f,buttonWh+4,buttonWh);
+        sendButton.frame = CGRectMake(toolBar.bounds.size.width - 70.0f,toolBar.bounds.size.height-38.0f,buttonWh+34,buttonWh);
         [toolBar addSubview:sendButton];
         
         //给键盘注册通知
@@ -180,11 +180,12 @@
 -(void)sendAction{
     if (textView.text.length>0) {
         NSLog(@"点击发送");
-        if ([delegate respondsToSelector:@selector(sendTextAction:)])
-        {
-            [delegate sendTextAction:textView.text];
-        }
+        NSString *tmpStr = textView.text;
         [textView clearText];
+        if ([delegate respondsToSelector:@selector(sendTextAction:Frame:)])
+        {
+            [delegate sendTextAction:tmpStr Frame:toolBar.frame];
+        }
     }
 }
 -(void)showKb:(CGRect)frame {
@@ -219,6 +220,7 @@
 - (void)tapped {
     NSLog(@"tapped");
     [button close];
+    [self disFaceKeyboard];
 }
 
 -(void)disFaceKeyboard{

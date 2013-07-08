@@ -36,4 +36,6 @@ typedef enum {
 //Closes the control if open.  No effect if already closed.
 - (void)close;
 
+- (void)setupSublayers;
+
 @end
