@@ -201,7 +201,7 @@
 		// parse source parameter
 		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
         
-        NSString *tmpStr = [dic getStringValueForKey:@"postVO" defaultValue:@"blank"];
+        NSString *tmpStr = [dic getStringValueForKey:@"original_pic" defaultValue:@"blank"];
         NSLog(@"[TEST] %@",tmpStr);
         if (tmpStr != @"blank") {
             hasImage = TRUE;
@@ -209,14 +209,17 @@
             bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
             originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
         } else {
-            NSLog(@"[TEST]..........");
-            NSString *postVOstr = [[dic objectForKey:@"postVO"] getStringValueForKey:@"original_pic" defaultValue:@"blank"];
-            NSLog(@"[TEST] 111%@",postVOstr);
-            if (postVOstr != @"blank") {
+            NSString *tmpVO = [dic getStringValueForKey:@"postVO" defaultValue:@"blank"];
+            NSLog(@"[TEST] 111%@",tmpVO);
+            if (tmpVO != @"blank") {
                 hasImage = TRUE;
-                thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
-                bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
-                originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
+                NSDictionary *tmpOri = [dic objectForKey:@"postVO"];
+                NSString *tmpO = [tmpOri getStringValueForKey:@"original_pic" defaultValue:@"blank"];
+                if(tmpO != @"blank") {
+                    hasImage = TRUE;
+                } else {
+                    hasImage = FALSE;
+                }
             } else {
                 hasImage = FALSE;
             }

@@ -66,7 +66,7 @@
         _JSContentTF.frame = frameJS;
     } else {
         [self.mainImageView setHidden:YES];
-        self.HeadView.frame = CGRectMake(0, 3, 40, 40);
+        self.HeadView.frame = CGRectMake(0, 0, 40, 40);
         CGRect frameJS = _JSContentTF.frame;
         frameJS.origin.y = 30;
         
