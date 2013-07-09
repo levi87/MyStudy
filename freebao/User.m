@@ -37,7 +37,7 @@
     us.allowAllActMsg       = [NSNumber numberWithBool:self.allowAllActMsg];
     us.avatarImage          = UIImageJPEGRepresentation(self.avatarImage, 1);
     us.city                 = self.city;
-    us.createdAt            = [NSNumber numberWithLong:self.createdAt];
+    us.createdAt            = self.createdAt;
     us.domain               = self.domain;
     us.followersCount       = [NSNumber numberWithInt:self.followersCount];
     us.favoritesCount       = [NSNumber numberWithInt:self.favoritesCount];

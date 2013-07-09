@@ -29,7 +29,7 @@ typedef enum {
 	long long commentId;
 	int recipientedId;
 	BOOL commentOrRetweet;
-	time_t createdAt;
+	NSString* createdAt;
 	NSString *text;
 	double latitude;
 	double longitude;
@@ -44,7 +44,7 @@ typedef enum {
 @property (nonatomic, assign) long long commentId;
 @property (nonatomic, assign) int recipientedId;
 @property (nonatomic, assign) BOOL commentOrRetweet;
-@property (nonatomic, assign) time_t createdAt;
+@property (nonatomic, retain) NSString* createdAt;
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, assign) double latitude;
 @property (nonatomic, assign) double longitude;

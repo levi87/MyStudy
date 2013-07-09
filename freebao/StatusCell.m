@@ -9,6 +9,11 @@
 #import "StatusCell.h"
 #import "AHMarkedHyperlink.h"
 
+#define NO_COMMNET 0
+#define COMMENT_COUNT_ONE 1
+#define COMMENT_COUNT_TWO 2
+#define COMMNET_COUNT_THREE 3
+
 @implementation StatusCell
 @synthesize retwitterBgImage;
 @synthesize retwitterContentTF;
@@ -52,6 +57,9 @@
         [self.contentView addSubview:_JSContentTF];
     }
 //    [self setCellLayout:YES];
+    CGRect tmpframe = self.CommentView.frame;
+    tmpframe.origin.y = self.bottomBarView.frame.origin.y - 50;
+    self.CommentView.frame = tmpframe;
     return _JSContentTF;
 }
 
@@ -66,9 +74,9 @@
         _JSContentTF.frame = frameJS;
     } else {
         [self.mainImageView setHidden:YES];
-        self.HeadView.frame = CGRectMake(0, 0, 40, 40);
+        self.HeadView.frame = CGRectMake(0, 3, 40, 40);
         CGRect frameJS = _JSContentTF.frame;
-        frameJS.origin.y = 30;
+        frameJS.origin.y = 38;
         
         _JSContentTF.frame = frameJS;
     }
@@ -117,14 +125,6 @@
 
 -(void)updateCellTextWith:(Status*)status
 {
-    if (!status.hasImage) {
-        [self.mainImageView setHidden:YES];
-        self.HeadView.frame = CGRectMake(0, 0, 40, 40);
-        CGRect frameJS = _JSContentTF.frame;
-        frameJS.origin.y = 30;
-        
-        _JSContentTF.frame = frameJS;
-    }
     self.contentTF.text = status.text;
     self.JSContentTF.text = status.text;
     self.userNameLB.text = status.user.screenName;
@@ -236,11 +236,7 @@
     _line1Comment.text = @"nice to meet you,beauty.";
     _line2Comment.text = @"@Echo924 可以讲中文吗？";
     _line3Comment.text = @"这个是要说西瓜小，还是要说...";
-    
-    CGRect tmpframe = self.CommentView.frame;
-    tmpframe.origin.y = fromLB.frame.origin.y - 80;
-    self.CommentView.frame = tmpframe;
-    [self.CommentView setHidden:YES];
+//    [self.CommentView setHidden:YES];
 }
 
 -(void)adjustMainImagePosition:(CGFloat)height {
@@ -336,14 +332,14 @@
         retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
     }
     if (retwitterMainV.hidden == NO) {
-        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 80;
+        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 50;
     }
     else if(hasImage)
     {
-        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 80;
+        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 50;
     }
     else {
-        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 80;
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 50;
     }
 }
 

@@ -328,8 +328,8 @@
 }
 
 
-- (NSString*)timestamp
-{
+//- (NSString*)timestamp
+//{
 //	NSString *_timestamp;
 //    // Calculate distance time string
 //    //
@@ -370,7 +370,7 @@
 //        _timestamp = [dateFormatter stringFromDate:date];
 //    }
 //    return _timestamp;
-}
+//}
 
 
 - (void)dealloc {

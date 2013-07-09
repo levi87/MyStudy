@@ -55,6 +55,7 @@
     JSTwitterCoreTextView *_line2Comment;
     JSTwitterCoreTextView *_line3Comment;
 }
+@property (weak, nonatomic) IBOutlet UIView *bottomBarView;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
 @property (retain, nonatomic) IBOutlet UITextView *contentTF;
 @property (retain, nonatomic) IBOutlet UITextView *translateContentTF;
@@ -82,6 +83,7 @@
 @property (retain, nonatomic) IBOutlet UIView *commentToolBarView;
 @property (retain, nonatomic) IBOutlet UIView *CommentView;
 @property (weak, nonatomic) IBOutlet UIImageView *iconLocationImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *iconMoreImageView;
 
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage;
 -(void)updateCellTextWith:(Status*)status;

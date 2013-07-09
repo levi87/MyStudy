@@ -62,7 +62,7 @@
 		commentId = [decoder decodeInt64ForKey:@"commentId"];
 		recipientedId = [decoder decodeIntForKey:@"recipientedId"];
 		commentOrRetweet = [decoder decodeBoolForKey:@"commentOrRetweet"];
-		createdAt = [decoder decodeIntForKey:@"createdAt"];
+		createdAt = [decoder decodeObjectForKey:@"createdAt"];
 		text = [decoder decodeObjectForKey:@"text"];
 		latitude = [decoder decodeDoubleForKey:@"latitude"];
 		longitude = [decoder decodeDoubleForKey:@"longitude"];
@@ -85,7 +85,7 @@
 	[encoder encodeInt64:commentId forKey:@"commentId"];
 	[encoder encodeInt:recipientedId forKey:@"recipientedId"];
 	[encoder encodeBool:commentOrRetweet forKey:@"commentOrRetweet"];
-	[encoder encodeInt:createdAt forKey:@"createdAt"];
+	[encoder encodeObject:createdAt forKey:@"createdAt"];
 	[encoder encodeObject:text forKey:@"text"];
 	[encoder encodeDouble:latitude forKey:@"latitude"];
 	[encoder encodeDouble:longitude forKey:@"longitude"];
