@@ -340,6 +340,7 @@
 //        [[ZJTStatusBarAlertWindow getInstance] hide];
         isFirstCell = NO;
     }
+//    [cell setCommentPosition:cell.frame.size.height];
     return cell;
 }
 
@@ -379,6 +380,7 @@
         height = [cell setTFHeightWithImage:url2 != nil && [url2 length] != 0 ? YES : NO 
                          haveRetwitterImage:NO];//计算cell的高度
     }
+//    [cell setCommentPosition:cell.frame.size.height];
     return height;
 }
 

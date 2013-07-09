@@ -92,4 +92,6 @@
 -(void)adjustMainImagePosition:(CGFloat)height;
 @property (retain, nonatomic) IBOutlet UIView *HeadView;
 - (void)setCellLayout:(BOOL)value;
+
+- (void)setCommentPosition:(CGFloat)height;
 @end

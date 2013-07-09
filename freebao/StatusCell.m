@@ -57,9 +57,6 @@
         [self.contentView addSubview:_JSContentTF];
     }
 //    [self setCellLayout:YES];
-    CGRect tmpframe = self.CommentView.frame;
-    tmpframe.origin.y = self.bottomBarView.frame.origin.y - 50;
-    self.CommentView.frame = tmpframe;
     return _JSContentTF;
 }
 
@@ -150,6 +147,12 @@
 //    frame.origin.x = 320 - padding - size.width - commentCountImageView.frame.size.width - 5;
 //    commentCountImageView.frame = frame;
     
+//    NSLog(@"[levi] _JSContent status %@", status.text);
+//    NSLog(@"[levi] _JSContent y + height %f", _JSContentTF.frame.origin.y + _JSContentTF.frame.size.height);
+//    CGRect tmpframe = self.CommentView.frame;
+//    tmpframe.origin.y = _JSContentTF.frame.origin.y + _JSContentTF.frame.size.height;
+//    //    tmpframe.size.height = 45;
+//    self.CommentView.frame = tmpframe;
     //有转发
     if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]]) 
     {
@@ -237,6 +240,14 @@
     _line2Comment.text = @"@Echo924 可以讲中文吗？";
     _line3Comment.text = @"这个是要说西瓜小，还是要说...";
 //    [self.CommentView setHidden:YES];
+}
+
+-(void)setCommentPosition:(CGFloat)height {
+    NSLog(@"[levi] _JSContent y + height %f", _JSContentTF.frame.origin.y + _JSContentTF.frame.size.height);
+    CGRect tmpframe = self.CommentView.frame;
+    tmpframe.origin.y = height - 100;
+    //    tmpframe.size.height = 45;
+    self.CommentView.frame = tmpframe;
 }
 
 -(void)adjustMainImagePosition:(CGFloat)height {
@@ -332,14 +343,14 @@
         retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
     }
     if (retwitterMainV.hidden == NO) {
-        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 50;
+        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55;
     }
     else if(hasImage)
     {
-        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 50;
+        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55;
     }
     else {
-        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 50;
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55;
     }
 }
 
