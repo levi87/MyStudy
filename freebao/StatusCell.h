@@ -79,6 +79,9 @@
 @property (nonatomic,retain)JSTwitterCoreTextView *line1Comment;
 @property (nonatomic,retain)JSTwitterCoreTextView *line2Comment;
 @property (nonatomic,retain)JSTwitterCoreTextView *line3Comment;
+@property (weak, nonatomic) IBOutlet UILabel *line1Label;
+@property (weak, nonatomic) IBOutlet UILabel *line2Label;
+@property (weak, nonatomic) IBOutlet UILabel *line3Label;
 
 @property (retain, nonatomic) IBOutlet UIView *commentToolBarView;
 @property (retain, nonatomic) IBOutlet UIView *CommentView;

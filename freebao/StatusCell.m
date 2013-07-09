@@ -240,6 +240,42 @@
     _line2Comment.text = @"@Echo924 可以讲中文吗？";
     _line3Comment.text = @"这个是要说西瓜小，还是要说...";
 //    [self.CommentView setHidden:YES];
+    int commentCount = 3;
+    if (commentCount == NO_COMMNET) {
+        CGRect tmpF = self.CommentView.frame;
+        tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 25;
+        tmpF.size.height = 25;
+        _line1Comment.hidden = YES;
+        _line2Comment.hidden = YES;
+        _line3Comment.hidden = YES;
+        self.line1Label.hidden = YES;
+        self.line2Label.hidden = YES;
+        self.line3Label.hidden = YES;
+        self.CommentView.frame = tmpF;
+    } else if (commentCount == COMMENT_COUNT_ONE) {
+        CGRect tmpF = self.CommentView.frame;
+        tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 50;
+        tmpF.size.height = 50;
+        _line2Comment.hidden = YES;
+        _line3Comment.hidden = YES;
+        self.line2Label.hidden = YES;
+        self.line3Label.hidden = YES;
+        self.CommentView.frame = tmpF;
+    } else if (commentCount == COMMENT_COUNT_TWO) {
+        CGRect tmpF = self.CommentView.frame;
+        tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 70;
+        tmpF.size.height = 70;
+        _line3Comment.hidden = YES;
+        self.line3Label.hidden = YES;
+        self.CommentView.frame = tmpF;
+    } else if (commentCount == COMMNET_COUNT_THREE) {
+        CGRect tmpF = self.CommentView.frame;
+        tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 85;
+//        tmpF.size.height = 70;
+//        _line3Comment.hidden = YES;
+//        self.line3Label.hidden = YES;
+        self.CommentView.frame = tmpF;
+    }
 }
 
 -(void)setCommentPosition:(CGFloat)height {
@@ -341,6 +377,52 @@
     }
     if (retwitterBgImage.image == nil) {
         retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
+    }
+    int commentCount = 3;
+    if (commentCount == NO_COMMNET) {
+        if (retwitterMainV.hidden == NO) {
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30;
+        }
+        else if(hasImage)
+        {
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40;
+        }
+        else {
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40;
+        }
+    } else if (commentCount == COMMENT_COUNT_ONE) {
+        if (retwitterMainV.hidden == NO) {
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 25;
+        }
+        else if(hasImage)
+        {
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 25;
+        }
+        else {
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 25;
+        }
+    } else if (commentCount == COMMENT_COUNT_TWO) {
+        if (retwitterMainV.hidden == NO) {
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55;
+        }
+        else if(hasImage)
+        {
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55;
+        }
+        else {
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55;
+        }
+    } else if (commentCount == COMMNET_COUNT_THREE) {
+        if (retwitterMainV.hidden == NO) {
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 60;
+        }
+        else if(hasImage)
+        {
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 60;
+        }
+        else {
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 60;
+        }
     }
     if (retwitterMainV.hidden == NO) {
         return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55;
