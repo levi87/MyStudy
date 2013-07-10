@@ -12,6 +12,8 @@
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
 
+#define TAP_NOTIFICATION @"tap_notification"
+
 @interface LikersViewController ()
 
 @end
@@ -25,6 +27,14 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)tapHeadIcon:(NSNotification*)notification {
+    NSLog(@"[levi] tapHeadIcon");
+}
+
+-(void)viewDidUnload {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -43,6 +53,7 @@
 //    [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
 //    [self.navigationController.view addSubview:TittleView];
 //    [self.navigationController.view addSubview:TittleLineView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tapHeadIcon:) name:TAP_NOTIFICATION object:nil];
 
     headPhotos = [[NSMutableArray alloc] initWithObjects:
                   @"",
@@ -178,7 +189,7 @@
     if (cell == nil) {
         cell = [[LikersCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    [cell setSelectionStyle:UITableViewCellEditingStyleNone];
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     return cell;
@@ -188,7 +199,7 @@
     if (indexPath.row == 0) {
         return 44;
     }
-    return 72;
+    return 58;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

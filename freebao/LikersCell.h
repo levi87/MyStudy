@@ -12,6 +12,10 @@
 @interface LikersCell : UITableViewCell {
 @private
     EGOImageView* headImageView;
+    UILabel *nickNameLabel;
+    UIImageView *sexImageV;
+    UILabel *ageLabel;
+    UILabel *city;
 }
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
