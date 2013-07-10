@@ -2,7 +2,7 @@
 //  StatusCDItem.h
 //  freebao
 //
-//  Created by freebao on 13-7-8.
+//  Created by freebao on 13-7-10.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
@@ -39,6 +39,9 @@
 @property (nonatomic, retain) NSString * timestamp;
 @property (nonatomic, retain) NSNumber * truncated;
 @property (nonatomic, retain) NSNumber * unread;
+@property (nonatomic, retain) NSNumber * homeLineCommentCount;
+@property (nonatomic, retain) id homeLineCommentsStr;
+@property (nonatomic, retain) NSNumber * likeCount;
 @property (nonatomic, retain) StatusCDItem *retweetedStatus;
 @property (nonatomic, retain) UserCDItem *user;
 

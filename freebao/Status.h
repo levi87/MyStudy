@@ -31,6 +31,7 @@
 	NSString*		originalPic; //原始图片
     User*           user; //作者信息
     int				commentsCount; // 评论数
+    int             homeLineCommentCount;
 	int				retweetsCount; // 转发数
 	Status*			retweetedStatus; //转发的博文，内容为status，如果不是转发，则没有此字段
 	
@@ -42,8 +43,11 @@
     BOOL            hasImage;
     
 	NSString*		_formmatedText;
+    NSArray*        homeLineComments;
     
     UIImage *statusImage;
+    
+    int             likeCount;
 }
 
 @property (nonatomic, assign) long long     statusId;
@@ -65,6 +69,7 @@
 @property (nonatomic, retain) NSString*		originalPic; //原始图片
 @property (nonatomic, retain) User*         user; //作者信息
 @property (nonatomic, assign) int           commentsCount; //评论数
+@property (nonatomic, assign) int           homeLineCommentCount;
 @property (nonatomic, assign) int           retweetsCount; // 转发数
 
 @property (nonatomic, retain) Status*       retweetedStatus; //转发的博文，内容为status，如果不是转发，则没有此字段
@@ -78,6 +83,8 @@
 @property (nonatomic,retain) UIImage        *statusImage;
 @property (nonatomic,retain) NSIndexPath    *cellIndexPath;
 @property (nonatomic,retain) NSString       *isRefresh;
+@property (nonatomic,retain)NSArray*        homeLineComments;
+@property (nonatomic,assign)int             likeCount;
 
 
 - (NSString*)timestamp;

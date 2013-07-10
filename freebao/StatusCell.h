@@ -88,7 +88,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconLocationImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *iconMoreImageView;
 
--(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage;
+-(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage Status:(Status*)sts;
 -(void)updateCellTextWith:(Status*)status;
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
 -(void)showTranslateTV:(CGFloat)height;
@@ -97,4 +97,6 @@
 - (void)setCellLayout:(BOOL)value;
 
 - (void)setCommentPosition:(CGFloat)height;
+@property (weak, nonatomic) IBOutlet UILabel *likeCount;
+@property (weak, nonatomic) IBOutlet UILabel *comtCount;
 @end

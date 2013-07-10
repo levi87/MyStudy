@@ -36,6 +36,8 @@
 @synthesize line1Comment = _line1Comment;
 @synthesize line2Comment = _line2Comment;
 @synthesize line3Comment = _line3Comment;
+@synthesize likeCount;
+@synthesize comtCount;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -169,7 +171,7 @@
             [self setCellLayout:NO];
         }
         [self setTFHeightWithImage:NO
-                haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO];//计算cell的高度，以及背景图的处理
+                haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO Status:status];//计算cell的高度，以及背景图的处理
     }
     
     //无转发
@@ -185,7 +187,7 @@
             [self setCellLayout:NO];
         }
         [self setTFHeightWithImage:url != nil && [url length] != 0 ? YES : NO 
-                haveRetwitterImage:NO];//计算cell的高度，以及背景图的处理
+                haveRetwitterImage:NO Status:status];//计算cell的高度，以及背景图的处理
     }
     
     if (_line1Comment == nil) {
@@ -221,7 +223,7 @@
         [self.CommentView addSubview:_line2Comment];
     }
     if (_line3Comment == nil) {
-        _line3Comment = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 59, 230, 21)];
+        _line3Comment = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 60, 230, 21)];
         [_line3Comment setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_line3Comment setDelegate:self];
         [_line3Comment setFontName:FONT];
@@ -236,11 +238,17 @@
         _line3Comment.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         [self.CommentView addSubview:_line3Comment];
     }
-    _line1Comment.text = @"nice to meet you,beauty.";
-    _line2Comment.text = @"@Echo924 可以讲中文吗？";
-    _line3Comment.text = @"这个是要说西瓜小，还是要说...";
+    _line1Comment.text = @"";
+    _line2Comment.text = @"";
+    _line3Comment.text = @"";
 //    [self.CommentView setHidden:YES];
-    int commentCount = 3;
+//    int commentCount = 3;
+    int commentCount = status.commentsCount;
+    likeCount.text = [NSString stringWithFormat:@"%d", status.likeCount];
+    comtCount.text = [NSString stringWithFormat:@"%d", commentCount];
+    if (commentCount > 3) {
+        commentCount = 3;
+    }
     if (commentCount == NO_COMMNET) {
         CGRect tmpF = self.CommentView.frame;
         tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 25;
@@ -253,27 +261,73 @@
         self.line3Label.hidden = YES;
         self.CommentView.frame = tmpF;
     } else if (commentCount == COMMENT_COUNT_ONE) {
+        NSDictionary *tmpDic = [status.homeLineComments objectAtIndex:0];
+        _line1Comment.text = [tmpDic objectForKey:@"commentBody"];
+        _line1Label.text = [tmpDic objectForKey:@"nickname"];
+        if (_line1Comment.text.length > 30) {
+            _line1Comment.text = [[_line1Comment.text substringToIndex:30] stringByAppendingString:@"..."];
+        }
         CGRect tmpF = self.CommentView.frame;
         tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 50;
         tmpF.size.height = 50;
+        _line1Comment.hidden = NO;
         _line2Comment.hidden = YES;
         _line3Comment.hidden = YES;
+        self.line1Label.hidden = NO;
         self.line2Label.hidden = YES;
         self.line3Label.hidden = YES;
         self.CommentView.frame = tmpF;
     } else if (commentCount == COMMENT_COUNT_TWO) {
+        NSDictionary *tmpDic = [status.homeLineComments objectAtIndex:0];
+        _line1Comment.text = [tmpDic objectForKey:@"commentBody"];
+        _line1Label.text = [tmpDic objectForKey:@"nickname"];
+        if (_line1Comment.text.length > 30) {
+            _line1Comment.text = [[_line1Comment.text substringToIndex:30] stringByAppendingString:@"..."];
+        }
+        tmpDic = [status.homeLineComments objectAtIndex:1];
+        _line2Comment.text = [tmpDic objectForKey:@"commentBody"];
+        _line2Label.text = [tmpDic objectForKey:@"nickname"];
+        if (_line2Comment.text.length > 30) {
+            _line2Comment.text = [[_line2Comment.text substringToIndex:30] stringByAppendingString:@"..."];
+        }
         CGRect tmpF = self.CommentView.frame;
         tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 70;
         tmpF.size.height = 70;
+        _line1Comment.hidden = NO;
+        _line2Comment.hidden = NO;
         _line3Comment.hidden = YES;
+        self.line1Label.hidden = NO;
+        self.line2Label.hidden = NO;
         self.line3Label.hidden = YES;
         self.CommentView.frame = tmpF;
     } else if (commentCount == COMMNET_COUNT_THREE) {
+        NSDictionary *tmpDic = [status.homeLineComments objectAtIndex:0];
+        _line1Comment.text = [tmpDic objectForKey:@"commentBody"];
+        _line1Label.text = [tmpDic objectForKey:@"nickname"];
+        if (_line1Comment.text.length > 30) {
+            _line1Comment.text = [[_line1Comment.text substringToIndex:30] stringByAppendingString:@"..."];
+        }
+        tmpDic = [status.homeLineComments objectAtIndex:1];
+        _line2Comment.text = [tmpDic objectForKey:@"commentBody"];
+        _line2Label.text = [tmpDic objectForKey:@"nickname"];
+        if (_line2Comment.text.length > 30) {
+            _line2Comment.text = [[_line2Comment.text substringToIndex:30] stringByAppendingString:@"..."];
+        }
+        tmpDic = [status.homeLineComments objectAtIndex:2];
+        _line3Comment.text = [tmpDic objectForKey:@"commentBody"];
+        _line3Label.text = [tmpDic objectForKey:@"nickname"];
+        if (_line3Comment.text.length > 30) {
+            _line3Comment.text = [[_line3Comment.text substringToIndex:30] stringByAppendingString:@"..."];
+        }
         CGRect tmpF = self.CommentView.frame;
         tmpF.origin.y = self.iconMoreImageView.frame.origin.y - 85;
-//        tmpF.size.height = 70;
-//        _line3Comment.hidden = YES;
-//        self.line3Label.hidden = YES;
+        tmpF.size.height = 85;
+        _line1Comment.hidden = NO;
+        _line2Comment.hidden = NO;
+        _line3Comment.hidden = NO;
+        self.line1Label.hidden = NO;
+        self.line2Label.hidden = NO;
+        self.line3Label.hidden = NO;
         self.CommentView.frame = tmpF;
     }
 }
@@ -295,7 +349,7 @@
 //增加翻译的高度并显示翻译
 -(void)showTranslateTV:(CGFloat)height {
     self.translateContentTF.hidden = NO;
-    NSLog(@"[levi]jscontentTF %f", self.JSContentTF.frame.size.height);
+//    NSLog(@"[levi]jscontentTF %f", self.JSContentTF.frame.size.height);
     self.translateContentTF.frame = CGRectMake(self.JSContentTF.frame.origin.x, self.JSContentTF.frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF], self.JSContentTF.frame.size.width, [self returnTranslateHeight:self.translateContentTF]);
     
     CGRect frame = self.retwitterMainV.frame;
@@ -317,7 +371,7 @@
 }
 
 //计算cell的高度，以及背景图的处理
--(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage
+-(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage Status:(Status *)sts
 {
     hasImage = FALSE;
     haveRetwitterImage = FALSE;
@@ -378,7 +432,12 @@
     if (retwitterBgImage.image == nil) {
         retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
     }
-    int commentCount = 3;
+//    int commentCount = 3;
+    int commentCount = sts.commentsCount;
+    if (commentCount > 3) {
+        commentCount = 3;
+    }
+//    NSLog(@"[levi]111111...... %d", commentCount);
     if (commentCount == NO_COMMNET) {
         if (retwitterMainV.hidden == NO) {
             return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30;

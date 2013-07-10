@@ -12,7 +12,7 @@
 @implementation Status
 @synthesize statusId, createdAt, text, source, sourceUrl, favorited, truncated, longitude, latitude, inReplyToStatusId;
 @synthesize inReplyToUserId, inReplyToScreenName, thumbnailPic, bmiddlePic, originalPic, user;
-@synthesize commentsCount, retweetsCount, retweetedStatus, unread, hasReply;
+@synthesize commentsCount, homeLineCommentCount, retweetsCount, retweetedStatus, unread, hasReply;
 @synthesize statusKey;
 @synthesize hasRetwitter;
 @synthesize haveRetwitterImage;
@@ -20,11 +20,15 @@
 @synthesize statusImage;
 @synthesize cellIndexPath;
 @synthesize isRefresh;
+@synthesize homeLineComments;
+@synthesize likeCount;
 
 -(StatusCDItem*)updateStatusCDItem:(StatusCDItem*)sts index:(int)theIndex isHomeLine:(BOOL) isHome
 {
     sts.bmiddlePic          = self.bmiddlePic;
     sts.commentsCount       = [NSNumber numberWithInt:self.commentsCount];
+    sts.homeLineCommentCount= [NSNumber numberWithInt:self.homeLineCommentCount];
+    sts.likeCount           = [NSNumber numberWithInt:self.likeCount];
     sts.createdAt           = self.createdAt;
     sts.favorited           = [NSNumber numberWithBool:self.favorited];
     sts.hasImage            = [NSNumber numberWithBool:self.hasImage];
@@ -49,6 +53,7 @@
     sts.unread              = [NSNumber numberWithBool:self.unread];
     sts.index               = [NSNumber numberWithInt:theIndex];
     sts.isHomeLine          = [NSNumber numberWithBool:isHome];
+    sts.homeLineCommentsStr = self.homeLineComments;
     
     sts.user = (UserCDItem *)[NSEntityDescription insertNewObjectForEntityForName:@"UserCDItem" inManagedObjectContext:[CoreDataManager getInstance].managedObjContext];
     sts.user                    = [self.user updateUserCDItem:sts.user];
@@ -60,6 +65,8 @@
 {
     self.bmiddlePic         = sts.bmiddlePic;       
     self.commentsCount      = sts.commentsCount.intValue;
+    self.homeLineCommentCount= sts.homeLineCommentCount.intValue;
+    self.likeCount          = sts.likeCount.intValue;
     self.createdAt          = sts.createdAt;
     self.favorited          = sts.favorited.boolValue;
     self.hasImage           = sts.hasImage.boolValue;
@@ -82,6 +89,7 @@
 //    self.timestamp          = sts.timestamp;
     self.truncated          = sts.truncated.boolValue;
     self.unread             = sts.unread.boolValue;
+    self.homeLineComments   = sts.homeLineCommentsStr;
     if (sts.retweetedStatus) {
         self.retweetedStatus = [self updataStatusFromStatusCDItem:sts.retweetedStatus];
     }
@@ -197,12 +205,19 @@
 		createdAt = [dic getStringValueForKey:@"create_at" defaultValue:@""];
 		text = [dic getStringValueForKey:@"text" defaultValue:@""];
         self.sourceUrl = [dic getStringValueForKey:@"sourceImage" defaultValue:@""];
+        commentsCount = [dic getIntValueForKey:@"comment_count" defaultValue:0];
+        likeCount = [dic getIntValueForKey:@"like_count" defaultValue:0];
+//        homeLineCommentCount = 2;
+//        NSLog(@"[levi] comments %@", [dic getStringValueForKey:@"comments" defaultValue:@"[]"]);
+        NSArray *aa = [dic objectForKey:@"comments"];
+        homeLineComments = aa;
+        NSLog(@"[levi] aa count %d , content %@", [aa count], aa);
 		
 		// parse source parameter
 		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
         
         NSString *tmpStr = [dic getStringValueForKey:@"original_pic" defaultValue:@"blank"];
-        NSLog(@"[TEST] %@",tmpStr);
+//        NSLog(@"[TEST] %@",tmpStr);
         if (tmpStr != @"blank") {
             hasImage = TRUE;
             thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
@@ -210,7 +225,7 @@
             originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
         } else {
             NSString *tmpVO = [dic getStringValueForKey:@"postVO" defaultValue:@"blank"];
-            NSLog(@"[TEST] 111%@",tmpVO);
+//            NSLog(@"[TEST] 111%@",tmpVO);
             if (tmpVO != @"blank") {
                 hasImage = TRUE;
                 NSDictionary *tmpOri = [dic objectForKey:@"postVO"];
@@ -280,7 +295,7 @@
 //		bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
 //		originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
 		
-        commentsCount = [dic getIntValueForKey:@"replytimes" defaultValue:-1];
+//        commentsCount = [dic getIntValueForKey:@"replytimes" defaultValue:-1];
         retweetsCount = [dic getIntValueForKey:@"zftimes" defaultValue:-1];
         
         //		NSDictionary* userDic = [dic objectForKey:@"user"];

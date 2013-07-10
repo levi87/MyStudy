@@ -2,7 +2,7 @@
 //  StatusCDItem.m
 //  freebao
 //
-//  Created by freebao on 13-7-8.
+//  Created by freebao on 13-7-10.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
@@ -39,6 +39,9 @@
 @dynamic timestamp;
 @dynamic truncated;
 @dynamic unread;
+@dynamic homeLineCommentCount;
+@dynamic homeLineCommentsStr;
+@dynamic likeCount;
 @dynamic retweetedStatus;
 @dynamic user;
 

@@ -466,14 +466,14 @@
     if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]])
     {
         height = [cell setTFHeightWithImage:NO 
-                         haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO];//计算cell的高度
+                         haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO Status:status];//计算cell的高度
     }
     
     //无转发的博文
     else
     {
         height = [cell setTFHeightWithImage:url2 != nil && [url2 length] != 0 ? YES : NO 
-                         haveRetwitterImage:NO];//计算cell的高度
+                         haveRetwitterImage:NO Status:status];//计算cell的高度
     }
     return height;
 }

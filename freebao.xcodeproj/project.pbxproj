@@ -38,7 +38,6 @@
 		A23631E61785674100BA0DED /* icon-contury01.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631E51785674100BA0DED /* icon-contury01.png */; };
 		A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = A2383E6B178A4C2300BA749F /* CustomToolbar.m */; };
 		A2383E7D178AAB1900BA749F /* UserCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2383E7C178AAB1800BA749F /* UserCDItem.m */; };
-		A2383E80178AAB2200BA749F /* StatusCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2383E7F178AAB2200BA749F /* StatusCDItem.m */; };
 		A274AB5E1783B830009D9523 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB5D1783B830009D9523 /* EGOCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A274AB621783B849009D9523 /* EGOImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB611783B849009D9523 /* EGOImageButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A274AB681783B862009D9523 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB651783B862009D9523 /* EGOImageLoader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -51,6 +50,7 @@
 		A274AB7A1783BA11009D9523 /* LikersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB791783BA11009D9523 /* LikersCell.m */; };
 		A274AB871783D2D1009D9523 /* BlankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB861783D2D1009D9523 /* BlankCell.m */; };
 		A274AB8B178405E0009D9523 /* icon-back.png in Resources */ = {isa = PBXBuildFile; fileRef = A274AB8A178405E0009D9523 /* icon-back.png */; };
+		A2B221B9178D0F9C00BCE686 /* StatusCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2B221B8178D0F9C00BCE686 /* StatusCDItem.m */; };
 		A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85DD178651C800170907 /* ConversationViewController.m */; };
 		A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE85DE178651C800170907 /* ConversationViewController.xib */; };
 		A2DE85E41786520100170907 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85E31786520100170907 /* ConversationCell.m */; };
@@ -555,8 +555,6 @@
 		A2383E6B178A4C2300BA749F /* CustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomToolbar.m; sourceTree = "<group>"; };
 		A2383E7B178AAB1800BA749F /* UserCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCDItem.h; sourceTree = "<group>"; };
 		A2383E7C178AAB1800BA749F /* UserCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCDItem.m; sourceTree = "<group>"; };
-		A2383E7E178AAB2200BA749F /* StatusCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusCDItem.h; path = ../StatusCDItem.h; sourceTree = "<group>"; };
-		A2383E7F178AAB2200BA749F /* StatusCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusCDItem.m; path = ../StatusCDItem.m; sourceTree = "<group>"; };
 		A274AB5C1783B830009D9523 /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		A274AB5D1783B830009D9523 /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		A274AB601783B849009D9523 /* EGOImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageButton.h; sourceTree = "<group>"; };
@@ -578,6 +576,8 @@
 		A274AB851783D2D1009D9523 /* BlankCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankCell.h; sourceTree = "<group>"; };
 		A274AB861783D2D1009D9523 /* BlankCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlankCell.m; sourceTree = "<group>"; };
 		A274AB8A178405E0009D9523 /* icon-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-back.png"; sourceTree = "<group>"; };
+		A2B221B7178D0F9C00BCE686 /* StatusCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCDItem.h; sourceTree = "<group>"; };
+		A2B221B8178D0F9C00BCE686 /* StatusCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCDItem.m; sourceTree = "<group>"; };
 		A2DE85DC178651C800170907 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A2DE85DD178651C800170907 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A2DE85DE178651C800170907 /* ConversationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
@@ -2822,8 +2822,8 @@
 		DB9FCF50175828C200AE837D /* CDModels */ = {
 			isa = PBXGroup;
 			children = (
-				A2383E7E178AAB2200BA749F /* StatusCDItem.h */,
-				A2383E7F178AAB2200BA749F /* StatusCDItem.m */,
+				A2B221B7178D0F9C00BCE686 /* StatusCDItem.h */,
+				A2B221B8178D0F9C00BCE686 /* StatusCDItem.m */,
 				A2383E7B178AAB1800BA749F /* UserCDItem.h */,
 				A2383E7C178AAB1800BA749F /* UserCDItem.m */,
 				DB9FCF55175828D200AE837D /* Images.h */,
@@ -3471,7 +3471,7 @@
 				DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */,
 				A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */,
 				A2383E7D178AAB1900BA749F /* UserCDItem.m in Sources */,
-				A2383E80178AAB2200BA749F /* StatusCDItem.m in Sources */,
+				A2B221B9178D0F9C00BCE686 /* StatusCDItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
