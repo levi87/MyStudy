@@ -313,7 +313,11 @@
 -(void)cellLikerDidTaped:(StatusCell *)theCell {
     if (likeVC == nil) {
         likeVC = [[LikersViewController alloc] init];
+    } else {
+        [likeVC setIsRefresh:YES];
     }
+    Status *tmpS = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
+    likeVC.cellContentId = [NSString stringWithFormat:@"%lld", tmpS.statusId];
     tittleLabel.text = @"Likers";
     backButton.hidden = NO;
     [self.navigationController pushViewController:likeVC animated:YES];

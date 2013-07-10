@@ -28,12 +28,12 @@
         headImageView.userInteractionEnabled = YES;
 		[self.contentView addSubview:headImageView];
         nickNameLabel = [[UILabel alloc] init];
-        nickNameLabel.frame = CGRectMake(58, 9, 40, 13);
+        nickNameLabel.frame = CGRectMake(58, 9, 80, 13);
         nickNameLabel.text = @"levi";
         nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [self.contentView addSubview:nickNameLabel];
         sexImageV = [[UIImageView alloc] init];
-        sexImageV.frame = CGRectMake(98, 9, 13, 13);
+        sexImageV.frame = CGRectMake(138, 9, 13, 13);
         sexImageV.image = [UIImage imageNamed:@"sex-female.png"];
         [self.contentView addSubview:sexImageV];
         ageLabel = [[UILabel alloc] init];
@@ -44,6 +44,36 @@
         [self.contentView addSubview:ageLabel];
     }
     return self;
+}
+
+-(void)setCellLayout {
+    CGRect frame = headImageView.frame;
+    frame.origin.y += 44;
+    headImageView.frame = frame;
+    
+    frame = nickNameLabel.frame;
+    frame.origin.y += 44;
+    nickNameLabel.frame = frame;
+    
+    frame = sexImageV.frame;
+    frame.origin.y += 44;
+    sexImageV.frame = frame;
+    
+    frame = ageLabel.frame;
+    frame.origin.y += 44;
+    ageLabel.frame = frame;
+}
+
+-(void)setCellValue:(LikerInfo *)info {
+    NSLog(@".........");
+    nickNameLabel.text = info.nickName;
+//    if ([info.sex integerValue] == 0) {
+//        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
+//    } else {
+//        sexImageV.image = [UIImage imageNamed:@"sex-female.png"];
+//    }
+//    ageLabel.text = info.age;
+//    city.text = info.city;
 }
 
 -(void)tapHeadIcon {

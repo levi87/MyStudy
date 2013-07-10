@@ -55,6 +55,7 @@
 #define FB_GET_MENTION              @"fb_get_mention"
 #define FB_ADD_LIKE                 @"fb_add_like"
 #define FB_UN_LIKE                  @"fb_un_like"
+#define FB_GET_LIKERS               @"fb_get_likers"
 
 /*
  Freebao
@@ -256,6 +257,7 @@ typedef enum {
     FreebaoGetMention,
     FreebaoLike,
     FreebaoUnlike,
+    FreebaoGetLikers,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -492,5 +494,8 @@ typedef enum {
 
 //Freebao unLike
 -(void)didFreebaounLikeWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao 获取Likers
+-(void)didFreebaoGetLikersWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 @end

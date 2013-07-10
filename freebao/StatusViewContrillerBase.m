@@ -355,7 +355,6 @@
 #pragma mark - UITableViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  
 {
-    NSLog(@"[levi] height forrowat... %d", indexPath.row);
     if (indexPath.row == 0) {
         return 44;
     }

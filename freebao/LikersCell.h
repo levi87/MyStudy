@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LikerInfo.h"
 
 @class EGOImageView;
 @interface LikersCell : UITableViewCell {
@@ -19,5 +20,9 @@
 }
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
+
+- (void)setCellValue:(LikerInfo*)info;
+
+- (void)setCellLayout;
 
 @end

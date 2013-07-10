@@ -255,4 +255,7 @@
 
 //Freebao unLike
 -(void)FBUnLikeWithUserId:(NSString*)userId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao Likers
+-(void)FBGetLikersWithUserId:(NSString*)userUd ContentId:(NSString*)aContentId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

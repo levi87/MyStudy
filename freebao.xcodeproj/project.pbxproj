@@ -390,6 +390,7 @@
 		DB6434B917588803005CAD2F /* noImage50x118@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB64349F17588803005CAD2F /* noImage50x118@2x.png */; };
 		DB6434BB1758AC2C005CAD2F /* ImageCache.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = DB6434BA1758AC2C005CAD2F /* ImageCache.xcdatamodel */; };
 		DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DB991F7A17898E7700A518AA /* OCExpandableButton.m */; };
+		DB9ED69E178D991F00323E4B /* LikerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9ED69D178D991F00323E4B /* LikerInfo.m */; };
 		DB9FCEEA1758241C00AE837D /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEE71758241C00AE837D /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB9FCEEB1758241C00AE837D /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEE91758241C00AE837D /* PullRefreshTableViewController.m */; };
 		DB9FCEF11758245B00AE837D /* JSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEEE1758245B00AE837D /* JSCoreTextView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1102,6 +1103,8 @@
 		DB6434BA1758AC2C005CAD2F /* ImageCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageCache.xcdatamodel; sourceTree = "<group>"; };
 		DB991F7917898E7700A518AA /* OCExpandableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCExpandableButton.h; sourceTree = "<group>"; };
 		DB991F7A17898E7700A518AA /* OCExpandableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCExpandableButton.m; sourceTree = "<group>"; };
+		DB9ED69C178D991F00323E4B /* LikerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikerInfo.h; sourceTree = "<group>"; };
+		DB9ED69D178D991F00323E4B /* LikerInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikerInfo.m; sourceTree = "<group>"; };
 		DB9FCEE61758241C00AE837D /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		DB9FCEE71758241C00AE837D /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		DB9FCEE81758241C00AE837D /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
@@ -2821,6 +2824,8 @@
 				DB9FCF47175828B800AE837D /* User.m */,
 				DB9FCF48175828B800AE837D /* POI.h */,
 				DB9FCF49175828B800AE837D /* POI.m */,
+				DB9ED69C178D991F00323E4B /* LikerInfo.h */,
+				DB9ED69D178D991F00323E4B /* LikerInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3480,6 +3485,7 @@
 				A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */,
 				A2383E7D178AAB1900BA749F /* UserCDItem.m in Sources */,
 				A2B221BC178D318300BCE686 /* StatusCDItem.m in Sources */,
+				DB9ED69E178D991F00323E4B /* LikerInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

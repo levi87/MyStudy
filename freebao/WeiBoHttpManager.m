@@ -922,6 +922,20 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoGetLikersWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:KLikeUserUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"query.currentUserId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aContentId     forKey:@"query.contentid"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetLikers];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -1529,6 +1543,18 @@
 //            [[NSNotificationCenter defaultCenter] postNotificationName:FB_UN_LIKE object:nil];
         } else {
             NSLog(@"[levi] request UnLike failed...");
+        }
+    }
+    if (requestType == FreebaoGetLikers) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] get Likers List... %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Likers Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSArray *resultArray = [resultMap objectForKey:@"likeUsers"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_LIKERS object:resultArray];
+        } else {
+            NSLog(@"[levi] request Likers failed...");
         }
     }
 }

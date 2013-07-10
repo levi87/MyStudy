@@ -19,6 +19,8 @@
 @end
 
 @implementation LikersViewController
+@synthesize cellContentId = _cellContentId;
+@synthesize isRefresh = _isRefresh;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -33,6 +35,24 @@
     NSLog(@"[levi] tapHeadIcon");
 }
 
+-(void)resultOfRequest:(NSNotification*)notification {
+    NSMutableArray *tmpArray = notification.object;
+    NSLog(@"tmpArray Array %@", tmpArray);
+    [likersArray removeAllObjects];
+    headPhotos = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [tmpArray count]; i ++) {
+        NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
+        LikerInfo *tmpInfo = [[LikerInfo alloc] init];
+        tmpInfo.nickName = [tmpDic objectForKey:@"url"];
+        tmpInfo.sex = [tmpDic objectForKey:@"userGender"];
+        tmpInfo.age = [tmpDic objectForKey:@"age"];
+        tmpInfo.city = [tmpDic objectForKey:@"city"];
+        [likersArray addObject:tmpInfo];
+        [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
+    }
+    [self.tableView reloadData];
+}
+
 -(void)viewDidUnload {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -40,6 +60,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _isRefresh = FALSE;
+    isFirst = TRUE;
 //    UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 //    [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
 //    UILabel *tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -53,10 +75,16 @@
 //    [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
 //    [self.navigationController.view addSubview:TittleView];
 //    [self.navigationController.view addSubview:TittleLineView];
+    likersArray = [[NSMutableArray alloc] init];
+    NSLog(@"likeruser.........");
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBGetLikersWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:_cellContentId Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tapHeadIcon:) name:TAP_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resultOfRequest:) name:FB_GET_LIKERS object:nil];
 
     headPhotos = [[NSMutableArray alloc] initWithObjects:
-                  @"",
                   @"http://farm4.static.flickr.com/3483/4017988903_84858e0e6e_s.jpg",
                   @"http://farm3.static.flickr.com/2436/4015786038_7b530f9cce_s.jpg",
                   @"http://farm3.static.flickr.com/2643/4025878602_85f7cd1724_s.jpg",
@@ -170,25 +198,21 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [headPhotos count];
+    return [likersArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        static NSString *CellIdentifier = @"BlankCell";
-        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        }
-        return cell;
-    }
-
     static NSString *CellIdentifier = @"LikersCell";
     LikersCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[LikersCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    if (indexPath.row == 0 && isFirst) {
+        isFirst = FALSE;
+        [cell setCellLayout];
+    }
+    [cell setCellValue:(LikerInfo*)[likersArray objectAtIndex:indexPath.row]];
     [cell setSelectionStyle:UITableViewCellEditingStyleNone];
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
@@ -197,13 +221,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return 44;
+        return 102;
     }
     return 58;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 //    [KAppDelegate.tabBarVC.tabbar setHide:YES];
+    if (_isRefresh) {
+        [manager FBGetLikersWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:_cellContentId Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 

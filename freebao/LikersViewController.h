@@ -10,11 +10,22 @@
 #import "LikersCell.h"
 #import "AppDelegate.h"
 #import "BlankCell.h"
+#import "WeiBoMessageManager.h"
+#import "LikerInfo.h"
 
+@class WeiBoMessageManager;
 @interface LikersViewController : UITableViewController {
+    WeiBoMessageManager *manager;
+    NSString *_cellContentId;
+    BOOL _isRefresh;
+    BOOL isFirst;
 @private
     NSMutableArray *headPhotos;
+    NSMutableArray *likersArray;
 }
+
+@property NSString *cellContentId;
+@property BOOL isRefresh;
 
 -(void)clearCache;
 
