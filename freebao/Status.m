@@ -22,6 +22,7 @@
 @synthesize isRefresh;
 @synthesize homeLineComments;
 @synthesize likeCount;
+@synthesize distance;
 
 -(StatusCDItem*)updateStatusCDItem:(StatusCDItem*)sts index:(int)theIndex isHomeLine:(BOOL) isHome
 {
@@ -44,6 +45,7 @@
     sts.retweetsCount       = [NSNumber numberWithInt:self.retweetsCount];
     sts.source              = self.source;
     sts.sourceUrl           = self.sourceUrl;
+    sts.distance            = self.distance;
     sts.statusId            = [NSNumber numberWithLongLong:self.statusId];
     sts.statusKey           = self.statusKey;
     sts.text                = self.text;
@@ -82,6 +84,7 @@
     self.retweetsCount      = sts.retweetsCount.intValue;
     self.source             = sts.source;
     self.sourceUrl          = sts.sourceUrl;
+    self.distance           = sts.distance;
     self.statusId           = sts.statusId.longLongValue;
     self.statusKey          = sts.statusKey;
     self.text               = sts.text;
@@ -207,6 +210,7 @@
         self.sourceUrl = [dic getStringValueForKey:@"sourceImage" defaultValue:@""];
         commentsCount = [dic getIntValueForKey:@"comment_count" defaultValue:0];
         likeCount = [dic getIntValueForKey:@"like_count" defaultValue:0];
+        distance = [dic getStringValueForKey:@"distance" defaultValue:@"0"];
 //        homeLineCommentCount = 2;
 //        NSLog(@"[levi] comments %@", [dic getStringValueForKey:@"comments" defaultValue:@"[]"]);
         NSArray *aa = [dic objectForKey:@"comments"];

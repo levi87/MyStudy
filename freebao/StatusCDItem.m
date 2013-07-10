@@ -42,6 +42,7 @@
 @dynamic homeLineCommentCount;
 @dynamic homeLineCommentsStr;
 @dynamic likeCount;
+@dynamic distance;
 @dynamic retweetedStatus;
 @dynamic user;
 

@@ -99,4 +99,5 @@
 - (void)setCommentPosition:(CGFloat)height;
 @property (weak, nonatomic) IBOutlet UILabel *likeCount;
 @property (weak, nonatomic) IBOutlet UILabel *comtCount;
+@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @end

@@ -19,6 +19,7 @@
 	NSString*       text; //微博信息内容
 	NSString*       source; //微博来源
 	NSString*		sourceUrl; //微博来源Url
+    NSString*       distance;
     BOOL            favorited; //是否已收藏(正在开发中，暂不支持)
     BOOL            truncated; //是否被截断
 	double			latitude;
@@ -57,6 +58,7 @@
 @property (nonatomic, retain) NSString*     text;
 @property (nonatomic, retain) NSString*     source; 
 @property (nonatomic, retain) NSString*		sourceUrl;
+@property (nonatomic, retain) NSString*       distance;
 @property (nonatomic, assign) BOOL          favorited; //是否已收藏(正在开发中，暂不支持)
 @property (nonatomic, assign) BOOL          truncated; //是否被截断
 @property (nonatomic, assign) double        latitude;

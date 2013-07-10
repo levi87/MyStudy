@@ -42,6 +42,7 @@
 @property (nonatomic, retain) NSNumber * homeLineCommentCount;
 @property (nonatomic, retain) id homeLineCommentsStr;
 @property (nonatomic, retain) NSNumber * likeCount;
+@property (nonatomic, retain) NSString * distance;
 @property (nonatomic, retain) StatusCDItem *retweetedStatus;
 @property (nonatomic, retain) UserCDItem *user;
 

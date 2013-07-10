@@ -50,7 +50,7 @@
 		A274AB7A1783BA11009D9523 /* LikersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB791783BA11009D9523 /* LikersCell.m */; };
 		A274AB871783D2D1009D9523 /* BlankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB861783D2D1009D9523 /* BlankCell.m */; };
 		A274AB8B178405E0009D9523 /* icon-back.png in Resources */ = {isa = PBXBuildFile; fileRef = A274AB8A178405E0009D9523 /* icon-back.png */; };
-		A2B221B9178D0F9C00BCE686 /* StatusCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2B221B8178D0F9C00BCE686 /* StatusCDItem.m */; };
+		A2B221BC178D318300BCE686 /* StatusCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2B221BB178D318300BCE686 /* StatusCDItem.m */; };
 		A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85DD178651C800170907 /* ConversationViewController.m */; };
 		A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE85DE178651C800170907 /* ConversationViewController.xib */; };
 		A2DE85E41786520100170907 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85E31786520100170907 /* ConversationCell.m */; };
@@ -576,8 +576,8 @@
 		A274AB851783D2D1009D9523 /* BlankCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankCell.h; sourceTree = "<group>"; };
 		A274AB861783D2D1009D9523 /* BlankCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlankCell.m; sourceTree = "<group>"; };
 		A274AB8A178405E0009D9523 /* icon-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-back.png"; sourceTree = "<group>"; };
-		A2B221B7178D0F9C00BCE686 /* StatusCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCDItem.h; sourceTree = "<group>"; };
-		A2B221B8178D0F9C00BCE686 /* StatusCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCDItem.m; sourceTree = "<group>"; };
+		A2B221BA178D318300BCE686 /* StatusCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCDItem.h; sourceTree = "<group>"; };
+		A2B221BB178D318300BCE686 /* StatusCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCDItem.m; sourceTree = "<group>"; };
 		A2DE85DC178651C800170907 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A2DE85DD178651C800170907 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A2DE85DE178651C800170907 /* ConversationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
@@ -2822,8 +2822,8 @@
 		DB9FCF50175828C200AE837D /* CDModels */ = {
 			isa = PBXGroup;
 			children = (
-				A2B221B7178D0F9C00BCE686 /* StatusCDItem.h */,
-				A2B221B8178D0F9C00BCE686 /* StatusCDItem.m */,
+				A2B221BA178D318300BCE686 /* StatusCDItem.h */,
+				A2B221BB178D318300BCE686 /* StatusCDItem.m */,
 				A2383E7B178AAB1800BA749F /* UserCDItem.h */,
 				A2383E7C178AAB1800BA749F /* UserCDItem.m */,
 				DB9FCF55175828D200AE837D /* Images.h */,
@@ -3471,7 +3471,7 @@
 				DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */,
 				A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */,
 				A2383E7D178AAB1900BA749F /* UserCDItem.m in Sources */,
-				A2B221B9178D0F9C00BCE686 /* StatusCDItem.m in Sources */,
+				A2B221BC178D318300BCE686 /* StatusCDItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

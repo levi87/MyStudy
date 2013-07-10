@@ -38,6 +38,7 @@
 @synthesize line3Comment = _line3Comment;
 @synthesize likeCount;
 @synthesize comtCount;
+@synthesize distanceLabel;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -246,6 +247,7 @@
     int commentCount = status.commentsCount;
     likeCount.text = [NSString stringWithFormat:@"%d", status.likeCount];
     comtCount.text = [NSString stringWithFormat:@"%d", commentCount];
+    distanceLabel.text = [NSString stringWithFormat:@"%@ km", status.distance];
     if (commentCount > 3) {
         commentCount = 3;
     }

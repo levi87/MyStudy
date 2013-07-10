@@ -151,7 +151,6 @@
     NSArray *cellArr = [self.table visibleCells];
     for (StatusCell *cell in cellArr) {
         if ([cell.reuseIdentifier isEqualToString:@"BlankCell"]) {
-            NSLog(@"[levi] BlankCell");
             return;
         }
         NSIndexPath *inPath = [self.table indexPathForCell:cell];
@@ -310,11 +309,6 @@
     status.cellIndexPath = indexPath;
     cell.delegate = self;
     cell.cellIndexPath = indexPath;
-    if (status.hasImage) {
-        NSLog(@"[levi] has Image");
-    } else {
-        NSLog(@"[levi] has not Image");
-    }
     [cell updateCellTextWith:status];
     if (self.table.dragging == NO && self.table.decelerating == NO)
     {
