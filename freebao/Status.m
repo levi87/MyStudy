@@ -211,8 +211,12 @@
         commentsCount = [dic getIntValueForKey:@"comment_count" defaultValue:0];
         likeCount = [dic getIntValueForKey:@"like_count" defaultValue:0];
         distance = [dic getStringValueForKey:@"distance" defaultValue:@"0"];
-//        homeLineCommentCount = 2;
-//        NSLog(@"[levi] comments %@", [dic getStringValueForKey:@"comments" defaultValue:@"[]"]);
+        int isLiked = [dic getIntValueForKey:@"liked" defaultValue:0];
+        if (isLiked == 0) {
+            favorited = FALSE;
+        } else if (isLiked == 1) {
+            favorited = TRUE;
+        }
         NSArray *aa = [dic objectForKey:@"comments"];
         homeLineComments = aa;
         NSLog(@"[levi] aa count %d , content %@", [aa count], aa);
@@ -279,14 +283,7 @@
         //			self.source = src;
         //		}
         self.source = src;
-		
-		favorited = [dic getBoolValueForKey:@"favorited" defaultValue:NO];
-		truncated = [dic getBoolValueForKey:@"truncated" defaultValue:NO];
-		
-        //		NSDictionary* geoDic = [dic objectForKey:@"geo"];
-        //		if (geoDic && [geoDic isKindOfClass:[NSDictionary class]]) {
-        //			NSArray *coordinates = [geoDic objectForKey:@"coordinates"];
-        //			if (coordinates && coordinates.count == 2) {
+
         longitude = [[dic getStringValueForKey:@"longgitude" defaultValue:@"0"] doubleValue];
         latitude = [[dic getStringValueForKey:@"latitude" defaultValue:@"0"] doubleValue];
         //			}

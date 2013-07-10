@@ -39,6 +39,7 @@
 @synthesize likeCount;
 @synthesize comtCount;
 @synthesize distanceLabel;
+@synthesize addLikeIconImage;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -248,6 +249,7 @@
     likeCount.text = [NSString stringWithFormat:@"%d", status.likeCount];
     comtCount.text = [NSString stringWithFormat:@"%d", commentCount];
     distanceLabel.text = [NSString stringWithFormat:@"%@ km", status.distance];
+    _isLiked = status.favorited;
     if (commentCount > 3) {
         commentCount = 3;
     }
@@ -516,6 +518,17 @@
     } else if ([imageView isEqual:mainImageView]) {
         if ([delegate respondsToSelector:@selector(cellExpandForTranslate:Height:)]) {
             [delegate cellExpandForTranslate:self Height:100];
+        }
+    } else if ([imageView isEqual:addLikeIconImage]) {
+        if ([delegate respondsToSelector:@selector(cellAddLikeDidTaped:)]) {
+            if (_isLiked) {
+                _isLiked = FALSE;
+                likeCount.text = [NSString stringWithFormat:@"%d", [likeCount.text integerValue] - 1];
+            } else {
+                _isLiked = TRUE;
+                likeCount.text = [NSString stringWithFormat:@"%d", [likeCount.text integerValue] + 1];
+            }
+            [delegate cellAddLikeDidTaped:self];
         }
     }
 }

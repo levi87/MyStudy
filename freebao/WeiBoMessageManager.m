@@ -276,6 +276,16 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetMentionsWithUserId:userId Page:page PageSize:pageSize PassId:passId];
 }
 
+//Freebao Like
+-(void)FBAddLikeWithUserId:(NSString *)userId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    [httpManager didFreebaoLikeWithUserId:userId ContentId:aContentId PassId:passId];
+}
+
+//Freebao Unlike
+-(void)FBUnLikeWithUserId:(NSString *)userId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    [httpManager didFreebaounLikeWithUserId:userId ContentId:aContentId PassId:passId];
+}
+
 #pragma mark - WeiBoHttpDelegate
 //获取最新的公共微博
 -(void)didGetPublicTimelineWithStatues:(NSArray *)statusArr

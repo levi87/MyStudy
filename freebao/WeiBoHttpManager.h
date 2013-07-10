@@ -53,6 +53,8 @@
 #define FB_GET_UNREAD_COUNT         @"fb_get_unread_count"
 #define FB_GET_COMMENT              @"fb_get_comment"
 #define FB_GET_MENTION              @"fb_get_mention"
+#define FB_ADD_LIKE                 @"fb_add_like"
+#define FB_UN_LIKE                  @"fb_un_like"
 
 /*
  Freebao
@@ -252,6 +254,8 @@ typedef enum {
     FreebaoGetHomeline,
     FreebaoGetComment,
     FreebaoGetMention,
+    FreebaoLike,
+    FreebaoUnlike,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -482,5 +486,11 @@ typedef enum {
 
 //Freebao获取Mentions
 -(void)didFreebaoGetMentionsWithUserId:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao Like
+-(void)didFreebaoLikeWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao unLike
+-(void)didFreebaounLikeWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 
 @end

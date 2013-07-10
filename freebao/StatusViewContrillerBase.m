@@ -235,6 +235,20 @@
     }
 }
 
+-(void)cellAddLikeDidTaped:(StatusCell *)theCell {
+    Status *status = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
+    if (status.favorited) {
+        [manager FBUnLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:[NSString stringWithFormat:@"%lld",status.statusId] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+        status.likeCount = status.likeCount - 1;
+        status.favorited = FALSE;
+    } else {
+        [manager FBAddLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:[NSString stringWithFormat:@"%lld",status.statusId] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+        status.likeCount = status.likeCount + 1;
+        status.favorited = TRUE;
+    }
+    [statuesArr replaceObjectAtIndex:theCell.cellIndexPath.row withObject:status];
+}
+
 -(void)mmRequestFailed:(id)sender
 {
     [self stopLoading];

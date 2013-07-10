@@ -898,6 +898,30 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoLikeWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:KLikeUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"like.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aContentId     forKey:@"like.contentid"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoLike];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaounLikeWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:KDeletLikeUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"like.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aContentId     forKey:@"like.contentid"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoUnlike];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -1487,6 +1511,24 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_MENTION object:mentions];
         } else {
             NSLog(@"[levi] request Mentions failed...");
+        }
+    }
+    if (requestType == FreebaoLike) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Like Success...");
+//            [[NSNotificationCenter defaultCenter] postNotificationName:FB_ADD_LIKE object:nil];
+        } else {
+            NSLog(@"[levi] request Like failed...");
+        }
+    }
+    if (requestType == FreebaoUnlike) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request UnLike Success...");
+//            [[NSNotificationCenter defaultCenter] postNotificationName:FB_UN_LIKE object:nil];
+        } else {
+            NSLog(@"[levi] request UnLike failed...");
         }
     }
 }

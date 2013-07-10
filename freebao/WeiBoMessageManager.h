@@ -249,4 +249,10 @@
 
 //Freebao获取mentions
 -(void)FBGetMentionsWithUserId:(NSString*)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao Like
+-(void)FBAddLikeWithUserId:(NSString*)userId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao unLike
+-(void)FBUnLikeWithUserId:(NSString*)userId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 @end

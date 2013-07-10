@@ -31,6 +31,8 @@
 
 -(void)cellCommentDidTaped:(StatusCell *)theCell;
 
+-(void)cellAddLikeDidTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>
@@ -54,6 +56,8 @@
     JSTwitterCoreTextView *_line1Comment;
     JSTwitterCoreTextView *_line2Comment;
     JSTwitterCoreTextView *_line3Comment;
+    
+    BOOL _isLiked;
 }
 @property (weak, nonatomic) IBOutlet UIView *bottomBarView;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
@@ -100,4 +104,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeCount;
 @property (weak, nonatomic) IBOutlet UILabel *comtCount;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *addLikeIconImage;
 @end
