@@ -15,7 +15,7 @@
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 6.0
 #define FONT_SIZE 15.0
-#define FONT @"Helvetica"
+#define FONT @"HelveticaNeue-Light"
 
 @class StatusCell;
 

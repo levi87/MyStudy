@@ -13,6 +13,7 @@
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
+#define FONT @"HelveticaNeue-Light"
 
 @interface HomeLineViewController ()
 -(void)timerOnActive;
@@ -48,6 +49,7 @@
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
     tittleLabel.text = @"Freebao";
+    [tittleLabel setFont:[UIFont fontWithName:FONT size:15]];
     tittleLabel.textColor = [UIColor whiteColor];
     [TittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
