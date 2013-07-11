@@ -54,6 +54,10 @@
 		A2B221CD178D4E5500BCE686 /* sex-female.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B221CB178D4E5500BCE686 /* sex-female.png */; };
 		A2B221CE178D4E5500BCE686 /* sex-male.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B221CC178D4E5500BCE686 /* sex-male.png */; };
 		A2DAFEA3178E426200B40D24 /* con-liked.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEA2178E426200B40D24 /* con-liked.png */; };
+		A2DAFEC2178E64C400B40D24 /* DeleteGrey.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEBE178E64C400B40D24 /* DeleteGrey.png */; };
+		A2DAFEC3178E64C400B40D24 /* DeleteGrey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */; };
+		A2DAFEC4178E64C400B40D24 /* DeleteRed.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEC0178E64C400B40D24 /* DeleteRed.png */; };
+		A2DAFEC5178E64C400B40D24 /* DeleteRed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEC1178E64C400B40D24 /* DeleteRed@2x.png */; };
 		A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85DD178651C800170907 /* ConversationViewController.m */; };
 		A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE85DE178651C800170907 /* ConversationViewController.xib */; };
 		A2DE85E41786520100170907 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85E31786520100170907 /* ConversationCell.m */; };
@@ -585,6 +589,10 @@
 		A2B221CB178D4E5500BCE686 /* sex-female.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex-female.png"; sourceTree = "<group>"; };
 		A2B221CC178D4E5500BCE686 /* sex-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex-male.png"; sourceTree = "<group>"; };
 		A2DAFEA2178E426200B40D24 /* con-liked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-liked.png"; sourceTree = "<group>"; };
+		A2DAFEBE178E64C400B40D24 /* DeleteGrey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteGrey.png; sourceTree = "<group>"; };
+		A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteGrey@2x.png"; sourceTree = "<group>"; };
+		A2DAFEC0178E64C400B40D24 /* DeleteRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteRed.png; sourceTree = "<group>"; };
+		A2DAFEC1178E64C400B40D24 /* DeleteRed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteRed@2x.png"; sourceTree = "<group>"; };
 		A2DE85DC178651C800170907 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A2DE85DD178651C800170907 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A2DE85DE178651C800170907 /* ConversationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
@@ -2372,6 +2380,10 @@
 		DB6433B617585A03005CAD2F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A2DAFEBE178E64C400B40D24 /* DeleteGrey.png */,
+				A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */,
+				A2DAFEC0178E64C400B40D24 /* DeleteRed.png */,
+				A2DAFEC1178E64C400B40D24 /* DeleteRed@2x.png */,
 				A2B221CB178D4E5500BCE686 /* sex-female.png */,
 				A2B221CC178D4E5500BCE686 /* sex-male.png */,
 				A23631E51785674100BA0DED /* icon-contury01.png */,
@@ -3233,6 +3245,10 @@
 				A2B221CD178D4E5500BCE686 /* sex-female.png in Resources */,
 				A2B221CE178D4E5500BCE686 /* sex-male.png in Resources */,
 				A2DAFEA3178E426200B40D24 /* con-liked.png in Resources */,
+				A2DAFEC2178E64C400B40D24 /* DeleteGrey.png in Resources */,
+				A2DAFEC3178E64C400B40D24 /* DeleteGrey@2x.png in Resources */,
+				A2DAFEC4178E64C400B40D24 /* DeleteRed.png in Resources */,
+				A2DAFEC5178E64C400B40D24 /* DeleteRed@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

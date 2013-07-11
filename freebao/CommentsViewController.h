@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "BlankCell.h"
 
-@interface CommentsViewController : UITableViewController {
+@interface CommentsViewController : UITableViewController <RMSwipeTableViewCellDelegate>{
 @private
     NSMutableArray *headPhotos;
 }

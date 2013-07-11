@@ -167,7 +167,7 @@
     if (cell == nil) {
         cell = [[CommentsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    cell.delegate = self;
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     return cell;
@@ -235,6 +235,60 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+#pragma mark - Swipe Table View Cell Delegate
+
+-(void)swipeTableViewCellDidStartSwiping:(CommentsCell *)swipeTableViewCell {
+
+}
+
+-(void)swipeTableViewCell:(CommentsCell *)swipeTableViewCell didSwipeToPoint:(CGPoint)point velocity:(CGPoint)velocity {
+
+}
+
+-(void)swipeTableViewCellWillResetState:(CommentsCell *)swipeTableViewCell fromPoint:(CGPoint)point animation:(RMSwipeTableViewCellAnimationType)animation velocity:(CGPoint)velocity {
+    if (point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
+        NSLog(@"[levi]...mmmmmmm");
+//        NSIndexPath *indexPath = [self.tableView indexPathForCell:swipeTableViewCell];
+//        if ([[[self.array objectAtIndex:indexPath.row] objectForKey:@"isFavourite"] boolValue]) {
+//            [[self.array objectAtIndex:indexPath.row] setObject:@NO forKey:@"isFavourite"];
+//        } else {
+//            [[self.array objectAtIndex:indexPath.row] setObject:@YES forKey:@"isFavourite"];
+//        }
+//        [(RMPersonTableViewCell*)swipeTableViewCell setFavourite:[[[self.array objectAtIndex:indexPath.row] objectForKey:@"isFavourite"] boolValue] animated:YES];
+    } else if (point.x < 0 && -point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
+        swipeTableViewCell.shouldAnimateCellReset = YES;
+        NSLog(@"[levi]...nnnnnn");
+//        [[(RMPersonTableViewCell*)swipeTableViewCell checkmarkGreyImageView] removeFromSuperview];
+        [UIView animateWithDuration:0.25
+                              delay:0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+//                             swipeTableViewCell.contentView.frame = CGRectOffset(swipeTableViewCell.contentView.bounds, swipeTableViewCell.contentView.frame.size.width, 0);
+                             swipeTableViewCell.contentView.frame = CGRectMake(0, 0, swipeTableViewCell.contentView.frame.size.width, swipeTableViewCell.contentView.frame.size.height);
+                         }
+                         completion:^(BOOL finished) {
+//                             [swipeTableViewCell.contentView setHidden:YES];
+//                             NSIndexPath *indexPath = [self.tableView indexPathForCell:swipeTableViewCell];
+//                             [self.array removeObjectAtIndex:indexPath.row];
+//                             [self.tableView beginUpdates];
+//                             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                             [self.tableView endUpdates];
+                         }
+         ];
+    }
+}
+
+-(void)swipeTableViewCellDidResetState:(CommentsCell *)swipeTableViewCell fromPoint:(CGPoint)point animation:(RMSwipeTableViewCellAnimationType)animation velocity:(CGPoint)velocity {
+    if (point.x < 0 && -point.x > CGRectGetHeight(swipeTableViewCell.frame)) {
+        NSLog(@"[levi]...ppooooo");
+//        NSIndexPath *indexPath = [self.tableView indexPathForCell:swipeTableViewCell];
+//        [self.array removeObjectAtIndex:indexPath.row];
+//        [self.tableView beginUpdates];
+//        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        [self.tableView endUpdates];
+    }
 }
 
 @end
