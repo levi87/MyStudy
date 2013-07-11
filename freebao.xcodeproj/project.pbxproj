@@ -58,6 +58,7 @@
 		A2DAFEC3178E64C400B40D24 /* DeleteGrey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */; };
 		A2DAFEC4178E64C400B40D24 /* DeleteRed.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEC0178E64C400B40D24 /* DeleteRed.png */; };
 		A2DAFEC5178E64C400B40D24 /* DeleteRed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEC1178E64C400B40D24 /* DeleteRed@2x.png */; };
+		A2DAFED3178E91C100B40D24 /* CustomActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DAFED2178E91C100B40D24 /* CustomActionSheet.m */; };
 		A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85DD178651C800170907 /* ConversationViewController.m */; };
 		A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE85DE178651C800170907 /* ConversationViewController.xib */; };
 		A2DE85E41786520100170907 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85E31786520100170907 /* ConversationCell.m */; };
@@ -593,6 +594,8 @@
 		A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteGrey@2x.png"; sourceTree = "<group>"; };
 		A2DAFEC0178E64C400B40D24 /* DeleteRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteRed.png; sourceTree = "<group>"; };
 		A2DAFEC1178E64C400B40D24 /* DeleteRed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteRed@2x.png"; sourceTree = "<group>"; };
+		A2DAFED1178E91C100B40D24 /* CustomActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomActionSheet.h; sourceTree = "<group>"; };
+		A2DAFED2178E91C100B40D24 /* CustomActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomActionSheet.m; sourceTree = "<group>"; };
 		A2DE85DC178651C800170907 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A2DE85DD178651C800170907 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A2DE85DE178651C800170907 /* ConversationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
@@ -2880,6 +2883,8 @@
 				DB9FCF5E175828F400AE837D /* NSDictionaryAdditions.m */,
 				DB9FCF5F175828F400AE837D /* NSStringAdditions.h */,
 				DB9FCF60175828F400AE837D /* NSStringAdditions.m */,
+				A2DAFED1178E91C100B40D24 /* CustomActionSheet.h */,
+				A2DAFED2178E91C100B40D24 /* CustomActionSheet.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3506,6 +3511,7 @@
 				A2383E7D178AAB1900BA749F /* UserCDItem.m in Sources */,
 				A2B221BC178D318300BCE686 /* StatusCDItem.m in Sources */,
 				DB9ED69E178D991F00323E4B /* LikerInfo.m in Sources */,
+				A2DAFED3178E91C100B40D24 /* CustomActionSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

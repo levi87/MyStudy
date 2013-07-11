@@ -260,6 +260,10 @@
     } else if (point.x < 0 && -point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
         swipeTableViewCell.shouldAnimateCellReset = YES;
         NSLog(@"[levi]...nnnnnn");
+        CustomActionSheet *as = [[CustomActionSheet alloc] init];
+        [as addButtonWithTitle:@"举报"];
+        [as addButtonWithTitle:@"删除"];
+        [as showInView:self.view];
 //        [[(RMPersonTableViewCell*)swipeTableViewCell checkmarkGreyImageView] removeFromSuperview];
         [UIView animateWithDuration:0.25
                               delay:0

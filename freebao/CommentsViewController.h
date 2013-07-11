@@ -10,6 +10,7 @@
 #import "CommentsCell.h"
 #import "AppDelegate.h"
 #import "BlankCell.h"
+#import "CustomActionSheet.h"
 
 @interface CommentsViewController : UITableViewController <RMSwipeTableViewCellDelegate>{
 @private
