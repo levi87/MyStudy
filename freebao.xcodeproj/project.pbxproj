@@ -53,6 +53,7 @@
 		A2B221BC178D318300BCE686 /* StatusCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2B221BB178D318300BCE686 /* StatusCDItem.m */; };
 		A2B221CD178D4E5500BCE686 /* sex-female.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B221CB178D4E5500BCE686 /* sex-female.png */; };
 		A2B221CE178D4E5500BCE686 /* sex-male.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B221CC178D4E5500BCE686 /* sex-male.png */; };
+		A2DAFEA3178E426200B40D24 /* con-liked.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEA2178E426200B40D24 /* con-liked.png */; };
 		A2DE85DF178651C800170907 /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85DD178651C800170907 /* ConversationViewController.m */; };
 		A2DE85E0178651C800170907 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2DE85DE178651C800170907 /* ConversationViewController.xib */; };
 		A2DE85E41786520100170907 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2DE85E31786520100170907 /* ConversationCell.m */; };
@@ -583,6 +584,7 @@
 		A2B221BB178D318300BCE686 /* StatusCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCDItem.m; sourceTree = "<group>"; };
 		A2B221CB178D4E5500BCE686 /* sex-female.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex-female.png"; sourceTree = "<group>"; };
 		A2B221CC178D4E5500BCE686 /* sex-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex-male.png"; sourceTree = "<group>"; };
+		A2DAFEA2178E426200B40D24 /* con-liked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-liked.png"; sourceTree = "<group>"; };
 		A2DE85DC178651C800170907 /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A2DE85DD178651C800170907 /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A2DE85DE178651C800170907 /* ConversationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
@@ -2375,6 +2377,7 @@
 				A23631E51785674100BA0DED /* icon-contury01.png */,
 				A23631D417854E1900BA0DED /* con-comment.png */,
 				A23631D517854E1900BA0DED /* con-like.png */,
+				A2DAFEA2178E426200B40D24 /* con-liked.png */,
 				A23631D617854E1900BA0DED /* con-location.png */,
 				A23631D717854E1900BA0DED /* con-moredo.png */,
 				A23631D817854E1900BA0DED /* con-speek.png */,
@@ -3229,6 +3232,7 @@
 				DB1B1E571789396900B90C75 /* Voice@2x.png in Resources */,
 				A2B221CD178D4E5500BCE686 /* sex-female.png in Resources */,
 				A2B221CE178D4E5500BCE686 /* sex-male.png in Resources */,
+				A2DAFEA3178E426200B40D24 /* con-liked.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

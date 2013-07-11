@@ -250,6 +250,11 @@
     comtCount.text = [NSString stringWithFormat:@"%d", commentCount];
     distanceLabel.text = [NSString stringWithFormat:@"%@ km", status.distance];
     _isLiked = status.favorited;
+    if (status.favorited) {
+        addLikeIconImage.image = [UIImage imageNamed:@"con-liked.png"];
+    } else {
+        addLikeIconImage.image = [UIImage imageNamed:@"con-like.png"];
+    }
     if (commentCount > 3) {
         commentCount = 3;
     }
@@ -524,9 +529,11 @@
             if (_isLiked) {
                 _isLiked = FALSE;
                 likeCount.text = [NSString stringWithFormat:@"%d", [likeCount.text integerValue] - 1];
+                addLikeIconImage.image = [UIImage imageNamed:@"con-like.png"];
             } else {
                 _isLiked = TRUE;
                 likeCount.text = [NSString stringWithFormat:@"%d", [likeCount.text integerValue] + 1];
+                addLikeIconImage.image = [UIImage imageNamed:@"con-liked.png"];
             }
             [delegate cellAddLikeDidTaped:self];
         }
