@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommentInfo.h"
 
 typedef NS_ENUM(NSUInteger, RMSwipeTableViewCellRevealDirection) {
     RMSwipeTableViewCellRevealDirectionNone = -1, // disables panning
@@ -29,6 +30,7 @@ typedef NS_ENUM(NSUInteger, RMSwipeTableViewCellAnimationType) {
 @interface CommentsCell : UITableViewCell <UIGestureRecognizerDelegate>{
 @private
     EGOImageView* headImageView;
+    UILabel *nickNameLabel;
 }
 
 @property (nonatomic, strong) UIImageView *deleteGreyImageView;
@@ -54,6 +56,10 @@ typedef NS_ENUM(NSUInteger, RMSwipeTableViewCellAnimationType) {
 -(void)resetCellFromPoint:(CGPoint)point velocity:(CGPoint)velocity;
 -(UIView*)backView;
 -(void)cleanupBackView;
+
+- (void)setCellLayout;
+
+-(void)setCellValue:(CommentInfo *)info;
 
 @end
 

@@ -326,7 +326,11 @@
 -(void)cellCommentDidTaped:(StatusCell *)theCell {
     if (commentVC == nil) {
         commentVC = [[CommentsViewController alloc] init];
+    } else {
+        [commentVC setIsRefresh:YES];
     }
+    Status *tmpS = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
+    commentVC.cellContentId = [NSString stringWithFormat:@"%lld", tmpS.statusId];
     tittleLabel.text = @"Comments";
     backButton.hidden = NO;
     [self.navigationController pushViewController:commentVC animated:YES];

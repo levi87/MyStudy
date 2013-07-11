@@ -245,7 +245,7 @@
 -(void)FBGetHomeline:(NSString*)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 //Freebao获取微博评论
--(void)FBGetCommentWithHomelineId:(NSInteger)StatusId StatusType:(NSString*)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+-(void)FBGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString*)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 //Freebao获取mentions
 -(void)FBGetMentionsWithUserId:(NSString*)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;

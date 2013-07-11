@@ -484,7 +484,7 @@ typedef enum {
 -(void)didFreebaoGetHomeline:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 //Freebao获取微博评论
--(void)didFreebaoGetCommentWithHomelineId :(NSInteger)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;
+-(void)didFreebaoGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;
 
 //Freebao获取Mentions
 -(void)didFreebaoGetMentionsWithUserId:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;

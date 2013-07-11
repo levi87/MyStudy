@@ -84,7 +84,7 @@
 - (Comment*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
     
 	if (self = [super init]) {
-        NSLog(@"[levi]comment item %@", dic);
+//        NSLog(@"[levi]comment item %@", dic);
 		commentId = [dic getLongLongValueValueForKey:@"commentId" defaultValue:-1];
 		commentKey = [[NSNumber alloc]initWithLongLong:commentId];
 		createdAt = [dic getTimeValueForKey:@"historyInfo" defaultValue:0];

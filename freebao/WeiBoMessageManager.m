@@ -267,7 +267,7 @@ static WeiBoMessageManager * instance=nil;
 }
 
 //Freebao 获取微博评论
--(void)FBGetCommentWithHomelineId:(NSInteger)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+-(void)FBGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
     [httpManager didFreebaoGetCommentWithHomelineId:StatusId StatusType:statusType Page:page PageSize:pageSize PassId:passId];
 }
 

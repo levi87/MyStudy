@@ -10,6 +10,9 @@
 #import "EGOImageView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define FONT_SIZE 15.0
+#define FONT @"HelveticaNeue-Light"
+
 @implementation CommentsCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -17,11 +20,38 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
-		headImageView.frame = CGRectMake(4.0f, 0.0f, 72.0f, 72.0f);
+		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
+        nickNameLabel = [[UILabel alloc] init];
+        nickNameLabel.frame = CGRectMake(58, 9, 80, 13);
+        nickNameLabel.text = @"levi";
+        nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
+        [self.contentView addSubview:nickNameLabel];
         [self initialize];
     }
     return self;
+}
+
+-(void)setCellLayout {
+    CGRect frame = headImageView.frame;
+    frame.origin.y += 44;
+    headImageView.frame = frame;
+    
+    frame = nickNameLabel.frame;
+    frame.origin.y += 44;
+    nickNameLabel.frame = frame;
+}
+
+-(void)setCellValue:(CommentInfo *)info {
+    NSLog(@".........");
+    nickNameLabel.text = info.nickName;
+    //    if ([info.sex integerValue] == 0) {
+    //        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
+    //    } else {
+    //        sexImageV.image = [UIImage imageNamed:@"sex-female.png"];
+    //    }
+    //    ageLabel.text = info.age;
+    //    city.text = info.city;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder

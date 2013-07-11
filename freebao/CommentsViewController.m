@@ -17,6 +17,8 @@
 @end
 
 @implementation CommentsViewController
+@synthesize cellContentId = _cellContentId;
+@synthesize isRefresh = _isRefresh;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,12 +29,39 @@
     return self;
 }
 
+- (void)viewDidUnload {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)didGetComments:(NSNotification*)notification {
+    NSMutableArray *tmpArray = notification.object;
+    NSLog(@"tmpArray Array %@", tmpArray);
+    [commentsArray removeAllObjects];
+    headPhotos = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [tmpArray count]; i ++) {
+        NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
+        CommentInfo *tmpInfo = [[CommentInfo alloc] init];
+        tmpInfo.nickName = [tmpDic objectForKey:@"nickname"];
+        [commentsArray addObject:tmpInfo];
+        [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
+    }
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _isRefresh = FALSE;
+    isFirst = TRUE;
+    
+    commentsArray = [[NSMutableArray alloc] init];
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
+    [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 
     headPhotos = [[NSMutableArray alloc] initWithObjects:
-                  @"",
                   @"http://farm4.static.flickr.com/3483/4017988903_84858e0e6e_s.jpg",
                   @"http://farm3.static.flickr.com/2436/4015786038_7b530f9cce_s.jpg",
                   @"http://farm3.static.flickr.com/2643/4025878602_85f7cd1724_s.jpg",
@@ -139,34 +168,29 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [headPhotos count];
+    return [commentsArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        static NSString *CellIdentifier = @"BlankCell";
-        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        }
-        return cell;
-    }
-    
     static NSString *CellIdentifier = @"CommentsCell";
     CommentsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[CommentsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    if (indexPath.row == 0 && isFirst) {
+        isFirst = FALSE;
+        [cell setCellLayout];
+    }
+    [cell setCellValue:(CommentInfo*)[commentsArray objectAtIndex:indexPath.row]];
+    [cell setSelectionStyle:UITableViewCellEditingStyleNone];
     cell.delegate = self;
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
@@ -175,13 +199,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return 44;
+        return 102;
     }
-    return 72;
+    return 58;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     //    [KAppDelegate.tabBarVC.tabbar setHide:YES];
+    if (_isRefresh) {
+        [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 

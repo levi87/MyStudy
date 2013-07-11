@@ -328,7 +328,7 @@ enum  {
     [center addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
     if (self.commentArr == nil) {
 //        [manager getCommentListWithID:status.statusId maxID:nil page:1];
-        [manager FBGetCommentWithHomelineId:status.statusId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+//        [manager FBGetCommentWithHomelineId:status.statusId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 //        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
     }
 }

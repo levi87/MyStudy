@@ -852,7 +852,7 @@
     [requestQueue addOperation:item];
 }
 
-- (void)didFreebaoGetCommentWithHomelineId:(NSInteger)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+- (void)didFreebaoGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
     NSURL *url;
     NSInteger statusT = [statusType integerValue];
     if (statusT == 0) {
@@ -861,13 +861,12 @@
         url = [NSURL URLWithString:kCityInformationFindCommentsUrl];
     }
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
-    self.authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
     
     [item setPostValue:passId      forKey:@"passId"];
     if (statusT == 0) {
-        [item setPostValue:[NSNumber numberWithInteger:StatusId]     forKey:@"query.contentId"];
+        [item setPostValue:StatusId     forKey:@"query.contentId"];
     } else {
-        [item setPostValue:[NSNumber numberWithInteger:StatusId]     forKey:@"comment.contentId"];
+        [item setPostValue:StatusId     forKey:@"comment.contentId"];
     }
     if (statusT == 0) {
         [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
@@ -1474,6 +1473,7 @@
         NSMutableDictionary *tmpDic = returnObject;
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request Comments Success...");
+            NSLog(@"[levi] result %@", tmpDic);
             NSDictionary *currentPageInfo = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"currentPageInfo"];
             NSArray         *arrComment = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"contentCommentsList"];
             NSNumber        *count      = [currentPageInfo objectForKey:@"returnCount"];
@@ -1481,13 +1481,13 @@
                 return;
             }
             
-            NSMutableArray  *commentArr = [[NSMutableArray alloc]initWithCapacity:0];
-            for (id item in arrComment) {
-                Comment *comm = [Comment commentWithJsonDictionaryFreebao:item];
-                [commentArr addObject:comm];
-            }
-            NSDictionary *commentDic = [NSDictionary dictionaryWithObjectsAndKeys:commentArr,@"commentArrary",count,@"count", nil];
-            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_COMMENT object:commentDic];
+//            NSMutableArray  *commentArr = [[NSMutableArray alloc]initWithCapacity:0];
+//            for (id item in arrComment) {
+//                Comment *comm = [Comment commentWithJsonDictionaryFreebao:item];
+//                [commentArr addObject:comm];
+//            }
+//            NSDictionary *commentDic = [NSDictionary dictionaryWithObjectsAndKeys:commentArr,@"commentArrary",count,@"count", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_COMMENT object:arrComment];
         } else {
             NSLog(@"[levi] request Comments failed...");
         }

@@ -11,11 +11,22 @@
 #import "AppDelegate.h"
 #import "BlankCell.h"
 #import "CustomActionSheet.h"
+#import "WeiBoMessageManager.h"
+#import "CommentInfo.h"
 
+@class WeiBoMessageManager;
 @interface CommentsViewController : UITableViewController <RMSwipeTableViewCellDelegate>{
+    WeiBoMessageManager *manager;
+    NSString *_cellContentId;
+    BOOL _isRefresh;
+    BOOL isFirst;
 @private
     NSMutableArray *headPhotos;
+    NSMutableArray *commentsArray;
 }
+
+@property NSString *cellContentId;
+@property BOOL isRefresh;
 
 -(void)clearCache;
 
