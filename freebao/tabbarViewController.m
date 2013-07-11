@@ -89,10 +89,14 @@
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:MesVC];
     nav3.navigationBar.tintColor = [UIColor blackColor];
     
+    MoreViewController *MoreVC = [[MoreViewController alloc] initWithNibName:@"MoreViewController" bundle:nil];
+    UINavigationController *nav5 = [[UINavigationController alloc] initWithRootViewController:MoreVC];
+    [nav5.navigationBar setHidden:YES];
+    
     tabBarItems = [NSArray arrayWithObjects:
                    [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav1, @"viewController",@"主页",@"title", nil],
                    [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav2, @"viewController",@"主页",@"title", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav3, @"viewController",@"主页",@"title", nil],nil];
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"tabicon_home", @"image",@"tabicon_home", @"image_locked", nav5, @"viewController",@"主页",@"title", nil],nil];
     return tabBarItems;
     
 }

@@ -84,6 +84,28 @@ enum {
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetUserInfo:)    name:MMSinaGotUserInfo          object:nil];
+    UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tittleLabel.textAlignment = UITextAlignmentCenter;
+    [tittleLabel setBackgroundColor:[UIColor clearColor]];
+    tittleLabel.text = @"More";
+    tittleLabel.textColor = [UIColor whiteColor];
+    [TittleView addSubview: tittleLabel];
+    tittleLabel.center = CGPointMake(160, 22);
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 7, 12)];
+    backButton.titleLabel.text = @"Back";
+    backButton.titleLabel.textColor = [UIColor blackColor];
+    [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
+    [imgV setFrame:CGRectMake(0, 0, 7, 12)];
+    [backButton addSubview:imgV];
+    UIView *TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+    [self.navigationController.view addSubview:TittleView];
+    [self.navigationController.view addSubview:TittleLineView];
+    [self.navigationController.view addSubview:backButton];
+    backButton.hidden = YES;
 }
 
 - (void)viewDidUnload
@@ -103,7 +125,7 @@ enum {
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return kSectionsSize;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -123,7 +145,6 @@ enum {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger row = indexPath.row;
-    NSInteger section = indexPath.section;
     
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -134,56 +155,6 @@ enum {
     }
     // Configure the cell...
     
-    if (section == kAccountSection) {
-        if (row == kCurrentUser) {
-//            NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_USER_NAME];
-            cell.textLabel.text = @"我的资料";
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-        else if (row == kRecUser) {
-            cell.textLabel.text = @"推荐用户";
-        }
-        
-        else if (row == kInvUser) {
-            cell.textLabel.text = @"好友邀请";
-        }
-        
-        else if (row == kCircle) {
-            cell.textLabel.text = @"圈子";
-        }
-        
-        else if (row == kSearch) {
-            cell.textLabel.text = @"搜索";
-        }
-        else if (row == kCleanCache) {
-            cell.textLabel.text = @"清空缓存";
-        }
-    }
-    
-    else if (section == kStatusSection) {
-        if (row == kHotStatus) {
-            cell.textLabel.text = @"意见反馈";
-        }
-        
-        else if (row == kHotRetwitted) {
-            cell.textLabel.text = @"关于";
-        }
-        
-        else if (row == kHotTrends) {
-            cell.textLabel.text = @"声音和震动设置";
-        }
-        
-//        else if (row == kMetionsStatuses) {
-//            cell.textLabel.text = @"@我";
-//        }
-    }
-    
-    else if (section == kSectionsCount) {
-        if (row == kLogin) {
-            cell.textLabel.text = @"注销";
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-    }
     cell.image = [UIImage imageNamed:@"profile_icon"];
     return cell;
 }

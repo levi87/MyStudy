@@ -147,6 +147,8 @@
             [_button_3 setBackgroundColor:[UIColor clearColor]];
             [_button_1 setBackgroundColor:[UIColor clearColor]];
             [_button_center setBackgroundColor:[UIColor clearColor]];
+            
+            [self.delegate touchBtnAtIndex:2];
             break;
         case 105:
             [_button_center setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];

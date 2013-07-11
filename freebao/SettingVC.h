@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingVC : UITableViewController<UIAlertViewDelegate>
+@interface SettingVC : UITableViewController<UIAlertViewDelegate> {
+    UILabel *tittleLabel;
+    UIButton *backButton;
+}
 
 @end
