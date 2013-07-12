@@ -22,13 +22,9 @@
 + (void)deleteNoticeByID:(int)aID;
 + (void)changeIsReadByUerid:(int )aid;
 
-- (void)createTableChat:(FMDatabase *)db;
-- (void)createTableMessage:(FMDatabase *)db;
+//- (void)createTableMessage:(FMDatabase *)db;
 
-+ (NSInteger)insertChatLast:(NSString *)fromId ToId:(NSString *)toId Type:(NSString *)type nickName:(NSString *)nickname last_date:(NSString *)last_date face_path:(NSString *)facepath body:(NSString *)body postType:(NSString *)postType disTance:(NSString *)distance UserId:(NSString *)userid;
-+ (NSInteger)insertMessageLast:(NSString *)fromId ToId:(NSString *)toId Type:(NSString *)type nickName:(NSString *)nickname last_date:(NSString *)last_date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString*)language;
-
-+ (NSInteger)insertBothLast:(NSString *)fromId ToId:(NSString *)toId Type:(NSString *)type nickName:(NSString *)nickname last_date:(NSString *)last_date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString*)language disTance:(NSString *)distance;
++ (NSInteger)insertMessageLast:(NSString *)fromId Type:(NSString *)type nickName:(NSString *)nickname date:(NSString*)date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString*)language fail:(NSString*)fail userId:(NSString*)userId bData:(NSData*)data;
 
 - (void)createTableLocalWeibo:(FMDatabase *)db;
 + (NSInteger)saveWeibo:(NSString *)shareType FileType:(NSString *)fileType MediaBody:(NSString *)mediaBody SongUrl:(NSString *)songUrl AllowComment:(NSString *)allowComment

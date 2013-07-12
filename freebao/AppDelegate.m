@@ -476,7 +476,11 @@
 		                                               managedObjectContext:[self managedObjectContext_roster]];
 		
 		NSString *body = [[message elementForName:@"body"] stringValue];
+        NSString *date = [[message elementForName:@"date"] stringValue];
+        NSString *postType = [[message elementForName:@"postType"] stringValue];
+        NSString *language = [[message elementForName:@"language"] stringValue];
 		NSString *displayName = [user displayName];
+        NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
         
 		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
 		{

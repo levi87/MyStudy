@@ -11,6 +11,8 @@
 #import "UIBubbleTableViewDataSource.h"
 #import "NSBubbleData.h"
 #import "UIView+AnimationOptionsForCurve.h"
+#import "AppDelegate.h"
+#define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
@@ -82,6 +84,44 @@
 
 -(void)sendTextAction:(NSString *)inputText Frame:(CGRect)frame {
     NSLog(@"[ssss]");
+    //生成<body>文档
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:inputText];
+    
+    //生成XML消息文档
+    NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
+    //消息类型
+    [mes addAttributeWithName:@"type" stringValue:@"chat"];
+    //发送给谁
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    //发送者
+    NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
+    [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
+    //语音时长
+    NSXMLElement *voiceLength = [NSXMLElement elementWithName:@"voiceLength"];
+    [voiceLength setStringValue:@"10"];
+    //头像Url
+    NSXMLElement *headIconUrl = [NSXMLElement elementWithName:@"headIconUrl"];
+    [headIconUrl setStringValue:@"http://www.freebao.com/head.img"];
+    //发送时间
+    NSXMLElement *date = [NSXMLElement elementWithName:@"date"];
+    [date setStringValue:@"2013-07-12"];
+    //发送类型
+    NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
+    [type setStringValue:@"1"];
+    //语言
+    NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
+    [language setStringValue:@"zh_CN"];
+    //组合
+    [mes addChild:body];
+    [mes addChild:fromId];
+    [mes addChild:voiceLength];
+    [mes addChild:headIconUrl];
+    [mes addChild:date];
+    [mes addChild:type];
+    [mes addChild:language];
+    [KAppDelegate.xmppStream sendElement:mes];
     [UIView animateWithDuration:0.2 animations:^{
         [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
     }completion:^(BOOL finished){

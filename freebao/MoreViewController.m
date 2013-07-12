@@ -75,6 +75,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     NSInteger row = indexPath.row;
     static NSString *CellIdentifier = @"Cell";
     MoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];

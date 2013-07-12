@@ -41,21 +41,13 @@ static FMDatabaseQueue *dbQueen = nil;
     }
 }
 
--(void)createTableChat:(FMDatabase *)db {
-    if (![db tableExists:@"ChatLast"]) {
-        NSString *createChatSql = @"CREATE TABLE IF NOT EXISTS ChatLast (ID INTEGER PRIMARY KEY,BRAND TEXT,TO_ID TEXT,Type TEXT ,NICKNAME TEXT,LASTDATA TEXT,FACEPATH TEXT,BODY TEXT,POSTTYPE TEXT,USERID TEXT,DISTANCE TEXT,LANGUAGE TEXT);";
-        
-        [db executeUpdate:createChatSql];
-    }
-}
-
--(void)createTableMessage:(FMDatabase *)db {
-    if (![db tableExists:@"message"]) {
-        NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,BRAND TEXT,TO_ID TEXT,Type TEXT ,NICKNAME TEXT,LASTDATA TEXT,FACEPATH TEXT,BODY TEXT, VOICETIME TEXT,POSTTYPE TEXT, IS_SELF TEXT,USERID TEXT,LANGUAGE TEXT NOT NULL DEFAULT 0);";
-        
-        [db executeUpdate:createMessageSql];
-    }
-}
+//-(void)createTableMessage:(FMDatabase *)db {
+//    if(![db tableExists:[NSString stringWithFormat:@"%@MessageLast", userId]]) {
+//        NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,FROM_USERID TEXT, NICK_NAME TEXT,IS_SELF TEXT NOT NULL DEFAULT 0,DATE TEXT NOT NULL DEFAULT 0,FACE_PATH TEXT NOT NULL DEFAULT 0 ,VOICE_TIME TEXT NOT NULL DEFAULT 0,FAIL TEXT NOT NULL DEFAULT 0,BODY TEXT NOT NULL DEFAULT 0, TYPE TEXT NOT NULL DEFAULT 0,LANGUAGE TEXT NOT NULL DEFAULT 0,POST_TYPE TEXT NOT NULL DEFAULT 0, B_DATA DATA);";
+//        
+//        [db executeUpdate:createMessageSql];
+//    }
+//}
 
 -(void)createTableBadge:(FMDatabase *)db {
     if (![db tableExists:@"badge"]) {
@@ -139,7 +131,7 @@ static FMDatabaseQueue *dbQueen = nil;
     return count;
 }
 
-+(NSInteger)insertChatLast:(NSString *)fromId ToId:(NSString *)toId Type:(NSString *)type nickName:(NSString *)nickname last_date:(NSString *)last_date face_path:(NSString *)facepath body:(NSString *)body postType:(NSString *)postType disTance:(NSString *)distance UserId:(NSString *)userid {
++(NSInteger)insertMessageLast:(NSString *)fromId Type:(NSString *)type nickName:(NSString *)nickname date:(NSString *)date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString *)language fail:(NSString *)fail userId:(NSString *)userId bData:(NSData *)data{
     if (!dbQueen)
     {
         [self createDB];
@@ -151,110 +143,12 @@ static FMDatabaseQueue *dbQueen = nil;
         if ([db open]) {
             [db setShouldCacheStatements:YES];
             
-            if(![db tableExists:@"ChatLast"])
-            {
-                NSString *createChatSql = @"CREATE TABLE IF NOT EXISTS ChatLast (ID INTEGER PRIMARY KEY,BRAND TEXT,TO_ID TEXT,Type TEXT ,NICKNAME TEXT,LASTDATA TEXT,FACEPATH TEXT,BODY TEXT,POSTTYPE TEXT,USERID TEXT,DISTANCE TEXT,LANGUAGE TEXT);";
-                
-                [db executeUpdate:createChatSql];
-            }
-            NSString *language=@"0";
-            
-            FMResultSet *resultSet = [db executeQuery:@"select * from ChatLast WHERE (TO_ID = ? OR BRAND = ?) AND (BRAND = ? OR TO_ID = ?) AND USERID = ?", toId, toId, fromId, fromId, userid];
-            if ([resultSet next]) {
-                //有记录
-                count = [db executeUpdate:@"UPDATE ChatLast SET BRAND = ? ,TO_ID = ?,Type = ?,NICKNAME = ?,LASTDATA = ?,FACEPATH = ?, BODY = ?,POSTTYPE = ?,DISTANCE = ?  WHERE (USERID = ? AND BRAND = ? AND TO_ID = ?) OR (USERID = ? AND BRAND = ? AND TO_ID = ?)", fromId,toId,type,nickname,last_date,facepath,body,postType,distance,userid,toId,fromId,userid,fromId,toId];
-            } else {
-                //插入心数据
-                count = [db executeUpdate:@"INSERT INTO ChatLast (BRAND,TO_ID,Type,NICKNAME,LASTDATA,FACEPATH, BODY,POSTTYPE,USERID,DISTANCE,LANGUAGE ) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,toId,type,nickname,last_date,facepath,body,postType,userid,distance,language];
-            }
-            [resultSet close];
-        }
-        [db close];
-    }];
-    return count;
-}
-
-+(NSInteger)insertMessageLast:(NSString *)fromId ToId:(NSString *)toId Type:(NSString *)type nickName:(NSString *)nickname last_date:(NSString *)last_date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString *)language {
-    if (!dbQueen)
-    {
-        [self createDB];
-    }
-    
-    __block int count = 0;
-    __block NSString *tmpBody = @"";
-    [dbQueen inDatabase:^(FMDatabase *db){
-        
-        if ([db open]) {
-            [db setShouldCacheStatements:YES];
-            
-            if(![db tableExists:@"MessageLast"]) {
-                NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,BRAND TEXT,TO_ID TEXT,Type TEXT ,NICKNAME TEXT,LASTDATA TEXT,FACEPATH TEXT,BODY TEXT, VOICETIME TEXT,POSTTYPE TEXT, IS_SELF TEXT,USERID TEXT,LANGUAGE TEXT);";
+            if(![db tableExists:[NSString stringWithFormat:@"%@MessageLast", userId]]) {
+                NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,FROM_USERID TEXT, NICK_NAME TEXT,IS_SELF TEXT NOT NULL DEFAULT 0,DATE TEXT NOT NULL DEFAULT 0,FACE_PATH TEXT NOT NULL DEFAULT 0 ,VOICE_TIME TEXT NOT NULL DEFAULT 0,FAIL TEXT NOT NULL DEFAULT 0,BODY TEXT NOT NULL DEFAULT 0, TYPE TEXT NOT NULL DEFAULT 0,LANGUAGE TEXT NOT NULL DEFAULT 0,POST_TYPE TEXT NOT NULL DEFAULT 0, B_DATA DATA);";
                 
                 [db executeUpdate:createMessageSql];
             }
-            
-            //NEED UISERID
-//            NSString *userid =[NSString stringWithFormat:@"%d",[[RunInfo sharedInstance] userId]];
-            NSString *userid;
-            NSRange r;
-            tmpBody = body;
-            while ((r = [tmpBody rangeOfString:@"'" options:NSRegularExpressionSearch]).location != NSNotFound){
-                
-                tmpBody = [tmpBody stringByReplacingCharactersInRange:r withString:@" "];
-            }
-            while ((r = [tmpBody rangeOfString:@"," options:NSRegularExpressionSearch]).location != NSNotFound){
-                
-                tmpBody = [tmpBody stringByReplacingCharactersInRange:r withString:@" "];
-            }
-            count = [db executeUpdate:@"INSERT OR REPLACE INTO MessageLast (BRAND,TO_ID,Type,NICKNAME,LASTDATA,FACEPATH,BODY,IS_SELF,VOICETIME,POSTTYPE,USERID,LANGUAGE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",fromId,toId,type,nickname,last_date,facepath,tmpBody,isSelf,voicetime,postType,userid,language];
-        }
-        [db close];
-    }];
-    return count;
-}
-
-+(NSInteger)insertBothLast:(NSString *)fromId ToId:(NSString *)toId Type:(NSString *)type nickName:(NSString *)nickname last_date:(NSString *)last_date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString *)language disTance:(NSString *)distance {
-    if (!dbQueen)
-    {
-        [self createDB];
-    }
-    
-    __block int count = 0;
-    __block NSString *tmpBody = @"";
-    [dbQueen inDatabase:^(FMDatabase *db){
-        
-        if ([db open]) {
-            [db setShouldCacheStatements:YES];
-            
-            if(![db tableExists:@"ChatLast"])
-            {
-                NSString *createChatSql = @"CREATE TABLE IF NOT EXISTS ChatLast (ID INTEGER PRIMARY KEY,BRAND TEXT,TO_ID TEXT,Type TEXT ,NICKNAME TEXT,LASTDATA TEXT,FACEPATH TEXT,BODY TEXT,POSTTYPE TEXT,USERID TEXT,DISTANCE TEXT,LANGUAGE TEXT);";
-                
-                [db executeUpdate:createChatSql];
-            }
-            
-            if(![db tableExists:@"MessageLast"]) {
-                NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,BRAND TEXT,TO_ID TEXT,Type TEXT ,NICKNAME TEXT,LASTDATA TEXT,FACEPATH TEXT,BODY TEXT, VOICETIME TEXT,POSTTYPE TEXT, IS_SELF TEXT,USERID TEXT,LANGUAGE TEXT);";
-                
-                [db executeUpdate:createMessageSql];
-            }
-            
-            //NEED UISERID
-//            NSString *userid =[NSString stringWithFormat:@"%d",[[RunInfo sharedInstance] userId]];
-            NSString *userid;
-            NSRange r;
-            tmpBody = body;
-            while ((r = [tmpBody rangeOfString:@"'" options:NSRegularExpressionSearch]).location != NSNotFound){
-                
-                tmpBody = [tmpBody stringByReplacingCharactersInRange:r withString:@" "];
-            }
-            while ((r = [tmpBody rangeOfString:@"," options:NSRegularExpressionSearch]).location != NSNotFound){
-                
-                tmpBody = [tmpBody stringByReplacingCharactersInRange:r withString:@" "];
-            }
-//            count = [db executeUpdate:@"INSERT OR REPLACE INTO MessageLast (BRAND,TO_ID,Type,NICKNAME,LASTDATA,FACEPATH,BODY,IS_SELF,VOICETIME,POSTTYPE,USERID,LANGUAGE) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",fromId,toId,type,nickname,last_date,facepath,tmpBody,isSelf,voicetime,postType,userid,language];
-//            INSERT INTO TABLE(col1, col2) SELECT val11, val12 UNION ALL SELECT val21, val22
-            count = [db executeUpdate:@"INSERT OR REPLACE INTO (MessageLast, ChatLast) SELECT  (BRAND,TO_ID,Type,NICKNAME,LASTDATA,FACEPATH,BODY,IS_SELF,VOICETIME,POSTTYPE,USERID,LANGUAGE)  VALUES(?,?,?,?,?,?,?,?,?,?,?,?) UNION ALL SELECT (BRAND,TO_ID,Type,NICKNAME,LASTDATA,FACEPATH, BODY,POSTTYPE,USERID,DISTANCE,LANGUAGE ) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,toId,type,nickname,last_date,facepath,tmpBody,isSelf,voicetime,postType,userid,language,fromId,toId,type,nickname,last_date,facepath,body,postType,userid,distance,language];
+            count = [db executeUpdate:@"INSERT OR REPLACE INTO MessageLast (FROM_USERID,NICK_NAME,IS_SELF,DATE,FACE_PATH,VOICE_TIME,FAIL,BODY,TYPE,LANGUAGE,POST_TYPE) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,nickname,isSelf,date,facepath,voicetime,fail,body,type,language,postType];
         }
         [db close];
     }];
