@@ -117,7 +117,7 @@
     [date setStringValue:@"2013-07-12"];
     //发送类型
     NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
-    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_TEXT]];
+    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPR_PIC]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
     [language setStringValue:@"zh_CN"];
@@ -135,6 +135,13 @@
         [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
     }completion:^(BOOL finished){
         if (finished) {
+            NSBubbleData *heyBubble = [NSBubbleData dataWithText:inputText date:[NSDate date] type:BubbleTypeMine];
+//            [bubbleData addObject:heyBubble];
+//            [bubbleTable reloadData];
+            [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+            [bubbleTable reloadData];
+            [bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:bubbleTable.numberOfSections-1] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//            [bubbleTable insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:[bubbleTable.bubbleSection count] - 1]] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
 }

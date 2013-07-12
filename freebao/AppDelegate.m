@@ -504,12 +504,21 @@
             NSLog(@"[levi] receive voice");
             NSData *base64Data = [body dataUsingEncoding:NSASCIIStringEncoding];
             NSData *decodedData = [base64Data base64Decoded];
+            dispatch_async(_insertChatQueen, ^{
+                [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:decodedData];
+            });
         } else if ([postType integerValue] == MSG_TYPR_PIC) {
             NSLog(@"[levi] receive pic.");
             NSData *base64Data = [body dataUsingEncoding:NSASCIIStringEncoding];
             NSData *decodedData = [base64Data base64Decoded];
+            dispatch_async(_insertChatQueen, ^{
+                [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:decodedData];
+            });
         } else if ([postType integerValue] == MSG_TYPE_MAP) {
             NSLog(@"[levi] receive map");
+            dispatch_async(_insertChatQueen, ^{
+                [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:nil];
+            });
         }
         
 		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
