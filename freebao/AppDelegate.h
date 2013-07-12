@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "XMPPFramework.h"
 #import "ChatViewController.h"
+#import "NSData+XMPP.h"
+#import "LPDataBaseutil.h"
 
 @class ViewController;
 
@@ -34,6 +36,8 @@
 	BOOL isXmppConnected;
     NSString *password;
     ChatViewController *_commChat;
+    
+    dispatch_queue_t _insertChatQueen;
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -54,6 +58,8 @@
 @property (nonatomic, strong, readonly) XMPPvCardAvatarModule *xmppvCardAvatarModule;
 @property (nonatomic, strong, readonly) XMPPCapabilities *xmppCapabilities;
 @property (nonatomic, strong, readonly) XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
+
+@property dispatch_queue_t insertChatQueen;
 
 - (NSManagedObjectContext *)managedObjectContext_roster;
 - (NSManagedObjectContext *)managedObjectContext_capabilities;

@@ -20,6 +20,11 @@
 #import "MessageViewController.h"
 #import "tabbarViewController.h"
 
+#define MSG_TYPE_TEXT   1
+#define MSG_TYPR_PIC    2
+#define MSG_TYPE_VOICE  3
+#define MSG_TYPE_MAP    5
+
 @interface AppDelegate()
 
 - (void)setupStream;
@@ -43,6 +48,7 @@
 @synthesize xmppCapabilities;
 @synthesize xmppCapabilitiesStorage;
 @synthesize commChat = _commChat;
+@synthesize insertChatQueen = _insertChatQueen;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -476,11 +482,35 @@
 		                                               managedObjectContext:[self managedObjectContext_roster]];
 		
 		NSString *body = [[message elementForName:@"body"] stringValue];
+        NSString *fromId = [[message elementForName:@"fromId"] stringValue];
+        NSString *nickName = [[message elementForName:@"nickName"] stringValue];
+        NSString *facePath = [[message elementForName:@"headIconUrl"] stringValue];
+        NSString *voiceLenght = [[message elementForName:@"voiceLength"] stringValue];
         NSString *date = [[message elementForName:@"date"] stringValue];
         NSString *postType = [[message elementForName:@"postType"] stringValue];
         NSString *language = [[message elementForName:@"language"] stringValue];
 		NSString *displayName = [user displayName];
         NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
+        
+        if (_insertChatQueen == nil) {
+            _insertChatQueen = dispatch_queue_create("insertChat", NULL);
+        }
+        if ([postType integerValue] == MSG_TYPE_TEXT) {
+            NSLog(@"[levi] receive text");
+            dispatch_async(_insertChatQueen, ^{
+                [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:nil];
+            });
+        } else if ([postType integerValue] == MSG_TYPE_VOICE) {
+            NSLog(@"[levi] receive voice");
+            NSData *base64Data = [body dataUsingEncoding:NSASCIIStringEncoding];
+            NSData *decodedData = [base64Data base64Decoded];
+        } else if ([postType integerValue] == MSG_TYPR_PIC) {
+            NSLog(@"[levi] receive pic.");
+            NSData *base64Data = [body dataUsingEncoding:NSASCIIStringEncoding];
+            NSData *decodedData = [base64Data base64Decoded];
+        } else if ([postType integerValue] == MSG_TYPE_MAP) {
+            NSLog(@"[levi] receive map");
+        }
         
 		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
 		{

@@ -19,6 +19,11 @@
 
 #define INPUT_HEIGHT 40.0f
 
+#define MSG_TYPE_TEXT   1
+#define MSG_TYPR_PIC    2
+#define MSG_TYPE_VOICE  3
+#define MSG_TYPE_MAP    5
+
 @interface ChatViewController () {
     
     IBOutlet UIBubbleTableView *bubbleTable;
@@ -98,6 +103,9 @@
     //发送者
     NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
     [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
+    //发送者昵称
+    NSXMLElement *nickName = [NSXMLElement elementWithName:@"nickName"];
+    [nickName setStringValue:@"levi"];
     //语音时长
     NSXMLElement *voiceLength = [NSXMLElement elementWithName:@"voiceLength"];
     [voiceLength setStringValue:@"10"];
@@ -109,13 +117,14 @@
     [date setStringValue:@"2013-07-12"];
     //发送类型
     NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
-    [type setStringValue:@"1"];
+    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_TEXT]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
     [language setStringValue:@"zh_CN"];
     //组合
     [mes addChild:body];
     [mes addChild:fromId];
+    [mes addChild:nickName];
     [mes addChild:voiceLength];
     [mes addChild:headIconUrl];
     [mes addChild:date];

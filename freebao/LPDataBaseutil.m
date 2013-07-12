@@ -131,7 +131,7 @@ static FMDatabaseQueue *dbQueen = nil;
     return count;
 }
 
-+(NSInteger)insertMessageLast:(NSString *)fromId Type:(NSString *)type nickName:(NSString *)nickname date:(NSString *)date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString *)language fail:(NSString *)fail userId:(NSString *)userId bData:(NSData *)data{
++(NSInteger)insertMessageLast:(NSString *)fromId nickName:(NSString *)nickname date:(NSString *)date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString *)language fail:(NSString *)fail userId:(NSString *)userId bData:(NSData *)data{
     if (!dbQueen)
     {
         [self createDB];
@@ -144,11 +144,11 @@ static FMDatabaseQueue *dbQueen = nil;
             [db setShouldCacheStatements:YES];
             
             if(![db tableExists:[NSString stringWithFormat:@"%@MessageLast", userId]]) {
-                NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,FROM_USERID TEXT, NICK_NAME TEXT,IS_SELF TEXT NOT NULL DEFAULT 0,DATE TEXT NOT NULL DEFAULT 0,FACE_PATH TEXT NOT NULL DEFAULT 0 ,VOICE_TIME TEXT NOT NULL DEFAULT 0,FAIL TEXT NOT NULL DEFAULT 0,BODY TEXT NOT NULL DEFAULT 0, TYPE TEXT NOT NULL DEFAULT 0,LANGUAGE TEXT NOT NULL DEFAULT 0,POST_TYPE TEXT NOT NULL DEFAULT 0, B_DATA DATA);";
+                NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,FROM_USERID TEXT, NICK_NAME TEXT,IS_SELF TEXT NOT NULL DEFAULT 0,DATE TEXT NOT NULL DEFAULT 0,FACE_PATH TEXT NOT NULL DEFAULT 0 ,VOICE_TIME TEXT NOT NULL DEFAULT 0,FAIL TEXT NOT NULL DEFAULT 0,BODY TEXT NOT NULL DEFAULT 0,LANGUAGE TEXT NOT NULL DEFAULT 0,POST_TYPE TEXT NOT NULL DEFAULT 0, B_DATA DATA);";
                 
                 [db executeUpdate:createMessageSql];
             }
-            count = [db executeUpdate:@"INSERT OR REPLACE INTO MessageLast (FROM_USERID,NICK_NAME,IS_SELF,DATE,FACE_PATH,VOICE_TIME,FAIL,BODY,TYPE,LANGUAGE,POST_TYPE) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,nickname,isSelf,date,facepath,voicetime,fail,body,type,language,postType];
+            count = [db executeUpdate:@"INSERT OR REPLACE INTO MessageLast (FROM_USERID,NICK_NAME,IS_SELF,DATE,FACE_PATH,VOICE_TIME,FAIL,BODY,LANGUAGE,POST_TYPE,B_DATA) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,nickname,isSelf,date,facepath,voicetime,fail,body,language,postType, data];
         }
         [db close];
     }];

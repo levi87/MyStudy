@@ -24,7 +24,7 @@
 
 //- (void)createTableMessage:(FMDatabase *)db;
 
-+ (NSInteger)insertMessageLast:(NSString *)fromId Type:(NSString *)type nickName:(NSString *)nickname date:(NSString*)date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString*)language fail:(NSString*)fail userId:(NSString*)userId bData:(NSData*)data;
++ (NSInteger)insertMessageLast:(NSString *)fromId nickName:(NSString *)nickname date:(NSString*)date face_path:(NSString *)facepath voicetime:(NSString *)voicetime body:(NSString *)body postType:(NSString *)postType isSelf:(NSString *)isSelf language:(NSString*)language fail:(NSString*)fail userId:(NSString*)userId bData:(NSData*)data;
 
 - (void)createTableLocalWeibo:(FMDatabase *)db;
 + (NSInteger)saveWeibo:(NSString *)shareType FileType:(NSString *)fileType MediaBody:(NSString *)mediaBody SongUrl:(NSString *)songUrl AllowComment:(NSString *)allowComment
