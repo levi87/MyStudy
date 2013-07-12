@@ -77,41 +77,53 @@
 {
     NSInteger row = indexPath.row;
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[MoreTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    [cell setButtonHide:YES];
     if (row == 0 || row == 12 || row == 13) {
-        cell.accessoryView = nil;
-        cell.image = nil;
+        [cell setAccessoryViewHide:YES];
+        cell.imageView.image = nil;
+        cell.textLabel.text = @"";
     } else {
-        UIImageView *tmpImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_more_chevron.png"]];
-        tmpImageV.frame = CGRectMake(0, 0, 16, 16);
-        cell.accessoryView = tmpImageV;
+        [cell setAccessoryViewHide:NO];
     }
     if (row == 1) {
-        cell.image = [UIImage imageNamed:@"icon_more_page.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_page.png"];
+        cell.textLabel.text = @"My Page";
     } else if (row == 2) {
-        cell.image = [UIImage imageNamed:@"icon_more_profile.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_profile.png"];
+        cell.textLabel.text = @"My Profile";
     } else if (row == 3) {
-        cell.image = [UIImage imageNamed:@"icon_more_cities.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_cities.png"];
+        cell.textLabel.text = @"My Cities";
     } else if (row == 4) {
-        cell.image = [UIImage imageNamed:@"icon_more_people.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_people.png"];
+        cell.textLabel.text = @"People you may know";
     } else if (row == 5) {
-        cell.image = [UIImage imageNamed:@"icon_more_search.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_search.png"];
+        cell.textLabel.text = @"Search";
     } else if (row == 6) {
-        cell.image = [UIImage imageNamed:@"icon_more_circles.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_circles.png"];
+        cell.textLabel.text = @"Circles";
     } else if (row == 7) {
-        cell.image = [UIImage imageNamed:@"icon_more_invitation.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_invitation.png"];
+        cell.textLabel.text = @"Friends Invitation";
     } else if (row == 8) {
-        cell.image = [UIImage imageNamed:@"icon_more_language.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_language.png"];
+        cell.textLabel.text = @"Language Setting";
     } else if (row == 9) {
-        cell.image = [UIImage imageNamed:@"icon_more_feedback.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_feedback.png"];
+        cell.textLabel.text = @"Feedback";
     } else if (row == 10) {
-        cell.image = [UIImage imageNamed:@"icon_more_about.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_about.png"];
+        cell.textLabel.text = @"About";
     } else if (row == 11) {
-        cell.image = [UIImage imageNamed:@"icon_more_setting.png"];
+        cell.imageView.image = [UIImage imageNamed:@"icon_more_setting.png"];
+        cell.textLabel.text = @"Setting";
+    } else if (row == 12) {
+        [cell setButtonHide:NO];
     }
     // Configure the cell...
     

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MoreTableViewCell.h"
 
 @interface MoreViewController : UITableViewController {
     UILabel *tittleLabel;
