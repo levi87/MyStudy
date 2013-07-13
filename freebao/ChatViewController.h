@@ -14,6 +14,10 @@
 @interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSMutableArray *bubbleData;
     UIImagePickerController *_imagePicker;
+    BOOL _isFirst;
+    BOOL _isReload;
 }
 @property (weak, nonatomic) IBOutlet UIView *chatBarView;
+@property BOOL isFirst;
+@property BOOL isReload;
 @end

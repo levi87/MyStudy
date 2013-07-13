@@ -11,6 +11,7 @@
 #import "ChatViewController.h"
 #import "NSData+XMPP.h"
 #import "LPDataBaseutil.h"
+#import "MessageInfo.h"
 
 @class ViewController;
 

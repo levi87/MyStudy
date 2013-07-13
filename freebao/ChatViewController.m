@@ -24,6 +24,8 @@
 #define MSG_TYPE_VOICE  3
 #define MSG_TYPE_MAP    5
 
+#define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
+
 @interface ChatViewController () {
     
     IBOutlet UIBubbleTableView *bubbleTable;
@@ -32,6 +34,8 @@
 @end
 
 @implementation ChatViewController
+@synthesize isFirst = _isFirst;
+@synthesize isReload = _isReload;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,11 +49,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _isFirst = YES;
+    _isReload = NO;
     _imagePicker = [[UIImagePickerController alloc] init];
     _imagePicker.allowsEditing = YES;
     _imagePicker.delegate = self;
     FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
     bar.delegate=self;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
     
     //Note to reader - the blue initial button is inset 3px on all sides from
     // the initial frame you provide.  You should provide a square rect of any
@@ -89,6 +96,21 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
+}
+
+-(void)refreshViewByNewMsg:(NSNotification*)notification {
+    NSLog(@"new message refresh...");
+    MessageInfo *tmpMsg = notification.object;
+    NSBubbleData *receiveBubble;
+    if ([tmpMsg.postType integerValue] == MSG_TYPE_TEXT) {
+        receiveBubble = [NSBubbleData dataWithText:tmpMsg.body date:[NSDate date] type:BubbleTypeSomeoneElse];
+    } else if ([tmpMsg.postType integerValue] == MSG_TYPR_PIC) {
+        receiveBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpMsg.data] date:[NSDate date] type:BubbleTypeSomeoneElse];
+    }
+    [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
+    
+    [bubbleTable reloadData];
+    [self scrollToBottomAnimated:YES];
 }
 
 -(void)queryMessageFromDb {
@@ -181,6 +203,7 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
+    [self insertMessageToDb:inputText PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_TEXT] Bdata:nil];
     [UIView animateWithDuration:0.2 animations:^{
         [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
     }completion:^(BOOL finished){
@@ -191,6 +214,15 @@
             [self scrollToBottomAnimated:YES];
         }
     }];
+}
+
+- (void)insertMessageToDb:(NSString*)body PostType:(NSString*)postType Bdata:(NSData*)bData {
+    if (KAppDelegate.insertChatQueen == nil) {
+        KAppDelegate.insertChatQueen = dispatch_queue_create("insertChat", NULL);
+    }
+    dispatch_async(KAppDelegate.insertChatQueen, ^{
+        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:@"0" body:body postType:postType isSelf:@"1" language:@"0" fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
+    });
 }
 
 -(void)showKeyboard:(CGRect)frame {
@@ -336,7 +368,7 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
-    
+    [self insertMessageToDb:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPR_PIC] Bdata:pictureData];
     NSBubbleData *heyBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:pictureData] date:[NSDate date] type:BubbleTypeMine];
     [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleTable reloadData];
@@ -372,10 +404,27 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    NSLog(@"[view] will disappear...");
+    _isFirst = FALSE;
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"[view] view did appear...");
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"[view] view will appear...");
     //    [KAppDelegate.tabBarVC.tabbar setHide:YES];
+    if (!_isFirst) {
+        NSLog(@"[here...]");
+        _isFirst = FALSE;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
+    }
+    if (_isReload) {
+        _isReload = FALSE;
+        [self queryMessageFromDb];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
@@ -386,7 +435,9 @@
 }
 
 - (void)viewDidUnload {
+    NSLog(@"[view] view did unload...");
     bubbleTable = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setChatBarView:nil];
     [super viewDidUnload];
 }

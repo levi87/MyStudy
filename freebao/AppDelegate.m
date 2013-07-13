@@ -25,6 +25,8 @@
 #define MSG_TYPE_VOICE  3
 #define MSG_TYPE_MAP    5
 
+#define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
+
 @interface AppDelegate()
 
 - (void)setupStream;
@@ -491,6 +493,11 @@
         NSString *language = [[message elementForName:@"language"] stringValue];
         NSString *bData = [[message elementForName:@"bData"] stringValue];
 		NSString *displayName = [user displayName];
+        MessageInfo *tmpMsg = [[MessageInfo alloc] init];
+        tmpMsg.body = body;
+        tmpMsg.fromId = fromId;
+        tmpMsg.nickName = nickName;
+        tmpMsg.postType = postType;
 //        NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
         
         if (_insertChatQueen == nil) {
@@ -500,6 +507,9 @@
             NSLog(@"[levi] receive text");
             dispatch_async(_insertChatQueen, ^{
                 int count = [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVE_REFRESH_VIEW object:tmpMsg];
+                });
                 NSLog(@"text insert count %d", count);
             });
         } else if ([postType integerValue] == MSG_TYPE_VOICE) {
@@ -515,6 +525,11 @@
             NSData *decodedData = [base64Data base64Decoded];
             dispatch_async(_insertChatQueen, ^{
                 [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:decodedData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"inser DB s....");
+                    tmpMsg.data = decodedData;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVE_REFRESH_VIEW object:tmpMsg];
+                });
             });
         } else if ([postType integerValue] == MSG_TYPE_MAP) {
             NSLog(@"[levi] receive map");

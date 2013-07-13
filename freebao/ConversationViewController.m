@@ -161,6 +161,7 @@
     NSLog(@"[levi]back...");
     backButton.hidden = YES;
     tittleLabel.text = @"Chats";
+    [[NSNotificationCenter defaultCenter] removeObserver:KAppDelegate.commChat.self];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
