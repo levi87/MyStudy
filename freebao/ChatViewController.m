@@ -88,6 +88,49 @@
     bubbleTable.typingBubble = NSBubbleTypingTypeNobody;
     
     [bubbleTable reloadData];
+    [self queryMessageFromDb];
+}
+
+-(void)queryMessageFromDb {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableArray *tmpArray = [LPDataBaseutil readMessage:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] userId:@""];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (int i = 0; i < [tmpArray count]; i ++) {
+                MessageInfo *tmpM = [tmpArray objectAtIndex:i];
+                if ([tmpM.postType integerValue] == MSG_TYPE_TEXT) {
+                    NSBubbleData *tmpBd;
+                    if ([tmpM.isSelf integerValue] == 1) {
+                        tmpBd = [NSBubbleData dataWithText:tmpM.body date:[NSDate date] type:BubbleTypeMine];
+                    } else {
+                        tmpBd = [NSBubbleData dataWithText:tmpM.body date:[NSDate date] type:BubbleTypeSomeoneElse];
+                    }
+                    [bubbleData addObject:tmpBd];
+                } else if ([tmpM.postType integerValue] == MSG_TYPR_PIC) {
+                    NSBubbleData *tmpBd;
+                    if ([tmpM.isSelf integerValue] == 1) {
+                        tmpBd = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpM.data] date:[NSDate date] type:BubbleTypeMine];
+                    } else {
+                        tmpBd = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpM.data] date:[NSDate date] type:BubbleTypeSomeoneElse];
+                    }
+                    [bubbleData addObject:tmpBd];
+                } else if ([tmpM.postType integerValue] == MSG_TYPE_VOICE) {
+                    
+                } else if ([tmpM.postType integerValue] == MSG_TYPE_MAP) {
+                    NSBubbleData *tmpBd;
+                    if ([tmpM.isSelf integerValue] == 1) {
+                        UIEdgeInsets imageInsetsMine = {5, 5, 225, 225};
+                        tmpBd = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+                    } else {
+                        UIEdgeInsets imageInsetsMine = {10, 10, 225, 225};
+                        tmpBd = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+                    }
+                    [bubbleData addObject:tmpBd];
+                }
+            }
+            [bubbleTable reloadData];
+            [self scrollToBottomAnimated:NO];
+        });
+    });
 }
 
 -(void)sendTextAction:(NSString *)inputText Frame:(CGRect)frame {
@@ -124,6 +167,9 @@
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
     [language setStringValue:@"zh_CN"];
+    //数据（声音/图片）
+    NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
+    [bData setStringValue:@""];
     //组合
     [mes addChild:body];
     [mes addChild:fromId];
@@ -133,6 +179,7 @@
     [mes addChild:date];
     [mes addChild:type];
     [mes addChild:language];
+    [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
     [UIView animateWithDuration:0.2 animations:^{
         [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
@@ -208,6 +255,9 @@
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
     [language setStringValue:@"zh_CN"];
+    //数据（声音/图片）
+    NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
+    [bData setStringValue:@""];
     //组合
     [mes addChild:body];
     [mes addChild:fromId];
@@ -217,6 +267,7 @@
     [mes addChild:date];
     [mes addChild:type];
     [mes addChild:language];
+    [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
     
 //    mapImageView = [[EGOImageView alloc] init];
@@ -241,7 +292,7 @@
     
     //生成<body>文档
     NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-    [body setStringValue:pictureDataString];
+    [body setStringValue:@""];
     
     //生成XML消息文档
     NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
@@ -271,6 +322,9 @@
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
     [language setStringValue:@"zh_CN"];
+    //数据（声音/图片）
+    NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
+    [bData setStringValue:pictureDataString];
     //组合
     [mes addChild:body];
     [mes addChild:fromId];
@@ -280,6 +334,7 @@
     [mes addChild:date];
     [mes addChild:type];
     [mes addChild:language];
+    [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
     
     NSBubbleData *heyBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:pictureData] date:[NSDate date] type:BubbleTypeMine];

@@ -9,6 +9,11 @@
 #import "LPDataBaseutil.h"
 #import "FMDatabaseAdditions.h"
 
+#define MSG_TYPE_TEXT   1
+#define MSG_TYPR_PIC    2
+#define MSG_TYPE_VOICE  3
+#define MSG_TYPE_MAP    5
+
 //创建一个全局的数据库对象 不能再.h中声明这个属性
 //static FMDatabase *db = nil;
 static FMDatabaseQueue *dbQueen = nil;
@@ -143,12 +148,12 @@ static FMDatabaseQueue *dbQueen = nil;
         if ([db open]) {
             [db setShouldCacheStatements:YES];
             
-            if(![db tableExists:[NSString stringWithFormat:@"%@MessageLast", userId]]) {
+            if(![db tableExists:@"MessageLast"]) {
                 NSString *createMessageSql = @"CREATE TABLE IF NOT EXISTS MessageLast (ID INTEGER PRIMARY KEY,FROM_USERID TEXT, NICK_NAME TEXT,IS_SELF TEXT NOT NULL DEFAULT 0,DATE TEXT NOT NULL DEFAULT 0,FACE_PATH TEXT NOT NULL DEFAULT 0 ,VOICE_TIME TEXT NOT NULL DEFAULT 0,FAIL TEXT NOT NULL DEFAULT 0,BODY TEXT NOT NULL DEFAULT 0,LANGUAGE TEXT NOT NULL DEFAULT 0,POST_TYPE TEXT NOT NULL DEFAULT 0, B_DATA DATA);";
                 
                 [db executeUpdate:createMessageSql];
             }
-            count = [db executeUpdate:@"INSERT OR REPLACE INTO MessageLast (FROM_USERID,NICK_NAME,IS_SELF,DATE,FACE_PATH,VOICE_TIME,FAIL,BODY,LANGUAGE,POST_TYPE,B_DATA) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,nickname,isSelf,date,facepath,voicetime,fail,body,language,postType, data];
+            count = [db executeUpdate:@"INSERT INTO MessageLast (FROM_USERID,NICK_NAME,IS_SELF,DATE,FACE_PATH,VOICE_TIME,FAIL,BODY,LANGUAGE,POST_TYPE,B_DATA) VALUES(?,?,?,?,?,?,?,?,?,?,?)",fromId,nickname,isSelf,date,facepath,voicetime,fail,body,language,postType, data];
         }
         [db close];
     }];
@@ -309,7 +314,7 @@ static FMDatabaseQueue *dbQueen = nil;
     return count;
 }
 
-+(NSMutableArray*)readMessagelast:(NSString *)fromeId toid:(NSString *)toId {
++(NSMutableArray*)readMessage:(NSString *)fromeId userId:(NSString *)userId {
     if (!dbQueen)
     {
         [self createDB];
@@ -323,33 +328,36 @@ static FMDatabaseQueue *dbQueen = nil;
             FMResultSet *resultSet;
             //NEED UISERID
 //            NSString *userId=[NSString stringWithFormat:@"%d",[[RunInfo sharedInstance] userId]];
-            NSString *userId;
             if ([db tableExists:@"MessageLast"]) {
-                resultSet = [db executeQuery:@"SELECT ID,BRAND,TO_ID,Type ,NICKNAME,LASTDATA ,FACEPATH,BODY,IS_SELF,VOICETIME,POSTTYPE  FROM MessageLast WHERE (BRAND=? AND TO_ID = ? AND USERID = ?) OR (BRAND = ? AND TO_ID = ? AND USERID = ?)", fromeId,toId,userId,toId,fromeId,userId];
+                NSLog(@"FROMiD %@",fromeId);
+                resultSet = [db executeQuery:@"SELECT ID,FROM_USERID,IS_SELF ,NICK_NAME,DATE ,FACE_PATH,VOICE_TIME,FAIL,BODY,LANGUAGE, POST_TYPE, B_DATA FROM MessageLast WHERE FROM_USERID=?", fromeId];
                 while ([resultSet next]) {
                     NSString *rowid = [resultSet objectForColumnIndex:0];
                     NSString *FromId = [resultSet objectForColumnIndex:1];
-                    NSString *TO_ID = [resultSet objectForColumnIndex:2];
-                    NSString *Type = [resultSet objectForColumnIndex:3];
-                    NSString *Nickname = [resultSet objectForColumnIndex:4];
-                    NSString *Last_data = [resultSet objectForColumnIndex:5];
-                    NSString *FacePath = [resultSet objectForColumnIndex:6];
-                    NSString *body = [resultSet objectForColumnIndex:7];
-                    NSString *isself = [resultSet objectForColumnIndex:8];
-                    NSString *voicetime = [resultSet objectForColumnIndex:9];
+                    NSString *isself = [resultSet objectForColumnIndex:2];
+                    NSString *Nickname = [resultSet objectForColumnIndex:3];
+                    NSString *date = [resultSet objectForColumnIndex:4];
+                    NSString *facePath = [resultSet objectForColumnIndex:5];
+                    NSString *voicetime = [resultSet objectForColumnIndex:6];
+                    NSString *fail = [resultSet objectForColumnIndex:7];
+                    NSString *body = [resultSet objectForColumnIndex:8];
+                    NSString *language = [resultSet objectForColumnIndex:9];
                     NSString *posttype = [resultSet objectForColumnIndex:10];
-                    NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:Last_data,@"Last_data",
-                                            Type,@"type",
-                                            Nickname,@"nickname",
-                                            FacePath, @"heardImage_",
-                                            FromId,@"fromid",
-                                            TO_ID,@"toid",
-                                            rowid,@"rowid",
-                                            body,@"text",
-                                            isself,@"self",
-                                            voicetime,@"voicelong",
-                                            posttype,@"posttype", nil];
-                    [messageListArray addObject:tmpDic];
+                    NSData *data = [resultSet objectForColumnIndex:11];
+                    MessageInfo *msgInfo = [[MessageInfo alloc] init];
+                    msgInfo.rowId = rowid;
+                    msgInfo.fromId = FromId;
+                    msgInfo.isSelf = isself;
+                    msgInfo.nickName = Nickname;
+                    msgInfo.date = date;
+                    msgInfo.facePath = facePath;
+                    msgInfo.voiceTime = voicetime;
+                    msgInfo.fail = fail;
+                    msgInfo.body = body;
+                    msgInfo.language = language;
+                    msgInfo.postType = posttype;
+                    msgInfo.data = data;
+                    [messageListArray addObject:msgInfo];
                 }
                 [resultSet close];
             }

@@ -489,6 +489,7 @@
         NSString *date = [[message elementForName:@"date"] stringValue];
         NSString *postType = [[message elementForName:@"postType"] stringValue];
         NSString *language = [[message elementForName:@"language"] stringValue];
+        NSString *bData = [[message elementForName:@"bData"] stringValue];
 		NSString *displayName = [user displayName];
 //        NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
         
@@ -498,18 +499,19 @@
         if ([postType integerValue] == MSG_TYPE_TEXT) {
             NSLog(@"[levi] receive text");
             dispatch_async(_insertChatQueen, ^{
-                [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:nil];
+                int count = [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:nil];
+                NSLog(@"text insert count %d", count);
             });
         } else if ([postType integerValue] == MSG_TYPE_VOICE) {
             NSLog(@"[levi] receive voice");
-            NSData *base64Data = [body dataUsingEncoding:NSASCIIStringEncoding];
+            NSData *base64Data = [bData dataUsingEncoding:NSASCIIStringEncoding];
             NSData *decodedData = [base64Data base64Decoded];
             dispatch_async(_insertChatQueen, ^{
                 [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:decodedData];
             });
         } else if ([postType integerValue] == MSG_TYPR_PIC) {
             NSLog(@"[levi] receive pic.");
-            NSData *base64Data = [body dataUsingEncoding:NSASCIIStringEncoding];
+            NSData *base64Data = [bData dataUsingEncoding:NSASCIIStringEncoding];
             NSData *decodedData = [base64Data base64Decoded];
             dispatch_async(_insertChatQueen, ^{
                 [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:decodedData];

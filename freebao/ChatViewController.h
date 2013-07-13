@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UIBubbleTableViewDataSource.h"
 #import "FaceToolBar.h"
+#import "WeiBoHttpManager.h"
 
 @interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSMutableArray *bubbleData;

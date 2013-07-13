@@ -13,6 +13,8 @@
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
 #import "Status.h"
+#import "NSBubbleData.h"
+#import "MessageInfo.h"
 
 @interface LPDataBaseutil : NSObject
 
@@ -40,7 +42,9 @@ AllowShare:(NSString *)allowShare ContentBody:(NSString *)contentBody CircleId:(
 + (NSInteger)deleteBadgeItem;
 + (void)queryTableBadge;
 
-+ (NSMutableArray*)readMessagelast:(NSString *)fromeId toid:(NSString *)toId;
++ (NSMutableArray*)readMessage:(NSString *)fromeId userId:(NSString *)userId;
+
+
 + (NSInteger)updateMessageLast:(NSString *)fromId ToId:(NSString *)toId AtId:(NSString *)atId;
 + (NSInteger)updateMessageLast:(NSString *)fromId ToId:(NSString *)toId;
 + (NSInteger)updateMessage:(NSString *)fromId ToId:(NSString *)toId;
