@@ -274,6 +274,9 @@
     if (indexPath.row != 0) {
         if (KAppDelegate.commChat == nil) {
             KAppDelegate.commChat = [[ChatViewController alloc] init];
+        } else {
+            KAppDelegate.commChat.isFirst = FALSE;
+            KAppDelegate.commChat.isReload = TRUE;
         }
 //        if (commentVC == nil) {
 //            commentVC = [[CommentsViewController alloc] init];

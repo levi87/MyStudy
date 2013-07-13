@@ -58,10 +58,6 @@
     bar.delegate=self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
     
-    //Note to reader - the blue initial button is inset 3px on all sides from
-    // the initial frame you provide.  You should provide a square rect of any
-    // size.
-    
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
     heyBubble.avatar = [UIImage imageNamed:@"avatar1.png"];
@@ -75,22 +71,9 @@
     bubbleData = [[NSMutableArray alloc] initWithObjects:heyBubble, photoBubble, replyBubble, nil];
     bubbleTable.bubbleDataSource = self;
     
-    // The line below sets the snap interval in seconds. This defines how the bubbles will be grouped in time.
-    // Interval of 120 means that if the next messages comes in 2 minutes since the last message, it will be added into the same group.
-    // Groups are delimited with header which contains date and time for the first message in the group.
-    
     bubbleTable.snapInterval = 120;
     
-    // The line below enables avatar support. Avatar can be specified for each bubble with .avatar property of NSBubbleData.
-    // Avatars are enabled for the whole table at once. If particular NSBubbleData misses the avatar, a default placeholder will be set (missingAvatar.png)
-    
     bubbleTable.showAvatars = NO;
-    
-    // Uncomment the line below to add "Now typing" bubble
-    // Possible values are
-    //    - NSBubbleTypingTypeSomebody - shows "now typing" bubble on the left
-    //    - NSBubbleTypingTypeMe - shows "now typing" bubble on the right
-    //    - NSBubbleTypingTypeNone - no "now typing" bubble
     
     bubbleTable.typingBubble = NSBubbleTypingTypeNobody;
     
@@ -106,6 +89,9 @@
         receiveBubble = [NSBubbleData dataWithText:tmpMsg.body date:[NSDate date] type:BubbleTypeSomeoneElse];
     } else if ([tmpMsg.postType integerValue] == MSG_TYPR_PIC) {
         receiveBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpMsg.data] date:[NSDate date] type:BubbleTypeSomeoneElse];
+    } else if ([tmpMsg.postType integerValue] == MSG_TYPE_MAP) {
+        UIEdgeInsets imageInsetsMine = {10, 10, 225, 225};
+        receiveBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     }
     [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
     
@@ -301,7 +287,7 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
-    
+    [self insertMessageToDb:@"" PostType:[NSString stringWithFormat:@"%d", MSG_TYPE_MAP] Bdata:nil];
 //    mapImageView = [[EGOImageView alloc] init];
 //    mapImageView.frame = CGRectMake(0, 0, 300, 300);
 //    NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=120x120&sensor=false&markers=30.2094,120.204&language=zh_CN";
@@ -405,7 +391,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     NSLog(@"[view] will disappear...");
-    _isFirst = FALSE;
 //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

@@ -526,7 +526,6 @@
             dispatch_async(_insertChatQueen, ^{
                 [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:decodedData];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    NSLog(@"inser DB s....");
                     tmpMsg.data = decodedData;
                     [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVE_REFRESH_VIEW object:tmpMsg];
                 });
@@ -535,6 +534,9 @@
             NSLog(@"[levi] receive map");
             dispatch_async(_insertChatQueen, ^{
                 [LPDataBaseutil insertMessageLast:fromId nickName:nickName date:date face_path:facePath voicetime:voiceLenght body:body postType:postType isSelf:@"0" language:language fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVE_REFRESH_VIEW object:tmpMsg];
+                });
             });
         }
         
