@@ -49,6 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initAudio];
     _isFirst = YES;
     _isReload = NO;
     _imagePicker = [[UIImagePickerController alloc] init];
@@ -240,6 +241,86 @@
     }
 }
 
+-(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer {
+    CGPoint p = [recogonizer locationInView:self.view];
+    NSLog(@"[levi] finger position... x %f y %f", p.x, p.y);
+    switch (recogonizer.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            NSLog(@"[levi] start record");
+            self.recordView.hidden = NO;
+            //创建录音文件，准备录音
+            if ([recorder prepareToRecord]) {
+                //开始
+                [recorder record];
+            }
+            recordtTimer = [NSTimer scheduledTimerWithTimeInterval:0 target:self selector:@selector(detectionVoice) userInfo:nil repeats:YES];
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        {
+            NSLog(@"[levi] end record");
+            self.recordView.hidden = YES;
+            double cTime = recorder.currentTime;
+            NSLog(@"record length %f", cTime);
+            if (cTime > 2) {//如果录制时间<2 不发送
+                NSLog(@"send voice...");
+            }else {
+                NSLog(@"delete voice...");
+                //删除记录的文件
+                [recorder deleteRecording];
+                //删除存储的
+            }
+            [recorder stop];
+            [recordtTimer invalidate];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)detectionVoice
+{
+    [recorder updateMeters];//刷新音量数据
+    //获取音量的平均值  [recorder averagePowerForChannel:0];
+    //音量的最大值  [recorder peakPowerForChannel:0];
+    
+    double lowPassResults = pow(10, (0.05 * [recorder peakPowerForChannel:0]));
+    NSLog(@"voice power %lf",lowPassResults);
+    //最大50  0
+//    //图片 小-》大
+//    if (0<lowPassResults<=0.06) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_01.png"]];
+//    }else if (0.06<lowPassResults<=0.13) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_02.png"]];
+//    }else if (0.13<lowPassResults<=0.20) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_03.png"]];
+//    }else if (0.20<lowPassResults<=0.27) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_04.png"]];
+//    }else if (0.27<lowPassResults<=0.34) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_05.png"]];
+//    }else if (0.34<lowPassResults<=0.41) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_06.png"]];
+//    }else if (0.41<lowPassResults<=0.48) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_07.png"]];
+//    }else if (0.48<lowPassResults<=0.55) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_08.png"]];
+//    }else if (0.55<lowPassResults<=0.62) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_09.png"]];
+//    }else if (0.62<lowPassResults<=0.69) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_10.png"]];
+//    }else if (0.69<lowPassResults<=0.76) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_11.png"]];
+//    }else if (0.76<lowPassResults<=0.83) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_12.png"]];
+//    }else if (0.83<lowPassResults<=0.9) {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_13.png"]];
+//    }else {
+//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_14.png"]];
+//    }
+}
+
 -(void)sendMyPositon {
     //生成<body>文档
     NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
@@ -424,6 +505,7 @@
     bubbleTable = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setChatBarView:nil];
+    [self setRecordView:nil];
     [super viewDidUnload];
 }
 
@@ -437,5 +519,31 @@
 - (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row
 {
     return [bubbleData objectAtIndex:row];
+}
+
+- (void)initAudio
+{
+    //录音设置
+    NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc]init];
+    //设置录音格式  AVFormatIDKey==kAudioFormatLinearPCM
+    [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
+    //设置录音采样率(Hz) 如：AVSampleRateKey==8000/44100/96000（影响音频的质量）
+    [recordSetting setValue:[NSNumber numberWithFloat:44100] forKey:AVSampleRateKey];
+    //录音通道数  1 或 2
+    [recordSetting setValue:[NSNumber numberWithInt:1] forKey:AVNumberOfChannelsKey];
+    //线性采样位数  8、16、24、32
+    [recordSetting setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+    //录音的质量
+    [recordSetting setValue:[NSNumber numberWithInt:AVAudioQualityHigh] forKey:AVEncoderAudioQualityKey];
+    
+    NSString *strUrl = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/tmpAudio.aac", strUrl]];
+    
+    NSError *error;
+    //初始化
+    recorder = [[AVAudioRecorder alloc]initWithURL:url settings:recordSetting error:&error];
+    //开启音量检测
+    recorder.meteringEnabled = YES;
+    recorder.delegate = self;
 }
 @end

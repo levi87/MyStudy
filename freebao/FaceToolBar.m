@@ -71,6 +71,9 @@
         voiceButton.frame = CGRectMake(5,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
         [toolBar addSubview:voiceButton];
         
+        UILongPressGestureRecognizer *longGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(voiceBtnLongPress:)];
+        [voiceButton addGestureRecognizer:longGesture];
+        
         //表情按钮
         faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
         faceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
@@ -130,6 +133,13 @@
         // Do any additional setup after loading the view, typically from a nib.
     }
     return self;
+}
+
+-(void)voiceBtnLongPress:(UILongPressGestureRecognizer *)recogonizer {
+    if ([delegate respondsToSelector:@selector(voiceLongPressAction:)])
+    {
+        [delegate voiceLongPressAction:recogonizer];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {

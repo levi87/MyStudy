@@ -413,6 +413,9 @@
 		DB6434B917588803005CAD2F /* noImage50x118@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB64349F17588803005CAD2F /* noImage50x118@2x.png */; };
 		DB6434BB1758AC2C005CAD2F /* ImageCache.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = DB6434BA1758AC2C005CAD2F /* ImageCache.xcdatamodel */; };
 		DB991F7B17898E7700A518AA /* OCExpandableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DB991F7A17898E7700A518AA /* OCExpandableButton.m */; };
+		DB9B0211179193F70092C82D /* V_image.png in Resources */ = {isa = PBXBuildFile; fileRef = DB9B0210179193F70092C82D /* V_image.png */; };
+		DB9B02131791991F0092C82D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9B02121791991F0092C82D /* AudioToolbox.framework */; };
+		DB9B02151791992C0092C82D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9B02141791992C0092C82D /* AVFoundation.framework */; };
 		DB9ED69E178D991F00323E4B /* LikerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9ED69D178D991F00323E4B /* LikerInfo.m */; };
 		DB9FCEEA1758241C00AE837D /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEE71758241C00AE837D /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB9FCEEB1758241C00AE837D /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCEE91758241C00AE837D /* PullRefreshTableViewController.m */; };
@@ -1154,6 +1157,9 @@
 		DB6434BA1758AC2C005CAD2F /* ImageCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageCache.xcdatamodel; sourceTree = "<group>"; };
 		DB991F7917898E7700A518AA /* OCExpandableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCExpandableButton.h; sourceTree = "<group>"; };
 		DB991F7A17898E7700A518AA /* OCExpandableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCExpandableButton.m; sourceTree = "<group>"; };
+		DB9B0210179193F70092C82D /* V_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = V_image.png; sourceTree = "<group>"; };
+		DB9B02121791991F0092C82D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DB9B02141791992C0092C82D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DB9ED69C178D991F00323E4B /* LikerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikerInfo.h; sourceTree = "<group>"; };
 		DB9ED69D178D991F00323E4B /* LikerInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikerInfo.m; sourceTree = "<group>"; };
 		DB9FCEE61758241C00AE837D /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
@@ -1366,6 +1372,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB9B02151791992C0092C82D /* AVFoundation.framework in Frameworks */,
+				DB9B02131791991F0092C82D /* AudioToolbox.framework in Frameworks */,
 				A2FAE9031787B7C300F3F1E8 /* Security.framework in Frameworks */,
 				A2FAE9021787B7AF00F3F1E8 /* libresolv.dylib in Frameworks */,
 				A2FAE9001787B79D00F3F1E8 /* libxml2.dylib in Frameworks */,
@@ -2302,6 +2310,8 @@
 		A2FF2C9217544BF200D31B2F = {
 			isa = PBXGroup;
 			children = (
+				DB9B02141791992C0092C82D /* AVFoundation.framework */,
+				DB9B02121791991F0092C82D /* AudioToolbox.framework */,
 				A2FAE9011787B7AE00F3F1E8 /* libresolv.dylib */,
 				A2FAE8FF1787B79D00F3F1E8 /* libxml2.dylib */,
 				A2FAE8721787AD5300F3F1E8 /* libsqlite3.0.dylib */,
@@ -2509,6 +2519,7 @@
 				DB64349D17588803005CAD2F /* loadingImage_50x118@2x.png */,
 				DB64349E17588803005CAD2F /* noImage50x118.png */,
 				DB64349F17588803005CAD2F /* noImage50x118@2x.png */,
+				DB9B0210179193F70092C82D /* V_image.png */,
 				DB64345F175887A2005CAD2F /* WeiboImages */,
 				DB64343A17588782005CAD2F /* timelineBG */,
 				DB6434351758876B005CAD2F /* pullToRefresh */,
@@ -3334,6 +3345,7 @@
 				A2DAFEFC178EAF3F00B40D24 /* icon_more_profile@2x.png in Resources */,
 				A2DAFEFD178EAF3F00B40D24 /* icon_more_search@2x.png in Resources */,
 				A2DAFEFE178EAF3F00B40D24 /* icon_more_setting@2x.png in Resources */,
+				DB9B0211179193F70092C82D /* V_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
