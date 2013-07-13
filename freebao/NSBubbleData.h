@@ -9,6 +9,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EGOImageView.h"
 
 typedef enum _NSBubbleType
 {
@@ -16,6 +17,7 @@ typedef enum _NSBubbleType
     BubbleTypeSomeoneElse = 1
 } NSBubbleType;
 
+@class EGOImageView;
 @interface NSBubbleData : NSObject
 
 @property (readonly, nonatomic, strong) NSDate *date;
@@ -23,6 +25,8 @@ typedef enum _NSBubbleType
 @property (readonly, nonatomic, strong) UIView *view;
 @property (readonly, nonatomic) UIEdgeInsets insets;
 @property (nonatomic, strong) UIImage *avatar;
+@property (readonly, nonatomic, strong) EGOImageView *mapView;
+@property BOOL isMap;
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
@@ -30,5 +34,8 @@ typedef enum _NSBubbleType
 + (id)dataWithImage:(UIImage *)image date:(NSDate *)date type:(NSBubbleType)type;
 - (id)initWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 + (id)dataWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
+
+- (id)initWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
++ (id)dataWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 
 @end

@@ -24,6 +24,7 @@
 
 -(void)showKeyboard:(CGRect)frame;
 -(void)hideKeyboard:(CGRect)frame;
+-(void)expandButtonAction:(id)sender;
 @end
 @interface FaceToolBar : UIToolbar<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
 {

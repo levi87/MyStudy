@@ -45,6 +45,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _imagePicker = [[UIImagePickerController alloc] init];
+    _imagePicker.allowsEditing = YES;
+    _imagePicker.delegate = self;
     FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
     bar.delegate=self;
     
@@ -117,7 +120,7 @@
     [date setStringValue:@"2013-07-12"];
     //发送类型
     NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
-    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPR_PIC]];
+    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_TEXT]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
     [language setStringValue:@"zh_CN"];
@@ -136,12 +139,9 @@
     }completion:^(BOOL finished){
         if (finished) {
             NSBubbleData *heyBubble = [NSBubbleData dataWithText:inputText date:[NSDate date] type:BubbleTypeMine];
-//            [bubbleData addObject:heyBubble];
-//            [bubbleTable reloadData];
             [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
             [bubbleTable reloadData];
-            [bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:bubbleTable.numberOfSections-1] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//            [bubbleTable insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:[bubbleTable.bubbleSection count] - 1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self scrollToBottomAnimated:YES];
         }
     }];
 }
@@ -157,6 +157,139 @@
             [self scrollToBottomAnimated:YES];
         }
     }];
+}
+
+-(void)expandButtonAction:sender {
+    UIButton *tmpButton = sender;
+    if (tmpButton.tag == 1) {
+        NSLog(@"takePhoto...");
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentModalViewController:_imagePicker animated:YES];
+    } else if (tmpButton.tag == 2) {
+        NSLog(@"ChoosePhoto...");
+        _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentModalViewController:_imagePicker animated:YES];
+    } else if (tmpButton.tag == 3) {
+        NSLog(@"sendMap");
+        [self sendMyPositon];
+    }
+}
+
+-(void)sendMyPositon {
+    //生成<body>文档
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:[NSString stringWithFormat:@"%g=%g",120.204,30.2094]];
+    
+    //生成XML消息文档
+    NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
+    //消息类型
+    [mes addAttributeWithName:@"type" stringValue:@"chat"];
+    //发送给谁
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    //发送者
+    NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
+    [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
+    //发送者昵称
+    NSXMLElement *nickName = [NSXMLElement elementWithName:@"nickName"];
+    [nickName setStringValue:@"levi"];
+    //语音时长
+    NSXMLElement *voiceLength = [NSXMLElement elementWithName:@"voiceLength"];
+    [voiceLength setStringValue:@"10"];
+    //头像Url
+    NSXMLElement *headIconUrl = [NSXMLElement elementWithName:@"headIconUrl"];
+    [headIconUrl setStringValue:@"http://www.freebao.com/head.img"];
+    //发送时间
+    NSXMLElement *date = [NSXMLElement elementWithName:@"date"];
+    [date setStringValue:@"2013-07-12"];
+    //发送类型
+    NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
+    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_MAP]];
+    //语言
+    NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
+    [language setStringValue:@"zh_CN"];
+    //组合
+    [mes addChild:body];
+    [mes addChild:fromId];
+    [mes addChild:nickName];
+    [mes addChild:voiceLength];
+    [mes addChild:headIconUrl];
+    [mes addChild:date];
+    [mes addChild:type];
+    [mes addChild:language];
+    [KAppDelegate.xmppStream sendElement:mes];
+    
+//    mapImageView = [[EGOImageView alloc] init];
+//    mapImageView.frame = CGRectMake(0, 0, 300, 300);
+//    NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=120x120&sensor=false&markers=30.2094,120.204&language=zh_CN";
+//    mapImageView.imageURL = [NSURL URLWithString:myPositionUrl];
+//    [self.navigationController.view addSubview:mapImageView];
+    UIEdgeInsets imageInsetsMine = {5, 5, 225, 225};
+    NSBubbleData *heyBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+    [bubbleTable reloadData];
+    [self scrollToBottomAnimated:YES];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSLog(@"[levi]take photo...");
+    [picker dismissModalViewControllerAnimated:YES];
+    UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    NSData *pictureData = UIImageJPEGRepresentation(editedImage,1);
+    
+    NSString* pictureDataString = [pictureData base64Encoded];
+    
+    //生成<body>文档
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:pictureDataString];
+    
+    //生成XML消息文档
+    NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
+    //消息类型
+    [mes addAttributeWithName:@"type" stringValue:@"chat"];
+    //发送给谁
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    //发送者
+    NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
+    [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
+    //发送者昵称
+    NSXMLElement *nickName = [NSXMLElement elementWithName:@"nickName"];
+    [nickName setStringValue:@"levi"];
+    //语音时长
+    NSXMLElement *voiceLength = [NSXMLElement elementWithName:@"voiceLength"];
+    [voiceLength setStringValue:@"10"];
+    //头像Url
+    NSXMLElement *headIconUrl = [NSXMLElement elementWithName:@"headIconUrl"];
+    [headIconUrl setStringValue:@"http://www.freebao.com/head.img"];
+    //发送时间
+    NSXMLElement *date = [NSXMLElement elementWithName:@"date"];
+    [date setStringValue:@"2013-07-12"];
+    //发送类型
+    NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
+    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPR_PIC]];
+    //语言
+    NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
+    [language setStringValue:@"zh_CN"];
+    //组合
+    [mes addChild:body];
+    [mes addChild:fromId];
+    [mes addChild:nickName];
+    [mes addChild:voiceLength];
+    [mes addChild:headIconUrl];
+    [mes addChild:date];
+    [mes addChild:type];
+    [mes addChild:language];
+    [KAppDelegate.xmppStream sendElement:mes];
+    
+    NSBubbleData *heyBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:pictureData] date:[NSDate date] type:BubbleTypeMine];
+    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+    [bubbleTable reloadData];
+    [self scrollToBottomAnimated:YES];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)scrollToBottomAnimated:(BOOL)animated

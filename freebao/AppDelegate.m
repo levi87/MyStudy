@@ -471,7 +471,7 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-	NSLog(@"[XMPP] did receive message %@", message);
+//	NSLog(@"[XMPP] did receive message %@", message);
     
 	// A simple example of inbound message handling.
     
@@ -490,7 +490,7 @@
         NSString *postType = [[message elementForName:@"postType"] stringValue];
         NSString *language = [[message elementForName:@"language"] stringValue];
 		NSString *displayName = [user displayName];
-        NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
+//        NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
         
         if (_insertChatQueen == nil) {
             _insertChatQueen = dispatch_queue_create("insertChat", NULL);

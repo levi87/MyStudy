@@ -10,8 +10,9 @@
 #import "UIBubbleTableViewDataSource.h"
 #import "FaceToolBar.h"
 
-@interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate> {
+@interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSMutableArray *bubbleData;
+    UIImagePickerController *_imagePicker;
 }
 @property (weak, nonatomic) IBOutlet UIView *chatBarView;
 @end

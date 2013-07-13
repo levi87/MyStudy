@@ -39,9 +39,10 @@
             UIButton *numberButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70.f, 30.f)];
             numberButton.backgroundColor = [UIColor clearColor];
             [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            numberButton.tag = i;
             numberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             numberButton.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
-            [numberButton addTarget:self action:@selector(tapped) forControlEvents:UIControlEventTouchUpInside];
+            [numberButton addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
             [subviews addObject:numberButton];
         }
         button = [[OCExpandableButton alloc] initWithFrame:CGRectMake(-39, superView.bounds.size.height - 57, 39, 39) subviews:subviews];
@@ -217,10 +218,18 @@
     [button open];
 }
 
-- (void)tapped {
+- (void)tapped:(id)sender {
     NSLog(@"tapped");
     [button close];
-    [self disFaceKeyboard];
+    UIButton *tmpButton = sender;
+    if (tmpButton.tag == 0) {
+        NSLog(@"tag 1");
+        [self disFaceKeyboard];
+    }
+    if ([delegate respondsToSelector:@selector(expandButtonAction:)])
+    {
+        [delegate expandButtonAction:sender];
+    }
 }
 
 -(void)disFaceKeyboard{

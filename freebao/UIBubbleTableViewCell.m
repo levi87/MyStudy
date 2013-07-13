@@ -11,12 +11,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIBubbleTableViewCell.h"
 #import "NSBubbleData.h"
+#import "EGOImageView.h"
 
 @interface UIBubbleTableViewCell ()
 
 @property (nonatomic, retain) UIView *customView;
 @property (nonatomic, retain) UIImageView *bubbleImage;
 @property (nonatomic, retain) UIImageView *avatarImage;
+@property (nonatomic, retain) EGOImageView *mapImageView;
 
 - (void) setupInternalData;
 
@@ -29,6 +31,7 @@
 @synthesize bubbleImage = _bubbleImage;
 @synthesize showAvatar = _showAvatar;
 @synthesize avatarImage = _avatarImage;
+@synthesize mapImageView = _mapImageView;
 
 - (void)setFrame:(CGRect)frame
 {
@@ -103,9 +106,16 @@
     }
 
     [self.customView removeFromSuperview];
-    self.customView = self.data.view;
-    self.customView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, width, height);
-    [self.contentView addSubview:self.customView];
+    [self.mapImageView removeFromSuperview];
+    if (self.data.isMap) {
+        self.mapImageView = self.data.mapView;
+        self.mapImageView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 220, 220);
+        [self.contentView addSubview:self.mapImageView];
+    } else {
+        self.customView = self.data.view;
+        self.customView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, width, height);
+        [self.contentView addSubview:self.customView];
+    }
 
     if (type == BubbleTypeSomeoneElse)
     {

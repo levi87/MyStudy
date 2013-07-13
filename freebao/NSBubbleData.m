@@ -20,6 +20,8 @@
 @synthesize view = _view;
 @synthesize insets = _insets;
 @synthesize avatar = _avatar;
+@synthesize mapView = _mapView;
+@synthesize isMap = _isMap;
 
 #pragma mark - Lifecycle
 
@@ -53,6 +55,7 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type
 {
+    _isMap = FALSE;
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
     
@@ -87,6 +90,7 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
 
 - (id)initWithImage:(UIImage *)image date:(NSDate *)date type:(NSBubbleType)type
 {
+    _isMap = FALSE;
     CGSize size = image.size;
     if (size.width > 220)
     {
@@ -124,6 +128,7 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     self = [super init];
     if (self)
     {
+        _isMap = FALSE;
 #if !__has_feature(objc_arc)
         _view = [view retain];
         _date = [date retain];
@@ -131,6 +136,27 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
         _view = view;
         _date = date;
 #endif
+        _type = type;
+        _insets = insets;
+    }
+    return self;
+}
+
++(id)dataWithPosition:(NSString *)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    return [[NSBubbleData alloc] initWithPosition:position date:date type:type insets:insets];
+}
+
+-(id)initWithPosition:(NSString *)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    self = [super init];
+    if (self)
+    {
+        EGOImageView *mapImageView = [[EGOImageView alloc] init];
+        _isMap = YES;
+        mapImageView.frame = CGRectMake(0, 0, 220, 220);
+        NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=220x220&sensor=false&markers=30.2094,120.204&language=zh_CN";
+        mapImageView.imageURL = [NSURL URLWithString:myPositionUrl];
+        _mapView = mapImageView;
+        _date = date;
         _type = type;
         _insets = insets;
     }
