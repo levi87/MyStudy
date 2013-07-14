@@ -22,6 +22,7 @@
 @property (nonatomic, retain) UIImageView *bubbleImage;
 @property (nonatomic, retain) UIImageView *avatarImage;
 @property (nonatomic, retain) EGOImageView *mapImageView;
+@property (nonatomic, retain) UIButton *voiceButton;
 
 - (void) setupInternalData;
 
@@ -35,6 +36,7 @@
 @synthesize showAvatar = _showAvatar;
 @synthesize avatarImage = _avatarImage;
 @synthesize mapImageView = _mapImageView;
+@synthesize voiceButton = _voiceButton;
 
 - (void)setFrame:(CGRect)frame
 {
@@ -125,6 +127,10 @@
         self.mapImageView = self.data.mapView;
         self.mapImageView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 220, 220);
         [self.contentView addSubview:self.mapImageView];
+    } else if (self.data.isVoice) {
+        self.voiceButton = self.data.voiceButton;
+        self.voiceButton.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 30, 80);
+        [self.contentView addSubview:self.voiceButton];
     } else {
         self.customView = self.data.view;
         self.customView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, width, height);

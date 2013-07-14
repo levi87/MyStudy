@@ -141,7 +141,15 @@
                     }
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_VOICE) {
-                    
+                    NSBubbleData *tmpBd;
+                    if ([tmpM.isSelf integerValue] == 1) {
+                        UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
+                        tmpBd = [NSBubbleData dataWithVoice:@"" date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+                    } else {
+                        UIEdgeInsets imageInsetsMine = {10, 10, 35, 85};
+                        tmpBd = [NSBubbleData dataWithVoice:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+                    }
+                    [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_MAP) {
                     NSBubbleData *tmpBd;
                     if ([tmpM.isSelf integerValue] == 1) {
@@ -301,11 +309,64 @@
             }
             [recorder stop];
             [recordtTimer invalidate];
+            [self sendVoiceAction];
         }
             break;
         default:
             break;
     }
+}
+
+-(void)sendVoiceAction {
+    //生成<body>文档
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:@""];
+    
+    //生成XML消息文档
+    NSXMLElement *mes = [NSXMLElement elementWithName:@"message"];
+    //消息类型
+    [mes addAttributeWithName:@"type" stringValue:@"chat"];
+    //发送给谁
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    //发送者
+    NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
+    [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
+    //发送者昵称
+    NSXMLElement *nickName = [NSXMLElement elementWithName:@"nickName"];
+    [nickName setStringValue:@"levi"];
+    //语音时长
+    NSXMLElement *voiceLength = [NSXMLElement elementWithName:@"voiceLength"];
+    [voiceLength setStringValue:@"10"];
+    //头像Url
+    NSXMLElement *headIconUrl = [NSXMLElement elementWithName:@"headIconUrl"];
+    [headIconUrl setStringValue:@"http://www.freebao.com/head.img"];
+    //发送时间
+    NSXMLElement *date = [NSXMLElement elementWithName:@"date"];
+    [date setStringValue:@"2013-07-12"];
+    //发送类型
+    NSXMLElement *type = [NSXMLElement elementWithName:@"postType"];
+    [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_VOICE]];
+    //语言
+    NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
+    [language setStringValue:@"zh_CN"];
+    //数据（声音/图片）
+    NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
+    
+    NSData *data=[NSData dataWithContentsOfFile:tmpVoicePath options:0 error:nil];
+    NSString *voiceStr = [data base64Encoded];
+    [bData setStringValue:voiceStr];
+    //组合
+    [mes addChild:body];
+    [mes addChild:fromId];
+    [mes addChild:nickName];
+    [mes addChild:voiceLength];
+    [mes addChild:headIconUrl];
+    [mes addChild:date];
+    [mes addChild:type];
+    [mes addChild:language];
+    [mes addChild:bData];
+    [KAppDelegate.xmppStream sendElement:mes];
 }
 
 - (void)detectionVoice
@@ -566,6 +627,7 @@
     
     NSString *strUrl = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/tmpAudio.aac", strUrl]];
+    tmpVoicePath = [NSString stringWithFormat:@"%@/tmpAudio.aac", strUrl];
     
     NSError *error;
     //初始化

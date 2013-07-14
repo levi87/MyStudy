@@ -24,6 +24,7 @@
     NSTimer *recordtTimer;
     
     ImageBrowser        *_browserView;
+    NSString *tmpVoicePath;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (weak, nonatomic) IBOutlet UIView *chatBarView;

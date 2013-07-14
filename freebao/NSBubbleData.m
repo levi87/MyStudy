@@ -22,6 +22,8 @@
 @synthesize avatar = _avatar;
 @synthesize mapView = _mapView;
 @synthesize isMap = _isMap;
+@synthesize isVoice = _isVoice;
+@synthesize voiceButton = _voiceButton;
 
 #pragma mark - Lifecycle
 
@@ -156,6 +158,27 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
         NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=220x220&sensor=false&markers=30.2094,120.204&language=zh_CN";
         mapImageView.imageURL = [NSURL URLWithString:myPositionUrl];
         _mapView = mapImageView;
+        _date = date;
+        _type = type;
+        _insets = insets;
+    }
+    return self;
+}
+
++(id)dataWithVoice:(NSString *)voice date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    return [[NSBubbleData alloc] initWithVoice:voice date:date type:type insets:insets];
+}
+
+-(id)initWithVoice:(NSString *)voice date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    self = [super init];
+    if (self)
+    {
+        UIButton *voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _isVoice = TRUE;
+        [voiceButton setTitle:@"Voice" forState:UIControlStateNormal];
+        [voiceButton setTintColor:[UIColor blueColor]];
+        voiceButton.frame = CGRectMake(0, 0, 30, 80);
+        _voiceButton = voiceButton;
         _date = date;
         _type = type;
         _insets = insets;

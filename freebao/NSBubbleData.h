@@ -26,7 +26,9 @@ typedef enum _NSBubbleType
 @property (readonly, nonatomic) UIEdgeInsets insets;
 @property (nonatomic, strong) UIImage *avatar;
 @property (readonly, nonatomic, strong) EGOImageView *mapView;
+@property (nonatomic, strong) UIButton *voiceButton;
 @property BOOL isMap;
+@property BOOL isVoice;
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
@@ -37,5 +39,8 @@ typedef enum _NSBubbleType
 
 - (id)initWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 + (id)dataWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
+
+- (id)initWithVoice:(NSString*)voice date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
++ (id)dataWithVoice:(NSString*)voice date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 
 @end
