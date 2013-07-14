@@ -25,6 +25,7 @@
     
     ImageBrowser        *_browserView;
     NSString *tmpVoicePath;
+    NSString *voiceRecordLength;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

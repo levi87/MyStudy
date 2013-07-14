@@ -138,6 +138,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSMutableArray *tmpArray = [LPDataBaseutil readMessage:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] userId:@""];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [bubbleData removeAllObjects];
             for (int i = 0; i < [tmpArray count]; i ++) {
                 MessageInfo *tmpM = [tmpArray objectAtIndex:i];
                 if ([tmpM.postType integerValue] == MSG_TYPE_TEXT) {
@@ -315,6 +316,7 @@
             self.recordView.hidden = YES;
             double cTime = recorder.currentTime;
             NSLog(@"record length %f", cTime);
+            voiceRecordLength = [NSString stringWithFormat:@"%f", cTime];
             if (cTime > 2) {//如果录制时间<2 不发送
                 NSLog(@"send voice...");
             }else {
@@ -353,7 +355,7 @@
     [nickName setStringValue:@"levi"];
     //语音时长
     NSXMLElement *voiceLength = [NSXMLElement elementWithName:@"voiceLength"];
-    [voiceLength setStringValue:@"10"];
+    [voiceLength setStringValue:voiceRecordLength];
     //头像Url
     NSXMLElement *headIconUrl = [NSXMLElement elementWithName:@"headIconUrl"];
     [headIconUrl setStringValue:@"http://www.freebao.com/head.img"];

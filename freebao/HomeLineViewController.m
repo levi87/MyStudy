@@ -53,10 +53,7 @@
     tittleLabel.textColor = [UIColor whiteColor];
     [TittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
-    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 7, 12)];
-//    backButton.backgroundColor = [UIColor blackColor];
-    backButton.titleLabel.text = @"Back";
-    backButton.titleLabel.textColor = [UIColor blackColor];
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
     [imgV setFrame:CGRectMake(0, 0, 7, 12)];
