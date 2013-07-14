@@ -13,6 +13,8 @@
 #import "NSBubbleData.h"
 #import "EGOImageView.h"
 
+#define IMAGE_TAP @"fb_image_tap"
+
 @interface UIBubbleTableViewCell ()
 
 @property (nonatomic, retain) UIView *customView;
@@ -56,6 +58,10 @@
 	[self setupInternalData];
 }
 
+- (void)onSingleTap:(UIGestureRecognizer *)gestureR {
+    [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_TAP object:self.data.view];
+}
+
 - (void) setupInternalData
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -65,9 +71,12 @@
 #if !__has_feature(objc_arc)
         self.bubbleImage = [[[UIImageView alloc] init] autorelease];
 #else
-        self.bubbleImage = [[UIImageView alloc] init];        
+        self.bubbleImage = [[UIImageView alloc] init];
 #endif
         [self addSubview:self.bubbleImage];
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTap:)];
+//        tap.numberOfTapsRequired = 1;
+//        [self addGestureRecognizer:tap];
     }
     
     NSBubbleType type = self.data.type;
@@ -114,6 +123,10 @@
     } else {
         self.customView = self.data.view;
         self.customView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, width, height);
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTap:)];
+        tap.numberOfTapsRequired = 1;
+        [self.customView addGestureRecognizer:tap];
+        [self.customView setUserInteractionEnabled:YES];
         [self.contentView addSubview:self.customView];
     }
 

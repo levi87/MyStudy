@@ -12,8 +12,9 @@
 #import "WeiBoHttpManager.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import "ImageBrowser.h"
 
-@interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate> {
+@interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate> {
     NSMutableArray *bubbleData;
     UIImagePickerController *_imagePicker;
     BOOL _isFirst;
@@ -21,9 +22,13 @@
     
     AVAudioRecorder *recorder;
     NSTimer *recordtTimer;
+    
+    ImageBrowser        *_browserView;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (weak, nonatomic) IBOutlet UIView *chatBarView;
 @property BOOL isFirst;
 @property BOOL isReload;
+
+@property (nonatomic, retain)   ImageBrowser            *browserView;
 @end

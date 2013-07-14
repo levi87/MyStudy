@@ -10,6 +10,8 @@
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
+#define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
+
 #import "AppDelegate.h"
 
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
@@ -161,7 +163,7 @@
     NSLog(@"[levi]back...");
     backButton.hidden = YES;
     tittleLabel.text = @"Chats";
-    [[NSNotificationCenter defaultCenter] removeObserver:KAppDelegate.commChat.self];
+    [[NSNotificationCenter defaultCenter] removeObserver:KAppDelegate.commChat.self name:RECEIVE_REFRESH_VIEW object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

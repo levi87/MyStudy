@@ -25,6 +25,7 @@
 #define MSG_TYPE_MAP    5
 
 #define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
+#define IMAGE_TAP @"fb_image_tap"
 
 @interface ChatViewController () {
     
@@ -36,6 +37,7 @@
 @implementation ChatViewController
 @synthesize isFirst = _isFirst;
 @synthesize isReload = _isReload;
+@synthesize browserView = _browserView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,7 +60,7 @@
     FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view];
     bar.delegate=self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidTap:) name:IMAGE_TAP object:nil];
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
     heyBubble.avatar = [UIImage imageNamed:@"avatar1.png"];
@@ -80,6 +82,22 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
+}
+
+-(void)imageDidTap:(NSNotification*)notification {
+    NSLog(@"tap.........");
+    if ([notification.object isKindOfClass:[UIImageView class]]) {
+        UIImageView *tmpImageV = notification.object;
+        CGRect frame = CGRectMake(0, 0, 320, 480);
+        if (_browserView == nil) {
+            _browserView = [[ImageBrowser alloc]initWithFrame:frame];
+            [_browserView setUp];
+        }
+        _browserView.image = tmpImageV.image;
+        _browserView.theDelegate = self;
+        [_browserView loadImage];
+        [self.navigationController.view addSubview:_browserView];
+    }
 }
 
 -(void)refreshViewByNewMsg:(NSNotification*)notification {
