@@ -59,7 +59,6 @@
 
     self.navigationItem.rightBarButtonItem = sendBtn;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetRepostResult:) name:MMSinaGotRepost object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -72,7 +71,6 @@
 {
     [self setImageV:nil];
     [self setContentV:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:MMSinaGotRepost object:nil];
     [super viewDidUnload];
 }
 
@@ -87,7 +85,6 @@
 //转发
 -(void)repost
 {
-    [[WeiBoMessageManager getInstance] repost:weiboID content:contentV.text withComment:0];
 }
 
 //回复微博

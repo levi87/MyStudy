@@ -78,7 +78,6 @@
 {
     [super viewDidLoad];
     self.tableView.tableHeaderView = _searchBar;
-    [self loadData];
 }
 
 - (void)viewDidUnload
@@ -93,7 +92,6 @@
 {
     [super viewWillAppear:animated];
     NSNotificationCenter *notifCenter = [NSNotificationCenter defaultCenter];
-    [notifCenter addObserver:self selector:@selector(gotFollowUserList:) name:MMSinaGotFollowingUserList object:nil];
     [notifCenter addObserver:self selector:@selector(gotAvatar:) name:HHNetDataCacheNotification object:nil];
     [notifCenter addObserver:self selector:@selector(mmRequestFailed:) name:MMSinaRequestFailed object:nil];
 }
@@ -102,16 +100,6 @@
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)loadData
-{
-    NSString *userID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_USER_ID];
-    
-    [_manager getFollowingUserList:[userID longLongValue] count:50 cursor:0];
-    if (self.userArr == nil) {
-        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..."];
-    }
 }
 
 -(void)refreshVisibleCellsImages

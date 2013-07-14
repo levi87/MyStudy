@@ -497,8 +497,6 @@
 		DB9FCFF21758314800AE837D /* SettingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB9FCFEB1758314700AE837D /* SettingVC.xib */; };
 		DB9FCFF31758314800AE837D /* FollowAndFansVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCFED1758314800AE837D /* FollowAndFansVC.m */; };
 		DB9FCFF41758314800AE837D /* FollowAndFansVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB9FCFEE1758314800AE837D /* FollowAndFansVC.xib */; };
-		DB9FCFFB1758329300AE837D /* OAuthWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9FCFF91758329200AE837D /* OAuthWebView.m */; };
-		DB9FCFFC1758329300AE837D /* OAuthWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB9FCFFA1758329200AE837D /* OAuthWebView.xib */; };
 		DB9FCFFE1758353D00AE837D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9FCFFD1758353C00AE837D /* CFNetwork.framework */; };
 		DB9FD0001758354700AE837D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9FCFFF1758354600AE837D /* SystemConfiguration.framework */; };
 		DB9FD0021758354D00AE837D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9FD0011758354C00AE837D /* MobileCoreServices.framework */; };
@@ -1312,9 +1310,6 @@
 		DB9FCFEC1758314700AE837D /* FollowAndFansVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowAndFansVC.h; sourceTree = "<group>"; };
 		DB9FCFED1758314800AE837D /* FollowAndFansVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowAndFansVC.m; sourceTree = "<group>"; };
 		DB9FCFEE1758314800AE837D /* FollowAndFansVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowAndFansVC.xib; sourceTree = "<group>"; };
-		DB9FCFF81758329200AE837D /* OAuthWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthWebView.h; sourceTree = "<group>"; };
-		DB9FCFF91758329200AE837D /* OAuthWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAuthWebView.m; sourceTree = "<group>"; };
-		DB9FCFFA1758329200AE837D /* OAuthWebView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OAuthWebView.xib; sourceTree = "<group>"; };
 		DB9FCFFD1758353C00AE837D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		DB9FCFFF1758354600AE837D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DB9FD0011758354C00AE837D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -2845,9 +2840,6 @@
 		DB9FCF1B1758276F00AE837D /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				DB9FCFF81758329200AE837D /* OAuthWebView.h */,
-				DB9FCFF91758329200AE837D /* OAuthWebView.m */,
-				DB9FCFFA1758329200AE837D /* OAuthWebView.xib */,
 				DB9FCF9517582D3800AE837D /* SBJson */,
 				DB9FCF9217582CD600AE837D /* WeiBoHttpManager.h */,
 				DB9FCF9317582CD600AE837D /* WeiBoHttpManager.m */,
@@ -3102,7 +3094,6 @@
 				DB9FCFF01758314800AE837D /* FollowerVC.xib in Resources */,
 				DB9FCFF21758314800AE837D /* SettingVC.xib in Resources */,
 				DB9FCFF41758314800AE837D /* FollowAndFansVC.xib in Resources */,
-				DB9FCFFC1758329300AE837D /* OAuthWebView.xib in Resources */,
 				DB9FD01A17583E8A00AE837D /* Default.png in Resources */,
 				DB9FD01B17583E8D00AE837D /* Default@2x.png in Resources */,
 				DB6433B5175856FA005CAD2F /* LoginViewController.xib in Resources */,
@@ -3423,7 +3414,6 @@
 				DB9FCFEF1758314800AE837D /* FollowerVC.m in Sources */,
 				DB9FCFF11758314800AE837D /* SettingVC.m in Sources */,
 				DB9FCFF31758314800AE837D /* FollowAndFansVC.m in Sources */,
-				DB9FCFFB1758329300AE837D /* OAuthWebView.m in Sources */,
 				DB6433781758435E005CAD2F /* SelectXYData.m in Sources */,
 				DB6433921758488E005CAD2F /* SBJsonParser.m in Sources */,
 				DB6433931758488E005CAD2F /* SBJsonStreamParser.m in Sources */,

@@ -68,12 +68,7 @@
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
-    
-    [defaultNotifCenter addObserver:self selector:@selector(didGetUserID:)      name:MMSinaGotUserID            object:nil];
-//    [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:MMSinaGotHomeLine          object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:MMSinaGotUserInfo          object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(relogin)            name:NeedToReLogin              object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:MMSinaGotUnreadCount       object:nil];
+
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
 
@@ -88,12 +83,6 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_HOMELINE object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
-    
-    [defaultNotifCenter removeObserver:self name:MMSinaGotUserID            object:nil];
-    [defaultNotifCenter removeObserver:self name:MMSinaGotHomeLine          object:nil];
-    [defaultNotifCenter removeObserver:self name:MMSinaGotUserInfo          object:nil];
-    [defaultNotifCenter removeObserver:self name:NeedToReLogin              object:nil];
-    [defaultNotifCenter removeObserver:self name:MMSinaGotUnreadCount       object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -123,7 +112,7 @@
         return;
     }
 //    NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
-    NSLog([manager isNeedToRefreshTheToken] == YES ? @"need to login":@"did login");
+//    NSLog([manager isNeedToRefreshTheToken] == YES ? @"need to login":@"did login");
 //    if (authToken == nil || [manager isNeedToRefreshTheToken])
 //    {
 //        shouldLoad = YES;
@@ -218,23 +207,6 @@
 //    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
 //    webV.hidesBottomBarWhenPushed = YES;
 //    [self.navigationController pushViewController:webV animated:NO];
-}
-
--(void)didGetUserID:(NSNotification*)sender
-{
-    self.userID = sender.object;
-    [[NSUserDefaults standardUserDefaults] setObject:userID forKey:USER_STORE_USER_ID];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [manager getUserInfoWithUserID:[userID longLongValue]];
-}
-
--(void)didGetUserInfo:(NSNotification*)sender
-{
-    User *user = sender.object;
-    [ZJTHelpler getInstance].user = user;
-    [[NSUserDefaults standardUserDefaults] setObject:user.screenName forKey:USER_STORE_USER_NAME];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void)didGetHomeLine:(NSNotification*)sender

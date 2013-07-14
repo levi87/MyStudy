@@ -24,11 +24,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetTopicSearchResult:) name:MMSinaGotTopicStatuses object:nil];
-    if (qureyString && (self.statuesArr == nil || self.statuesArr.count == 0)) {
-        [manager searchTopic:qureyString count:20 page:1];
-        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view]; 
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated

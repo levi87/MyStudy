@@ -204,8 +204,6 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    
-    NSLog(@"走textViewDidChange%@",textView);
     if(textView.text.length == 0)
         placeholderLabel.alpha = 1;
     else

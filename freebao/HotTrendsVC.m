@@ -45,15 +45,11 @@
 {
     [super viewDidLoad];
     if (_dataSourceArr == nil || _dataSourceArr.count == 0) {
-        [[WeiBoMessageManager getInstance]getHOtTrendsDaily];
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetHotTrend:) name:MMSinaGotHotCommentDaily object:nil];
 }
 
 - (void)viewDidUnload
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MMSinaGotHotCommentDaily object:nil];
     [super viewDidUnload];  
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

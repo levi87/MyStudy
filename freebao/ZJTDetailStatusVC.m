@@ -318,12 +318,8 @@ enum  {
     self.tableView.contentInset = UIEdgeInsetsOriginal;
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(didGetComments:) name:MMSinaGotCommentList object:nil];
-    [center addObserver:self selector:@selector(didFollowByUserID:) name:MMSinaFollowedByUserIDWithResult object:nil];
-    [center addObserver:self selector:@selector(didUnfollowByUserID:) name:MMSinaUnfollowedByUserIDWithResult object:nil];
     [center addObserver:self selector:@selector(mmRequestFailed:) name:MMSinaRequestFailed object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAvatar:)         name:HHNetDataCacheNotification object:nil];
-        [center addObserver:self selector:@selector(didCommentAStatus:) name:MMSinaCommentAStatus object:nil];
     
     [center addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
     if (self.commentArr == nil) {
@@ -437,17 +433,14 @@ enum  {
 }
 
 - (void)refresh {
-    [manager getCommentListWithID:status.statusId maxID:_maxID page:_page];
 //    [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
 }
 
 -(void)follow
 {
     if (user.following == YES) {
-        [manager unfollowByUserID:user.userId inTableView:@""];
     }
     else {
-        [manager followByUserID:user.userId inTableView:@""];
     }
 }
 
@@ -739,7 +732,6 @@ enum  {
             [self.navigationController pushViewController:profile animated:YES];
         }
         else if(buttonIndex == kFollowTheUser){
-            [manager followByUserID:theUser.userId inTableView:@""];
         }
     }
     else if (actionSheet.tag == kStatusReplyActionSheet)

@@ -7,7 +7,6 @@
 //
 
 #import "SettingVC.h"
-#import "OAuthWebView.h"
 #import "WeiBoMessageManager.h"
 #import "User.h"
 #import "ZJTHotRepostViewController.h"
@@ -83,7 +82,6 @@ enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetUserInfo:)    name:MMSinaGotUserInfo          object:nil];
     UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -110,8 +108,6 @@ enum {
 
 - (void)viewDidUnload
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MMSinaGotUserInfo          object:nil];
-    
     [super viewDidUnload];
 }
 
@@ -164,17 +160,6 @@ enum {
 //    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
 //    webV.hidesBottomBarWhenPushed = YES;
 //    [self.navigationController pushViewController:webV animated:YES];
-}
-
--(void)didGetUserInfo:(NSNotification*)sender
-{
-    User *user = sender.object;
-    [[NSUserDefaults standardUserDefaults] setObject:user.screenName forKey:USER_STORE_USER_NAME];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    NSIndexPath *p = [NSIndexPath indexPathForRow:kCurrentUser inSection:kAccountSection];
-    NSArray *arr = [NSArray arrayWithObject:p];
-    [self.tableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark - Table view delegate

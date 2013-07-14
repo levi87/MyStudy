@@ -81,14 +81,10 @@
     [super viewWillAppear:animated];
     NSNotificationCenter *notifCenter = [NSNotificationCenter defaultCenter];
     if (_isFollowingViewController) {
-        [notifCenter addObserver:self selector:@selector(gotFollowUserList:) name:MMSinaGotFollowingUserList object:nil];
     }
     else {
-        [notifCenter addObserver:self selector:@selector(gotFollowUserList:) name:MMSinaGotFollowedUserList object:nil];
     }
     [notifCenter addObserver:self selector:@selector(gotAvatar:) name:HHNetDataCacheNotification object:nil];
-    [notifCenter addObserver:self selector:@selector(gotFollowResult:) name:MMSinaFollowedByUserIDWithResult object:nil];
-    [notifCenter addObserver:self selector:@selector(gotUnfollowResult:) name:MMSinaUnfollowedByUserIDWithResult object:nil];
     [notifCenter addObserver:self selector:@selector(mmRequestFailed:) name:MMSinaRequestFailed object:nil];
     [self loadData];
 }
@@ -98,14 +94,10 @@
     [super viewWillDisappear:animated];
     NSNotificationCenter *notifCenter = [NSNotificationCenter defaultCenter];
     if (_isFollowingViewController) {
-        [notifCenter removeObserver:MMSinaGotFollowingUserList];
     }
     else {
-        [notifCenter removeObserver:MMSinaGotFollowedUserList];
     }
     [notifCenter removeObserver:self name:HHNetDataCacheNotification object:nil];
-    [notifCenter removeObserver:self name:MMSinaFollowedByUserIDWithResult object:nil];
-    [notifCenter removeObserver:self name:MMSinaUnfollowedByUserIDWithResult object:nil];
     [notifCenter removeObserver:self name:MMSinaRequestFailed object:nil];
 }
 
@@ -243,27 +235,6 @@
     [self loadData];
 }
 
--(void)loadData
-{
-    NSString *userID = nil;
-    if (_user) {
-        userID = [NSString stringWithFormat:@"%lld",_user.userId];
-    }
-    else {
-        userID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_USER_ID];
-    }
-    if (_isFollowingViewController) {
-        [_manager getFollowingUserList:[userID longLongValue] count:50 cursor:0];
-    }
-    else {
-        [_manager getFollowedUserList:[userID longLongValue] count:50 cursor:0];
-    }
-    if (self.userArr == nil) {
-        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..."];
-//        [[ZJTStatusBarAlertWindow getInstance] showWithString:@"正在载入，请稍后..."];
-    }
-}
-
 #pragma mark - Table view data source
 
 
@@ -358,10 +329,8 @@
     User *user = [_userArr objectAtIndex:index];
     
     if (user.following) {
-        [_manager unfollowByUserID:user.userId inTableView:nil];
     }
     else {
-        [_manager followByUserID:user.userId inTableView:nil];
     }
 }
 

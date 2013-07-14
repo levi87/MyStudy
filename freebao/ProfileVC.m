@@ -100,7 +100,6 @@
         return;
     }
     
-    [manager getUserStatusUserID:userID sinceID:-1 maxID:_maxID count:8 page:_page baseApp:-1 feature:-1];
     [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..."];
 //    [[ZJTStatusBarAlertWindow getInstance] showWithString:@"正在载入，请稍后..."];
 }
@@ -135,7 +134,6 @@
         [self refreshData];
     }
     else if(screenName){
-        [manager getUserInfoWithScreenName:self.screenName];
     }
     
     self.tableView.contentInset = UIEdgeInsetsOriginal;
@@ -151,16 +149,13 @@
 {
     [super viewWillAppear:animated];
     
-    [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:MMSinaGotUserStatus        object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(getAvatar:)         name:HHNetDataCacheNotification object:nil];
     //    [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:MMSinaGotUserInfo          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(mmRequestFailed:) name:MMSinaRequestFailed object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:MMSinaGotUserInfo          object:nil];
     
     if (shouldLoad) 
     {
         shouldLoad = NO;
-        [manager getUserStatusUserID:userID sinceID:-1 maxID:-1 count:8 page:-1 baseApp:-1 feature:-1];
         [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..."];
 //        [[ZJTStatusBarAlertWindow getInstance] showWithString:@"正在载入，请稍后..."];
     }
@@ -169,11 +164,9 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [defaultNotifCenter removeObserver:self name:MMSinaGotUserStatus        object:nil];
     [defaultNotifCenter removeObserver:self name:HHNetDataCacheNotification object:nil];
     //    [defaultNotifCenter removeObserver:self name:MMSinaGotUserInfo          object:nil];
     [defaultNotifCenter removeObserver:self name:MMSinaRequestFailed object:nil];
-    [defaultNotifCenter removeObserver:self name:MMSinaGotUserInfo          object:nil];
 }
 
 - (IBAction)gotoFollowedVC:(id)sender {
@@ -290,27 +283,6 @@
     }
 }
 
--(void)didGetUserInfo:(NSNotification*)sender
-{
-    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_USER_ID];
-    
-    if (uid.longLongValue == user.userId) {
-        User *theUser = sender.object;
-        self.user = theUser;
-        [self loadDataFromUser:user];
-        [self refreshData];
-    }
-    
-    if ([self.title isEqualToString:@"我的微博"]) {
-        return;
-    }
-
-    User *theUser = sender.object;
-    self.user = theUser;
-    [self loadDataFromUser:user];
-    [self refreshData];
-}
-
 -(void)didGetUserID:(NSNotification*)sender
 {
 //    self.userID = sender.object;
@@ -357,7 +329,6 @@
 
 -(void)refresh
 {
-    [manager getUserStatusUserID:userID sinceID:-1 maxID:_maxID count:8 page:_page baseApp:-1 feature:-1];
 }
 
 //计算text field 的高度。

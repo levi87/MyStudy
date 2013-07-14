@@ -54,11 +54,9 @@ enum{
 {
     if (_segmentCtrol.selectedSegmentIndex == kFollowIndex) {
         _followTable.hidden = NO;
-        [self loadDataWithCursor:_followCursor];
     }
     else if (_segmentCtrol.selectedSegmentIndex == kFansIndex) {
         _followTable.hidden = YES;
-        [self loadDataWithCursor:_fansCursor];
     }
 }
 
@@ -86,15 +84,10 @@ enum{
 {
     [super viewWillAppear:animated];
     NSNotificationCenter *notifCenter = [NSNotificationCenter defaultCenter];
-    [notifCenter addObserver:self selector:@selector(gotFollowUserList:) name:MMSinaGotFollowingUserList object:nil];
-    [notifCenter addObserver:self selector:@selector(gotFansUserList:) name:MMSinaGotFollowedUserList object:nil];
     [notifCenter addObserver:self selector:@selector(gotAvatar:) name:HHNetDataCacheNotification object:nil];
-    [notifCenter addObserver:self selector:@selector(gotFollowResult:) name:MMSinaFollowedByUserIDWithResult object:nil];
-    [notifCenter addObserver:self selector:@selector(gotUnfollowResult:) name:MMSinaUnfollowedByUserIDWithResult object:nil];
     [notifCenter addObserver:self selector:@selector(mmRequestFailed:) name:MMSinaRequestFailed object:nil];
     _fansCursor = 0;
     _followCursor = 0;
-    [self loadDataWithCursor:0];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -157,23 +150,6 @@ enum{
                 cell.headerView.image = user.avatarImage;
             }
         }
-    }
-}
-
--(void)loadDataWithCursor:(int)cursor
-{
-    NSString *userID = nil;
-    if (_user) {
-        userID = [NSString stringWithFormat:@"%lld",_user.userId];
-    }
-    else {
-        userID = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_USER_ID];
-    }
-    if (_followTable.hidden == NO) {
-        [_manager getFollowingUserList:[userID longLongValue] count:50 cursor:cursor];
-    }
-    else {
-        [_manager getFollowedUserList:[userID longLongValue] count:50 cursor:cursor];
     }
 }
 
@@ -497,10 +473,8 @@ enum{
         User *user = [_fansUserArr objectAtIndex:index];
         
         if (user.following) {
-            [_manager unfollowByUserID:user.userId inTableView:@"fansTable"];
         }
         else {
-            [_manager followByUserID:user.userId inTableView:@"fansTable"];
         }
     }
     else if ([_followTable indexPathForCell:cell]) {
@@ -510,10 +484,8 @@ enum{
         User *user = [_followUserArr objectAtIndex:index];
         
         if (user.following) {
-            [_manager unfollowByUserID:user.userId inTableView:@"followTable"];
         }
         else {
-            [_manager followByUserID:user.userId inTableView:@"followTable"];
         }
     }
 }

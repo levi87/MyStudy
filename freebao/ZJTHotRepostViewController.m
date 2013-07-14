@@ -36,7 +36,6 @@
     
     if (_type == kHotRepostDaily) {
         self.title = @"今日热门转发";
-        [defaultNotifCenter addObserver:self selector:@selector(didGetHotStatus:)    name:MMSinaGotHotRepostDaily   object:nil];
     }
     
     else if (_type == kHotRepostWeekly) {
@@ -45,7 +44,6 @@
     
     else if (_type == kHotCommentDaily) {
         self.title = @"今日热门评论";
-        [defaultNotifCenter addObserver:self selector:@selector(didGetHotStatus:)    name:MMSinaGotHotCommentDaily   object:nil];
     }
     
     else if (_type == kHotCommentWeekly) {
@@ -57,7 +55,6 @@
 - (void)viewDidUnload
 {
     if (_type == kHotRepostDaily) {
-        [defaultNotifCenter removeObserver:self name:MMSinaGotHotRepostDaily object:nil];
     }
     
     else if (_type == kHotRepostWeekly) {
@@ -65,7 +62,6 @@
     }
     
     else if (_type == kHotCommentDaily) {
-        [defaultNotifCenter removeObserver:self name:MMSinaGotHotCommentDaily object:nil];
     }
     
     else if (_type == kHotCommentWeekly) {
@@ -80,7 +76,6 @@
         return;
     }
     if (_type == kHotRepostDaily) {
-        [manager getHotRepostDaily:50];
     }
     
     else if (_type == kHotRepostWeekly) {
@@ -88,7 +83,6 @@
     }
     
     else if (_type == kHotCommentDaily) {
-        [manager getHotCommnetDaily:50];
     }
     
     else if (_type == kHotCommentWeekly) {

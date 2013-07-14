@@ -72,13 +72,11 @@
     NSString *content = theTextView.text;
     
     if (_isForComment) {
-        [manager replyACommentWeiboId:weiboID commentID:commentID content:content];
     }
     else if (_isForReply) {
         
     }
     else if (_isForRepost) {
-        [manager repost:weiboID content:content withComment:NO];
     }
     else 
     {
@@ -86,10 +84,8 @@
         if (content != nil && [content length] != 0)
         {
             if (!_shouldPostImage) {
-                [manager postWithText:content];
             }
             else {
-                [manager postWithText:content image:image];
             }
         }
     }
@@ -158,7 +154,6 @@
     theTextView.delegate = self;
     TVBackView.image = [[UIImage imageNamed:@"input_window.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:15];
     
-    [manager getMetionsStatuses];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -167,9 +162,6 @@
     [theTextView becomeFirstResponder];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPost:) name:MMSinaGotPostResult object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPost:) name:MMSinaGotRepost object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didComment:) name:MMSinaReplyAComment object:nil];
     
     // 键盘高度变化通知，ios5.0新增的  
 #ifdef __IPHONE_5_0
