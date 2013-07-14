@@ -230,6 +230,16 @@
     });
 }
 
+-(void)hideKeyboardAndFaceV {
+    [UIView animateWithDuration:0.2 animations:^{
+        [bubbleTable setFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height - 45)];
+    }completion:^(BOOL finished){
+        if (finished) {
+//            [self scrollToBottomAnimated:YES];
+        }
+    }];
+}
+
 -(void)showKeyboard:(CGRect)frame {
     NSLog(@"show");
     NSLog(@"[levi]toolbar frame y %f", frame.origin.y);

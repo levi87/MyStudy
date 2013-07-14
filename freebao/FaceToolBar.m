@@ -8,6 +8,8 @@
 
 #import "FaceToolBar.h"
 
+#define HIDE_KEYBOARD @"fb_hide_keyboard"
+
 @interface FaceToolBar() {
     OCExpandableButton *button;
 }
@@ -32,6 +34,7 @@
         //初始化为NO
         keyboardIsShow=NO;
         self.theSuperView=superView;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideKeyboardAndFaceView) name:HIDE_KEYBOARD object:nil];
         //OCExpandButton
         NSMutableArray *subviews = [[NSMutableArray alloc] init];
         
@@ -242,6 +245,22 @@
     }
 }
 
+-(void)hideKeyboardAndFaceView {
+    [UIView animateWithDuration:Time animations:^{
+        toolBar.frame = CGRectMake(0, self.theSuperView.frame.size.height-toolBarHeight,  self.theSuperView.bounds.size.width,toolBarHeight);
+    }];
+    [UIView animateWithDuration:Time animations:^{
+        [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height, self.theSuperView.frame.size.width, keyboardHeight)];
+    }];
+    [textView resignFirstResponder];
+    [pageControl setHidden:YES];
+    [button close];
+    if ([delegate respondsToSelector:@selector(hideKeyboardAndFaceV)])
+    {
+        [delegate hideKeyboardAndFaceV];
+    }
+}
+
 -(void)disFaceKeyboard{
     //如果直接点击表情，通过toolbar的位置来判断
     if (toolBar.frame.origin.y== self.theSuperView.bounds.size.height - toolBarHeight&&toolBar.frame.size.height==toolBarHeight) {
@@ -349,6 +368,9 @@
                                                   object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardDidShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:HIDE_KEYBOARD
                                                   object:nil];
 }
 /*

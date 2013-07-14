@@ -14,6 +14,7 @@
 #import "EGOImageView.h"
 
 #define IMAGE_TAP @"fb_image_tap"
+#define HIDE_KEYBOARD @"fb_hide_keyboard"
 
 @interface UIBubbleTableViewCell ()
 
@@ -62,6 +63,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:IMAGE_TAP object:self.data.view];
 }
 
+- (void)hideKeyboardAndFaceV {
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_KEYBOARD object:nil];
+}
+
 - (void) setupInternalData
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -74,9 +79,9 @@
         self.bubbleImage = [[UIImageView alloc] init];
 #endif
         [self addSubview:self.bubbleImage];
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTap:)];
-//        tap.numberOfTapsRequired = 1;
-//        [self addGestureRecognizer:tap];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboardAndFaceV)];
+        tap.numberOfTapsRequired = 1;
+        [self addGestureRecognizer:tap];
     }
     
     NSBubbleType type = self.data.type;

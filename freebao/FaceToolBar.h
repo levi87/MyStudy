@@ -26,6 +26,8 @@
 -(void)hideKeyboard:(CGRect)frame;
 -(void)expandButtonAction:(id)sender;
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer;
+
+-(void)hideKeyboardAndFaceV;
 @end
 @interface FaceToolBar : UIToolbar<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
 {
