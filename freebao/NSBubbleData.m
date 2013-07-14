@@ -24,6 +24,7 @@
 @synthesize isMap = _isMap;
 @synthesize isVoice = _isVoice;
 @synthesize voiceButton = _voiceButton;
+@synthesize voiceData = _voiceData;
 
 #pragma mark - Lifecycle
 
@@ -165,11 +166,11 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     return self;
 }
 
-+(id)dataWithVoice:(NSString *)voice date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
-    return [[NSBubbleData alloc] initWithVoice:voice date:date type:type insets:insets];
++(id)dataWithVoice:(NSData *)voiceData date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    return [[NSBubbleData alloc] initWithVoice:voiceData date:date type:type insets:insets];
 }
 
--(id)initWithVoice:(NSString *)voice date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+-(id)initWithVoice:(NSData *)voiceData date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
     self = [super init];
     if (self)
     {
@@ -177,11 +178,12 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
         _isVoice = TRUE;
         [voiceButton setTitle:@"Voice" forState:UIControlStateNormal];
         [voiceButton setTintColor:[UIColor blueColor]];
-        voiceButton.frame = CGRectMake(0, 0, 30, 80);
+        voiceButton.frame = CGRectMake(0, 0, 80, 30);
         _voiceButton = voiceButton;
         _date = date;
         _type = type;
         _insets = insets;
+        _voiceData = voiceData;
     }
     return self;
 }

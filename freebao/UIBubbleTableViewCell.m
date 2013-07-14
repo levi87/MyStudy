@@ -15,6 +15,7 @@
 
 #define IMAGE_TAP @"fb_image_tap"
 #define HIDE_KEYBOARD @"fb_hide_keyboard"
+#define VOICE_DATA @"fb_voice_data"
 
 @interface UIBubbleTableViewCell ()
 
@@ -67,6 +68,10 @@
 
 - (void)hideKeyboardAndFaceV {
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_KEYBOARD object:nil];
+}
+
+- (void)onSingleTapVoice {
+    [[NSNotificationCenter defaultCenter] postNotificationName:VOICE_DATA object:self.data.voiceData];
 }
 
 - (void) setupInternalData
@@ -129,7 +134,10 @@
         [self.contentView addSubview:self.mapImageView];
     } else if (self.data.isVoice) {
         self.voiceButton = self.data.voiceButton;
-        self.voiceButton.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 30, 80);
+        self.voiceButton.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 80, 30);
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTapVoice)];
+        tap.numberOfTapsRequired = 1;
+        [self.voiceButton addGestureRecognizer:tap];
         [self.contentView addSubview:self.voiceButton];
     } else {
         self.customView = self.data.view;

@@ -27,6 +27,7 @@
     NSString *tmpVoicePath;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
+@property (retain, nonatomic) AVAudioPlayer *avPlay;
 @property (weak, nonatomic) IBOutlet UIView *chatBarView;
 @property BOOL isFirst;
 @property BOOL isReload;

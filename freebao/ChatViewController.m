@@ -26,6 +26,7 @@
 
 #define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
 #define IMAGE_TAP @"fb_image_tap"
+#define VOICE_DATA @"fb_voice_data"
 
 @interface ChatViewController () {
     
@@ -38,6 +39,7 @@
 @synthesize isFirst = _isFirst;
 @synthesize isReload = _isReload;
 @synthesize browserView = _browserView;
+@synthesize avPlay = _avPlay;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -61,6 +63,7 @@
     bar.delegate=self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidTap:) name:IMAGE_TAP object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:VOICE_DATA object:nil];
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
     heyBubble.avatar = [UIImage imageNamed:@"avatar1.png"];
@@ -82,6 +85,16 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
+}
+
+-(void)playVoice:(NSNotification*)notification {
+    NSData *tmpVoice = notification.object;
+    if (self.avPlay.playing) {
+        [self.avPlay stop];
+    }
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoice error:nil];
+    self.avPlay = player;
+    [self.avPlay play];
 }
 
 -(void)imageDidTap:(NSNotification*)notification {
@@ -111,6 +124,9 @@
     } else if ([tmpMsg.postType integerValue] == MSG_TYPE_MAP) {
         UIEdgeInsets imageInsetsMine = {10, 10, 225, 225};
         receiveBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+    } else if ([tmpMsg.postType integerValue] == MSG_TYPE_VOICE) {
+        UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
+        receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     }
     [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
     
@@ -144,10 +160,10 @@
                     NSBubbleData *tmpBd;
                     if ([tmpM.isSelf integerValue] == 1) {
                         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-                        tmpBd = [NSBubbleData dataWithVoice:@"" date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
                     } else {
                         UIEdgeInsets imageInsetsMine = {10, 10, 35, 85};
-                        tmpBd = [NSBubbleData dataWithVoice:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
                     }
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_MAP) {
@@ -352,7 +368,6 @@
     [language setStringValue:@"zh_CN"];
     //数据（声音/图片）
     NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
-    
     NSData *data=[NSData dataWithContentsOfFile:tmpVoicePath options:0 error:nil];
     NSString *voiceStr = [data base64Encoded];
     [bData setStringValue:voiceStr];
@@ -367,6 +382,12 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
+    [self insertMessageToDb:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_VOICE] Bdata:data];
+    UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
+    NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+    [bubbleTable reloadData];
+    [self scrollToBottomAnimated:YES];
 }
 
 - (void)detectionVoice
