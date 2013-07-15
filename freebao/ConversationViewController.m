@@ -35,6 +35,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    tittleView.hidden = NO;
+    tittleLineView.hidden = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
 }
 
@@ -45,32 +47,19 @@
     self.tableView.contentInset = UIEdgeInsetsOriginal;
     refreshFooterView.hidden = YES;
     
-    UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
     tittleLabel.text = @"Chats";
     tittleLabel.textColor = [UIColor whiteColor];
-    [TittleView addSubview: tittleLabel];
+    [tittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
-    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
-    [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 33, 16)];
-    [languageButton addTarget:self action:@selector(languageMenuAction) forControlEvents:UIControlEventTouchUpInside];
-    [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"chat_Translation"]]];
-//    [self.navigationController.view addSubview:languageButton];
-    [TittleView addSubview: languageButton];
-    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
-    [imgV setFrame:CGRectMake(0, 0, 7, 12)];
-    [backButton addSubview:imgV];
-    UIView *TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
-    [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
-    [self.navigationController.view addSubview:TittleView];
-    [self.navigationController.view addSubview:TittleLineView];
-    [self.navigationController.view addSubview:backButton];
-    backButton.hidden = YES;
-    languageButton.hidden = YES;
+    tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+    [self.navigationController.view addSubview:tittleView];
+    [self.navigationController.view addSubview:tittleLineView];
 
     headPhotos = [[NSMutableArray alloc] initWithObjects:
                   @"",
@@ -165,19 +154,19 @@
                   @"http://farm3.static.flickr.com/2546/4012296861_146d4805df_s.jpg", nil];
 }
 
-- (void)backButtonAction {
-    NSLog(@"[levi]back...");
-    backButton.hidden = YES;
-    languageButton.hidden = YES;
-    tittleLabel.text = @"Chats";
-    [[NSNotificationCenter defaultCenter] removeObserver:KAppDelegate.commChat.self name:RECEIVE_REFRESH_VIEW object:nil];
-    [self.navigationController popViewControllerAnimated:YES];
-}
+//- (void)backButtonAction {
+//    NSLog(@"[levi]back...");
+//    backButton.hidden = YES;
+//    languageButton.hidden = YES;
+//    tittleLabel.text = @"Chats";
+//    [[NSNotificationCenter defaultCenter] removeObserver:KAppDelegate.commChat.self name:RECEIVE_REFRESH_VIEW object:nil];
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
-- (void)languageMenuAction {
-    NSLog(@"[levi]");
-    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_LANGUAGE_MENU object:nil];
-}
+//- (void)languageMenuAction {
+//    NSLog(@"[levi]");
+//    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_LANGUAGE_MENU object:nil];
+//}
 
 -(void)setUpRefreshView
 {
@@ -292,12 +281,14 @@
             KAppDelegate.commChat.isFirst = FALSE;
             KAppDelegate.commChat.isReload = TRUE;
         }
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
 //        if (commentVC == nil) {
 //            commentVC = [[CommentsViewController alloc] init];
 //        }
-        tittleLabel.text = @"Test";
-        backButton.hidden = NO;
-        languageButton.hidden = NO;
+//        tittleLabel.text = @"Test";
+//        backButton.hidden = NO;
+//        languageButton.hidden = NO;
         [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
     }
 }

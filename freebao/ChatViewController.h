@@ -27,6 +27,12 @@
     ImageBrowser        *_browserView;
     NSString *tmpVoicePath;
     NSString *voiceRecordLength;
+    
+    UILabel *tittleLabel;
+    UIButton *backButton;
+    UIButton *languageButton;
+    UIView *tittleView;
+    UIView *tittleLineView;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

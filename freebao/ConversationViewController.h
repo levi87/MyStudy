@@ -22,6 +22,8 @@
     UILabel *tittleLabel;
     UIButton *backButton;
     UIButton *languageButton;
+    UIView *tittleView;
+    UIView *tittleLineView;
     
     EGORefreshTableHeaderView *_refreshHeaderView;
     

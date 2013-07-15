@@ -52,9 +52,42 @@
     return self;
 }
 
+- (void)backButtonAction {
+    NSLog(@"[levi]back...");
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RECEIVE_REFRESH_VIEW object:nil];
+    tittleView.hidden = YES;
+    tittleLineView.hidden = YES;
+    backButton.hidden = YES;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tittleLabel.textAlignment = UITextAlignmentCenter;
+    [tittleLabel setBackgroundColor:[UIColor clearColor]];
+    tittleLabel.text = @"Test";
+    tittleLabel.textColor = [UIColor whiteColor];
+    [tittleView addSubview: tittleLabel];
+    tittleLabel.center = CGPointMake(160, 22);
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
+    [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 33, 16)];
+    [languageButton addTarget:self action:@selector(languageMenuAction) forControlEvents:UIControlEventTouchUpInside];
+    [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"chat_Translation"]]];
+    //    [self.navigationController.view addSubview:languageButton];
+    [tittleView addSubview: languageButton];
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
+    [imgV setFrame:CGRectMake(0, 0, 7, 12)];
+    [backButton addSubview:imgV];
+    tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+    [self.navigationController.view addSubview:tittleView];
+    [self.navigationController.view addSubview:tittleLineView];
+    [self.navigationController.view addSubview:backButton];
     [self initAudio];
     _isFirst = YES;
     _isReload = NO;
@@ -145,6 +178,23 @@
 {
     KxMenuItem *tmpKxM = sender;
     NSLog(@"tittle %@", tmpKxM.title);
+    if ([tmpKxM.title isEqualToString:@"中文"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"English"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"España"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+        
+    } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+        
+    }
 }
 
 -(void)playVoice:(NSNotification*)notification {
@@ -653,6 +703,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     NSLog(@"[view] view will appear...");
+    tittleLineView.hidden = NO;
+    tittleView.hidden = NO;
+    backButton.hidden = NO;
     //    [KAppDelegate.tabBarVC.tabbar setHide:YES];
     if (!_isFirst) {
         NSLog(@"[here...]");
