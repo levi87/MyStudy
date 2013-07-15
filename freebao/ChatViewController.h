@@ -14,6 +14,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ImageBrowser.h"
 #import "KxMenu.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate> {
     NSMutableArray *bubbleData;
@@ -33,6 +34,13 @@
     UIButton *languageButton;
     UIView *tittleView;
     UIView *tittleLineView;
+    __weak IBOutlet UIView *recordBackgroundView;
+    
+    NSInteger fingerX;
+    NSInteger fingerY;
+    __weak IBOutlet UILabel *recordViewLabel;
+    __weak IBOutlet UIView *recordPowerView;
+    __weak IBOutlet UILabel *recordLengthLabel;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

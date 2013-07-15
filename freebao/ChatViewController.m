@@ -61,9 +61,83 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)languageMenuAction {
+    NSArray *menuItems =
+    @[
+      
+      [KxMenuItem menuItem:@"中文"
+                     image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"English"
+                     image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"日本語"
+                     image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"한국어"
+                     image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"España"
+                     image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Français"
+                     image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Deutsch"
+                     image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"русский"
+                     image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      ];
+    
+    [KxMenu showMenuInView:self.view
+                  fromRect:CGRectMake(250, 24, 20, 10)
+                 menuItems:menuItems];
+}
+
+- (void) pushMenuItem:(id)sender
+{
+    KxMenuItem *tmpKxM = sender;
+    NSLog(@"tittle %@", tmpKxM.title);
+    if ([tmpKxM.title isEqualToString:@"中文"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_cn"]]];
+    } else if ([tmpKxM.title isEqualToString:@"English"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_e"]]];
+    } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_j"]]];
+    } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_k"]]];
+    } else if ([tmpKxM.title isEqualToString:@"España"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_x"]]];
+    } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_f"]]];
+    } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_d"]]];
+    } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_p"]]];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    recordBackgroundView.layer.cornerRadius = 8;
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -121,80 +195,6 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
-}
-
--(void)showLanguageMenu {
-    NSLog(@"show menu");
-    NSArray *menuItems =
-    @[
-    
-    [KxMenuItem menuItem:@"中文"
-                   image:[UIImage imageNamed:@"icon_chat_flag_cn"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"English"
-                   image:[UIImage imageNamed:@"icon_chat_flag_e"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"日本語"
-                   image:[UIImage imageNamed:@"icon_chat_flag_j"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"한국어"
-                   image:[UIImage imageNamed:@"icon_chat_flag_k"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"España"
-                   image:[UIImage imageNamed:@"icon_chat_flag_x"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"Français"
-                   image:[UIImage imageNamed:@"icon_chat_flag_f"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"Deutsch"
-                   image:[UIImage imageNamed:@"icon_chat_flag_d"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"русский"
-                   image:[UIImage imageNamed:@"icon_chat_flag_p"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    ];
-    
-    [KxMenu showMenuInView:self.view
-                  fromRect:CGRectMake(250, 24, 20, 10)
-                 menuItems:menuItems];
-}
-
-- (void) pushMenuItem:(id)sender
-{
-    KxMenuItem *tmpKxM = sender;
-    NSLog(@"tittle %@", tmpKxM.title);
-    if ([tmpKxM.title isEqualToString:@"中文"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"English"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"España"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"Français"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
-        
-    } else if ([tmpKxM.title isEqualToString:@"русский"]) {
-        
-    }
 }
 
 -(void)playVoice:(NSNotification*)notification {
@@ -406,7 +406,14 @@
 
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer {
     CGPoint p = [recogonizer locationInView:self.view];
-    NSLog(@"[levi] finger position... x %f y %f", p.x, p.y);
+//    NSLog(@"[levi] finger position... x %f y %f", p.x, p.y);
+    fingerX = p.x;
+    fingerY = p.y;
+    if (fingerX > 75 && fingerX < 235 && fingerY > 135 && fingerY < 285) {
+        recordViewLabel.text = @"Cancel To Send";
+    } else {
+        recordViewLabel.text = @"Slide up to cancel";
+    }
     switch (recogonizer.state) {
         case UIGestureRecognizerStateBegan:
         {
@@ -427,6 +434,13 @@
             double cTime = recorder.currentTime;
             NSLog(@"record length %f", cTime);
             voiceRecordLength = [NSString stringWithFormat:@"%f", cTime];
+            if (fingerX > 75 && fingerX < 235 && fingerY > 135 && fingerY < 285) {
+                [recorder deleteRecording];
+                [recorder stop];
+                [recordtTimer invalidate];
+                NSLog(@"[levi] cancel record");
+                return;
+            }
             if (cTime > 2) {//如果录制时间<2 不发送
                 NSLog(@"send voice...");
             }else {
@@ -507,40 +521,45 @@
     [recorder updateMeters];//刷新音量数据
     //获取音量的平均值  [recorder averagePowerForChannel:0];
     //音量的最大值  [recorder peakPowerForChannel:0];
+    double cTime = recorder.currentTime;
+    NSLog(@"record length %f", cTime);
+    recordLengthLabel.text = [NSString stringWithFormat:@"%.f s", cTime];
     
     double lowPassResults = pow(10, (0.05 * [recorder peakPowerForChannel:0]));
     NSLog(@"voice power %lf",lowPassResults);
     //最大50  0
-//    //图片 小-》大
-//    if (0<lowPassResults<=0.06) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_01.png"]];
-//    }else if (0.06<lowPassResults<=0.13) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_02.png"]];
-//    }else if (0.13<lowPassResults<=0.20) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_03.png"]];
-//    }else if (0.20<lowPassResults<=0.27) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_04.png"]];
-//    }else if (0.27<lowPassResults<=0.34) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_05.png"]];
-//    }else if (0.34<lowPassResults<=0.41) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_06.png"]];
-//    }else if (0.41<lowPassResults<=0.48) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_07.png"]];
-//    }else if (0.48<lowPassResults<=0.55) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_08.png"]];
-//    }else if (0.55<lowPassResults<=0.62) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_09.png"]];
-//    }else if (0.62<lowPassResults<=0.69) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_10.png"]];
-//    }else if (0.69<lowPassResults<=0.76) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_11.png"]];
-//    }else if (0.76<lowPassResults<=0.83) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_12.png"]];
-//    }else if (0.83<lowPassResults<=0.9) {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_13.png"]];
-//    }else {
-//        [self.imageView setImage:[UIImage imageNamed:@"record_animate_14.png"]];
-//    }
+    //图片 小-》大
+    CGRect frame = recordPowerView.frame;
+    if (0<lowPassResults<=0.06) {
+        frame.size.height = 7;
+    }else if (0.06<lowPassResults<=0.13) {
+        frame.size.height = 14;
+    }else if (0.13<lowPassResults<=0.20) {
+        frame.size.height = 21;
+    }else if (0.20<lowPassResults<=0.27) {
+        frame.size.height = 28;
+    }else if (0.27<lowPassResults<=0.34) {
+        frame.size.height = 35;
+    }else if (0.34<lowPassResults<=0.41) {
+        frame.size.height = 42;
+    }else if (0.41<lowPassResults<=0.48) {
+        frame.size.height = 49;
+    }else if (0.48<lowPassResults<=0.55) {
+        frame.size.height = 56;
+    }else if (0.55<lowPassResults<=0.62) {
+        frame.size.height = 63;
+    }else if (0.62<lowPassResults<=0.69) {
+        frame.size.height = 70;
+    }else if (0.69<lowPassResults<=0.76) {
+        frame.size.height = 77;
+    }else if (0.76<lowPassResults<=0.83) {
+        frame.size.height = 85;
+    }else if (0.83<lowPassResults<=0.9) {
+        frame.size.height = 93;
+    }else {
+        frame.size.height = 93;
+    }
+    recordPowerView.frame = frame;
 }
 
 -(void)sendMyPositon {
@@ -731,6 +750,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setChatBarView:nil];
     [self setRecordView:nil];
+    recordBackgroundView = nil;
+    recordViewLabel = nil;
+    recordPowerView = nil;
+    recordLengthLabel = nil;
     [super viewDidUnload];
 }
 
