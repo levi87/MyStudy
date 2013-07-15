@@ -28,6 +28,8 @@
 #define IMAGE_TAP @"fb_image_tap"
 #define VOICE_DATA @"fb_voice_data"
 
+#define  SHOW_LANGUAGE_MENU @"fb_language_menu"
+
 @interface ChatViewController () {
     
     IBOutlet UIBubbleTableView *bubbleTable;
@@ -64,6 +66,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidTap:) name:IMAGE_TAP object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:VOICE_DATA object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLanguageMenu) name:SHOW_LANGUAGE_MENU object:nil];
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
     heyBubble.avatar = [UIImage imageNamed:@"avatar1.png"];
@@ -85,6 +88,63 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
+}
+
+-(void)showLanguageMenu {
+    NSLog(@"show menu");
+    NSArray *menuItems =
+    @[
+    
+    [KxMenuItem menuItem:@"中文"
+                   image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"English"
+                   image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"日本語"
+                   image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"한국어"
+                   image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"España"
+                   image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Français"
+                   image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Deutsch"
+                   image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"русский"
+                   image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    ];
+    
+    [KxMenu showMenuInView:self.view
+                  fromRect:CGRectMake(250, 24, 20, 10)
+                 menuItems:menuItems];
+}
+
+- (void) pushMenuItem:(id)sender
+{
+    KxMenuItem *tmpKxM = sender;
+    NSLog(@"tittle %@", tmpKxM.title);
 }
 
 -(void)playVoice:(NSNotification*)notification {

@@ -21,6 +21,7 @@
     NSMutableArray *headPhotos;
     UILabel *tittleLabel;
     UIButton *backButton;
+    UIButton *languageButton;
     
     EGORefreshTableHeaderView *_refreshHeaderView;
     

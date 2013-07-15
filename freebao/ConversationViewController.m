@@ -12,6 +12,8 @@
 #define SHOW_TABBAR @"10001"
 #define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
 
+#define  SHOW_LANGUAGE_MENU @"fb_language_menu"
+
 #import "AppDelegate.h"
 
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
@@ -54,6 +56,11 @@
     tittleLabel.center = CGPointMake(160, 22);
     backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 33, 16)];
+    [languageButton addTarget:self action:@selector(languageMenuAction) forControlEvents:UIControlEventTouchUpInside];
+    [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"chat_Translation"]]];
+//    [self.navigationController.view addSubview:languageButton];
+    [TittleView addSubview: languageButton];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
     [imgV setFrame:CGRectMake(0, 0, 7, 12)];
     [backButton addSubview:imgV];
@@ -63,6 +70,7 @@
     [self.navigationController.view addSubview:TittleLineView];
     [self.navigationController.view addSubview:backButton];
     backButton.hidden = YES;
+    languageButton.hidden = YES;
 
     headPhotos = [[NSMutableArray alloc] initWithObjects:
                   @"",
@@ -160,9 +168,15 @@
 - (void)backButtonAction {
     NSLog(@"[levi]back...");
     backButton.hidden = YES;
+    languageButton.hidden = YES;
     tittleLabel.text = @"Chats";
     [[NSNotificationCenter defaultCenter] removeObserver:KAppDelegate.commChat.self name:RECEIVE_REFRESH_VIEW object:nil];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)languageMenuAction {
+    NSLog(@"[levi]");
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_LANGUAGE_MENU object:nil];
 }
 
 -(void)setUpRefreshView
@@ -283,6 +297,7 @@
 //        }
         tittleLabel.text = @"Test";
         backButton.hidden = NO;
+        languageButton.hidden = NO;
         [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
     }
 }
