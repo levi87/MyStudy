@@ -50,6 +50,7 @@
 @synthesize xmppCapabilities;
 @synthesize xmppCapabilitiesStorage;
 @synthesize commChat = _commChat;
+@synthesize commMap = _commMap;
 @synthesize insertChatQueen = _insertChatQueen;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

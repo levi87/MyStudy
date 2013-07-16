@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "XMPPFramework.h"
 #import "ChatViewController.h"
+#import "UserLocationViewController.h"
 #import "NSData+XMPP.h"
 #import "LPDataBaseutil.h"
 #import "MessageInfo.h"
@@ -37,6 +38,7 @@
 	BOOL isXmppConnected;
     NSString *password;
     ChatViewController *_commChat;
+    UserLocationViewController *_commMap;
     
     dispatch_queue_t _insertChatQueen;
 }
@@ -66,6 +68,7 @@
 - (NSManagedObjectContext *)managedObjectContext_capabilities;
 
 @property (strong, nonatomic) ChatViewController *commChat;
+@property (strong, nonatomic) UserLocationViewController *commMap;
 
 //是否连接
 -(BOOL)connect;

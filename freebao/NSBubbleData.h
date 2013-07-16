@@ -33,6 +33,7 @@ typedef enum _NSBubbleType
 @property BOOL isVoice;
 @property BOOL isSelf;
 @property BOOL isPlayAnimation;
+@property (nonatomic) CGPoint positionPoint;
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
@@ -41,8 +42,8 @@ typedef enum _NSBubbleType
 - (id)initWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 + (id)dataWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 
-- (id)initWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
-+ (id)dataWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
+- (id)initWithPosition:(NSString*)position Point:(CGPoint)cgPoint date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets Language:(NSString*)language;
++ (id)dataWithPosition:(NSString*)position Point:(CGPoint)cgPoint date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets Language:(NSString*)language;
 
 - (id)initWithVoice:(NSData*)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date IsSelf:(BOOL)isSelf type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 + (id)dataWithVoice:(NSData*)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date IsSelf:(BOOL)isSelf type:(NSBubbleType)type insets:(UIEdgeInsets)insets;

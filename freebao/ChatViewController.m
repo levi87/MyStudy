@@ -27,6 +27,7 @@
 #define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
 #define IMAGE_TAP @"fb_image_tap"
 #define VOICE_DATA @"fb_voice_data"
+#define MAP_POINT @"fb_map_point"
 
 #define  SHOW_LANGUAGE_MENU @"fb_language_menu"
 
@@ -173,6 +174,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidTap:) name:IMAGE_TAP object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:VOICE_DATA object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMapView:) name:MAP_POINT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLanguageMenu) name:SHOW_LANGUAGE_MENU object:nil];
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
@@ -195,6 +197,15 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
+}
+
+-(void)showMapView:(NSNotification*)notification {
+    NSDictionary *tmpDic = notification.object;
+    NSLog(@"[levi]map x %@, map y %@", [tmpDic objectForKey:@"x"], [tmpDic objectForKey:@"y"]);
+    if (KAppDelegate.commMap == nil) {
+        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
+    }
+    [self presentModalViewController:KAppDelegate.commMap animated:YES];
 }
 
 -(void)playVoice:(NSNotification*)notification {
@@ -251,7 +262,9 @@
         receiveBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpMsg.data] date:[NSDate date] type:BubbleTypeSomeoneElse];
     } else if ([tmpMsg.postType integerValue] == MSG_TYPE_MAP) {
         UIEdgeInsets imageInsetsMine = {10, 10, 225, 225};
-        receiveBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+//        http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=220x220&sensor=false&markers=30.2094,120.204&language=zh_CN";
+        CGPoint tmpP = CGPointMake(30.2094, 120.204);
+        receiveBubble = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine Language:@"zh_CN"];
     } else if ([tmpMsg.postType integerValue] == MSG_TYPE_VOICE) {
         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
         receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data VoiceLength:tmpMsg.voiceTime date:[NSDate date] IsSelf:NO type:BubbleTypeSomeoneElse insets:imageInsetsMine];
@@ -299,10 +312,12 @@
                     NSBubbleData *tmpBd;
                     if ([tmpM.isSelf integerValue] == 1) {
                         UIEdgeInsets imageInsetsMine = {5, 5, 225, 225};
-                        tmpBd = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+                        CGPoint tmpP = CGPointMake(30.2094, 120.204);
+                        tmpBd = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine Language:@"zh_CN"];
                     } else {
+                        CGPoint tmpP = CGPointMake(30.2094, 120.204);
                         UIEdgeInsets imageInsetsMine = {10, 10, 225, 225};
-                        tmpBd = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine Language:@"zh_CN"];
                     }
                     [bubbleData addObject:tmpBd];
                 }
@@ -630,7 +645,8 @@
 //    mapImageView.imageURL = [NSURL URLWithString:myPositionUrl];
 //    [self.navigationController.view addSubview:mapImageView];
     UIEdgeInsets imageInsetsMine = {5, 5, 225, 225};
-    NSBubbleData *heyBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+    CGPoint tmpP = CGPointMake(30.2094, 120.204);
+    NSBubbleData *heyBubble = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine Language:@"zh_CN"];
     [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];

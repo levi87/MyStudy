@@ -28,6 +28,7 @@
 @synthesize voiceData = _voiceData;
 @synthesize voiceLength = _voiceLength;
 @synthesize isPlayAnimation = _isPlayAnimation;
+@synthesize positionPoint = _positionPoint;
 
 #pragma mark - Lifecycle
 
@@ -148,23 +149,25 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     return self;
 }
 
-+(id)dataWithPosition:(NSString *)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
-    return [[NSBubbleData alloc] initWithPosition:position date:date type:type insets:insets];
++(id)dataWithPosition:(NSString *)position Point:(CGPoint)cgPoint date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets Language:(NSString*)language {
+    return [[NSBubbleData alloc] initWithPosition:position Point:cgPoint date:date type:type insets:insets Language:language];
 }
 
--(id)initWithPosition:(NSString *)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+-(id)initWithPosition:(NSString *)position Point:(CGPoint)cgPoint date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets Language:(NSString *)language{
     self = [super init];
     if (self)
     {
         EGOImageView *mapImageView = [[EGOImageView alloc] init];
         _isMap = YES;
         mapImageView.frame = CGRectMake(0, 0, 220, 220);
-        NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=220x220&sensor=false&markers=30.2094,120.204&language=zh_CN";
+//        NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=220x220&sensor=false&markers=30.2094,120.204&language=zh_CN";
+        NSString *myPositionUrl = [NSString stringWithFormat:@"http://maps.google.com/maps/api/staticmap?center=%f,%f&zoom=14&size=220x220&sensor=false&markers=%f,%f&language=%@", cgPoint.x, cgPoint.y, cgPoint.x, cgPoint.y, language];
         mapImageView.imageURL = [NSURL URLWithString:myPositionUrl];
         _mapView = mapImageView;
         _date = date;
         _type = type;
         _insets = insets;
+        _positionPoint = cgPoint;
     }
     return self;
 }

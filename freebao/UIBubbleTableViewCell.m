@@ -16,6 +16,7 @@
 #define IMAGE_TAP @"fb_image_tap"
 #define HIDE_KEYBOARD @"fb_hide_keyboard"
 #define VOICE_DATA @"fb_voice_data"
+#define MAP_POINT @"fb_map_point"
 
 @interface UIBubbleTableViewCell ()
 
@@ -83,6 +84,11 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:VOICE_DATA object:self.data.voiceData userInfo:tmpDic];
 }
 
+- (void)onSingleTapMap {
+    NSDictionary *pointDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%f",self.data.positionPoint.x],@"x", [NSString stringWithFormat:@"%f",self.data.positionPoint.y], @"y", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MAP_POINT object:pointDic userInfo:nil];
+}
+
 - (void) setupInternalData
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -140,6 +146,10 @@
     if (self.data.isMap) {
         self.mapImageView = self.data.mapView;
         self.mapImageView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 220, 220);
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTapMap)];
+        self.mapImageView.userInteractionEnabled = YES;
+        tap.numberOfTapsRequired = 1;
+        [self.mapImageView addGestureRecognizer:tap];
         [self.contentView addSubview:self.mapImageView];
     } else if (self.data.isVoice) {
         if (_voiceImageView != nil) {

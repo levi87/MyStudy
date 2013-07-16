@@ -14,6 +14,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ImageBrowser.h"
 #import "KxMenu.h"
+#import "UserLocationViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate> {
