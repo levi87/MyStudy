@@ -284,6 +284,7 @@
         //		}
         self.source = src;
 
+        NSLog(@"[dic]>>>>>>>>>>>>>>>>>>>>>>>>> %@", dic);
         longitude = [[dic getStringValueForKey:@"longgitude" defaultValue:@"0"] doubleValue];
         latitude = [[dic getStringValueForKey:@"latitude" defaultValue:@"0"] doubleValue];
         //			}

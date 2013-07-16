@@ -12,6 +12,7 @@
 #import "LikersViewController.h"
 #import "CommentsViewController.h"
 #import "AppDelegate.h"
+#import "UserLocationViewController.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface HomeLineViewController : StatusViewContrillerBase

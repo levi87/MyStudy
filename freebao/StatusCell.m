@@ -40,6 +40,7 @@
 @synthesize comtCount;
 @synthesize distanceLabel;
 @synthesize addLikeIconImage;
+@synthesize tmpPoint = _tmpPoint;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -68,14 +69,14 @@
     if (value) {
         self.mainImageView.frame = CGRectMake(0, 0, 320, 320);
         [self.mainImageView setHidden:NO];
-        self.HeadView.frame = CGRectMake(0, 323, 40, 40);
+        self.HeadView.frame = CGRectMake(0, 323, 320, 40);
         CGRect frameJS = _JSContentTF.frame;
         frameJS.origin.y = 360;
         
         _JSContentTF.frame = frameJS;
     } else {
         [self.mainImageView setHidden:YES];
-        self.HeadView.frame = CGRectMake(0, 3, 40, 40);
+        self.HeadView.frame = CGRectMake(0, 3, 320, 40);
         CGRect frameJS = _JSContentTF.frame;
         frameJS.origin.y = 38;
         
@@ -129,6 +130,8 @@
     self.contentTF.text = status.text;
     self.JSContentTF.text = status.text;
     self.userNameLB.text = status.user.screenName;
+    _tmpPoint.x = status.latitude;
+    _tmpPoint.y = status.longitude;
 //    countLB.text = [NSString stringWithFormat:@"  :%d     :%d",status.commentsCount,status.retweetsCount];
 //    fromLB.text = [NSString stringWithFormat:@"来自:%@",status.source];
     timeLB.text = status.createdAt;
@@ -565,6 +568,13 @@
     if ([delegate respondsToSelector:@selector(cellCommentDidTaped:)])
     {
         [delegate cellCommentDidTaped:self];
+    }
+}
+- (IBAction)ShowMapTap:(id)sender {
+    NSLog(@"[levi] show map...");
+    if ([delegate respondsToSelector:@selector(cellShowUserLocationTaped:)])
+    {
+        [delegate cellShowUserLocationTaped:self];
     }
 }
 

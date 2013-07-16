@@ -8,6 +8,9 @@
 
 #import "UserLocationViewController.h"
 
+#define HIDE_TABBAR @"10000"
+#define SHOW_TABBAR @"10001"
+
 @interface UserLocationViewController ()
 
 @end
@@ -48,8 +51,8 @@
     [self.view addSubview:tittleView];
     [tittleView addSubview:backButton];
 
-    _userCoordinate.latitude = 30.2094;
-    _userCoordinate.longitude = 120.204;
+//    _userCoordinate.latitude = 30.2094;
+//    _userCoordinate.longitude = 120.204;
     MKPointAnnotation *ann = [[MKPointAnnotation alloc] init];
     ann.coordinate = _userCoordinate;
     [_userLocationMap addAnnotation:ann];
@@ -68,8 +71,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    _userCoordinate.latitude = 30.2094;
-    _userCoordinate.longitude = 120.204;
+//    _userCoordinate.latitude = 30.2094;
+//    _userCoordinate.longitude = 120.204;
     MKPointAnnotation *ann = [[MKPointAnnotation alloc] init];
     ann.coordinate = _userCoordinate;
     [_userLocationMap addAnnotation:ann];
@@ -79,6 +82,7 @@
     region.center = _userCoordinate;
     [_userLocationMap setRegion:region animated:YES];
     [_userLocationMap regionThatFits:region];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
 - (void)didReceiveMemoryWarning

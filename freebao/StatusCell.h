@@ -33,6 +33,8 @@
 
 -(void)cellAddLikeDidTaped:(StatusCell *)theCell;
 
+-(void)cellShowUserLocationTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>
@@ -56,9 +58,12 @@
     JSTwitterCoreTextView *_line1Comment;
     JSTwitterCoreTextView *_line2Comment;
     JSTwitterCoreTextView *_line3Comment;
+
+    CGPoint _tmpPoint;
     
     BOOL _isLiked;
 }
+@property CGPoint tmpPoint;
 @property (weak, nonatomic) IBOutlet UIView *bottomBarView;
 @property (retain, nonatomic) IBOutlet UIImageView *avatarImage;
 @property (retain, nonatomic) IBOutlet UITextView *contentTF;

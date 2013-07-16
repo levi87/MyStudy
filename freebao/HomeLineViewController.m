@@ -305,6 +305,18 @@
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
+-(void)cellShowUserLocationTaped:(StatusCell *)theCell {
+    if (KAppDelegate.commMap == nil) {
+        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
+    }
+    CLLocationCoordinate2D userCoordinate;
+    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
+    userCoordinate.latitude = theCell.tmpPoint.x;
+    userCoordinate.longitude = theCell.tmpPoint.y;
+    [KAppDelegate.commMap setUserCoordinate:userCoordinate];
+    [self presentModalViewController:KAppDelegate.commMap animated:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
