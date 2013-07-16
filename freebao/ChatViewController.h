@@ -24,6 +24,7 @@
     
     AVAudioRecorder *recorder;
     NSTimer *recordtTimer;
+    NSTimer *playTimer;
     
     ImageBrowser        *_browserView;
     NSString *tmpVoicePath;
@@ -42,12 +43,16 @@
     __weak IBOutlet UIView *recordPowerView;
     __weak IBOutlet UILabel *recordLengthLabel;
     __weak IBOutlet UIImageView *recordPowerImageView;
+    
+    UILabel *tmpVoiceLengthLabel;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
 @property (weak, nonatomic) IBOutlet UIView *chatBarView;
 @property BOOL isFirst;
 @property BOOL isReload;
+
+@property (nonatomic, retain) UIImageView *voiceImageView;;
 
 @property (nonatomic, retain)   ImageBrowser            *browserView;
 @end

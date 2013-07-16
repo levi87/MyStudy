@@ -23,9 +23,11 @@
 @synthesize mapView = _mapView;
 @synthesize isMap = _isMap;
 @synthesize isVoice = _isVoice;
+@synthesize isSelf = _isSelf;
 @synthesize voiceButton = _voiceButton;
 @synthesize voiceData = _voiceData;
-@synthesize voiceLengthLabel = _voiceLengthLabel;
+@synthesize voiceLength = _voiceLength;
+@synthesize isPlayAnimation = _isPlayAnimation;
 
 #pragma mark - Lifecycle
 
@@ -167,21 +169,18 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     return self;
 }
 
-+(id)dataWithVoice:(NSData *)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
-    return [[NSBubbleData alloc] initWithVoice:voiceData VoiceLength:voiceLength date:date type:type insets:insets];
++(id)dataWithVoice:(NSData *)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date IsSelf:(BOOL)isSelf type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    return [[NSBubbleData alloc] initWithVoice:voiceData VoiceLength:voiceLength date:date IsSelf:isSelf type:type insets:insets];
 }
 
--(id)initWithVoice:(NSData *)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+-(id)initWithVoice:(NSData *)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date IsSelf:(BOOL)isSelf type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
     self = [super init];
     if (self)
     {
         UIButton *voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _isVoice = TRUE;
-        _voiceLengthLabel = [[UILabel alloc] init];
-        _voiceLengthLabel.frame = CGRectMake(40, 0, 40, 30);
-        _voiceLengthLabel.text = [NSString stringWithFormat:@"%@ s", voiceLength];
-        _voiceLengthLabel.backgroundColor = [UIColor clearColor];
-        [voiceButton addSubview:_voiceLengthLabel];
+        _isSelf = isSelf;
+        _voiceLength = voiceLength;
         [voiceButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         voiceButton.frame = CGRectMake(0, 0, 80, 30);
         _voiceButton = voiceButton;
@@ -189,6 +188,7 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
         _type = type;
         _insets = insets;
         _voiceData = voiceData;
+        _isPlayAnimation = NO;
     }
     return self;
 }

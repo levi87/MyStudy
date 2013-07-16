@@ -15,5 +15,9 @@
 
 @property (nonatomic, strong) NSBubbleData *data;
 @property (nonatomic) BOOL showAvatar;
+@property (nonatomic, retain) UIButton *voiceButton;
+@property (nonatomic, retain) UIImageView *voiceImageView;
+
+@property (nonatomic, retain) NSIndexPath *indexPath;
 
 @end

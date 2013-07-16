@@ -15,8 +15,6 @@
 
 @interface UIBubbleTableView ()
 
-@property (nonatomic, retain) NSMutableArray *bubbleSection;
-
 @end
 
 @implementation UIBubbleTableView
@@ -236,10 +234,11 @@
     static NSString *cellId = @"tblBubbleCell";
     UIBubbleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
-    
+    NSIndexPath *tmpIndexP = indexPath;
     if (cell == nil) cell = [[UIBubbleTableViewCell alloc] init];
     
     cell.data = data;
+    cell.indexPath = tmpIndexP;
     cell.showAvatar = self.showAvatars;
     
     return cell;

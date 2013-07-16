@@ -200,11 +200,29 @@
 -(void)playVoice:(NSNotification*)notification {
     NSData *tmpVoice = notification.object;
     if (self.avPlay.playing) {
+        [tmpVoiceLengthLabel removeFromSuperview];
+        [playTimer invalidate];
         [self.avPlay stop];
     }
     AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoice error:nil];
     self.avPlay = player;
     [self.avPlay play];
+    UIBubbleTableViewCell *tmpC = [notification.userInfo objectForKey:@"cell"];
+    NSIndexPath *tmpIndexP = tmpC.indexPath;
+    NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
+    data.isPlayAnimation = YES;
+    [bubbleData replaceObjectAtIndex:tmpIndexP.row - 1 withObject:data];
+    [bubbleTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
+    playTimer = [NSTimer scheduledTimerWithTimeInterval:[data.voiceLength integerValue] target:self selector:@selector(detectionPlayTime) userInfo:notification.userInfo repeats:NO];
+}
+
+-(void)detectionPlayTime {
+    UIBubbleTableViewCell *tmpC = [playTimer.userInfo objectForKey:@"cell"];
+    NSIndexPath *tmpIndexP = tmpC.indexPath;
+    NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
+    data.isPlayAnimation = NO;
+    [bubbleData replaceObjectAtIndex:tmpIndexP.row - 1 withObject:data];
+    [bubbleTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(void)imageDidTap:(NSNotification*)notification {
@@ -236,7 +254,7 @@
         receiveBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     } else if ([tmpMsg.postType integerValue] == MSG_TYPE_VOICE) {
         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-        receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data VoiceLength:tmpMsg.voiceTime date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+        receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data VoiceLength:tmpMsg.voiceTime date:[NSDate date] IsSelf:NO type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     }
     [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
     
@@ -271,10 +289,10 @@
                     NSBubbleData *tmpBd;
                     if ([tmpM.isSelf integerValue] == 1) {
                         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] IsSelf:YES type:BubbleTypeMine insets:imageInsetsMine];
                     } else {
                         UIEdgeInsets imageInsetsMine = {10, 10, 35, 85};
-                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] IsSelf:NO type:BubbleTypeSomeoneElse insets:imageInsetsMine];
                     }
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_MAP) {
@@ -510,7 +528,7 @@
     [KAppDelegate.xmppStream sendElement:mes];
     [self insertMessageToDb:@"" VoiceLength:voiceRecordLength PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_VOICE] Bdata:data];
     UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-    NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data VoiceLength:voiceRecordLength date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+    NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data VoiceLength:voiceRecordLength date:[NSDate date] IsSelf:YES type:BubbleTypeMine insets:imageInsetsMine];
     [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];

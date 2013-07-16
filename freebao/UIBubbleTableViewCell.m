@@ -23,7 +23,7 @@
 @property (nonatomic, retain) UIImageView *bubbleImage;
 @property (nonatomic, retain) UIImageView *avatarImage;
 @property (nonatomic, retain) EGOImageView *mapImageView;
-@property (nonatomic, retain) UIButton *voiceButton;
+@property (nonatomic, retain) UILabel *voiceLengthLabel;
 
 - (void) setupInternalData;
 
@@ -38,6 +38,9 @@
 @synthesize avatarImage = _avatarImage;
 @synthesize mapImageView = _mapImageView;
 @synthesize voiceButton = _voiceButton;
+@synthesize voiceLengthLabel = _voiceLengthLabel;
+@synthesize voiceImageView = _voiceImageView;
+@synthesize indexPath = _indexPath;
 
 - (void)setFrame:(CGRect)frame
 {
@@ -71,7 +74,13 @@
 }
 
 - (void)onSingleTapVoice {
-    [[NSNotificationCenter defaultCenter] postNotificationName:VOICE_DATA object:self.data.voiceData];
+    NSDictionary *tmpDic;
+    if (self.data.isSelf) {
+        tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:self, @"cell", @"1", @"IsSelf", nil];
+    } else {
+        tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:self, @"cell", @"0", @"IsSelf", nil];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:VOICE_DATA object:self.data.voiceData userInfo:tmpDic];
 }
 
 - (void) setupInternalData
@@ -133,10 +142,34 @@
         self.mapImageView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 220, 220);
         [self.contentView addSubview:self.mapImageView];
     } else if (self.data.isVoice) {
+        if (_voiceImageView != nil) {
+            NSLog(@"is nil...");
+            return;
+        }
+        NSLog(@"create new button...");
         self.voiceButton = self.data.voiceButton;
         self.voiceButton.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, 80, 30);
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTapVoice)];
         tap.numberOfTapsRequired = 1;
+        _voiceLengthLabel = [[UILabel alloc] init];
+        _voiceLengthLabel.frame = CGRectMake(40, 0, 40, 30);
+        _voiceLengthLabel.text = [NSString stringWithFormat:@"%@ s", self.data.voiceLength];
+        _voiceLengthLabel.backgroundColor = [UIColor clearColor];
+        _voiceImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"con-voice"]];
+        _voiceImageView.frame = CGRectMake(5, 5, 20, 20);
+        _voiceImageView.backgroundColor = [UIColor clearColor];
+        _voiceImageView.animationImages = [NSArray arrayWithObjects:
+                                           [UIImage imageNamed:@"con-voice-01"],
+                                           [UIImage imageNamed:@"con-voice-02"],
+                                           [UIImage imageNamed:@"con-voice-03"],
+                                           nil];
+        _voiceImageView.animationDuration = 1;
+        _voiceImageView.animationRepeatCount = [self.data.voiceLength integerValue];
+        if (self.data.isPlayAnimation) {
+            [_voiceImageView startAnimating];
+        }
+        [self.voiceButton addSubview:_voiceImageView];
+        [self.voiceButton addSubview:_voiceLengthLabel];
         [self.voiceButton addGestureRecognizer:tap];
         [self.contentView addSubview:self.voiceButton];
     } else {

@@ -27,10 +27,12 @@ typedef enum _NSBubbleType
 @property (nonatomic, strong) UIImage *avatar;
 @property (readonly, nonatomic, strong) EGOImageView *mapView;
 @property (readonly, nonatomic, strong) NSData *voiceData;
-@property (readonly, nonatomic, strong) UILabel *voiceLengthLabel;
+@property (readonly, nonatomic, strong) NSString *voiceLength;
 @property (nonatomic, strong) UIButton *voiceButton;
 @property BOOL isMap;
 @property BOOL isVoice;
+@property BOOL isSelf;
+@property BOOL isPlayAnimation;
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
@@ -42,7 +44,7 @@ typedef enum _NSBubbleType
 - (id)initWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 + (id)dataWithPosition:(NSString*)position date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 
-- (id)initWithVoice:(NSData*)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
-+ (id)dataWithVoice:(NSData*)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
+- (id)initWithVoice:(NSData*)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date IsSelf:(BOOL)isSelf type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
++ (id)dataWithVoice:(NSData*)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date IsSelf:(BOOL)isSelf type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
 
 @end
