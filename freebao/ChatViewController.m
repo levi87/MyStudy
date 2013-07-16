@@ -200,7 +200,7 @@
 -(void)playVoice:(NSNotification*)notification {
     NSData *tmpVoice = notification.object;
     if (self.avPlay.playing) {
-        [tmpVoiceLengthLabel removeFromSuperview];
+        [self detectionPlayTime];
         [playTimer invalidate];
         [self.avPlay stop];
     }
