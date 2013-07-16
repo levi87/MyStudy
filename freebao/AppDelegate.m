@@ -498,6 +498,7 @@
         tmpMsg.fromId = fromId;
         tmpMsg.nickName = nickName;
         tmpMsg.postType = postType;
+        tmpMsg.voiceTime = voiceLenght;
 //        NSLog(@"[levi] message body %@ date %@ postType %@ language %@", body, date, postType, language);
         
         if (_insertChatQueen == nil) {

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">11G63</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">2083</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -129,7 +129,7 @@
 										<string key="NSFrame">{{0, 131}, {157, 21}}</string>
 										<reference key="NSSuperview" ref="370333570"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="970105066"/>
+										<reference key="NSNextKeyView" ref="32452874"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -201,7 +201,7 @@
 								<string key="NSFrame">{{111, 156}, {99, 93}}</string>
 								<reference key="NSSuperview" ref="178126210"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="32452874"/>
+								<reference key="NSNextKeyView" ref="1037871422"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="871590487">
 									<int key="NSColorSpace">3</int>
@@ -216,12 +216,11 @@
 							</object>
 							<object class="IBUIView" id="32452874">
 								<reference key="NSNextResponder" ref="178126210"/>
-								<int key="NSvFlags">301</int>
-								<array class="NSMutableArray" key="NSSubviews"/>
+								<int key="NSvFlags">-2147483347</int>
 								<string key="NSFrame">{{110.5, 156}, {99, 93}}</string>
 								<reference key="NSSuperview" ref="178126210"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="970105066"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
@@ -334,6 +333,14 @@
 						<reference key="destination" ref="966806566"/>
 					</object>
 					<int key="connectionID">67</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">recordPowerImageView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="970105066"/>
+					</object>
+					<int key="connectionID">68</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -448,7 +455,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">67</int>
+			<int key="maxID">68</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -460,6 +467,7 @@
 						<string key="chatBarView">UIView</string>
 						<string key="recordBackgroundView">UIView</string>
 						<string key="recordLengthLabel">UILabel</string>
+						<string key="recordPowerImageView">UIImageView</string>
 						<string key="recordPowerView">UIView</string>
 						<string key="recordView">UIView</string>
 						<string key="recordViewLabel">UILabel</string>
@@ -480,6 +488,10 @@
 						<object class="IBToOneOutletInfo" key="recordLengthLabel">
 							<string key="name">recordLengthLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="recordPowerImageView">
+							<string key="name">recordPowerImageView</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="recordPowerView">
 							<string key="name">recordPowerView</string>
@@ -528,6 +540,6 @@
 			<string key="NS.key.0">i_edit_bigvoice@2x.png</string>
 			<string key="NS.object.0">{188, 186}</string>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">2083</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

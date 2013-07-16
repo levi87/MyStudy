@@ -236,7 +236,7 @@
         receiveBubble = [NSBubbleData dataWithPosition:@"" date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     } else if ([tmpMsg.postType integerValue] == MSG_TYPE_VOICE) {
         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-        receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+        receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data VoiceLength:tmpMsg.voiceTime date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     }
     [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
     
@@ -271,10 +271,10 @@
                     NSBubbleData *tmpBd;
                     if ([tmpM.isSelf integerValue] == 1) {
                         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
                     } else {
                         UIEdgeInsets imageInsetsMine = {10, 10, 35, 85};
-                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
+                        tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine];
                     }
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_MAP) {
@@ -343,7 +343,7 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
-    [self insertMessageToDb:inputText PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_TEXT] Bdata:nil];
+    [self insertMessageToDb:inputText VoiceLength:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_TEXT] Bdata:nil];
     [UIView animateWithDuration:0.2 animations:^{
         [bubbleTable setFrame:CGRectMake(0, 0, 320, frame.origin.y)];
     }completion:^(BOOL finished){
@@ -356,12 +356,12 @@
     }];
 }
 
-- (void)insertMessageToDb:(NSString*)body PostType:(NSString*)postType Bdata:(NSData*)bData {
+- (void)insertMessageToDb:(NSString*)body VoiceLength:(NSString*)voiceLength PostType:(NSString*)postType Bdata:(NSData*)bData {
     if (KAppDelegate.insertChatQueen == nil) {
         KAppDelegate.insertChatQueen = dispatch_queue_create("insertChat", NULL);
     }
     dispatch_async(KAppDelegate.insertChatQueen, ^{
-        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:@"0" body:body postType:postType isSelf:@"1" language:@"0" fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
+        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:voiceLength body:body postType:postType isSelf:@"1" language:@"0" fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
     });
 }
 
@@ -433,7 +433,7 @@
             self.recordView.hidden = YES;
             double cTime = recorder.currentTime;
             NSLog(@"record length %f", cTime);
-            voiceRecordLength = [NSString stringWithFormat:@"%f", cTime];
+            voiceRecordLength = [NSString stringWithFormat:@"%.f", cTime];
             if (fingerX > 75 && fingerX < 235 && fingerY > 135 && fingerY < 285) {
                 [recorder deleteRecording];
                 [recorder stop];
@@ -508,9 +508,9 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
-    [self insertMessageToDb:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_VOICE] Bdata:data];
+    [self insertMessageToDb:@"" VoiceLength:voiceRecordLength PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_VOICE] Bdata:data];
     UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
-    NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
+    NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data VoiceLength:voiceRecordLength date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine];
     [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];
@@ -529,37 +529,33 @@
     NSLog(@"voice power %lf",lowPassResults);
     //最大50  0
     //图片 小-》大
-    CGRect frame = recordPowerView.frame;
-    if (0<lowPassResults<=0.06) {
-        frame.size.height = 7;
+    if (0<lowPassResults<=0.13) {
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action01"]];
     }else if (0.06<lowPassResults<=0.13) {
-        frame.size.height = 14;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action02"]];
     }else if (0.13<lowPassResults<=0.20) {
-        frame.size.height = 21;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action03"]];
     }else if (0.20<lowPassResults<=0.27) {
-        frame.size.height = 28;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action04"]];
     }else if (0.27<lowPassResults<=0.34) {
-        frame.size.height = 35;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action05"]];
     }else if (0.34<lowPassResults<=0.41) {
-        frame.size.height = 42;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action06"]];
     }else if (0.41<lowPassResults<=0.48) {
-        frame.size.height = 49;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action07"]];
     }else if (0.48<lowPassResults<=0.55) {
-        frame.size.height = 56;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action08"]];
     }else if (0.55<lowPassResults<=0.62) {
-        frame.size.height = 63;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action09"]];
     }else if (0.62<lowPassResults<=0.69) {
-        frame.size.height = 70;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action10"]];
     }else if (0.69<lowPassResults<=0.76) {
-        frame.size.height = 77;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action10"]];
     }else if (0.76<lowPassResults<=0.83) {
-        frame.size.height = 85;
-    }else if (0.83<lowPassResults<=0.9) {
-        frame.size.height = 93;
-    }else {
-        frame.size.height = 93;
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action10"]];
+    }else if (0.83<lowPassResults) {
+        [recordPowerImageView setImage:[UIImage imageNamed:@"big-voice-action10"]];
     }
-    recordPowerView.frame = frame;
 }
 
 -(void)sendMyPositon {
@@ -609,7 +605,7 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
-    [self insertMessageToDb:@"" PostType:[NSString stringWithFormat:@"%d", MSG_TYPE_MAP] Bdata:nil];
+    [self insertMessageToDb:@"" VoiceLength:@"" PostType:[NSString stringWithFormat:@"%d", MSG_TYPE_MAP] Bdata:nil];
 //    mapImageView = [[EGOImageView alloc] init];
 //    mapImageView.frame = CGRectMake(0, 0, 300, 300);
 //    NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=120x120&sensor=false&markers=30.2094,120.204&language=zh_CN";
@@ -676,7 +672,7 @@
     [mes addChild:language];
     [mes addChild:bData];
     [KAppDelegate.xmppStream sendElement:mes];
-    [self insertMessageToDb:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPR_PIC] Bdata:pictureData];
+    [self insertMessageToDb:@"" VoiceLength:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPR_PIC] Bdata:pictureData];
     NSBubbleData *heyBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:pictureData] date:[NSDate date] type:BubbleTypeMine];
     [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleTable reloadData];
@@ -754,6 +750,7 @@
     recordViewLabel = nil;
     recordPowerView = nil;
     recordLengthLabel = nil;
+    recordPowerImageView = nil;
     [super viewDidUnload];
 }
 

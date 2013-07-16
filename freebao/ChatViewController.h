@@ -41,6 +41,7 @@
     __weak IBOutlet UILabel *recordViewLabel;
     __weak IBOutlet UIView *recordPowerView;
     __weak IBOutlet UILabel *recordLengthLabel;
+    __weak IBOutlet UIImageView *recordPowerImageView;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

@@ -25,6 +25,7 @@
 @synthesize isVoice = _isVoice;
 @synthesize voiceButton = _voiceButton;
 @synthesize voiceData = _voiceData;
+@synthesize voiceLengthLabel = _voiceLengthLabel;
 
 #pragma mark - Lifecycle
 
@@ -166,18 +167,22 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     return self;
 }
 
-+(id)dataWithVoice:(NSData *)voiceData date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
-    return [[NSBubbleData alloc] initWithVoice:voiceData date:date type:type insets:insets];
++(id)dataWithVoice:(NSData *)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+    return [[NSBubbleData alloc] initWithVoice:voiceData VoiceLength:voiceLength date:date type:type insets:insets];
 }
 
--(id)initWithVoice:(NSData *)voiceData date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
+-(id)initWithVoice:(NSData *)voiceData VoiceLength:(NSString*)voiceLength date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets {
     self = [super init];
     if (self)
     {
         UIButton *voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _isVoice = TRUE;
-        [voiceButton setTitle:@"Voice" forState:UIControlStateNormal];
-        [voiceButton setTintColor:[UIColor blueColor]];
+        _voiceLengthLabel = [[UILabel alloc] init];
+        _voiceLengthLabel.frame = CGRectMake(40, 0, 40, 30);
+        _voiceLengthLabel.text = [NSString stringWithFormat:@"%@ s", voiceLength];
+        _voiceLengthLabel.backgroundColor = [UIColor clearColor];
+        [voiceButton addSubview:_voiceLengthLabel];
+        [voiceButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         voiceButton.frame = CGRectMake(0, 0, 80, 30);
         _voiceButton = voiceButton;
         _date = date;
