@@ -223,7 +223,8 @@
     NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
     data.isPlayAnimation = YES;
     [bubbleData replaceObjectAtIndex:tmpIndexP.row - 1 withObject:data];
-    [bubbleTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [bubbleTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tmpC.voiceImageView startAnimating];
     playTimer = [NSTimer scheduledTimerWithTimeInterval:[data.voiceLength integerValue] target:self selector:@selector(detectionPlayTime) userInfo:notification.userInfo repeats:NO];
 }
 

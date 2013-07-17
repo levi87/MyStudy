@@ -326,7 +326,7 @@
         Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
         tmpStatus.isPlayTransVoice = NO;
         [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
-        [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpStatusCell.cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [manager FBGetTranslateVoiceWithBody:theCell.contentTF.text Language:@"zh_CN" PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     tmpStatusCell = theCell;
@@ -340,9 +340,6 @@
     NSString *voiceUrl = notification.object;
 //    NSLog(@"[levi] voice url %@",voiceUrl);
     NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
-    if (self.avPlay.playing) {
-        [self.avPlay stop];
-    }
     AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
     self.avPlay = player;
     self.avPlay.delegate = self;
@@ -354,7 +351,8 @@
     Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
     tmpStatus.isPlayTransVoice = NO;
     [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
-    [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
+//    [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpStatusCell.cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)didReceiveMemoryWarning

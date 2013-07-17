@@ -17,7 +17,7 @@
 #import "UserLocationViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate> {
+@interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate,AVAudioPlayerDelegate> {
     NSMutableArray *bubbleData;
     UIImagePickerController *_imagePicker;
     BOOL _isFirst;

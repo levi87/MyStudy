@@ -136,6 +136,8 @@
     _playTranslateVoiceImageView.animationDuration = 1;
     if (status.isPlayTransVoice) {
         [_playTranslateVoiceImageView startAnimating];
+    } else {
+        [_playTranslateVoiceImageView stopAnimating];
     }
     self.contentTF.text = status.text;
     self.JSContentTF.text = status.text;
