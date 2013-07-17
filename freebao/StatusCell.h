@@ -41,6 +41,8 @@
 
 -(void)cellLanguageSelectTaped:(StatusCell *)theCell;
 
+-(void)cellMoreDoTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>

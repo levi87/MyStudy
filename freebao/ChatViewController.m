@@ -729,6 +729,9 @@
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
+    if ([bubbleData count] == 0) {
+        return;
+    }
     NSInteger sections = [bubbleTable numberOfSections];
     NSInteger rows = [bubbleTable numberOfRowsInSection:sections - 1];
     NSLog(@"[levi] rows %d", rows);

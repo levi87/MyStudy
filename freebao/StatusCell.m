@@ -658,6 +658,12 @@
         [delegate cellLanguageSelectTaped:self];
     }
 }
+- (IBAction)moreDoAction:(id)sender {
+    if ([delegate respondsToSelector:@selector(cellMoreDoTaped:)])
+    {
+        [delegate cellMoreDoTaped:self];
+    }
+}
 
 - (void)dealloc {
 }

@@ -482,6 +482,13 @@
     //    [theCell showTranslateTV:100 Content:theCell.contentTF.text];
 }
 
+-(void)cellMoreDoTaped:(StatusCell *)theCell {
+    CustomActionSheet *as = [[CustomActionSheet alloc] init];
+    [as addButtonWithTitle:@"举报"];
+    [as addButtonWithTitle:@"删除"];
+    [as showInView:self.view];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
