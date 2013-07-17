@@ -41,4 +41,10 @@
 
 //Freebao Likers
 -(void)FBGetLikersWithUserId:(NSString*)userUd ContentId:(NSString*)aContentId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao Translate
+-(void)FBGetTranslateWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
+
+//Freebao Translate Voice
+-(void)FBGetTranslateVoiceWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 @end

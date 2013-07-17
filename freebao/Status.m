@@ -23,6 +23,7 @@
 @synthesize homeLineComments;
 @synthesize likeCount;
 @synthesize distance;
+@synthesize isPlayTransVoice = _isPlayTransVoice;
 
 -(StatusCDItem*)updateStatusCDItem:(StatusCDItem*)sts index:(int)theIndex isHomeLine:(BOOL) isHome
 {
@@ -203,6 +204,7 @@
 - (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
 //    NSLog(@"[levi] item dic %@", dic);
 	if (self = [super init]) {
+        _isPlayTransVoice = FALSE;
 		statusId = [dic getLongLongValueValueForKey:@"contentId" defaultValue:-1];
 		statusKey = [[NSNumber alloc]initWithLongLong:statusId];
 		createdAt = [dic getStringValueForKey:@"create_at" defaultValue:@""];

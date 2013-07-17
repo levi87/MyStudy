@@ -35,6 +35,8 @@
 
 -(void)cellShowUserLocationTaped:(StatusCell *)theCell;
 
+-(void)cellPlayTranslateVoiceTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>
@@ -100,12 +102,13 @@
 -(CGFloat)setTFHeightWithImage:(BOOL)hasImage haveRetwitterImage:(BOOL)haveRetwitterImage Status:(Status*)sts;
 -(void)updateCellTextWith:(Status*)status;
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
--(void)showTranslateTV:(CGFloat)height;
+-(void)showTranslateTV:(CGFloat)height Content:(NSString*)content;
 -(void)adjustMainImagePosition:(CGFloat)height;
 @property (retain, nonatomic) IBOutlet UIView *HeadView;
 - (void)setCellLayout:(BOOL)value;
 
 - (void)setCommentPosition:(CGFloat)height;
+@property (weak, nonatomic) IBOutlet UIImageView *playTranslateVoiceImageView;
 @property (weak, nonatomic) IBOutlet UILabel *likeCount;
 @property (weak, nonatomic) IBOutlet UILabel *comtCount;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;

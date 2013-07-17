@@ -13,9 +13,11 @@
 #import "CommentsViewController.h"
 #import "AppDelegate.h"
 #import "UserLocationViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
-@interface HomeLineViewController : StatusViewContrillerBase
+@interface HomeLineViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
 {
     NSString *userID;
     int _page;
@@ -26,7 +28,10 @@
     
     LikersViewController *likeVC;
     CommentsViewController *commentVC;
+    StatusCell *tmpStatusCell;
 }
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;
+
+@property (retain, nonatomic) AVAudioPlayer *avPlay;
 @end

@@ -200,6 +200,30 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoGetTranslationWithBody:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetMessageTrans];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:content    forKey:@"body"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:language forKey:@"language"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetTranslate];
+    [requestQueue addOperation:item];
+}
+
+- (void)didFreebaoGetTranslationVoiceWithBoay:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetMessageTransVoice];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:content    forKey:@"body"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:language forKey:@"language"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetTranslateVoice];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -425,6 +449,36 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_LIKERS object:resultArray];
         } else {
             NSLog(@"[levi] request Likers failed...");
+        }
+    }
+    if (requestType == FreebaoGetTranslate) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] get Translate... %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Translate Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            
+            NSString *contents = [resultMap objectForKey:@"response"];
+//            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+//            NSArray *resultArray = [resultMap objectForKey:@"likeUsers"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION object:contents];
+        } else {
+            NSLog(@"[levi] request Translate failed...");
+        }
+    }
+    if (requestType == FreebaoGetTranslateVoice) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] get Translate... %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Translate Voice Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            
+            NSString *voiceUrl = [resultMap objectForKey:@"voice"];
+            //            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            //            NSArray *resultArray = [resultMap objectForKey:@"likeUsers"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION_VOICE object:voiceUrl];
+        } else {
+            NSLog(@"[levi] request Translate Voice failed...");
         }
     }
 }

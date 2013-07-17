@@ -114,6 +114,7 @@
     [defaultNotifCenter addObserver:self selector:@selector(getAvatar:)         name:HHNetDataCacheNotification object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(mmRequestFailed:)   name:MMSinaRequestFailed object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(loginSucceed)       name:@"didGetTokenInWebView" object:nil];
+    [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
 }
 
 -(void)viewDidUnload
@@ -121,6 +122,7 @@
     [defaultNotifCenter removeObserver:self name:HHNetDataCacheNotification object:nil];
     [defaultNotifCenter removeObserver:self name:MMSinaRequestFailed        object:nil];
     [defaultNotifCenter removeObserver:self name:@"didGetTokenInWebView"  object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
     
     [super viewDidUnload];
 }
@@ -296,7 +298,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [statuesArr count] + 1;
+    return [statuesArr count] + 2;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -450,15 +452,32 @@
     }
 }
 
--(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height{
-    NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
-    for (int i = theCell.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+-(void)onRequestResult:(NSNotification*)notification {
+    NSLog(@"[levi] translate result %@", notification.object);
+    NSString *transResult = notification.object;
+    [SVProgressHUD dismiss];
+    CGFloat transHeight = [StatusCell getJSHeight:transResult jsViewWith:tmpSC.contentTF.frame.size.width];
+    for (int i = tmpSC.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
         StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + height, tmpCell.frame.size.width, tmpCell.frame.size.height);
-//        [tmpCell adjustMainImagePosition:100];
+        tmpCell.frame = CGRectMake(tmpSC.frame.origin.x, tmpSC.frame.origin.y + transHeight, tmpSC.frame.size.width, tmpSC.frame.size.height);
+        //        [tmpCell adjustMainImagePosition:100];
     }
-    theCell.frame = CGRectMake(theCell.frame.origin.x, theCell.frame.origin.y, theCell.frame.size.width, theCell.frame.size.height + height);
-    [theCell showTranslateTV:100];
+    tmpSC.frame = CGRectMake(tmpSC.frame.origin.x, tmpSC.frame.origin.y, tmpSC.frame.size.width, tmpSC.frame.size.height + transHeight);
+    [tmpSC showTranslateTV:100 Content:transResult];
+}
+
+-(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height{
+    tmpSC = theCell;
+    NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
+    [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
+    [manager FBGetTranslateWithBody:theCell.contentTF.text Language:@"zh_CN" PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+//    for (int i = theCell.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+//        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+//        tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + height, tmpCell.frame.size.width, tmpCell.frame.size.height);
+////        [tmpCell adjustMainImagePosition:100];
+//    }
+//    theCell.frame = CGRectMake(theCell.frame.origin.x, theCell.frame.origin.y, theCell.frame.size.width, theCell.frame.size.height + height);
+//    [theCell showTranslateTV:100 Content:theCell.contentTF.text];
 }
 
 -(void)cellImageDidTaped:(StatusCell *)theCell image:(UIImage *)image

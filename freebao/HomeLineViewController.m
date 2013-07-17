@@ -23,6 +23,7 @@
 @implementation HomeLineViewController
 @synthesize userID;
 @synthesize timer;
+@synthesize avPlay = _avPlay;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -68,6 +69,7 @@
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
+    [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
 
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
@@ -83,6 +85,7 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_HOMELINE object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -315,6 +318,43 @@
     userCoordinate.longitude = theCell.tmpPoint.y;
     [KAppDelegate.commMap setUserCoordinate:userCoordinate];
     [self presentModalViewController:KAppDelegate.commMap animated:YES];
+}
+
+-(void)cellPlayTranslateVoiceTaped:(StatusCell *)theCell {
+    if (self.avPlay.playing) {
+        [self.avPlay stop];
+        Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
+        tmpStatus.isPlayTransVoice = NO;
+        [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
+        [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
+    }
+    [manager FBGetTranslateVoiceWithBody:theCell.contentTF.text Language:@"zh_CN" PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    tmpStatusCell = theCell;
+    Status *tmpStatus = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
+    tmpStatus.isPlayTransVoice = YES;
+    [statuesArr replaceObjectAtIndex:theCell.cellIndexPath.row withObject:tmpStatus];
+    [theCell.playTranslateVoiceImageView startAnimating];
+}
+
+-(void)onRequestVoiceResult:(NSNotification*)notification {
+    NSString *voiceUrl = notification.object;
+//    NSLog(@"[levi] voice url %@",voiceUrl);
+    NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
+    if (self.avPlay.playing) {
+        [self.avPlay stop];
+    }
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+    self.avPlay = player;
+    self.avPlay.delegate = self;
+    [self.avPlay play];
+}
+
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    NSLog(@"[levi] play completed...");
+    Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
+    tmpStatus.isPlayTransVoice = NO;
+    [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
+    [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
 }
 
 - (void)didReceiveMemoryWarning

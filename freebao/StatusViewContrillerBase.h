@@ -20,6 +20,7 @@
 #import "SHKActivityIndicator.h"
 #import "ZJTDetailStatusVC.h"
 #import "BlankCell.h"
+#import "SVProgressHUD.h"
 
 
 @class WeiBoMessageManager;
@@ -44,6 +45,8 @@
 	EGORefreshTableHeaderView *_refreshHeaderView;
     
 	BOOL _reloading;
+    
+    StatusCell *tmpSC;
 }
 
 @property (retain, nonatomic)   IBOutlet UITableView    *table;

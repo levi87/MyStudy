@@ -49,6 +49,7 @@
     UIImage *statusImage;
     
     int             likeCount;
+    BOOL _isPlayTransVoice;
 }
 
 @property (nonatomic, assign) long long     statusId;
@@ -82,6 +83,7 @@
 @property (nonatomic, assign) BOOL          hasRetwitter;
 @property (nonatomic, assign) BOOL          haveRetwitterImage;
 @property (nonatomic, assign) BOOL          hasImage;
+@property (nonatomic, assign) BOOL          isPlayTransVoice;
 @property (nonatomic,retain) UIImage        *statusImage;
 @property (nonatomic,retain) NSIndexPath    *cellIndexPath;
 @property (nonatomic,retain) NSString       *isRefresh;

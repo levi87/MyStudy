@@ -45,6 +45,8 @@
 #define FB_ADD_LIKE                 @"fb_add_like"
 #define FB_UN_LIKE                  @"fb_un_like"
 #define FB_GET_LIKERS               @"fb_get_likers"
+#define FB_GET_TRANSLATION          @"fb_get_translation"
+#define FB_GET_TRANSLATION_VOICE    @"fb_get_translation_voice"
 
 /*
  Freebao
@@ -91,6 +93,8 @@
 #define kGetDownMessageUrl              kHostUrl"message/findOffLineMessage.html"
 // message翻译    translatorAjax/getMesageTransText.html
 #define kGetMessageTrans                kHostUrl"translatorAjax/getMesageTransText.html"
+#define kGetMessageTransVoice                kHostUrl"translatorAjax/getTextVoice.html"
+
 // message翻译设置请求    translatorAjax/addChatLanguage.html
 #define kGetMessageTransSet                kHostUrl"chatLanguage/addChatLanguage.html"
 // message翻译取消请求    translatorAjax/cancleChatLanguage.html
@@ -247,6 +251,8 @@ typedef enum {
     FreebaoLike,
     FreebaoUnlike,
     FreebaoGetLikers,
+    FreebaoGetTranslate,
+    FreebaoGetTranslateVoice,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -306,5 +312,11 @@ typedef enum {
 
 //Freebao 获取Likers
 -(void)didFreebaoGetLikersWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao 获取翻译
+-(void)didFreebaoGetTranslationWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
+
+//Freebao 获取语音翻译
+-(void)didFreebaoGetTranslationVoiceWithBoay:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 
 @end

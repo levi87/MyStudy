@@ -78,4 +78,14 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetLikersWithUserId:userUd ContentId:aContentId Page:page PageSize:pageSize PassId:passId];
 }
 
+//Freebao 获取Translate
+-(void)FBGetTranslateWithBody:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
+    [httpManager didFreebaoGetTranslationWithBody:content Language:language PassId:passId];
+}
+
+//Freebao 获取Translate Voice
+-(void)FBGetTranslateVoiceWithBody:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
+    [httpManager didFreebaoGetTranslationVoiceWithBoay:content Language:language PassId:passId];
+}
+
 @end

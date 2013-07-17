@@ -41,6 +41,7 @@
 @synthesize distanceLabel;
 @synthesize addLikeIconImage;
 @synthesize tmpPoint = _tmpPoint;
+@synthesize playTranslateVoiceImageView = _playTranslateVoiceImageView;
 
 -(JSTwitterCoreTextView*)JSContentTF
 {
@@ -127,6 +128,15 @@
 
 -(void)updateCellTextWith:(Status*)status
 {
+    _playTranslateVoiceImageView.animationImages = [NSArray arrayWithObjects:
+                                                    [UIImage imageNamed:@"con-speek02"],
+                                                    [UIImage imageNamed:@"con-speek04"],
+                                                    [UIImage imageNamed:@"con-speek06"],
+                                                    nil];
+    _playTranslateVoiceImageView.animationDuration = 1;
+    if (status.isPlayTransVoice) {
+        [_playTranslateVoiceImageView startAnimating];
+    }
     self.contentTF.text = status.text;
     self.JSContentTF.text = status.text;
     self.userNameLB.text = status.user.screenName;
@@ -359,8 +369,9 @@
 }
 
 //增加翻译的高度并显示翻译
--(void)showTranslateTV:(CGFloat)height {
+-(void)showTranslateTV:(CGFloat)height Content:(NSString *)content {
     self.translateContentTF.hidden = NO;
+    self.translateContentTF.text = content;
 //    NSLog(@"[levi]jscontentTF %f", self.JSContentTF.frame.size.height);
     self.translateContentTF.frame = CGRectMake(self.JSContentTF.frame.origin.x, self.JSContentTF.frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF], self.JSContentTF.frame.size.width, [self returnTranslateHeight:self.translateContentTF]);
     
@@ -525,7 +536,7 @@
         }
     } else if ([imageView isEqual:mainImageView]) {
         if ([delegate respondsToSelector:@selector(cellExpandForTranslate:Height:)]) {
-            [delegate cellExpandForTranslate:self Height:100];
+            [delegate cellExpandForTranslate:self Height:[StatusCell getJSHeight:self.contentTF.text jsViewWith:self.contentTF.frame.size.width]];
         }
     } else if ([imageView isEqual:addLikeIconImage]) {
         if ([delegate respondsToSelector:@selector(cellAddLikeDidTaped:)]) {
@@ -575,6 +586,12 @@
     if ([delegate respondsToSelector:@selector(cellShowUserLocationTaped:)])
     {
         [delegate cellShowUserLocationTaped:self];
+    }
+}
+- (IBAction)playTranslateVoice:(id)sender {
+    if ([delegate respondsToSelector:@selector(cellPlayTranslateVoiceTaped:)])
+    {
+        [delegate cellPlayTranslateVoiceTaped:self];
     }
 }
 
