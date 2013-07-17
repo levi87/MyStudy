@@ -166,6 +166,23 @@
     }
 
     _languageStr = status.language;
+    if ([_languageStr isEqualToString:@"zh_CN"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+    } else if ([_languageStr isEqualToString:@"en_US"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+    } else if ([_languageStr isEqualToString:@"fr_FR"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+    } else if ([_languageStr isEqualToString:@"hi_IN"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+    } else if ([_languageStr isEqualToString:@"ja_JP"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+    } else if ([_languageStr isEqualToString:@"ru_RU"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+    } else if ([_languageStr isEqualToString:@"es_ES"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+    } else if ([_languageStr isEqualToString:@"ko_KR"]) {
+        [self.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+    }
     _soundPath = status.soundPath;
     _playTranslateVoiceImageView.animationImages = [NSArray arrayWithObjects:
                                                     [UIImage imageNamed:@"con-speek02"],
@@ -633,6 +650,12 @@
     if ([delegate respondsToSelector:@selector(cellPlayTranslateVoiceTaped:)])
     {
         [delegate cellPlayTranslateVoiceTaped:self];
+    }
+}
+- (IBAction)languageSelectAction:(id)sender {
+    if ([delegate respondsToSelector:@selector(cellLanguageSelectTaped:)])
+    {
+        [delegate cellLanguageSelectTaped:self];
     }
 }
 

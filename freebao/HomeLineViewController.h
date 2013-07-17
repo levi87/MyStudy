@@ -29,6 +29,7 @@
     LikersViewController *likeVC;
     CommentsViewController *commentVC;
     StatusCell *tmpStatusCell;
+    StatusCell *tmpStatusCellL;
 }
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;

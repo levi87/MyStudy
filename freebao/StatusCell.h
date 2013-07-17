@@ -39,6 +39,8 @@
 
 -(void)cellPlaySoundTaped:(StatusCell *)theCell;
 
+-(void)cellLanguageSelectTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>
@@ -122,6 +124,7 @@
 
 @property (nonatomic) NSString *languageStr;
 @property (nonatomic) NSString *soundPath;
+@property (weak, nonatomic) IBOutlet UIImageView *languageTypeView;
 
 @property (nonatomic, retain) UIImageView *voiceImage;
 @end

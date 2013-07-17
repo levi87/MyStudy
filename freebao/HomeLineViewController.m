@@ -70,6 +70,7 @@
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
+    [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
 
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
@@ -86,6 +87,7 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -328,7 +330,7 @@
         [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpStatusCell.cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    [manager FBGetTranslateVoiceWithBody:theCell.contentTF.text Language:@"zh_CN" PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetTranslateVoiceWithBody:theCell.contentTF.text Language:theCell.languageStr PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     tmpStatusCell = theCell;
     Status *tmpStatus = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
     tmpStatus.isPlayTransVoice = YES;
@@ -361,6 +363,123 @@
     self.avPlay = player;
     [theCell.voiceImage startAnimating];
     [self.avPlay play];
+}
+
+-(void)cellLanguageSelectTaped:(StatusCell *)theCell {
+    NSLog(@"select language...");
+    tmpStatusCellL = theCell;
+    [self languageMenuAction];
+}
+
+- (void)languageMenuAction {
+    NSArray *menuItems =
+    @[
+      
+      [KxMenuItem menuItem:@"中文"
+                     image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"English"
+                     image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"日本語"
+                     image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"한국어"
+                     image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"España"
+                     image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Français"
+                     image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Deutsch"
+                     image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"русский"
+                     image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      ];
+    
+    [KxMenu showMenuInView:self.navigationController.view
+                  fromRect:CGRectMake(250, 24, 20, 10)
+                 menuItems:menuItems];
+}
+
+- (void) pushMenuItem:(id)sender
+{
+    KxMenuItem *tmpKxM = sender;
+    NSLog(@"tittle %@", tmpKxM.title);
+    if ([tmpKxM.title isEqualToString:@"中文"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+        tmpStatusCellL.languageStr = @"zh_CN";
+    } else if ([tmpKxM.title isEqualToString:@"English"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+        tmpStatusCellL.languageStr = @"en_US";
+    } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+        tmpStatusCellL.languageStr = @"ja_JP";
+    } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+        tmpStatusCellL.languageStr = @"ko_KR";
+    } else if ([tmpKxM.title isEqualToString:@"España"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+        tmpStatusCellL.languageStr = @"es_ES";
+    } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+        tmpStatusCellL.languageStr = @"fr_FR";
+    } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
+        tmpStatusCellL.languageStr = @"";
+    } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+        tmpStatusCellL.languageStr = @"ru_RU";
+    }
+    [self cellExpandForTranslate:tmpStatusCellL Height:1];
+}
+
+-(void)onRequestResult:(NSNotification*)notification {
+    NSLog(@"[levi] translate result %@", notification.object);
+    NSString *transResult = notification.object;
+    NSLog(@"[nnn] %@", tmpStatusCellL.contentTF);
+    [SVProgressHUD dismiss];
+    CGFloat transHeight = [StatusCell getJSHeight:transResult jsViewWith:tmpStatusCellL.contentTF.frame.size.width];
+    for (int i = tmpStatusCellL.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        tmpCell.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y + transHeight, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height);
+        //        [tmpCell adjustMainImagePosition:100];
+    }
+    tmpStatusCellL.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height + transHeight);
+    [tmpStatusCellL showTranslateTV:100 Content:transResult];
+}
+
+-(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height{
+    tmpStatusCellL = theCell;
+    NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
+    [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
+    [manager FBGetTranslateWithBody:theCell.contentTF.text Language:theCell.languageStr PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    //    for (int i = theCell.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+    //        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+    //        tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + height, tmpCell.frame.size.width, tmpCell.frame.size.height);
+    ////        [tmpCell adjustMainImagePosition:100];
+    //    }
+    //    theCell.frame = CGRectMake(theCell.frame.origin.x, theCell.frame.origin.y, theCell.frame.size.width, theCell.frame.size.height + height);
+    //    [theCell showTranslateTV:100 Content:theCell.contentTF.text];
 }
 
 - (void)didReceiveMemoryWarning

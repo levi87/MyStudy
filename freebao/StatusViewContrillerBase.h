@@ -46,7 +46,7 @@
     
 	BOOL _reloading;
     
-    StatusCell *tmpSC;
+//    StatusCell *tmpSC;
 }
 
 @property (retain, nonatomic)   IBOutlet UITableView    *table;

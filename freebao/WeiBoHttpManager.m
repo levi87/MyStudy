@@ -453,7 +453,7 @@
     }
     if (requestType == FreebaoGetTranslate) {
         NSMutableDictionary *tmpDic = returnObject;
-        NSLog(@"[levi] get Translate... %@", tmpDic);
+//        NSLog(@"[levi] get Translate... %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request Translate Success...");
             NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
@@ -468,7 +468,7 @@
     }
     if (requestType == FreebaoGetTranslateVoice) {
         NSMutableDictionary *tmpDic = returnObject;
-        NSLog(@"[levi] get Translate... %@", tmpDic);
+//        NSLog(@"[levi] get Translate... %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request Translate Voice Success...");
             NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
