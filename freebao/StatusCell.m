@@ -66,9 +66,32 @@
     return _JSContentTF;
 }
 
+- (void)playVoice {
+    NSLog(@"[levi]play voice..");
+}
+
 - (void)setCellLayout:(BOOL)value {
     if (value) {
         self.mainImageView.frame = CGRectMake(0, 0, 320, 320);
+        if (voiceView == nil) {
+            voiceView = [[UIView alloc] initWithFrame:CGRectMake(250, 10, 60, 30)];
+            UIImageView *voiceImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, 24, 24)];
+            [voiceImage setImage:[UIImage imageNamed:@"con-voice-images"]];
+            [voiceView addSubview:voiceImage];
+            UILabel *voiceLengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 30, 15)];
+            voiceLengthLabel.text = @"30 s";
+            voiceLengthLabel.backgroundColor = [UIColor clearColor];
+            voiceLengthLabel.font = [UIFont systemFontOfSize:13.0];
+            [voiceLengthLabel setTextColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]];
+            [voiceView addSubview:voiceLengthLabel];
+            [voiceView setBackgroundColor:[UIColor clearColor]];
+            [voiceView setAlpha:0.5];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVoice)];
+            tap.numberOfTapsRequired = 1;
+            [voiceView addGestureRecognizer:tap];
+            [voiceView setUserInteractionEnabled:YES];
+            [self.mainImageView addSubview:voiceView];
+        }
         [self.mainImageView setHidden:NO];
         self.HeadView.frame = CGRectMake(0, 323, 320, 40);
         CGRect frameJS = _JSContentTF.frame;

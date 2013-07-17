@@ -60,6 +60,7 @@
     JSTwitterCoreTextView *_line1Comment;
     JSTwitterCoreTextView *_line2Comment;
     JSTwitterCoreTextView *_line3Comment;
+    UIView *voiceView;
 
     CGPoint _tmpPoint;
     

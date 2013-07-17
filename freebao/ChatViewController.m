@@ -150,11 +150,14 @@
     tittleLabel.center = CGPointMake(160, 22);
     backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 33, 16)];
+    languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 24, 16)];
+    UIImageView *arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake(310, 14, 6, 16)];
+    [arrowImage setImage:[UIImage imageNamed:@"chat_Translation_sanjiao"]];
     [languageButton addTarget:self action:@selector(languageMenuAction) forControlEvents:UIControlEventTouchUpInside];
-    [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"chat_Translation"]]];
+    [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"chat_Translation_chat"]]];
     //    [self.navigationController.view addSubview:languageButton];
-    [tittleView addSubview: languageButton];
+    [tittleView addSubview:arrowImage];
+    [tittleView addSubview:languageButton];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
     [imgV setFrame:CGRectMake(0, 0, 7, 12)];
     [backButton addSubview:imgV];
