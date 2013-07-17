@@ -43,6 +43,8 @@
 @dynamic timestamp;
 @dynamic truncated;
 @dynamic unread;
+@dynamic language;
+@dynamic soundPath;
 @dynamic retweetedStatus;
 @dynamic user;
 

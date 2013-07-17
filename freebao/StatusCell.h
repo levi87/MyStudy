@@ -37,6 +37,8 @@
 
 -(void)cellPlayTranslateVoiceTaped:(StatusCell *)theCell;
 
+-(void)cellPlaySoundTaped:(StatusCell *)theCell;
+
 @end
 
 @interface StatusCell : LPBaseCell <JSCoreTextViewDelegate>
@@ -65,6 +67,9 @@
     CGPoint _tmpPoint;
     
     BOOL _isLiked;
+    
+    NSString *_languageStr;
+    NSString *_soundPath;
 }
 @property CGPoint tmpPoint;
 @property (weak, nonatomic) IBOutlet UIView *bottomBarView;
@@ -114,4 +119,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *comtCount;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *addLikeIconImage;
+
+@property (nonatomic) NSString *languageStr;
+@property (nonatomic) NSString *soundPath;
+
+@property (nonatomic, retain) UIImageView *voiceImage;
 @end

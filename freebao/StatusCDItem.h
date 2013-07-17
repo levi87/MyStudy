@@ -43,6 +43,8 @@
 @property (nonatomic, retain) NSString * timestamp;
 @property (nonatomic, retain) NSNumber * truncated;
 @property (nonatomic, retain) NSNumber * unread;
+@property (nonatomic, retain) NSString * language;
+@property (nonatomic, retain) NSString * soundPath;
 @property (nonatomic, retain) StatusCDItem *retweetedStatus;
 @property (nonatomic, retain) UserCDItem *user;
 

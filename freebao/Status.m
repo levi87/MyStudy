@@ -24,10 +24,15 @@
 @synthesize likeCount;
 @synthesize distance;
 @synthesize isPlayTransVoice = _isPlayTransVoice;
+@synthesize language = _language;
+@synthesize soundPath = _soundPath;
+@synthesize soundLength = _soundLength;
 
 -(StatusCDItem*)updateStatusCDItem:(StatusCDItem*)sts index:(int)theIndex isHomeLine:(BOOL) isHome
 {
     sts.bmiddlePic          = self.bmiddlePic;
+    sts.language            = self.language;
+    sts.soundPath           = self.soundPath;
     sts.commentsCount       = [NSNumber numberWithInt:self.commentsCount];
     sts.homeLineCommentCount= [NSNumber numberWithInt:self.homeLineCommentCount];
     sts.likeCount           = [NSNumber numberWithInt:self.likeCount];
@@ -66,7 +71,9 @@
 
 - (Status*)updataStatusFromStatusCDItem:(StatusCDItem*)sts
 {
-    self.bmiddlePic         = sts.bmiddlePic;       
+    self.bmiddlePic         = sts.bmiddlePic;
+    self.language           = sts.language;
+    self.soundPath          = sts.soundPath;
     self.commentsCount      = sts.commentsCount.intValue;
     self.homeLineCommentCount= sts.homeLineCommentCount.intValue;
     self.likeCount          = sts.likeCount.intValue;
@@ -202,9 +209,13 @@
 }
 
 - (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
-//    NSLog(@"[levi] item dic %@", dic);
 	if (self = [super init]) {
         _isPlayTransVoice = FALSE;
+        NSLog(@"v %@", dic);
+        _language = [dic getStringValueForKey:@"post_language" defaultValue:@"0"];
+        NSDictionary *soundDic = [dic objectForKey:@"sound"];
+        _soundPath = [soundDic getStringValueForKey:@"soundPath" defaultValue:@""];
+        _soundLength = [soundDic getStringValueForKey:@"soundTime" defaultValue:@"0"];
 		statusId = [dic getLongLongValueValueForKey:@"contentId" defaultValue:-1];
 		statusKey = [[NSNumber alloc]initWithLongLong:statusId];
 		createdAt = [dic getStringValueForKey:@"create_at" defaultValue:@""];

@@ -50,6 +50,9 @@
     
     int             likeCount;
     BOOL _isPlayTransVoice;
+    
+    NSString *_language;
+    NSString *_soundPath;
 }
 
 @property (nonatomic, assign) long long     statusId;
@@ -89,6 +92,10 @@
 @property (nonatomic,retain) NSString       *isRefresh;
 @property (nonatomic,retain)NSArray*        homeLineComments;
 @property (nonatomic,assign)int             likeCount;
+
+@property (nonatomic, retain) NSString *language;
+@property (nonatomic, retain) NSString *soundPath;
+@property (nonatomic, retain) NSString *soundLength;
 
 
 - (NSString*)timestamp;
