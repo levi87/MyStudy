@@ -270,8 +270,8 @@
         UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
         receiveBubble = [NSBubbleData dataWithVoice:tmpMsg.data VoiceLength:tmpMsg.voiceTime date:[NSDate date] IsSelf:NO type:BubbleTypeSomeoneElse insets:imageInsetsMine];
     }
-    [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
-    
+//    [bubbleData insertObject:receiveBubble atIndex:[bubbleData count] - 1];
+    [bubbleData addObject:receiveBubble];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];
 }
@@ -324,7 +324,9 @@
                 }
             }
             [bubbleTable reloadData];
-            [self scrollToBottomAnimated:NO];
+            if ([bubbleData count] != 0) {
+                [self scrollToBottomAnimated:NO];
+            }
         });
     });
 }
@@ -383,7 +385,8 @@
     }completion:^(BOOL finished){
         if (finished) {
             NSBubbleData *heyBubble = [NSBubbleData dataWithText:inputText date:[NSDate date] type:BubbleTypeMine];
-            [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+//            [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+            [bubbleData addObject:heyBubble];
             [bubbleTable reloadData];
             [self scrollToBottomAnimated:YES];
         }
@@ -545,7 +548,8 @@
     [self insertMessageToDb:@"" VoiceLength:voiceRecordLength PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_VOICE] Bdata:data];
     UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
     NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data VoiceLength:voiceRecordLength date:[NSDate date] IsSelf:YES type:BubbleTypeMine insets:imageInsetsMine];
-    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+//    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+    [bubbleData addObject:heyBubble];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];
 }
@@ -648,7 +652,8 @@
     UIEdgeInsets imageInsetsMine = {5, 5, 225, 225};
     CGPoint tmpP = CGPointMake(30.2094, 120.204);
     NSBubbleData *heyBubble = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine Language:@"zh_CN"];
-    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+//    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+    [bubbleData addObject:heyBubble];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];
 }
@@ -709,7 +714,8 @@
     [KAppDelegate.xmppStream sendElement:mes];
     [self insertMessageToDb:@"" VoiceLength:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPR_PIC] Bdata:pictureData];
     NSBubbleData *heyBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:pictureData] date:[NSDate date] type:BubbleTypeMine];
-    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+//    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
+    [bubbleData addObject:heyBubble];
     [bubbleTable reloadData];
     [self scrollToBottomAnimated:YES];
 }
