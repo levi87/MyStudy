@@ -176,10 +176,20 @@
         [pageControl addTarget:self action:@selector(changePage:)forControlEvents:UIControlEventValueChanged];
         [superView addSubview:pageControl];
         
+        UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+        
+        [recognizer setDirection:(UISwipeGestureRecognizerDirectionDown)];
+        [toolBar addGestureRecognizer:recognizer];
         [superView addSubview:toolBar];
         // Do any additional setup after loading the view, typically from a nib.
     }
     return self;
+}
+
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_KEYBOARD object:nil];
+    }
 }
 
 -(void)voiceBtnLongPress:(UILongPressGestureRecognizer *)recogonizer {
