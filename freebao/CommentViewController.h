@@ -16,7 +16,7 @@
 #import "FaceToolBar.h"
 
 @class WeiBoMessageManager;
-@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,RMSwipeTableViewCellDelegate,FaceToolBarDelegate> {
+@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,RMSwipeTableViewCellDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;

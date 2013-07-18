@@ -88,4 +88,9 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetTranslationVoiceWithBoay:content Language:language PassId:passId];
 }
 
+//Freebao 增加Comment
+-(void)FBAddAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId {
+    [httpManager didFreebaoAddWeiboCommentWithContentId:contentId CommentContent:content UserId:aUserId PassId:passId CommentId:aCommentId];
+}
+
 @end

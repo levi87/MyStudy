@@ -224,6 +224,20 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId {
+    NSURL *url = [NSURL URLWithString:kAddCommentUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:content    forKey:@"comment.commentBody"];
+    [item setPostValue:contentId forKey:@"comment.contentId"];
+    [item setPostValue:aCommentId forKey:@"comment.replyId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoAddComment];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -264,10 +278,10 @@
 - (void)requestFinished:(ASIHTTPRequest *)request{
     NSDictionary *userInformation = [request userInfo];
     RequestType requestType = [[userInformation objectForKey:USER_INFO_KEY_TYPE] intValue];
-    NSString * responseString = [request responseString];
+//    NSString * responseString = [request responseString];
 //    NSLog(@"responseString = %@",responseString);
 
-    id returnObject = [NSJSONSerialization JSONObjectWithData:[request responseData] options:nil error:nil];
+    id returnObject = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
     if ([returnObject isKindOfClass:[NSDictionary class]]) {
         NSString *errorString = [returnObject  objectForKey:@"error"];
         if (errorString != nil && ([errorString isEqualToString:@"auth faild!"] || 
@@ -325,7 +339,13 @@
     if (requestType == FreebaoGetUserInfo) {
         NSMutableDictionary *tmpDic = returnObject;
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSMutableDictionary *tmp = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"user"];
+            NSString *nickName = [tmp objectForKey:@"url"];
+            NSString *facePath = [tmp objectForKey:@"facePath"];
             NSLog(@"[levi] request UserInfo Success...");
+            [[NSUserDefaults standardUserDefaults] setObject:facePath forKey:FB_USER_FACE_PATH];
+            [[NSUserDefaults standardUserDefaults] setObject:nickName forKey:FB_USER_NICK_NAME];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         } else {
             NSLog(@"[levi] request UserInfo failed...");
         }
@@ -368,9 +388,9 @@
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request Comments Success...");
             NSLog(@"[levi] result %@", tmpDic);
-            NSDictionary *currentPageInfo = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"currentPageInfo"];
+//            NSDictionary *currentPageInfo = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"currentPageInfo"];
             NSArray         *arrComment = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"contentCommentsList"];
-            NSNumber        *count      = [currentPageInfo objectForKey:@"returnCount"];
+//            NSNumber        *count      = [currentPageInfo objectForKey:@"returnCount"];
             if (arrComment == nil || [arrComment isEqual:[NSNull null]]) {
                 return;
             }
@@ -479,6 +499,16 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION_VOICE object:voiceUrl];
         } else {
             NSLog(@"[levi] request Translate Voice failed...");
+        }
+    }
+    if (requestType == FreebaoAddComment) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] add comment %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request add comment Success...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_ADD_COMMENT object:nil];
+        } else {
+            NSLog(@"[levi] request add comment failed...");
         }
     }
 }

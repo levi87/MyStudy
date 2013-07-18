@@ -31,6 +31,10 @@
     return self;
 }
 
+-(void)didAddComments:(NSNotification*)notification {
+    NSLog(@"add comment success.");
+}
+
 -(void)didGetComments:(NSNotification*)notification {
     NSMutableArray *tmpArray = notification.object;
     NSLog(@"tmpArray Array %@", tmpArray);
@@ -41,6 +45,8 @@
         CommentInfo *tmpInfo = [[CommentInfo alloc] init];
         tmpInfo.nickName = [tmpDic objectForKey:@"nickname"];
         tmpInfo.content = [tmpDic objectForKey:@"commentBody"];
+        tmpInfo.contentId = [tmpDic objectForKey:@"contentId"];
+        tmpInfo.commentId = [tmpDic objectForKey:@"commentId"];
         [commentsArray addObject:tmpInfo];
         [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
     }
@@ -61,6 +67,7 @@
         manager = [WeiBoMessageManager getInstance];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAddComments:) name:FB_ADD_COMMENT object:nil];
     [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] initWithObjects:
@@ -349,7 +356,17 @@
 }
 
 -(void)sendTextAction:(NSString *)inputText Frame:(CGRect)frame {
-    NSLog(@"send comment");
+    NSLog(@"send comment %@", inputText);
+    CommentInfo *tmpInfo = [[CommentInfo alloc] init];
+    tmpInfo.nickName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NICK_NAME];
+    tmpInfo.content = inputText;
+//    [headPhotos addObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH]];
+    [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
+    [commentsArray insertObject:tmpInfo atIndex:0];
+    [self.commentTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    [self.commentTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//    [self.commentTableView reloadData];
+    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:inputText UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@""];
 }
 
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer {

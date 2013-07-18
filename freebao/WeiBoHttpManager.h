@@ -30,6 +30,8 @@
 #define FB_AUTOLOGIN                @"autologin"
 #define FB_USER_NAME                @"username"
 #define FB_USER_PASSWORD            @"password"
+#define FB_USER_NICK_NAME           @"nickname"
+#define FB_USER_FACE_PATH           @"facepath"
 
 //FB_NOTIFICATION
 
@@ -47,6 +49,7 @@
 #define FB_GET_LIKERS               @"fb_get_likers"
 #define FB_GET_TRANSLATION          @"fb_get_translation"
 #define FB_GET_TRANSLATION_VOICE    @"fb_get_translation_voice"
+#define FB_ADD_COMMENT              @"fb_add_comment"
 
 /*
  Freebao
@@ -253,6 +256,7 @@ typedef enum {
     FreebaoGetLikers,
     FreebaoGetTranslate,
     FreebaoGetTranslateVoice,
+    FreebaoAddComment,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -318,5 +322,8 @@ typedef enum {
 
 //Freebao 获取语音翻译
 -(void)didFreebaoGetTranslationVoiceWithBoay:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
+
+//Freebao 回复微博
+-(void)didFreebaoAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId;
 
 @end

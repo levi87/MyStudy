@@ -13,5 +13,7 @@
 @synthesize content = _content;
 @synthesize voiceUrl = _voiceUrl;
 @synthesize languageType = _languageType;
+@synthesize contentId = _contentId;
+@synthesize commentId = _commentId;
 
 @end

@@ -13,10 +13,14 @@
     NSString *_content;
     NSString *_voiceUrl;
     NSString *_languageType;
+    NSString *_contentId;
+    NSString *_commentId;
 }
 
 @property (nonatomic, retain) NSString *nickName;
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSString *voiceUrl;
 @property (nonatomic, retain) NSString *languageType;
+@property (nonatomic, retain) NSString *contentId;
+@property (nonatomic, retain) NSString *commentId;
 @end
