@@ -21,12 +21,25 @@
     NSString *_cellContentId;
     BOOL _isRefresh;
     BOOL isFirst;
+    __weak IBOutlet UIImageView *recordPowerImageView;
+    __weak IBOutlet UIView *recordPowerView;
+    __weak IBOutlet UILabel *recordViewLabel;
+    __weak IBOutlet UILabel *recordLengthLabel;
+    __weak IBOutlet UIView *recordBackgroundView;
+    NSInteger fingerX;
+    NSInteger fingerY;
+    AVAudioRecorder *recorder;
+    NSTimer *recordtTimer;
+    NSTimer *playTimer;
+    NSString *voiceRecordLength;
+    NSString *tmpVoicePath;
 @private
     NSMutableArray *headPhotos;
     NSMutableArray *commentsArray;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *commentTableView;
+@property (weak, nonatomic) IBOutlet UIView *recordView;
 
 @property NSString *cellContentId;
 @property BOOL isRefresh;

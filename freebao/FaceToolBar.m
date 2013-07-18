@@ -36,20 +36,26 @@
         keyboardIsShow=NO;
         self.theSuperView=superView;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideKeyboardAndFaceView) name:HIDE_KEYBOARD object:nil];
-        //OCExpandButton
-        NSMutableArray *subviews = [[NSMutableArray alloc] init];
 
-        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
-        faceBtn.backgroundColor = [UIColor clearColor];
-        [faceBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_phiz"] forState:UIControlStateNormal];
-        //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
-        faceBtn.tag = 0;
-        faceBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        faceBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
-        [faceBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
-        [subviews addObject:faceBtn];
-
+        //默认toolBar在视图最下方
+        toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f,superView.bounds.size.height - toolBarHeight,superView.bounds.size.width,toolBarHeight)];
+        toolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        
         if (!value) {
+            
+            //OCExpandButton
+            NSMutableArray *subviews = [[NSMutableArray alloc] init];
+            
+            UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
+            faceBtn.backgroundColor = [UIColor clearColor];
+            [faceBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_phiz"] forState:UIControlStateNormal];
+            //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            faceBtn.tag = 0;
+            faceBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+            faceBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+            [faceBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+            [subviews addObject:faceBtn];
+            
             UIButton *cameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
             cameraBtn.backgroundColor = [UIColor clearColor];
             [cameraBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_photo"] forState:UIControlStateNormal];
@@ -69,25 +75,36 @@
             pictureBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
             [pictureBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
             [subviews addObject:pictureBtn];
+            
+            UIButton *locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
+            locationBtn.backgroundColor = [UIColor clearColor];
+            [locationBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_Location"] forState:UIControlStateNormal];
+            //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            locationBtn.tag = 3;
+            locationBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+            locationBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+            [locationBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+            [subviews addObject:locationBtn];
+            
+            button = [[OCExpandableButton alloc] initWithFrame:CGRectMake(-39, superView.bounds.size.height - 57, 39, 39) subviews:subviews];
+            //You can change the alignment with:
+            button.alignment = OCExpandableButtonAlignmentLeft;
+            [superView addSubview:button];
+            //音频按钮
+            voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            voiceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
+            [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
+            [voiceButton addTarget:self action:@selector(voiceChange) forControlEvents:UIControlEventTouchUpInside];
+            voiceButton.frame = CGRectMake(3,toolBar.bounds.size.height-40.0f,buttonWh,buttonWh);
+            [toolBar addSubview:voiceButton];
+        } else {
+            UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(3,toolBar.bounds.size.height-40.0f,buttonWh,buttonWh)];
+            faceBtn.backgroundColor = [UIColor clearColor];
+            [faceBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_phiz"] forState:UIControlStateNormal];
+            //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            [faceBtn addTarget:self action:@selector(disFaceKeyboard) forControlEvents:UIControlEventTouchUpInside];
+            [toolBar addSubview:faceBtn];
         }
-        
-        UIButton *locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
-        locationBtn.backgroundColor = [UIColor clearColor];
-        [locationBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_Location"] forState:UIControlStateNormal];
-        //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
-        locationBtn.tag = 3;
-        locationBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        locationBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
-        [locationBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
-        [subviews addObject:locationBtn];
-        
-        button = [[OCExpandableButton alloc] initWithFrame:CGRectMake(-39, superView.bounds.size.height - 57, 39, 39) subviews:subviews];
-        //You can change the alignment with:
-        button.alignment = OCExpandableButtonAlignmentLeft;
-        [superView addSubview:button];
-        //默认toolBar在视图最下方
-        toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f,superView.bounds.size.height - toolBarHeight,superView.bounds.size.width,toolBarHeight)];
-        toolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
 //        UIEdgeInsets insets = UIEdgeInsetsMake(40, 0, 40, 0);
 //        [toolBar setBackgroundImage:[[UIImage imageNamed:@"keyBoardBack"] resizableImageWithCapInsets:insets] forToolbarPosition:0 barMetrics:0];
 //        [toolBar setBarStyle:UIBarStyleDefault];
@@ -99,13 +116,6 @@
         textView.delegate = self;
         textView.maximumNumberOfLines=5;
         [toolBar addSubview:textView];
-        //音频按钮
-        voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        voiceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
-        [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
-        [voiceButton addTarget:self action:@selector(voiceChange) forControlEvents:UIControlEventTouchUpInside];
-        voiceButton.frame = CGRectMake(3,toolBar.bounds.size.height-40.0f,buttonWh,buttonWh);
-        [toolBar addSubview:voiceButton];
         
         UILongPressGestureRecognizer *longGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(voiceBtnLongPress:)];
 //        [voiceButton addGestureRecognizer:longGesture];
