@@ -132,7 +132,7 @@ static void init(OCExpandableButton *self) {
         _backgroundGradientLayer = [CAGradientLayer layer];
         _backgroundGradientLayer.frame = backgroundRect;
 //        _backgroundGradientLayer.colors = kBackgroundGradientColors;
-        _backgroundGradientLayer.colors = [NSArray arrayWithObjects:(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, nil];
+        _backgroundGradientLayer.colors = [NSArray arrayWithObjects:(id)[UIColor clearColor].CGColor, (id)[UIColor clearColor].CGColor, nil];
         _backgroundGradientLayer.startPoint = CGPointMake(0.5f, 0.f);
         _backgroundGradientLayer.endPoint = CGPointMake(0.5f, 1.f);
 //        _backgroundGradientLayer.borderColor = kBackgroundStrokeColor;

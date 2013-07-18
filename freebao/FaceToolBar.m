@@ -18,6 +18,7 @@
 
 @implementation FaceToolBar
 @synthesize theSuperView,delegate;
+@synthesize isComment = _isComment;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -27,7 +28,7 @@
     }
     return self;
 }
--(id)initWithFrame:(CGRect)frame superView:(UIView *)superView{
+-(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -37,17 +38,49 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideKeyboardAndFaceView) name:HIDE_KEYBOARD object:nil];
         //OCExpandButton
         NSMutableArray *subviews = [[NSMutableArray alloc] init];
-        
-        for(int i = 0; i < 4; i++) {
-            UIButton *numberButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70.f, 30.f)];
-            numberButton.backgroundColor = [UIColor clearColor];
-            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
-            numberButton.tag = i;
-            numberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-            numberButton.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
-            [numberButton addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
-            [subviews addObject:numberButton];
+
+        UIButton *faceBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
+        faceBtn.backgroundColor = [UIColor clearColor];
+        [faceBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_phiz"] forState:UIControlStateNormal];
+        //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+        faceBtn.tag = 0;
+        faceBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        faceBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+        [faceBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+        [subviews addObject:faceBtn];
+
+        if (!value) {
+            UIButton *cameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
+            cameraBtn.backgroundColor = [UIColor clearColor];
+            [cameraBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_photo"] forState:UIControlStateNormal];
+            //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            cameraBtn.tag = 1;
+            cameraBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+            cameraBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+            [cameraBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+            [subviews addObject:cameraBtn];
+            
+            UIButton *pictureBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
+            pictureBtn.backgroundColor = [UIColor clearColor];
+            [pictureBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_picture"] forState:UIControlStateNormal];
+            //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            pictureBtn.tag = 2;
+            pictureBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+            pictureBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+            [pictureBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+            [subviews addObject:pictureBtn];
         }
+        
+        UIButton *locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 37.f, 37.f)];
+        locationBtn.backgroundColor = [UIColor clearColor];
+        [locationBtn setBackgroundImage:[UIImage imageNamed:@"i_edit_Location"] forState:UIControlStateNormal];
+        //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+        locationBtn.tag = 3;
+        locationBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        locationBtn.titleLabel.textColor = [UIColor colorWithRed:0.494 green:0.498 blue:0.518 alpha:1];
+        [locationBtn addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+        [subviews addObject:locationBtn];
+        
         button = [[OCExpandableButton alloc] initWithFrame:CGRectMake(-39, superView.bounds.size.height - 57, 39, 39) subviews:subviews];
         //You can change the alignment with:
         button.alignment = OCExpandableButtonAlignmentLeft;
@@ -69,13 +102,13 @@
         //音频按钮
         voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
         voiceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
-        [voiceButton setBackgroundImage:[UIImage imageNamed:@"Voice"] forState:UIControlStateNormal];
+        [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
         [voiceButton addTarget:self action:@selector(voiceChange) forControlEvents:UIControlEventTouchUpInside];
-        voiceButton.frame = CGRectMake(5,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
+        voiceButton.frame = CGRectMake(3,toolBar.bounds.size.height-40.0f,buttonWh,buttonWh);
         [toolBar addSubview:voiceButton];
         
         UILongPressGestureRecognizer *longGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(voiceBtnLongPress:)];
-        [voiceButton addGestureRecognizer:longGesture];
+//        [voiceButton addGestureRecognizer:longGesture];
         
         //表情按钮
         faceButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -86,13 +119,14 @@
 //        [toolBar addSubview:faceButton];
         
         //表情按钮
-        sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [sendButton setTitle:@"send" forState:UIControlStateNormal];
+        sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
         sendButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
-        sendButton.enabled=NO;
+//        sendButton.enabled=NO;
 //        [sendButton setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
-        [sendButton addTarget:self action:@selector(sendAction) forControlEvents:UIControlEventTouchUpInside];
-        sendButton.frame = CGRectMake(toolBar.bounds.size.width - 70.0f,toolBar.bounds.size.height-38.0f,buttonWh+34,buttonWh);
+//        [sendButton addTarget:self action:@selector(sendAction) forControlEvents:UIControlEventTouchUpInside];
+        [sendButton addGestureRecognizer:longGesture];
+        sendButton.frame = CGRectMake(toolBar.bounds.size.width - 65.0f,toolBar.bounds.size.height-40.0f,buttonWh+25,buttonWh);
+        [sendButton setBackgroundImage:[UIImage imageNamed:@"i_edit_voice2"] forState:UIControlStateNormal];
         [toolBar addSubview:sendButton];
         
         //给键盘注册通知
@@ -184,10 +218,10 @@
 {
     NSLog(@"文本的长度%d",textView.text.length);
     /* Enable/Disable the button */
-    if ([expandingTextView.text length] > 0)
-        sendButton.enabled = YES;
-    else
-        sendButton.enabled = NO;
+//    if ([expandingTextView.text length] > 0)
+//        sendButton.enabled = YES;
+//    else
+//        sendButton.enabled = NO;
 }
 #pragma mark -
 #pragma mark ActionMethods  发送sendAction 音频 voiceChange  显示表情 disFaceKeyboard
@@ -225,14 +259,24 @@
 //    [self dismissKeyBoard];
 //    [self showEb:toolBar.frame];
     NSLog(@"[levi]show expand button");
+    if (button.tag == 1) {
+        [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
+        button.tag = 0;
+        [button close];
+        return;
+    }
     CGRect tmpFrame = button.frame;
     tmpFrame.origin.y = toolBar.frame.origin.y - tmpFrame.size.height;
     button.frame = tmpFrame;
+    [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more-"] forState:UIControlStateNormal];
+    button.tag = 1;
     [button open];
 }
 
 - (void)tapped:(id)sender {
     NSLog(@"tapped");
+    [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
+    button.tag = 0;
     [button close];
     UIButton *tmpButton = sender;
     if (tmpButton.tag == 0) {
@@ -254,6 +298,8 @@
     }];
     [textView resignFirstResponder];
     [pageControl setHidden:YES];
+    [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
+    button.tag = 0;
     [button close];
     if ([delegate respondsToSelector:@selector(hideKeyboardAndFaceV)])
     {

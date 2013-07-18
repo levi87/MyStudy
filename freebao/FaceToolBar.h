@@ -12,7 +12,7 @@
 #define  choiceBarHeight 35
 #define  facialViewWidth 300
 #define facialViewHeight 170
-#define  buttonWh 34
+#define  buttonWh 37
 #import <UIKit/UIKit.h>
 #import "FacialView.h"
 #import "UIExpandingTextView.h"
@@ -48,6 +48,7 @@
 }
 @property(nonatomic,retain)UIView *theSuperView;
 @property (retain) NSObject<FaceToolBarDelegate> *delegate;
+@property BOOL isComment;
 -(void)dismissKeyBoard;
--(id)initWithFrame:(CGRect)frame superView:(UIView *)superView;
+-(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value;
 @end

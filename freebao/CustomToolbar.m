@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.opaque = NO;
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor colorWithRed:46/255.0 green:46/255.0 blue:46/255.0 alpha:1];
         self.clearsContextBeforeDrawing = YES;
     }
     return self;
