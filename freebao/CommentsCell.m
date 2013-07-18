@@ -12,8 +12,14 @@
 
 #define FONT_SIZE 15.0
 #define FONT @"HelveticaNeue-Light"
+#define PADDING_TOP 8.0
+#define PADDING_LEFT 0.0
 
 @implementation CommentsCell
+@synthesize commentTextView = _commentTextView;
+@synthesize upperView = _upperView;
+@synthesize languageImageView = _languageImageView;
+@synthesize transVoiceImageView = _transVoiceImageView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -22,11 +28,40 @@
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
+        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 230, 13)];
         nickNameLabel = [[UILabel alloc] init];
-        nickNameLabel.frame = CGRectMake(58, 9, 80, 13);
+        nickNameLabel.frame = CGRectMake(0, 0, 80, 13);
         nickNameLabel.text = @"levi";
         nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
-        [self.contentView addSubview:nickNameLabel];
+        [_upperView addSubview:nickNameLabel];
+        _transVoiceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(200, 0, 13, 13)];
+        [_transVoiceImageView setImage:[UIImage imageNamed:@"con-speek"]];
+        _transVoiceImageView.animationImages = [NSArray arrayWithObjects:
+                                                [UIImage imageNamed:@"con-speek02"],
+                                                [UIImage imageNamed:@"con-speek04"],
+                                                [UIImage imageNamed:@"con-speek06"],
+                                                nil];
+        [_upperView addSubview:_transVoiceImageView];
+        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 0, 21, 13)];
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+        [_upperView addSubview:_languageImageView];
+        _commentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(58, 23, 230, 25)];
+        [_commentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_commentTextView setDelegate:self];
+        [_commentTextView setFontName:FONT];
+        [_commentTextView setFontSize:FONT_SIZE];
+        [_commentTextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_commentTextView setBackgroundColor:[UIColor clearColor]];
+        [_commentTextView setPaddingTop:PADDING_TOP];
+        [_commentTextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _commentTextView.backgroundColor = [UIColor clearColor];
+        _commentTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _commentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _commentTextView.text = @"test message. test message. test message.";
+        [self.contentView addSubview:_commentTextView];
+        [self.contentView addSubview:_upperView];
+        
         [self initialize];
     }
     return self;
@@ -37,14 +72,32 @@
     frame.origin.y += 44;
     headImageView.frame = frame;
     
-    frame = nickNameLabel.frame;
+    frame = _upperView.frame;
     frame.origin.y += 44;
-    nickNameLabel.frame = frame;
+    _upperView.frame = frame;
+    
+    frame = _commentTextView.frame;
+    frame.origin.y += 44;
+    _commentTextView.frame = frame;
+}
+
+- (void)initUILayout {
+    CGRect frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
+    headImageView.frame = frame;
+    frame = CGRectMake(58, 9, 230, 13);
+    _upperView.frame = frame;
+    frame = CGRectMake(58, 23, 230, 25);
+    _commentTextView.frame = frame;
 }
 
 -(void)setCellValue:(CommentInfo *)info {
     NSLog(@".........");
     nickNameLabel.text = info.nickName;
+    _commentTextView.text = info.content;
+    CGFloat tmpHeight = [CommentsCell getJSHeight:info.content jsViewWith:230];
+    CGRect frame = _commentTextView.frame;
+    frame.size.height = tmpHeight;
+    _commentTextView.frame = frame;
     //    if ([info.sex integerValue] == 0) {
     //        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
     //    } else {
@@ -288,6 +341,17 @@
         [self.deleteGreyImageView addSubview:_deleteRedImageView];
     }
     return _deleteRedImageView;
+}
+
++(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with
+{
+    CGFloat height = [JSCoreTextView measureFrameHeightForText:text
+                                                      fontName:FONT
+                                                      fontSize:FONT_SIZE
+                                            constrainedToWidth:with - (PADDING_LEFT * 2)
+                                                    paddingTop:PADDING_TOP
+                                                   paddingLeft:PADDING_LEFT];
+    return height;
 }
 
 @end

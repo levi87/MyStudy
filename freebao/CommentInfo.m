@@ -10,5 +10,8 @@
 
 @implementation CommentInfo
 @synthesize nickName = _nickName;
+@synthesize content = _content;
+@synthesize voiceUrl = _voiceUrl;
+@synthesize languageType = _languageType;
 
 @end

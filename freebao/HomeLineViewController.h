@@ -10,7 +10,7 @@
 #import "StatusViewContrillerBase.h"
 #import "TwitterVC.h"
 #import "LikersViewController.h"
-#import "CommentsViewController.h"
+#import "CommentViewController.h"
 #import "AppDelegate.h"
 #import "UserLocationViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
@@ -27,7 +27,7 @@
     UIButton *backButton;
     
     LikersViewController *likeVC;
-    CommentsViewController *commentVC;
+    CommentViewController *commentVC;
     StatusCell *tmpStatusCell;
     StatusCell *tmpStatusCellL;
 }

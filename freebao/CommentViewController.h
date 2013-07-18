@@ -1,12 +1,12 @@
 //
-//  CommentsViewController.h
+//  CommentViewController.h
 //  freebao
 //
-//  Created by freebao on 13-7-3.
+//  Created by freebao on 13-7-18.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ViewController.h"
 #import "CommentsCell.h"
 #import "AppDelegate.h"
 #import "BlankCell.h"
@@ -16,7 +16,7 @@
 #import "FaceToolBar.h"
 
 @class WeiBoMessageManager;
-@interface CommentsViewController : UITableViewController <RMSwipeTableViewCellDelegate,FaceToolBarDelegate>{
+@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,RMSwipeTableViewCellDelegate,FaceToolBarDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;
@@ -26,9 +26,10 @@
     NSMutableArray *commentsArray;
 }
 
+@property (weak, nonatomic) IBOutlet UITableView *commentTableView;
+
 @property NSString *cellContentId;
 @property BOOL isRefresh;
 
 -(void)clearCache;
-
 @end

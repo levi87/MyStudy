@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CommentInfo.h"
+#import "JSTwitterCoreTextView.h"
 
 typedef NS_ENUM(NSUInteger, RMSwipeTableViewCellRevealDirection) {
     RMSwipeTableViewCellRevealDirectionNone = -1, // disables panning
@@ -27,14 +28,22 @@ typedef NS_ENUM(NSUInteger, RMSwipeTableViewCellAnimationType) {
 @protocol RMSwipeTableViewCellDelegate;
 
 @class EGOImageView;
-@interface CommentsCell : UITableViewCell <UIGestureRecognizerDelegate>{
+@interface CommentsCell : UITableViewCell <UIGestureRecognizerDelegate, JSCoreTextViewDelegate>{
 @private
     EGOImageView* headImageView;
     UILabel *nickNameLabel;
+    JSTwitterCoreTextView *_commentTextView;
+    UIView *_upperView;
+    UIImageView *_languageImageView;
+    UIImageView *_transVoiceImageView;
 }
 
 @property (nonatomic, strong) UIImageView *deleteGreyImageView;
 @property (nonatomic, strong) UIImageView *deleteRedImageView;
+@property (nonatomic, retain) JSTwitterCoreTextView *commentTextView;
+@property (nonatomic, retain) UIView *upperView;
+@property (nonatomic, retain) UIImageView *languageImageView;
+@property (nonatomic, retain) UIImageView *transVoiceImageView;
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
 
@@ -59,7 +68,11 @@ typedef NS_ENUM(NSUInteger, RMSwipeTableViewCellAnimationType) {
 
 - (void)setCellLayout;
 
+- (void)initUILayout;
+
 -(void)setCellValue:(CommentInfo *)info;
+
++(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
 
 @end
 

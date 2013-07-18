@@ -56,6 +56,8 @@
 		A22F270217951F7300069DA4 /* con-voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22F270117951F7300069DA4 /* con-voice@2x.png */; };
 		A22F270617953C0300069DA4 /* UserLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22F270417953C0200069DA4 /* UserLocationViewController.m */; };
 		A22F270717953C0300069DA4 /* UserLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A22F270517953C0200069DA4 /* UserLocationViewController.xib */; };
+		A23504AA1797943C0070343E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A23504A81797943C0070343E /* CommentViewController.m */; };
+		A23504AB1797943C0070343E /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A23504A91797943C0070343E /* CommentViewController.xib */; };
 		A23631DB17854E1900BA0DED /* con-comment.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631D417854E1900BA0DED /* con-comment.png */; };
 		A23631DC17854E1900BA0DED /* con-like.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631D517854E1900BA0DED /* con-like.png */; };
 		A23631DD17854E1900BA0DED /* con-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631D617854E1900BA0DED /* con-location.png */; };
@@ -651,6 +653,9 @@
 		A22F270317953C0200069DA4 /* UserLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLocationViewController.h; sourceTree = "<group>"; };
 		A22F270417953C0200069DA4 /* UserLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLocationViewController.m; sourceTree = "<group>"; };
 		A22F270517953C0200069DA4 /* UserLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserLocationViewController.xib; sourceTree = "<group>"; };
+		A23504A71797943C0070343E /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
+		A23504A81797943C0070343E /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
+		A23504A91797943C0070343E /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
 		A23631D417854E1900BA0DED /* con-comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-comment.png"; sourceTree = "<group>"; };
 		A23631D517854E1900BA0DED /* con-like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-like.png"; sourceTree = "<group>"; };
 		A23631D617854E1900BA0DED /* con-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-location.png"; sourceTree = "<group>"; };
@@ -2933,6 +2938,9 @@
 				A22F270317953C0200069DA4 /* UserLocationViewController.h */,
 				A22F270417953C0200069DA4 /* UserLocationViewController.m */,
 				A22F270517953C0200069DA4 /* UserLocationViewController.xib */,
+				A23504A71797943C0070343E /* CommentViewController.h */,
+				A23504A81797943C0070343E /* CommentViewController.m */,
+				A23504A91797943C0070343E /* CommentViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3560,6 +3568,7 @@
 				A208F43A17968ED00007878F /* chat_Translation_chat@2x.png in Resources */,
 				A208F43D17968FDD0007878F /* chat_Translation_sanjiao@2x.png in Resources */,
 				A208F43E17968FDD0007878F /* chat_Translation_select_sanjiao@2x.png in Resources */,
+				A23504AB1797943C0070343E /* CommentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3824,6 +3833,7 @@
 				A22F270617953C0300069DA4 /* UserLocationViewController.m in Sources */,
 				A208F41D179634210007878F /* SVProgressHUD.m in Sources */,
 				A208F4411796938D0007878F /* StatusCDItem.m in Sources */,
+				A23504AA1797943C0070343E /* CommentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

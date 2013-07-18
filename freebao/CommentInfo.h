@@ -10,7 +10,13 @@
 
 @interface CommentInfo : NSObject {
     NSString *_nickName;
+    NSString *_content;
+    NSString *_voiceUrl;
+    NSString *_languageType;
 }
 
 @property (nonatomic, retain) NSString *nickName;
+@property (nonatomic, retain) NSString *content;
+@property (nonatomic, retain) NSString *voiceUrl;
+@property (nonatomic, retain) NSString *languageType;
 @end

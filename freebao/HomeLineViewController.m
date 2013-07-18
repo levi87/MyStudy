@@ -299,7 +299,7 @@
 
 -(void)cellCommentDidTaped:(StatusCell *)theCell {
     if (commentVC == nil) {
-        commentVC = [[CommentsViewController alloc] init];
+        commentVC = [[CommentViewController alloc] init];
     } else {
         [commentVC setIsRefresh:YES];
     }
