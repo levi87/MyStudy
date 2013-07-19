@@ -296,21 +296,21 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [statuesArr count] + 2;
+    return [statuesArr count];
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger  row = indexPath.row;
     
-    if (row == 0 || row == [statuesArr count]) {
-        static NSString *CellIdentifier = @"BlankCell";
-        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        }
-        return cell;
-    }
+//    if (row == 0 || row == [statuesArr count]) {
+//        static NSString *CellIdentifier = @"BlankCell";
+//        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//        if (cell == nil) {
+//            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//        }
+//        return cell;
+//    }
     
     StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
 //    [cell setCellLayout];
@@ -355,9 +355,9 @@
 #pragma mark - UITableViewDelegate
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  
 {
-    if (indexPath.row == 0) {
-        return 44;
-    }
+//    if (indexPath.row == 0) {
+//        return 44;
+//    }
     NSInteger  row = indexPath.row;
     
     if (row >= [statuesArr count]) {

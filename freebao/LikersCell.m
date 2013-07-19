@@ -46,24 +46,6 @@
     return self;
 }
 
--(void)setCellLayout {
-    CGRect frame = headImageView.frame;
-    frame.origin.y += 44;
-    headImageView.frame = frame;
-    
-    frame = nickNameLabel.frame;
-    frame.origin.y += 44;
-    nickNameLabel.frame = frame;
-    
-    frame = sexImageV.frame;
-    frame.origin.y += 44;
-    sexImageV.frame = frame;
-    
-    frame = ageLabel.frame;
-    frame.origin.y += 44;
-    ageLabel.frame = frame;
-}
-
 -(void)setCellValue:(LikerInfo *)info {
     NSLog(@".........");
     nickNameLabel.text = info.nickName;

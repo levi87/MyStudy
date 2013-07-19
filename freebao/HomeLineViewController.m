@@ -64,6 +64,9 @@
     [self.navigationController.view addSubview:TittleView];
     [self.navigationController.view addSubview:TittleLineView];
     [self.navigationController.view addSubview:backButton];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [self.tableView setTableHeaderView:headerView];
+    [self.tableView setTableFooterView:headerView];
     backButton.hidden = YES;
 
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];

@@ -60,9 +60,10 @@
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     [self.navigationController.view addSubview:tittleView];
     [self.navigationController.view addSubview:tittleLineView];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [self.tableView setTableHeaderView:headerView];
 
     headPhotos = [[NSMutableArray alloc] initWithObjects:
-                  @"",
                   @"http://farm4.static.flickr.com/3483/4017988903_84858e0e6e_s.jpg",
                   @"http://farm3.static.flickr.com/2436/4015786038_7b530f9cce_s.jpg",
                   @"http://farm3.static.flickr.com/2643/4025878602_85f7cd1724_s.jpg",
@@ -203,23 +204,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        return 44;
-    }
     return 72;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        static NSString *CellIdentifier = @"BlankCell";
-        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        }
-        return cell;
-    }
-    
     static NSString *CellIdentifier = @"ConversationCell";
     ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -274,23 +263,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row != 0) {
-        if (KAppDelegate.commChat == nil) {
-            KAppDelegate.commChat = [[ChatViewController alloc] init];
-        } else {
-            KAppDelegate.commChat.isFirst = FALSE;
-            KAppDelegate.commChat.isReload = TRUE;
-        }
-        tittleView.hidden = YES;
-        tittleLineView.hidden = YES;
-//        if (commentVC == nil) {
-//            commentVC = [[CommentsViewController alloc] init];
-//        }
-//        tittleLabel.text = @"Test";
-//        backButton.hidden = NO;
-//        languageButton.hidden = NO;
-        [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
+    if (KAppDelegate.commChat == nil) {
+        KAppDelegate.commChat = [[ChatViewController alloc] init];
+    } else {
+        KAppDelegate.commChat.isFirst = FALSE;
+        KAppDelegate.commChat.isReload = TRUE;
     }
+    tittleView.hidden = YES;
+    tittleLineView.hidden = YES;
+    //        if (commentVC == nil) {
+    //            commentVC = [[CommentsViewController alloc] init];
+    //        }
+    //        tittleLabel.text = @"Test";
+    //        backButton.hidden = NO;
+    //        languageButton.hidden = NO;
+    [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
 }
 
 #pragma mark -

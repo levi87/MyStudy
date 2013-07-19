@@ -518,61 +518,65 @@
     if (commentCount > 3) {
         commentCount = 3;
     }
-//    NSLog(@"[levi]111111...... %d", commentCount);
+
+    CGFloat blankHeight = 0.0;
+    if (self.JSContentTF.text.length == 0) {
+        blankHeight = 10;
+    }
     if (commentCount == NO_COMMNET) {
         if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30;
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + blankHeight;
         }
         else if(hasImage)
         {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40;
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + blankHeight;
         }
         else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40;
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + blankHeight;
         }
     } else if (commentCount == COMMENT_COUNT_ONE) {
         if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 25;
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 25 + blankHeight;
         }
         else if(hasImage)
         {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 25;
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 25 + blankHeight;
         }
         else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 25;
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 25 + blankHeight;
         }
     } else if (commentCount == COMMENT_COUNT_TWO) {
         if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55;
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55+ blankHeight;
         }
         else if(hasImage)
         {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55;
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55 + blankHeight;
         }
         else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55;
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55 + blankHeight;
         }
     } else if (commentCount == COMMNET_COUNT_THREE) {
         if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 60;
+            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 60 + blankHeight;
         }
         else if(hasImage)
         {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 60;
+            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 60 + blankHeight;
         }
         else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 60;
+            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 60 + blankHeight;
         }
     }
     if (retwitterMainV.hidden == NO) {
-        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55;
+        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55 + blankHeight;
     }
     else if(hasImage)
     {
-        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55;
+        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55 + blankHeight;
     }
     else {
-        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55;
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55 + blankHeight;
     }
 }
 

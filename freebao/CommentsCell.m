@@ -95,29 +95,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:COMMENT_VOICE object:tmpDic];
 }
 
--(void)setCellLayout {
-    CGRect frame = headImageView.frame;
-    frame.origin.y += 44;
-    headImageView.frame = frame;
-    
-    frame = _upperView.frame;
-    frame.origin.y += 44;
-    _upperView.frame = frame;
-    
-    frame = _commentTextView.frame;
-    frame.origin.y += 44;
-    _commentTextView.frame = frame;
-}
-
-- (void)initUILayout {
-    CGRect frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
-    headImageView.frame = frame;
-    frame = CGRectMake(58, 9, 230, 13);
-    _upperView.frame = frame;
-    frame = CGRectMake(9, 50, 230, 25);
-    _commentTextView.frame = frame;
-}
-
 -(void)setCellValue:(CommentInfo *)info {
     NSLog(@".........");
     nickNameLabel.text = info.nickName;
@@ -128,6 +105,7 @@
     frame.size.height = tmpHeight;
     _commentTextView.frame = frame;
     _commentDateLabel.text = info.commentDate;
+    NSLog(@"info voice Url %@", info.voiceUrl);
     if (![info.voiceUrl isEqualToString:@"0"]) {
         _soundImageView.hidden = NO;
         _commentTextView.hidden = YES;
