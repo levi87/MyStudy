@@ -15,10 +15,15 @@
 #import "EGORefreshTableHeaderView.h"
 
 #import "ChatViewController.h"
+#import "WeiBoMessageManager.h"
+#import "ConversationInfo.h"
 
+@class WeiBoMessageManager;
 @interface ConversationViewController : PullRefreshTableViewController<EGORefreshTableHeaderDelegate> {
+    WeiBoMessageManager *manager;
 @private
     NSMutableArray *headPhotos;
+    NSMutableArray *conversationArray;
     UILabel *tittleLabel;
     UIButton *backButton;
     UIButton *languageButton;

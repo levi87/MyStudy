@@ -106,6 +106,7 @@
 		A274AB7A1783BA11009D9523 /* LikersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB791783BA11009D9523 /* LikersCell.m */; };
 		A274AB871783D2D1009D9523 /* BlankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB861783D2D1009D9523 /* BlankCell.m */; };
 		A274AB8B178405E0009D9523 /* icon-back.png in Resources */ = {isa = PBXBuildFile; fileRef = A274AB8A178405E0009D9523 /* icon-back.png */; };
+		A29CC96A17991C3B000A60CC /* ConversationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A29CC96917991C3B000A60CC /* ConversationInfo.m */; };
 		A2B221CD178D4E5500BCE686 /* sex-female.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B221CB178D4E5500BCE686 /* sex-female.png */; };
 		A2B221CE178D4E5500BCE686 /* sex-male.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B221CC178D4E5500BCE686 /* sex-male.png */; };
 		A2DAFEA3178E426200B40D24 /* con-liked.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEA2178E426200B40D24 /* con-liked.png */; };
@@ -720,6 +721,8 @@
 		A274AB851783D2D1009D9523 /* BlankCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankCell.h; sourceTree = "<group>"; };
 		A274AB861783D2D1009D9523 /* BlankCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlankCell.m; sourceTree = "<group>"; };
 		A274AB8A178405E0009D9523 /* icon-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-back.png"; sourceTree = "<group>"; };
+		A29CC96817991C3B000A60CC /* ConversationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationInfo.h; sourceTree = "<group>"; };
+		A29CC96917991C3B000A60CC /* ConversationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationInfo.m; sourceTree = "<group>"; };
 		A2B221CB178D4E5500BCE686 /* sex-female.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex-female.png"; sourceTree = "<group>"; };
 		A2B221CC178D4E5500BCE686 /* sex-male.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sex-male.png"; sourceTree = "<group>"; };
 		A2DAFEA2178E426200B40D24 /* con-liked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-liked.png"; sourceTree = "<group>"; };
@@ -3100,6 +3103,8 @@
 				A2DAFEDF178EA13500B40D24 /* CommentInfo.m */,
 				A23ED7E51791376100B9CFFD /* MessageInfo.h */,
 				A23ED7E61791376100B9CFFD /* MessageInfo.m */,
+				A29CC96817991C3B000A60CC /* ConversationInfo.h */,
+				A29CC96917991C3B000A60CC /* ConversationInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3838,6 +3843,7 @@
 				A208F41D179634210007878F /* SVProgressHUD.m in Sources */,
 				A208F4411796938D0007878F /* StatusCDItem.m in Sources */,
 				A23504AA1797943C0070343E /* CommentViewController.m in Sources */,
+				A29CC96A17991C3B000A60CC /* ConversationInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

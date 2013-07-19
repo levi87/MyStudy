@@ -50,4 +50,7 @@
 
 //Freebao Add Comment
 -(void)FBAddAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId;
+
+//Freebao Get Conversation
+-(void)FBGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
 @end

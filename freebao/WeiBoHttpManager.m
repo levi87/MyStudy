@@ -238,6 +238,18 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoGetConversationListWithUserId:(NSString *)aUserId Page:(NSInteger)page PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestConversationListUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"query.sendUid"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetConversationList];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -503,12 +515,24 @@
     }
     if (requestType == FreebaoAddComment) {
         NSMutableDictionary *tmpDic = returnObject;
-        NSLog(@"[levi] add comment %@", tmpDic);
+//        NSLog(@"[levi] add comment %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request add comment Success...");
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_ADD_COMMENT object:nil];
         } else {
             NSLog(@"[levi] request add comment failed...");
+        }
+    }
+    if (requestType == FreebaoGetConversationList) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] Get Conversation List %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Get Conversation List Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSArray *resultArray = [resultMap objectForKey:@"chats"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CONVERSATION object:resultArray];
+        } else {
+            NSLog(@"[levi] request Get Conversation Listfailed...");
         }
     }
 }

@@ -50,6 +50,7 @@
 #define FB_GET_TRANSLATION          @"fb_get_translation"
 #define FB_GET_TRANSLATION_VOICE    @"fb_get_translation_voice"
 #define FB_ADD_COMMENT              @"fb_add_comment"
+#define FB_GET_CONVERSATION         @"fb_get_conversation"
 
 /*
  Freebao
@@ -136,6 +137,7 @@
 #define kLogoutUrl                      kHostUrl@"login/logout.html"
 #define kRequestCirclesUrl              kHostUrl@"team/findUserTeams.html"
 #define kRequestTimeLinesUrl            kHostUrl@"content/findFriendsPost.html"
+#define kRequestConversationListUrl     kHostUrl@"message/findChatRecordList.html"
 #define kRequestRecommendedUsers        kHostUrl@"clientUser/recommendFriendList.html"
 #define kRequestFriendsUrl              kHostUrl@"friend/followList.html"
 #define KFollowUrl                      kHostUrl@"friend/followFriend.html"
@@ -257,6 +259,7 @@ typedef enum {
     FreebaoGetTranslate,
     FreebaoGetTranslateVoice,
     FreebaoAddComment,
+    FreebaoGetConversationList,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -325,5 +328,8 @@ typedef enum {
 
 //Freebao 回复微博
 -(void)didFreebaoAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId;
+
+//Freebao 获取会话列表
+-(void)didFreebaoGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
 
 @end

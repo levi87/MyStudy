@@ -43,6 +43,8 @@
 @synthesize isReload = _isReload;
 @synthesize browserView = _browserView;
 @synthesize avPlay = _avPlay;
+@synthesize toUserId = _toUserId;
+@synthesize tittleLabel = _tittleLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -141,13 +143,13 @@
     recordBackgroundView.layer.cornerRadius = 8;
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
-    tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    tittleLabel.textAlignment = UITextAlignmentCenter;
-    [tittleLabel setBackgroundColor:[UIColor clearColor]];
-    tittleLabel.text = @"Test";
-    tittleLabel.textColor = [UIColor whiteColor];
-    [tittleView addSubview: tittleLabel];
-    tittleLabel.center = CGPointMake(160, 22);
+    _tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    _tittleLabel.textAlignment = UITextAlignmentCenter;
+    [_tittleLabel setBackgroundColor:[UIColor clearColor]];
+    _tittleLabel.text = @"Test";
+    _tittleLabel.textColor = [UIColor whiteColor];
+    [tittleView addSubview: _tittleLabel];
+    _tittleLabel.center = CGPointMake(160, 22);
     backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 24, 16)];
@@ -260,6 +262,10 @@
     NSLog(@"new message refresh...");
     MessageInfo *tmpMsg = notification.object;
     NSBubbleData *receiveBubble;
+    if (![[NSString stringWithFormat:@"%@", tmpMsg.fromId] isEqualToString:[NSString stringWithFormat:@"%@", _toUserId]]) {
+        NSLog(@"isnt different... from Id ~%@~   local Id ~%@~", tmpMsg.fromId, _toUserId);
+        return;
+    }
     if ([tmpMsg.postType integerValue] == MSG_TYPE_TEXT) {
         receiveBubble = [NSBubbleData dataWithText:tmpMsg.body date:[NSDate date] type:BubbleTypeSomeoneElse];
     } else if ([tmpMsg.postType integerValue] == MSG_TYPR_PIC) {
@@ -281,7 +287,7 @@
 
 -(void)queryMessageFromDb {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSMutableArray *tmpArray = [LPDataBaseutil readMessage:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] userId:@""];
+        NSMutableArray *tmpArray = [LPDataBaseutil readMessage:[NSString stringWithFormat:@"%@",_toUserId] userId:_toUserId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [bubbleData removeAllObjects];
             for (int i = 0; i < [tmpArray count]; i ++) {
@@ -345,8 +351,7 @@
     //消息类型
     [mes addAttributeWithName:@"type" stringValue:@"chat"];
     //发送给谁
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",_toUserId,@"@t.freebao.com"]];
     //发送者
     NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
     [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
@@ -401,7 +406,7 @@
         KAppDelegate.insertChatQueen = dispatch_queue_create("insertChat", NULL);
     }
     dispatch_async(KAppDelegate.insertChatQueen, ^{
-        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:voiceLength body:body postType:postType isSelf:@"1" language:@"0" fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
+        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",_toUserId] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:voiceLength body:body postType:postType isSelf:@"1" language:@"0" fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
     });
 }
 
@@ -509,8 +514,7 @@
     //消息类型
     [mes addAttributeWithName:@"type" stringValue:@"chat"];
     //发送给谁
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",_toUserId,@"@t.freebao.com"]];
     //发送者
     NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
     [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
@@ -609,8 +613,7 @@
     //消息类型
     [mes addAttributeWithName:@"type" stringValue:@"chat"];
     //发送给谁
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",_toUserId,@"@t.freebao.com"]];
     //发送者
     NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
     [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];
@@ -678,8 +681,7 @@
     //消息类型
     [mes addAttributeWithName:@"type" stringValue:@"chat"];
     //发送给谁
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
-    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"],@"@t.freebao.com"]];
+    [mes addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@%@",_toUserId,@"@t.freebao.com"]];
     //发送者
     NSXMLElement *fromId = [NSXMLElement elementWithName:@"fromId"];
     [fromId setStringValue:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]]];

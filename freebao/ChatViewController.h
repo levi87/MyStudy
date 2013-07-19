@@ -31,7 +31,7 @@
     NSString *tmpVoicePath;
     NSString *voiceRecordLength;
     
-    UILabel *tittleLabel;
+    UILabel *_tittleLabel;
     UIButton *backButton;
     UIButton *languageButton;
     UIView *tittleView;
@@ -56,4 +56,8 @@
 @property (nonatomic, retain) UIImageView *voiceImageView;;
 
 @property (nonatomic, retain)   ImageBrowser            *browserView;
+
+@property (nonatomic, retain) NSString *toUserId;
+
+@property (nonatomic, retain) UILabel *tittleLabel;
 @end

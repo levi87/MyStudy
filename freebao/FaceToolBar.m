@@ -168,8 +168,8 @@
         [superView addSubview:scrollView];
         pageControl=[[UIPageControl alloc]initWithFrame:CGRectMake(82, superView.frame.size.height-40, 150, 30)];
         [pageControl setCurrentPage:0];
-        pageControl.pageIndicatorTintColor=RGBACOLOR(195, 179, 163, 1);
-        pageControl.currentPageIndicatorTintColor=RGBACOLOR(132, 104, 77, 1);
+//        pageControl.pageIndicatorTintColor=RGBACOLOR(195, 179, 163, 1);
+//        pageControl.currentPageIndicatorTintColor=RGBACOLOR(132, 104, 77, 1);
         pageControl.numberOfPages = 9;//指定页面个数
         [pageControl setBackgroundColor:[UIColor clearColor]];
         pageControl.hidden=YES;

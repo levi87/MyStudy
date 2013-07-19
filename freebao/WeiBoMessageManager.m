@@ -93,4 +93,9 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoAddWeiboCommentWithContentId:contentId CommentContent:content UserId:aUserId PassId:passId CommentId:aCommentId];
 }
 
+//Freebao 获取会话列表
+-(void)FBGetConversationListWithUserId:(NSString *)aUserId Page:(NSInteger)page PassId:(NSString *)passId {
+    [httpManager didFreebaoGetConversationListWithUserId:aUserId Page:page PassId:passId];
+}
+
 @end
