@@ -12,15 +12,19 @@
     NSString *_nickName;
     NSString *_content;
     NSString *_voiceUrl;
+    NSString *_voiceLength;
     NSString *_languageType;
     NSString *_contentId;
     NSString *_commentId;
+    NSString *_commentDate;
 }
 
 @property (nonatomic, retain) NSString *nickName;
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSString *voiceUrl;
+@property (nonatomic, retain) NSString *voiceLength;
 @property (nonatomic, retain) NSString *languageType;
 @property (nonatomic, retain) NSString *contentId;
 @property (nonatomic, retain) NSString *commentId;
+@property (nonatomic, retain) NSString *commentDate;
 @end

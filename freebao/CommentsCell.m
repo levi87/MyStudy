@@ -15,11 +15,16 @@
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 0.0
 
+#define COMMENT_VOICE @"fb_comment_voice"
+
 @implementation CommentsCell
 @synthesize commentTextView = _commentTextView;
 @synthesize upperView = _upperView;
 @synthesize languageImageView = _languageImageView;
 @synthesize transVoiceImageView = _transVoiceImageView;
+@synthesize commentDateLabel = _commentDateLabel;
+@synthesize soundImageView = _soundImageView;
+@synthesize indexPath = _indexPath;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -28,13 +33,13 @@
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
-        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 230, 13)];
+        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 230, 50)];
         nickNameLabel = [[UILabel alloc] init];
-        nickNameLabel.frame = CGRectMake(0, 0, 80, 13);
+        nickNameLabel.frame = CGRectMake(0, 0, 80, 16);
         nickNameLabel.text = @"levi";
         nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [_upperView addSubview:nickNameLabel];
-        _transVoiceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(200, 0, 13, 13)];
+        _transVoiceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(200, 17, 13, 13)];
         [_transVoiceImageView setImage:[UIImage imageNamed:@"con-speek"]];
         _transVoiceImageView.animationImages = [NSArray arrayWithObjects:
                                                 [UIImage imageNamed:@"con-speek02"],
@@ -42,10 +47,13 @@
                                                 [UIImage imageNamed:@"con-speek06"],
                                                 nil];
         [_upperView addSubview:_transVoiceImageView];
-        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 0, 21, 13)];
+        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         [_upperView addSubview:_languageImageView];
-        _commentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(58, 23, 230, 25)];
+        _commentDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
+        _commentDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
+        [_upperView addSubview:_commentDateLabel];
+        _commentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 230, 25)];
         [_commentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_commentTextView setDelegate:self];
         [_commentTextView setFontName:FONT];
@@ -58,13 +66,33 @@
         _commentTextView.backgroundColor = [UIColor clearColor];
         _commentTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
         _commentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
-        _commentTextView.text = @"test message. test message. test message.";
+        _commentTextView.text = @"test message.";
+        _soundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(9, 52, 20, 20)];
+        [_soundImageView setImage:[UIImage imageNamed:@"con-voice"]];
+        _soundImageView.animationImages = [NSArray arrayWithObjects:
+                                           [UIImage imageNamed:@"con-voice-01"],
+                                           [UIImage imageNamed:@"con-voice-02"],
+                                           [UIImage imageNamed:@"con-voice-03"],
+                                           nil];
+        _soundImageView.animationDuration = 1;
+        _soundImageView.hidden = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playVoice)];
+        tap.numberOfTapsRequired = 1;
+        [_soundImageView addGestureRecognizer:tap];
+        _soundImageView.userInteractionEnabled = YES;
+        [self.contentView addSubview:_soundImageView];
         [self.contentView addSubview:_commentTextView];
         [self.contentView addSubview:_upperView];
         
         [self initialize];
     }
     return self;
+}
+
+-(void)playVoice {
+    NSLog(@"play comment voice...");
+    NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:self,@"cell", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:COMMENT_VOICE object:tmpDic];
 }
 
 -(void)setCellLayout {
@@ -86,7 +114,7 @@
     headImageView.frame = frame;
     frame = CGRectMake(58, 9, 230, 13);
     _upperView.frame = frame;
-    frame = CGRectMake(58, 23, 230, 25);
+    frame = CGRectMake(9, 50, 230, 25);
     _commentTextView.frame = frame;
 }
 
@@ -94,10 +122,23 @@
     NSLog(@".........");
     nickNameLabel.text = info.nickName;
     _commentTextView.text = info.content;
+    _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
     CGFloat tmpHeight = [CommentsCell getJSHeight:info.content jsViewWith:230];
     CGRect frame = _commentTextView.frame;
     frame.size.height = tmpHeight;
     _commentTextView.frame = frame;
+    _commentDateLabel.text = info.commentDate;
+    if (![info.voiceUrl isEqualToString:@"0"]) {
+        _soundImageView.hidden = NO;
+        _commentTextView.hidden = YES;
+        _languageImageView.hidden = YES;
+        _transVoiceImageView.hidden = YES;
+    } else {
+        _soundImageView.hidden = YES;
+        _commentTextView.hidden = NO;
+        _languageImageView.hidden = NO;
+        _transVoiceImageView.hidden = NO;
+    }
     //    if ([info.sex integerValue] == 0) {
     //        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
     //    } else {

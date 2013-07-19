@@ -12,6 +12,8 @@
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
 
+#define COMMENT_VOICE @"fb_comment_voice"
+
 #define HIDE_KEYBOARD @"fb_hide_keyboard"
 
 @interface CommentViewController ()
@@ -21,6 +23,7 @@
 @implementation CommentViewController
 @synthesize cellContentId = _cellContentId;
 @synthesize isRefresh = _isRefresh;
+@synthesize avPlay = _avPlay;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,6 +50,10 @@
         tmpInfo.content = [tmpDic objectForKey:@"commentBody"];
         tmpInfo.contentId = [tmpDic objectForKey:@"contentId"];
         tmpInfo.commentId = [tmpDic objectForKey:@"commentId"];
+        tmpInfo.commentDate = [tmpDic objectForKey:@"historyInfo"];
+        tmpInfo.voiceUrl = [tmpDic getStringValueForKey:@"soundPath" defaultValue:@"0"];
+        tmpInfo.voiceLength = [tmpDic getStringValueForKey:@"soundTime" defaultValue:@"0"];
+        NSLog(@"voiceUrl %@", tmpInfo.voiceUrl);
         [commentsArray addObject:tmpInfo];
         [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
     }
@@ -68,6 +75,7 @@
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAddComments:) name:FB_ADD_COMMENT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:COMMENT_VOICE object:nil];
     [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] initWithObjects:
@@ -215,6 +223,7 @@
     [cell setCellValue:(CommentInfo*)[commentsArray objectAtIndex:indexPath.row]];
     [cell setSelectionStyle:UITableViewCellEditingStyleNone];
     cell.delegate = self;
+    cell.indexPath = indexPath;
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     return cell;
@@ -226,9 +235,9 @@
     tmpHeight = [CommentsCell getJSHeight:tmpInfo.content jsViewWith:230.0];
     NSLog(@"tmpHeight %f", tmpHeight);
     if (indexPath.row == 0) {
-        return 67 + tmpHeight;
+        return 67 + tmpHeight + 25;
     }
-    return 23 + tmpHeight;
+    return 23 + tmpHeight + 25;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -360,6 +369,7 @@
     CommentInfo *tmpInfo = [[CommentInfo alloc] init];
     tmpInfo.nickName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NICK_NAME];
     tmpInfo.content = inputText;
+    tmpInfo.commentDate = [NSDate date];
 //    [headPhotos addObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH]];
     [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
     [commentsArray insertObject:tmpInfo atIndex:0];
@@ -495,5 +505,36 @@
     //开启音量检测
     recorder.meteringEnabled = YES;
     recorder.delegate = self;
+}
+
+-(void)playVoice:(NSNotification*)notification {
+    NSLog(@"[levi] playVoice..");
+    CommentsCell *tmpC = [notification.object objectForKey:@"cell"];
+    CommentInfo *tmpInfo = [commentsArray objectAtIndex:tmpC.indexPath.row];
+    NSLog(@"sound url %@ body %@ cell row %d", tmpInfo.voiceUrl, tmpInfo.content, tmpC.indexPath.row);
+    NSURL *soundUrl = [NSURL URLWithString:tmpInfo.voiceUrl];
+    if (self.avPlay.playing) {
+        [self detectionPlayTime];
+        [playTimer invalidate];
+        [self.avPlay stop];
+    }
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundUrl error:nil];
+    self.avPlay = player;
+    [self.avPlay play];
+//    CommentInfo *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
+//    data.isPlayAnimation = YES;
+//    [bubbleData replaceObjectAtIndex:tmpIndexP.row - 1 withObject:data];
+    //    [bubbleTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tmpC.soundImageView startAnimating];
+//    playTimer = [NSTimer scheduledTimerWithTimeInterval:[data.voiceLength integerValue] target:self selector:@selector(detectionPlayTime) userInfo:notification.userInfo repeats:NO];
+}
+
+-(void)detectionPlayTime {
+//    CommentsCell *tmpC = [playTimer.userInfo objectForKey:@"cell"];
+//    NSIndexPath *tmpIndexP = tmpC.indexPath;
+//    NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
+//    data.isPlayAnimation = NO;
+//    [bubbleData replaceObjectAtIndex:tmpIndexP.row - 1 withObject:data];
+//    [self.commentTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 @end

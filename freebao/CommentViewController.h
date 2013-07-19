@@ -16,7 +16,7 @@
 #import "FaceToolBar.h"
 
 @class WeiBoMessageManager;
-@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,RMSwipeTableViewCellDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate> {
+@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,RMSwipeTableViewCellDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;
@@ -40,6 +40,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *commentTableView;
 @property (weak, nonatomic) IBOutlet UIView *recordView;
+@property (retain, nonatomic) AVAudioPlayer *avPlay;
 
 @property NSString *cellContentId;
 @property BOOL isRefresh;

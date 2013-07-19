@@ -15,5 +15,7 @@
 @synthesize languageType = _languageType;
 @synthesize contentId = _contentId;
 @synthesize commentId = _commentId;
+@synthesize commentDate = _commentDate;
+@synthesize voiceLength = _voiceLength;
 
 @end
