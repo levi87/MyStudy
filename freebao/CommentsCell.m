@@ -96,7 +96,6 @@
 }
 
 -(void)setCellValue:(CommentInfo *)info {
-    NSLog(@".........");
     nickNameLabel.text = info.nickName;
     _commentTextView.text = info.content;
     _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
@@ -105,7 +104,6 @@
     frame.size.height = tmpHeight;
     _commentTextView.frame = frame;
     _commentDateLabel.text = info.commentDate;
-    NSLog(@"info voice Url %@", info.voiceUrl);
     if (![info.voiceUrl isEqualToString:@"0"]) {
         _soundImageView.hidden = NO;
         _commentTextView.hidden = YES;

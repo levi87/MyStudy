@@ -364,16 +364,16 @@
                 NSDictionary *statusInfo = [contents objectAtIndex:index];
                 Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
                 //传给L_Status
-                if (status != nil) {
-                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
-                          status.statusId,
-                          status.createdAt,
-                          status.sourceUrl,
-                          status.text,
-                          status.source,
-                          status.user.screenName,
-                          status.user.profileImageUrl);
-                }
+//                if (status != nil) {
+//                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
+//                          status.statusId,
+//                          status.createdAt,
+//                          status.sourceUrl,
+//                          status.text,
+//                          status.source,
+//                          status.user.screenName,
+//                          status.user.profileImageUrl);
+//                }
                 [timeline addObject:status];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE object:timeline];
@@ -424,16 +424,16 @@
                 NSDictionary *statusInfo = [contents objectAtIndex:index];
                 Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
                 //传给L_Status
-                if (status != nil) {
-                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
-                          status.statusId,
-                          status.createdAt,
-                          status.sourceUrl,
-                          status.text,
-                          status.source,
-                          status.user.screenName,
-                          status.user.profileImageUrl);
-                }
+//                if (status != nil) {
+//                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
+//                          status.statusId,
+//                          status.createdAt,
+//                          status.sourceUrl,
+//                          status.text,
+//                          status.source,
+//                          status.user.screenName,
+//                          status.user.profileImageUrl);
+//                }
                 [mentions addObject:status];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_MENTION object:mentions];

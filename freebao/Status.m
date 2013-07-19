@@ -211,7 +211,6 @@
 - (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
 	if (self = [super init]) {
         _isPlayTransVoice = FALSE;
-        NSLog(@"v %@", dic);
         _language = [dic getStringValueForKey:@"post_language" defaultValue:@"0"];
         NSDictionary *soundDic = [dic objectForKey:@"sound"];
         _soundPath = [soundDic getStringValueForKey:@"soundPath" defaultValue:@""];
@@ -232,7 +231,7 @@
         }
         NSArray *aa = [dic objectForKey:@"comments"];
         homeLineComments = aa;
-        NSLog(@"[levi] aa count %d , content %@", [aa count], aa);
+//        NSLog(@"[levi] aa count %d , content %@", [aa count], aa);
 		
 		// parse source parameter
 		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
@@ -297,7 +296,6 @@
         //		}
         self.source = src;
 
-        NSLog(@"[dic]>>>>>>>>>>>>>>>>>>>>>>>>> %@", dic);
         longitude = [[dic getStringValueForKey:@"longgitude" defaultValue:@"0"] doubleValue];
         latitude = [[dic getStringValueForKey:@"latitude" defaultValue:@"0"] doubleValue];
         //			}

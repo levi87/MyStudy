@@ -148,7 +148,7 @@
     tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
-    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     languageButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 14, 24, 16)];
     UIImageView *arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake(310, 14, 6, 16)];

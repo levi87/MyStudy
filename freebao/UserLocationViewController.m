@@ -40,7 +40,7 @@
     tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
     [imgV setFrame:CGRectMake(0, 0, 7, 12)];
