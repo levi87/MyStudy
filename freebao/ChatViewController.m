@@ -162,6 +162,9 @@
     [tittleView addSubview:languageButton];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
     [imgV setFrame:CGRectMake(0, 0, 7, 12)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonAction)];
+    tap.numberOfTapsRequired = 1;
+    [imgV addGestureRecognizer:tap];
     [backButton addSubview:imgV];
     tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];

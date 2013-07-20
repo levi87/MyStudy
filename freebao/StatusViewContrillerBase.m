@@ -504,10 +504,10 @@
 //        [self.navigationController pushViewController:profile animated:YES];
 //        [profile release];
         
-        ZJTProfileViewController *profile = [[ZJTProfileViewController alloc]initWithNibName:@"ZJTProfileViewController" bundle:nil];
-        profile.screenName = sn;
-        profile.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:profile animated:YES];
+//        ZJTProfileViewController *profile = [[ZJTProfileViewController alloc]initWithNibName:@"ZJTProfileViewController" bundle:nil];
+//        profile.screenName = sn;
+//        profile.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:profile animated:YES];
     }
     else if ([link hasPrefix:@"http"]) {
         SVModalWebViewController *web = [[SVModalWebViewController alloc] initWithURL:[NSURL URLWithString:link]];
