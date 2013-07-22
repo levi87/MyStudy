@@ -8,6 +8,8 @@
 
 #import "tabbarView.h"
 
+#define SHOW_POST_VIEW @"fb_show_post"
+
 
 
 @implementation tabbarView
@@ -64,33 +66,33 @@
 //    [_button_1 setBackgroundColor:[UIColor blueColor]];
     [_button_1 setFrame:CGRectMake(0, 0, 64, 45)];
     [_button_1 setTag:101];
-    [_button_1 setBackgroundImage:[UIImage imageNamed:@"ng-social"] forState:UIControlStateNormal];
+    [_button_1 setBackgroundImage:[UIImage imageNamed:@"icon_home_home"] forState:UIControlStateNormal];
     [_button_1 setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
     [_button_1 addTarget:self action:@selector(btn1Click:) forControlEvents:UIControlEventTouchUpInside];
     
     _button_2 = [UIButton buttonWithType:UIButtonTypeCustom];
     [_button_2 setFrame:CGRectMake(64, 0, 64, 45)];
     [_button_2 setTag:102];
-    [_button_2 setBackgroundImage:[UIImage imageNamed:@"ng-chat"] forState:UIControlStateNormal];
+    [_button_2 setBackgroundImage:[UIImage imageNamed:@"icon_home_chat"] forState:UIControlStateNormal];
     [_button_2 addTarget:self action:@selector(btn1Click:) forControlEvents:UIControlEventTouchUpInside];
     
     _button_center = [UIButton buttonWithType:UIButtonTypeCustom];
     //    [_button_1 setBackgroundColor:[UIColor blueColor]];
     [_button_center setFrame:CGRectMake(128, 0, 64, 45)];
     [_button_center setTag:105];
-    [_button_center setBackgroundImage:[UIImage imageNamed:@"ng-post"] forState:UIControlStateNormal];
+    [_button_center setBackgroundImage:[UIImage imageNamed:@"icon_home_post"] forState:UIControlStateNormal];
     [_button_center addTarget:self action:@selector(btn1Click:) forControlEvents:UIControlEventTouchUpInside];
     
     _button_3 = [UIButton buttonWithType:UIButtonTypeCustom];
     [_button_3 setFrame:CGRectMake(192, 0, 64, 45)];
     [_button_3 setTag:103];
-    [_button_3 setBackgroundImage:[UIImage imageNamed:@"ng-contact"] forState:UIControlStateNormal];
+    [_button_3 setBackgroundImage:[UIImage imageNamed:@"icon_home_contact"] forState:UIControlStateNormal];
     [_button_3 addTarget:self action:@selector(btn1Click:) forControlEvents:UIControlEventTouchUpInside];
     
     _button_4 = [UIButton buttonWithType:UIButtonTypeCustom];
     [_button_4 setFrame:CGRectMake(256, 0, 64, 45)];
     [_button_4 setTag:104];
-    [_button_4 setBackgroundImage:[UIImage imageNamed:@"ng-more"] forState:UIControlStateNormal];
+    [_button_4 setBackgroundImage:[UIImage imageNamed:@"icon_home_more"] forState:UIControlStateNormal];
     [_button_4 addTarget:self action:@selector(btn1Click:) forControlEvents:UIControlEventTouchUpInside];
     
     [_navigationBarView addSubview:_button_1];
@@ -156,6 +158,7 @@
             [_button_3 setBackgroundColor:[UIColor clearColor]];
             [_button_4 setBackgroundColor:[UIColor clearColor]];
             [_button_1 setBackgroundColor:[UIColor clearColor]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_POST_VIEW object:nil];
             break;
         default:
             break;

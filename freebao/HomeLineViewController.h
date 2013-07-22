@@ -15,6 +15,7 @@
 #import "UserLocationViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import "PostViewController.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface HomeLineViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
@@ -30,6 +31,7 @@
     CommentViewController *commentVC;
     StatusCell *tmpStatusCell;
     StatusCell *tmpStatusCellL;
+    PostViewController *commonPostVC;
 }
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;
