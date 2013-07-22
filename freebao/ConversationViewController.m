@@ -81,13 +81,13 @@
     for (int i = 0; i < [tmpArray count]; i ++) {
         NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
         ConversationInfo *tmpInfo = [[ConversationInfo alloc] init];
-        tmpInfo.fromUserName = [tmpDic getStringValueForKey:@"from_user_name" defaultValue:@""];
-        tmpInfo.fromUid = [tmpDic getStringValueForKey:@"from_uid" defaultValue:@"0"];
-        tmpInfo.fromUserFace = [tmpDic getStringValueForKey:@"from_user_face" defaultValue:@""];
+        tmpInfo.fromUserName = [tmpDic getStringValueForKey:@"chat_user_name" defaultValue:@""];
+        tmpInfo.fromUid = [tmpDic getStringValueForKey:@"chat_user_id" defaultValue:@"0"];
+        tmpInfo.fromUserFace = [tmpDic getStringValueForKey:@"chat_user_face" defaultValue:@""];
         tmpInfo.date = [tmpDic getStringValueForKey:@"create_at" defaultValue:@""];
         tmpInfo.content = [tmpDic getStringValueForKey:@"text" defaultValue:@""];
         [conversationArray addObject:tmpInfo];
-        [headPhotos addObject:[tmpDic getStringValueForKey:@"from_user_face" defaultValue:@""]];
+        [headPhotos addObject:[tmpDic getStringValueForKey:@"chat_user_face" defaultValue:@""]];
     }
     [self.tableView reloadData];
 }
