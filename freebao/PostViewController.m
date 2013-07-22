@@ -69,6 +69,8 @@
             NSString *subThoroughfare = placeMark.subThoroughfare;
             self.addressLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@ %@", country, city, subLocality , thoroughfare, subThoroughfare];
             }
+        _isLocation = YES;
+        [self.userLocationButton setImage:[UIImage imageNamed:@"icon_postedit_location_on"] forState:UIControlStateNormal];
         [SVProgressHUD dismiss];
     }];
 }
@@ -149,8 +151,6 @@
     } else {
         [SVProgressHUD showWithStatus:@"Locating..."];
         _mkMap.showsUserLocation = YES;
-        _isLocation = YES;
-        [self.userLocationButton setImage:[UIImage imageNamed:@"icon_postedit_location_on"] forState:UIControlStateNormal];
     }
 }
 
