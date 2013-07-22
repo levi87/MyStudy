@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WeiBoMessageManager.h"
 
 @interface LoginVC : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;

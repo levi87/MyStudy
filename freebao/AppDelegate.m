@@ -19,6 +19,7 @@
 #import "ZJTProfileViewController.h"
 #import "MessageViewController.h"
 #import "tabbarViewController.h"
+#import "LoginVC.h"
 
 #define MSG_TYPE_TEXT   1
 #define MSG_TYPR_PIC    2
@@ -78,8 +79,10 @@
     nav3.navigationBar.tintColor = [UIColor blackColor];
     nav3.tabBarItem.image = [UIImage imageNamed:@"tabbar_message_center"];
     
-    LoginViewController *Login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+//    LoginViewController *Login = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    LoginVC *Login = [[LoginVC alloc] init];
     UINavigationController *navLogin = [[UINavigationController alloc] initWithRootViewController:Login];
+    navLogin.navigationBar.hidden = YES;
     
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:nav1, nav3, nav2, nil];
