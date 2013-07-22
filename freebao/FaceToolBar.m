@@ -28,7 +28,7 @@
     }
     return self;
 }
--(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value{
+-(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value IsPostView:(BOOL)isPostValue{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -115,7 +115,9 @@
         [textView.internalTextView setReturnKeyType:UIReturnKeySend];
         textView.delegate = self;
         textView.maximumNumberOfLines=5;
-        [toolBar addSubview:textView];
+        if (!isPostValue) {
+            [toolBar addSubview:textView];
+        }
         
         UILongPressGestureRecognizer *longGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(voiceBtnLongPress:)];
 //        [voiceButton addGestureRecognizer:longGesture];
@@ -125,7 +127,11 @@
         faceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
         [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
         [faceButton addTarget:self action:@selector(disFaceKeyboard) forControlEvents:UIControlEventTouchUpInside];
-        faceButton.frame = CGRectMake(toolBar.bounds.size.width - 70.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
+        if (!isPostValue) {
+            faceButton.frame = CGRectMake(toolBar.bounds.size.width - 70.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
+        } else {
+            faceButton.frame = CGRectMake(toolBar.bounds.size.width - 150.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
+        }
 //        [toolBar addSubview:faceButton];
         
         //表情按钮

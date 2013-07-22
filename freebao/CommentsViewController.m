@@ -54,7 +54,7 @@
     [super viewDidLoad];
     _isRefresh = FALSE;
     isFirst = TRUE;
-    FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES];
+    FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES IsPostView:NO];
     bar.delegate=self;
     
     commentsArray = [[NSMutableArray alloc] init];

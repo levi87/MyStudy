@@ -50,5 +50,5 @@
 @property (retain) NSObject<FaceToolBarDelegate> *delegate;
 @property BOOL isComment;
 -(void)dismissKeyBoard;
--(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value;
+-(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value IsPostView:(BOOL)isPostValue;
 @end
