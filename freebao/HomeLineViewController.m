@@ -15,8 +15,6 @@
 #define SHOW_TABBAR @"10001"
 #define FONT @"HelveticaNeue-Light"
 
-#define SHOW_POST_VIEW @"fb_show_post"
-
 @interface HomeLineViewController ()
 -(void)timerOnActive;
 -(void)getDataFromCD;
@@ -79,17 +77,8 @@
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(showPostView)       name:SHOW_POST_VIEW object:nil];
 
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
-}
-
--(void)showPostView {
-    NSLog(@"[levi] show post view...");
-    if (commonPostVC == nil) {
-        commonPostVC = [[PostViewController alloc] init];
-    }
-    [self.navigationController presentViewController:commonPostVC animated:YES completion:nil];
 }
 
 - (void)backButtonAction {
@@ -105,7 +94,6 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
-    [defaultNotifCenter removeObserver:self name:SHOW_POST_VIEW object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated

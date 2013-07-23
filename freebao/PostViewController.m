@@ -7,8 +7,6 @@
 //
 
 #import "PostViewController.h"
-#define HIDE_TABBAR @"10000"
-#define SHOW_TABBAR @"10001"
 #define FONT @"HelveticaNeue-Light"
 
 @interface PostViewController ()
@@ -110,7 +108,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
 - (void)didReceiveMemoryWarning

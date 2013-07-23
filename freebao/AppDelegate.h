@@ -13,6 +13,7 @@
 #import "NSData+XMPP.h"
 #import "LPDataBaseutil.h"
 #import "MessageInfo.h"
+#import "PostViewController.h"
 
 @class ViewController;
 
@@ -39,6 +40,7 @@
     NSString *password;
     ChatViewController *_commChat;
     UserLocationViewController *_commMap;
+    PostViewController *commonPostVC;
     
     dispatch_queue_t _insertChatQueen;
 }

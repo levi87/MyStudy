@@ -26,6 +26,8 @@
 #define MSG_TYPE_VOICE  3
 #define MSG_TYPE_MAP    5
 
+#define SHOW_POST_VIEW @"fb_show_post"
+
 #define RECEIVE_REFRESH_VIEW @"fb_receive_msg"
 
 @interface AppDelegate()
@@ -58,7 +60,7 @@
 {
     //XMPP
     [self setupStream];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPostView)       name:SHOW_POST_VIEW object:nil];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
@@ -91,6 +93,14 @@
 
     [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
     return YES;
+}
+
+-(void)showPostView {
+    NSLog(@"[levi] show post view...");
+    if (commonPostVC == nil) {
+        commonPostVC = [[PostViewController alloc] init];
+    }
+    [self.window.rootViewController presentViewController:commonPostVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
