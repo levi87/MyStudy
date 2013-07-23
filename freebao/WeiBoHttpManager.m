@@ -375,17 +375,6 @@
             for (NSInteger index=0; index<[contents count]; index++) {
                 NSDictionary *statusInfo = [contents objectAtIndex:index];
                 Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
-                //传给L_Status
-//                if (status != nil) {
-//                    NSLog(@"[levi]status Id %lld, status Time %@, status image %@, status body %@, status platform %@, status name %@,status user url %@",
-//                          status.statusId,
-//                          status.createdAt,
-//                          status.sourceUrl,
-//                          status.text,
-//                          status.source,
-//                          status.user.screenName,
-//                          status.user.profileImageUrl);
-//                }
                 [timeline addObject:status];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE object:timeline];

@@ -112,15 +112,11 @@
     refreshFooterView.hidden = YES;
     
     [defaultNotifCenter addObserver:self selector:@selector(getAvatar:)         name:HHNetDataCacheNotification object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(mmRequestFailed:)   name:MMSinaRequestFailed object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(loginSucceed)       name:@"didGetTokenInWebView" object:nil];
 }
 
 -(void)viewDidUnload
 {
     [defaultNotifCenter removeObserver:self name:HHNetDataCacheNotification object:nil];
-    [defaultNotifCenter removeObserver:self name:MMSinaRequestFailed        object:nil];
-    [defaultNotifCenter removeObserver:self name:@"didGetTokenInWebView"  object:nil];
     
     [super viewDidUnload];
 }
@@ -141,10 +137,6 @@
 }
 
 #pragma mark - Methods
--(void)loginSucceed
-{
-    shouldLoad = YES;
-}
 
 -(void)refreshVisibleCellsImages
 {
@@ -175,7 +167,6 @@
         }
         else {
             cell.mainImageView.image = status.statusImage;
-            cell.retwitterContentImage.image = status.statusImage;
         }
     }
 }
@@ -221,7 +212,6 @@
     {
         sts.statusImage = image;
         cell.mainImageView.image = sts.statusImage;
-        cell.retwitterContentImage.image = sts.statusImage;
     }
     
     //得到的是转发的图片
@@ -230,7 +220,6 @@
         if ([url isEqualToString:sts.retweetedStatus.thumbnailPic])
         {
             sts.statusImage = image;
-            cell.retwitterContentImage.image = sts.statusImage;
         }
     }
 }
@@ -340,7 +329,6 @@
     cell.avatarImage.image = status.user.avatarImage;
 //    cell.contentImage.image = status.statusImage;
     cell.mainImageView.image = status.statusImage;
-    cell.retwitterContentImage.image = status.statusImage;
     
     //开始绘制第一个cell时，隐藏indecator.
     if (isFirstCell) {

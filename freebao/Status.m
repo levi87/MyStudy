@@ -231,14 +231,13 @@
         }
         NSArray *aa = [dic objectForKey:@"comments"];
         homeLineComments = aa;
-//        NSLog(@"[levi] aa count %d , content %@", [aa count], aa);
 		
 		// parse source parameter
 		NSString *src = [dic getStringValueForKey:@"platform" defaultValue:@""];
         
         NSString *tmpStr = [dic getStringValueForKey:@"original_pic" defaultValue:@"blank"];
 //        NSLog(@"[TEST] %@",tmpStr);
-        if (tmpStr != @"blank") {
+        if (![[NSString stringWithFormat:@"%@", tmpStr] isEqualToString:@"blank"]) {
             hasImage = TRUE;
             thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
             bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
@@ -246,11 +245,11 @@
         } else {
             NSString *tmpVO = [dic getStringValueForKey:@"postVO" defaultValue:@"blank"];
 //            NSLog(@"[TEST] 111%@",tmpVO);
-            if (tmpVO != @"blank") {
+            if (![[NSString stringWithFormat:@"%@", tmpVO] isEqualToString:@"blank"]) {
                 hasImage = TRUE;
                 NSDictionary *tmpOri = [dic objectForKey:@"postVO"];
                 NSString *tmpO = [tmpOri getStringValueForKey:@"original_pic" defaultValue:@"blank"];
-                if(tmpO != @"blank") {
+                if(![[NSString stringWithFormat:@"%@", tmpO] isEqualToString:@"blank"]) {
                     hasImage = TRUE;
                 } else {
                     hasImage = FALSE;
@@ -259,41 +258,6 @@
                 hasImage = FALSE;
             }
         }
-        //		NSRange r = [src rangeOfString:@"<a href"];
-        //		NSRange end;
-        //		if (r.location != NSNotFound) {
-        //			NSRange start = [src rangeOfString:@"<a href=\""];
-        //			if (start.location != NSNotFound) {
-        //				int l = [src length];
-        //				NSRange fromRang = NSMakeRange(start.location + start.length, l-start.length-start.location);
-        //				end   = [src rangeOfString:@"\"" options:NSCaseInsensitiveSearch
-        //                                     range:fromRang];
-        //				if (end.location != NSNotFound) {
-        //					r.location = start.location + start.length;
-        //					r.length = end.location - r.location;
-        //					self.sourceUrl = [src substringWithRange:r];
-        //				}
-        //				else {
-        //					self.sourceUrl = @"";
-        //				}
-        //			}
-        //			else {
-        //				self.sourceUrl = @"";
-        //			}
-        //			start = [src rangeOfString:@"\">"];
-        //			end   = [src rangeOfString:@"</a>"];
-        //			if (start.location != NSNotFound && end.location != NSNotFound) {
-        //				r.location = start.location + start.length;
-        //				r.length = end.location - r.location;
-        //				self.source = [src substringWithRange:r];
-        //			}
-        //			else {
-        //				self.source = @"";
-        //			}
-        //		}
-        //		else {
-        //			self.source = src;
-        //		}
         self.source = src;
 
         longitude = [[dic getStringValueForKey:@"longgitude" defaultValue:@"0"] doubleValue];
@@ -304,24 +268,14 @@
 		inReplyToStatusId = [dic getLongLongValueValueForKey:@"in_reply_to_status_id" defaultValue:-1];
 		inReplyToUserId = [dic getIntValueForKey:@"in_reply_to_user_id" defaultValue:-1];
 		inReplyToScreenName = [dic getStringValueForKey:@"in_reply_to_screen_name" defaultValue:@""];
-//		thumbnailPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
-//		bmiddlePic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
-//		originalPic = [dic getStringValueForKey:@"original_pic" defaultValue:@""];
-		
-//        commentsCount = [dic getIntValueForKey:@"replytimes" defaultValue:-1];
         retweetsCount = [dic getIntValueForKey:@"zftimes" defaultValue:-1];
-        
-        //		NSDictionary* userDic = [dic objectForKey:@"user"];
-        //		if (userDic) {
-        //			user = [[User userWithJsonDictionary:userDic] retain];
-        //		}
+
         user = [[User alloc] init];
         user.screenName = [dic getStringValueForKey:@"user_name" defaultValue:@""];
         user.userId = [[dic getStringValueForKey:@"user_id" defaultValue:@"0"] integerValue];
         user.profileImageUrl = [dic getStringValueForKey:@"user_face_path" defaultValue:@""];
 		
 		NSDictionary* retweetedStatusDic = [dic objectForKey:@"content"];
-        NSLog(@"[levi]retwwtedStatusDic %@", retweetedStatusDic);
         if ([NSJSONSerialization isValidJSONObject:[dic objectForKey:@"content"]]) {
 			self.retweetedStatus = [Status statusWithJsonDictionaryFreebao:retweetedStatusDic];
 
@@ -337,9 +291,6 @@
         //无转发
         else
         {
-//        hasRetwitter = NO;
-//        NSString *url = thumbnailPic;
-//        hasImage = (url != nil && [url length] != 0 ? YES : NO);
         }
 	}
 	return self;

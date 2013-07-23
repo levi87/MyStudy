@@ -210,8 +210,6 @@
         }
         else {
             cell.avatarImage.image = status.user.avatarImage;
-            cell.contentImage.image = status.statusImage;
-            cell.retwitterContentImage.image = status.statusImage;
         }
     }
 }
@@ -268,8 +266,6 @@
     if([url isEqualToString:sts.thumbnailPic])
     {
         sts.statusImage = image;
-        cell.contentImage.image = sts.statusImage;
-        cell.retwitterContentImage.image = sts.statusImage;
     }
     
     //得到的是转发的图片
@@ -278,7 +274,6 @@
         if ([url isEqualToString:sts.retweetedStatus.thumbnailPic])
         {
             sts.statusImage = image;
-            cell.retwitterContentImage.image = sts.statusImage;
         }
     }
 }
@@ -398,8 +393,6 @@
         }
     }
     cell.avatarImage.image = status.user.avatarImage;
-    cell.contentImage.image = status.statusImage;
-    cell.retwitterContentImage.image = status.statusImage;
     
     if (user && user.avatarImage) {
         cell.avatarImage.image = user.avatarImage;

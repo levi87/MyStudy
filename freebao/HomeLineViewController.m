@@ -41,8 +41,6 @@
     _page = 1;
     _maxID = -1;
     _shouldAppendTheDataArr = NO;
-//    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
-//    self.navigationItem.rightBarButtonItem = retwitterBtn;
     UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -117,40 +115,11 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //如果未授权，则调入授权页面。
     if (statuesArr != nil && statuesArr.count != 0) {
         return;
     }
-//    NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
-//    NSLog([manager isNeedToRefreshTheToken] == YES ? @"need to login":@"did login");
-//    if (authToken == nil || [manager isNeedToRefreshTheToken])
-//    {
-//        shouldLoad = YES;
-//        OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-//        webV.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:webV animated:NO];
-////        [webV release];
-//    }
-//    else
-//    {
-//        [self getDataFromCD];
-//        
-//        if (!statuesArr || statuesArr.count == 0) {
-//            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-//            [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
-//        }
-//        
-//        [manager getUserID];
-//        [manager getHOtTrendsDaily];
-        [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-        [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-//    }
-}
-
-- (void)twitter
-{
-    TwitterVC *tv = [[TwitterVC alloc]initWithNibName:@"TwitterVC" bundle:nil];
-    [self.navigationController pushViewController:tv animated:YES];
+    [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)getDataFromCD
@@ -192,7 +161,6 @@
 //上拉
 -(void)refresh
 {
-//    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
     NSLog(@"[levi]refresh page %d", _page);
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:_page PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     _shouldAppendTheDataArr = YES;
@@ -204,14 +172,6 @@
         NSLog(@"i = %d",i);
         [[CoreDataManager getInstance] insertStatusesToCD:[statuesArr objectAtIndex:i] index:i isHomeLine:YES];
     }
-}
-
--(void)relogin
-{
-//    shouldLoad = YES;
-//    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-//    webV.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:webV animated:NO];
 }
 
 -(void)didGetHomeLine:(NSNotification*)sender
@@ -226,21 +186,18 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:_maxID] forKey:@"homePageMaxID"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         _page = 1;
-    }
-    else {
+    } else {
         [statuesArr addObjectsFromArray:sender.object];
     }
     _page++;
     refreshFooterView.hidden = NO;
     [self.tableView reloadData];
-    [[SHKActivityIndicator currentIndicator] hide];
     [self refreshVisibleCellsImages];
 }
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     NSLog(@"[levi] didtrigger...");
     _reloading = YES;
-//	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     _shouldAppendTheDataArr = NO;
 }

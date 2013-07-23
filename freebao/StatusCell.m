@@ -15,15 +15,11 @@
 #define COMMNET_COUNT_THREE 3
 
 @implementation StatusCell
-@synthesize retwitterBgImage;
 @synthesize retwitterContentTF;
-@synthesize retwitterContentImage;
 @synthesize avatarImage;
 @synthesize contentTF;
 @synthesize translateContentTF;
 @synthesize userNameLB;
-@synthesize bgImage;
-@synthesize contentImage;
 @synthesize retwitterMainV;
 @synthesize delegate;
 @synthesize cellIndexPath;
@@ -200,44 +196,21 @@
     self.userNameLB.text = status.user.screenName;
     _tmpPoint.x = status.latitude;
     _tmpPoint.y = status.longitude;
-//    countLB.text = [NSString stringWithFormat:@"  :%d     :%d",status.commentsCount,status.retweetsCount];
-//    fromLB.text = [NSString stringWithFormat:@"来自:%@",status.source];
+
     timeLB.text = status.createdAt;
     
     Status  *retwitterStatus    = status.retweetedStatus;
     
     BOOL haveImage = NO;
     
-//    CGRect frame;
-//    frame = countLB.frame;
-//    CGFloat padding = 320 - frame.origin.x - frame.size.width;
-//    
-//    frame = retweetCountImageView.frame;
-//    CGSize size = [[NSString stringWithFormat:@"%d",status.retweetsCount] sizeWithFont:[UIFont systemFontOfSize:12.0]];
-//    frame.origin.x = 320 - padding - size.width - retweetCountImageView.frame.size.width - 5;
-//    retweetCountImageView.frame = frame;
-//    
-//    frame = commentCountImageView.frame;
-//    size = [[NSString stringWithFormat:@"%d     :%d",status.commentsCount,status.retweetsCount] sizeWithFont:[UIFont systemFontOfSize:12.0]];
-//    frame.origin.x = 320 - padding - size.width - commentCountImageView.frame.size.width - 5;
-//    commentCountImageView.frame = frame;
-    
-//    NSLog(@"[levi] _JSContent status %@", status.text);
-//    NSLog(@"[levi] _JSContent y + height %f", _JSContentTF.frame.origin.y + _JSContentTF.frame.size.height);
-//    CGRect tmpframe = self.CommentView.frame;
-//    tmpframe.origin.y = _JSContentTF.frame.origin.y + _JSContentTF.frame.size.height;
-//    //    tmpframe.size.height = 45;
-//    self.CommentView.frame = tmpframe;
     //有转发
     if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]]) 
     {
         self.retwitterMainV.hidden = NO;
         self.JSRetitterContentTF.text = [NSString stringWithFormat:@"@%@:%@",status.retweetedStatus.user.screenName,retwitterStatus.text];
-        self.contentImage.hidden = YES;
         
         NSString *url = status.retweetedStatus.thumbnailPic;
 //        self.retwitterContentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
-        haveImage = !self.retwitterContentImage.hidden;
         if (status.hasImage) {
             [self setCellLayout:YES];
         } else {
@@ -253,7 +226,6 @@
         self.retwitterMainV.hidden = YES;
         NSString *url = status.thumbnailPic;
 //        self.contentImage.hidden = url != nil && [url length] != 0 ? NO : YES;
-        haveImage = !self.contentImage.hidden;
         if (status.hasImage) {
             [self setCellLayout:YES];
         } else {
@@ -437,10 +409,6 @@
     
     frame.origin.y = frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF];
     self.retwitterMainV.frame = frame;
-
-    frame = self.retwitterContentImage.frame;
-    frame.origin.y = frame.origin.y + [self returnTranslateHeightWithJSContent:self.JSContentTF];
-    self.retwitterContentImage.frame = frame;
 }
 
 -(CGFloat)returnTranslateHeightWithJSContent:(JSCoreTextView*)originJSview {
@@ -489,30 +457,16 @@
     
     
     //转发的图片
-    frame = retwitterContentImage.frame;
-    frame.origin.y = self.JSRetitterContentTF.frame.size.height;
-    frame.size.height = IMAGE_VIEW_HEIGHT;
 //    frame.origin.x = -30;
 //    frame.size.height = 300;
 //    frame.size.width = 300;
-    retwitterContentImage.frame = frame;
     
     //正文的图片
-    frame = contentImage.frame;
-    frame.origin.y = self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y - 5.0f;
-    frame.size.height = IMAGE_VIEW_HEIGHT;
 //    frame.origin.x = 10;
 //    frame.size.height = 300;
 //    frame.size.width = 300;
-    contentImage.frame = frame;
     
     //背景设置
-    if (bgImage.image == nil) {
-        bgImage.image = [[UIImage imageNamed:@"table_header_bg.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10];
-    }
-    if (retwitterBgImage.image == nil) {
-        retwitterBgImage.image = [[UIImage imageNamed:@"timeline_rt_border.png"] stretchableImageWithLeftCapWidth:130 topCapHeight:14];
-    }
 //    int commentCount = 3;
     int commentCount = sts.commentsCount;
     if (commentCount > 3) {
@@ -524,58 +478,14 @@
         blankHeight = 10;
     }
     if (commentCount == NO_COMMNET) {
-        if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + blankHeight;
-        }
-        else if(hasImage)
-        {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + blankHeight;
-        }
-        else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + blankHeight;
-        }
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + blankHeight;
     } else if (commentCount == COMMENT_COUNT_ONE) {
-        if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 25 + blankHeight;
-        }
-        else if(hasImage)
-        {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 25 + blankHeight;
-        }
-        else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 25 + blankHeight;
-        }
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 25 + blankHeight;
     } else if (commentCount == COMMENT_COUNT_TWO) {
-        if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55+ blankHeight;
-        }
-        else if(hasImage)
-        {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55 + blankHeight;
-        }
-        else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55 + blankHeight;
-        }
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55 + blankHeight;
     } else if (commentCount == COMMNET_COUNT_THREE) {
-        if (retwitterMainV.hidden == NO) {
-            return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 60 + blankHeight;
-        }
-        else if(hasImage)
-        {
-            return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 60 + blankHeight;
-        }
-        else {
-            return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 60 + blankHeight;
-        }
-    }
-    if (retwitterMainV.hidden == NO) {
-        return self.retwitterMainV.frame.size.height + self.retwitterMainV.frame.origin.y + 30 + 55 + blankHeight;
-    }
-    else if(hasImage)
-    {
-        return self.contentImage.frame.size.height + self.contentImage.frame.origin.y + 40 + 55 + blankHeight;
-    }
-    else {
+        return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 60 + blankHeight;
+    } else {
         return self.JSContentTF.frame.size.height + self.JSContentTF.frame.origin.y + 40 + 55 + blankHeight;
     }
 }
@@ -586,21 +496,7 @@
     UITapGestureRecognizer*tap = (UITapGestureRecognizer*)sender;
     
     UIImageView *imageView = (UIImageView*)tap.view;
-    if ([imageView isEqual:contentImage]) {
-        if ([delegate respondsToSelector:@selector(cellImageDidTaped:image:)]) 
-        {
-            [delegate cellImageDidTaped:self image:contentImage.image];
-        }
-    } else if ([imageView isEqual:retwitterContentImage]) {
-        if ([delegate respondsToSelector:@selector(cellImageDidTaped:image:)])
-        {
-            [delegate cellImageDidTaped:self image:retwitterContentImage.image];
-        }
-    } else if ([imageView isEqual:mainImageView]) {
-//        if ([delegate respondsToSelector:@selector(cellExpandForTranslate:Height:)]) {
-//            [delegate cellExpandForTranslate:self Height:[StatusCell getJSHeight:self.contentTF.text jsViewWith:self.contentTF.frame.size.width]];
-//        }
-    } else if ([imageView isEqual:addLikeIconImage]) {
+    if ([imageView isEqual:addLikeIconImage]) {
         if ([delegate respondsToSelector:@selector(cellAddLikeDidTaped:)]) {
             if (_isLiked) {
                 _isLiked = FALSE;

@@ -54,13 +54,9 @@
     UITextView *contentTF;
     UITextView *translateContentTF;
     UILabel *userNameLB;
-    UIImageView *bgImage;
-    UIImageView *contentImage;
     UIView *retwitterMainV;
-    UIImageView *retwitterBgImage;
     UITextView *retwitterContentTF;
     JSTwitterCoreTextView *_JSRetitterContentTF;
-    UIImageView *retwitterContentImage;
     NSIndexPath *cellIndexPath;
     UIView *commentToolBarView;
     JSTwitterCoreTextView *_line1Comment;
@@ -81,12 +77,8 @@
 @property (retain, nonatomic) IBOutlet UITextView *contentTF;
 @property (retain, nonatomic) IBOutlet UITextView *translateContentTF;
 @property (retain, nonatomic) IBOutlet UILabel *userNameLB;
-@property (retain, nonatomic) IBOutlet UIImageView *bgImage;
-@property (retain, nonatomic) IBOutlet UIImageView *contentImage;
 @property (retain, nonatomic) IBOutlet UIView *retwitterMainV;
-@property (retain, nonatomic) IBOutlet UIImageView *retwitterBgImage;
 @property (retain, nonatomic) IBOutlet UITextView *retwitterContentTF;
-@property (retain, nonatomic) IBOutlet UIImageView *retwitterContentImage;
 @property (retain, nonatomic) id<StatusCellDelegate> delegate;
 @property (retain, nonatomic) NSIndexPath *cellIndexPath;
 @property (retain, nonatomic) IBOutlet UILabel *fromLB;
