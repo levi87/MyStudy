@@ -15,6 +15,7 @@
 #import "UserLocationViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import "URBSegmentedControl.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface PageViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
@@ -36,5 +37,6 @@
 @property (nonatomic, retain) NSTimer *timer;
 
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
+@property (strong, nonatomic) IBOutlet UIView *profileHeaderView;
 
 @end

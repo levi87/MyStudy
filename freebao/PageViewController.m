@@ -38,6 +38,7 @@
 {
     [super viewDidLoad];
 
+    [self initSegment];
     NSLog(@"[levi]view didload");
     refreshFooterView.hidden = NO;
     _page = 1;
@@ -50,7 +51,7 @@
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
-    tittleLabel.text = @"Freebao";
+    tittleLabel.text = @"Profile";
     [tittleLabel setFont:[UIFont fontWithName:FONT size:15]];
     tittleLabel.textColor = [UIColor whiteColor];
     [TittleView addSubview: tittleLabel];
@@ -69,9 +70,8 @@
     [self.navigationController.view addSubview:TittleLineView];
     [self.navigationController.view addSubview:backButton];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [self.tableView setTableHeaderView:headerView];
+    [self.tableView setTableHeaderView:self.profileHeaderView];
     [self.tableView setTableFooterView:headerView];
-    backButton.hidden = YES;
     
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
@@ -82,14 +82,41 @@
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
 
+- (void)initSegment {
+    // items to be used for each segment (same as UISegmentControl) for all instances
+	NSArray *titles = [NSArray arrayWithObjects:[@"Post" uppercaseString], [@"Far." uppercaseString], [@"Follow" uppercaseString], [@"Fans" uppercaseString], [@"Photo" uppercaseString], nil];
+	
+	//
+	// Basic horizontal segmented control
+	//
+	URBSegmentedControl *control = [[URBSegmentedControl alloc] initWithItems:titles];
+	control.frame = CGRectMake(-1, 367.0, 322.0, 80.0);
+	control.segmentBackgroundColor = [UIColor blueColor];
+	[control setSegmentBackgroundColor:[UIColor whiteColor] atIndex:2];
+	[self.profileHeaderView addSubview:control];
+	
+	// UIKit method of handling value changes
+	[control addTarget:self action:@selector(handleSelection:) forControlEvents:UIControlEventValueChanged];
+	// block-based value change handler
+	[control setControlEventBlock:^(NSInteger index, URBSegmentedControl *segmentedControl) {
+		NSLog(@"URBSegmentedControl: control block - index=%i", index);
+        //        int count = [KAppDelegate.tabBarVC.arrayViewcontrollers count];
+        //        NSLog(@"[count] count...%d", count);
+	}];
+}
+
+- (void)handleSelection:(id)sender {
+	NSLog(@"URBSegmentedControl: value changed");
+}
+
 - (void)backButtonAction {
     NSLog(@"[levi]back...");
-    backButton.hidden = YES;
-    tittleLabel.text = @"Freebao";
+    tittleLabel.text = @"Profile";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload {
+    [self setProfileHeaderView:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_HOMELINE object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
@@ -101,7 +128,6 @@
 {
     NSLog(@"[levi]viewWillAppear...");
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
     if (shouldLoad)
     {
         shouldLoad = NO;
@@ -109,6 +135,7 @@
         //        [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
         //        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
