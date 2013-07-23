@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "MoreTableViewCell.h"
+#import "ProfileViewController.h"
 
 @interface MoreViewController : UITableViewController {
     UILabel *tittleLabel;
     UIButton *backButton;
+    UIView *tittleView;
+    UIView *tittleLineView;
 }
 
 @end

@@ -176,6 +176,10 @@
 		A2DE86271786C2D200170907 /* bg_chat_white_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */; };
 		A2DE86291786C31000170907 /* bg_chat_blue_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86281786C31000170907 /* bg_chat_blue_normal.png */; };
 		A2F00AF4179543C000B447F0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F00AF3179543C000B447F0 /* MapKit.framework */; };
+		A2F88943179E1172008E55ED /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F88941179E1172008E55ED /* ProfileViewController.m */; };
+		A2F88944179E1172008E55ED /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2F88942179E1172008E55ED /* ProfileViewController.xib */; };
+		A2F88948179E1ECE008E55ED /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F88947179E1ECE008E55ED /* ProfileCell.m */; };
+		A2F8894B179E1F64008E55ED /* ProfileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F8894A179E1F64008E55ED /* ProfileInfo.m */; };
 		A2FAE8641787AAF700F3F1E8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85B1787AAF700F3F1E8 /* FMDatabase.m */; };
 		A2FAE8651787AAF700F3F1E8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85D1787AAF700F3F1E8 /* FMDatabaseAdditions.m */; };
 		A2FAE8661787AAF700F3F1E8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85F1787AAF700F3F1E8 /* FMDatabasePool.m */; };
@@ -828,6 +832,13 @@
 		A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_chat_white_normal@2x.png"; sourceTree = "<group>"; };
 		A2DE86281786C31000170907 /* bg_chat_blue_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_chat_blue_normal.png; sourceTree = "<group>"; };
 		A2F00AF3179543C000B447F0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A2F88940179E1172008E55ED /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		A2F88941179E1172008E55ED /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		A2F88942179E1172008E55ED /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		A2F88946179E1ECE008E55ED /* ProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileCell.h; sourceTree = "<group>"; };
+		A2F88947179E1ECE008E55ED /* ProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
+		A2F88949179E1F64008E55ED /* ProfileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileInfo.h; sourceTree = "<group>"; };
+		A2F8894A179E1F64008E55ED /* ProfileInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileInfo.m; sourceTree = "<group>"; };
 		A2FAE85A1787AAF700F3F1E8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		A2FAE85B1787AAF700F3F1E8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		A2FAE85C1787AAF700F3F1E8 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -3019,6 +3030,9 @@
 				A2BDD114179CD1CB007B08C5 /* PostViewController.h */,
 				A2BDD115179CD1CB007B08C5 /* PostViewController.m */,
 				A2BDD116179CD1CB007B08C5 /* PostViewController.xib */,
+				A2F88940179E1172008E55ED /* ProfileViewController.h */,
+				A2F88941179E1172008E55ED /* ProfileViewController.m */,
+				A2F88942179E1172008E55ED /* ProfileViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3094,6 +3108,8 @@
 				A2DE85E31786520100170907 /* ConversationCell.m */,
 				A24BA608178F9EAA0031A878 /* MoreTableViewCell.h */,
 				A24BA609178F9EAA0031A878 /* MoreTableViewCell.m */,
+				A2F88946179E1ECE008E55ED /* ProfileCell.h */,
+				A2F88947179E1ECE008E55ED /* ProfileCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -3177,6 +3193,8 @@
 				A23ED7E61791376100B9CFFD /* MessageInfo.m */,
 				A29CC96817991C3B000A60CC /* ConversationInfo.h */,
 				A29CC96917991C3B000A60CC /* ConversationInfo.m */,
+				A2F88949179E1F64008E55ED /* ProfileInfo.h */,
+				A2F8894A179E1F64008E55ED /* ProfileInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3668,6 +3686,7 @@
 				A2BDD130179D259F007B08C5 /* icon_postedit_voice2_normal@2x.png in Resources */,
 				A2BDD131179D259F007B08C5 /* icon_postedit_voice3_normal@2x.png in Resources */,
 				A2BDD133179D25A6007B08C5 /* icon_postedit_voice1_normal@2x.png in Resources */,
+				A2F88944179E1172008E55ED /* ProfileViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3936,6 +3955,9 @@
 				A29CC96A17991C3B000A60CC /* ConversationInfo.m in Sources */,
 				A2BDD109179CC526007B08C5 /* LoginVC.m in Sources */,
 				A2BDD117179CD1CB007B08C5 /* PostViewController.m in Sources */,
+				A2F88943179E1172008E55ED /* ProfileViewController.m in Sources */,
+				A2F88948179E1ECE008E55ED /* ProfileCell.m in Sources */,
+				A2F8894B179E1F64008E55ED /* ProfileInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

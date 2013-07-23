@@ -10,6 +10,9 @@
 
 #define FONT @"HelveticaNeue-Light"
 
+#define HIDE_TABBAR @"10000"
+#define SHOW_TABBAR @"10001"
+
 @interface MoreViewController ()
 
 @end
@@ -28,25 +31,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
     tittleLabel.text = @"More";
     [tittleLabel setFont:[UIFont fontWithName:FONT size:15]];
     tittleLabel.textColor = [UIColor whiteColor];
-    [TittleView addSubview: tittleLabel];
+    [tittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
     backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 30, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
     [imgV setFrame:CGRectMake(0, 0, 7, 12)];
     [backButton addSubview:imgV];
-    UIView *TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
-    [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
-    [self.navigationController.view addSubview:TittleView];
-    [self.navigationController.view addSubview:TittleLineView];
+    tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+    [self.navigationController.view addSubview:tittleView];
+    [self.navigationController.view addSubview:tittleLineView];
     [self.navigationController.view addSubview:backButton];
     backButton.hidden = YES;
 }
@@ -142,6 +145,12 @@
     }
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    tittleView.hidden = NO;
+    tittleLineView.hidden = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -192,6 +201,12 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    if (indexPath.row == 2) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        ProfileViewController *proVC = [[ProfileViewController alloc] init];
+        [self.navigationController pushViewController:proVC animated:YES];
+    }
 }
 
 @end

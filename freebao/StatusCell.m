@@ -597,9 +597,9 @@
             [delegate cellImageDidTaped:self image:retwitterContentImage.image];
         }
     } else if ([imageView isEqual:mainImageView]) {
-        if ([delegate respondsToSelector:@selector(cellExpandForTranslate:Height:)]) {
-            [delegate cellExpandForTranslate:self Height:[StatusCell getJSHeight:self.contentTF.text jsViewWith:self.contentTF.frame.size.width]];
-        }
+//        if ([delegate respondsToSelector:@selector(cellExpandForTranslate:Height:)]) {
+//            [delegate cellExpandForTranslate:self Height:[StatusCell getJSHeight:self.contentTF.text jsViewWith:self.contentTF.frame.size.width]];
+//        }
     } else if ([imageView isEqual:addLikeIconImage]) {
         if ([delegate respondsToSelector:@selector(cellAddLikeDidTaped:)]) {
             if (_isLiked) {

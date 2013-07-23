@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">11G63</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">2083</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -471,7 +471,6 @@
 								<string key="NSFrame">{{43, 349}, {16, 21}}</string>
 								<reference key="NSSuperview" ref="154365241"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1583,6 +1582,7 @@
 						<string key="commentTap:">id</string>
 						<string key="languageSelectAction:">id</string>
 						<string key="likerTap:">id</string>
+						<string key="moreDoAction:">id</string>
 						<string key="playTranslateVoice:">id</string>
 						<string key="tapDetected:">id</string>
 					</dictionary>
@@ -1601,6 +1601,10 @@
 						</object>
 						<object class="IBActionInfo" key="likerTap:">
 							<string key="name">likerTap:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="moreDoAction:">
+							<string key="name">moreDoAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="playTranslateVoice:">
@@ -1784,6 +1788,6 @@
 			<string key="table_header_bg.png">{320, 64}</string>
 			<string key="touxiang_40x40.png">{50, 50}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">2083</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>
