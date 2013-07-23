@@ -1,12 +1,12 @@
 //
-//  HomeLineViewController.m
+//  PageViewController.m
 //  freebao
 //
-//  Created by levi on 13-5-31.
+//  Created by freebao on 13-7-23.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
-#import "HomeLineViewController.h"
+#import "PageViewController.h"
 #import "ZJTHelpler.h"
 #import "ZJTStatusBarAlertWindow.h"
 #import "CoreDataManager.h"
@@ -15,11 +15,12 @@
 #define SHOW_TABBAR @"10001"
 #define FONT @"HelveticaNeue-Light"
 
-@interface HomeLineViewController ()
+@interface PageViewController ()
 -(void)getDataFromCD;
+
 @end
 
-@implementation HomeLineViewController
+@implementation PageViewController
 @synthesize userID;
 @synthesize timer;
 @synthesize avPlay = _avPlay;
@@ -36,13 +37,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     NSLog(@"[levi]view didload");
     refreshFooterView.hidden = NO;
     _page = 1;
     _maxID = -1;
     _shouldAppendTheDataArr = NO;
-//    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
-//    self.navigationItem.rightBarButtonItem = retwitterBtn;
+    //    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
+    //    self.navigationItem.rightBarButtonItem = retwitterBtn;
     UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -70,13 +72,13 @@
     [self.tableView setTableHeaderView:headerView];
     [self.tableView setTableFooterView:headerView];
     backButton.hidden = YES;
-
+    
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
-
+    
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
 
@@ -103,54 +105,15 @@
     if (shouldLoad)
     {
         shouldLoad = NO;
-//        [manager getUserID];
-//        [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-//        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
+        //        [manager getUserID];
+        //        [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+        //        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    //如果未授权，则调入授权页面。
-    if (statuesArr != nil && statuesArr.count != 0) {
-        return;
-    }
-//    NSString *authToken = [[NSUserDefaults standardUserDefaults] objectForKey:USER_STORE_ACCESS_TOKEN];
-//    NSLog([manager isNeedToRefreshTheToken] == YES ? @"need to login":@"did login");
-//    if (authToken == nil || [manager isNeedToRefreshTheToken])
-//    {
-//        shouldLoad = YES;
-//        OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-//        webV.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:webV animated:NO];
-////        [webV release];
-//    }
-//    else
-//    {
-//        [self getDataFromCD];
-//        
-//        if (!statuesArr || statuesArr.count == 0) {
-//            [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-//            [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
-//        }
-//        
-//        [manager getUserID];
-//        [manager getHOtTrendsDaily];
-        [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-        [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-//    }
-}
-
-- (void)twitter
-{
-    TwitterVC *tv = [[TwitterVC alloc]initWithNibName:@"TwitterVC" bundle:nil];
-    [self.navigationController pushViewController:tv animated:YES];
+- (void)viewDidAppear:(BOOL)animated {
+    [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)getDataFromCD
@@ -187,12 +150,10 @@
     });
 }
 
-#pragma mark - Methods
-
 //上拉
 -(void)refresh
 {
-//    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
+    //    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
     NSLog(@"[levi]refresh page %d", _page);
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:_page PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     _shouldAppendTheDataArr = YES;
@@ -204,14 +165,6 @@
         NSLog(@"i = %d",i);
         [[CoreDataManager getInstance] insertStatusesToCD:[statuesArr objectAtIndex:i] index:i isHomeLine:YES];
     }
-}
-
--(void)relogin
-{
-//    shouldLoad = YES;
-//    OAuthWebView *webV = [[OAuthWebView alloc]initWithNibName:@"OAuthWebView" bundle:nil];
-//    webV.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:webV animated:NO];
 }
 
 -(void)didGetHomeLine:(NSNotification*)sender
@@ -240,7 +193,7 @@
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     NSLog(@"[levi] didtrigger...");
     _reloading = YES;
-//	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
+    //	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     _shouldAppendTheDataArr = NO;
 }
@@ -316,7 +269,7 @@
 
 -(void)onRequestVoiceResult:(NSNotification*)notification {
     NSString *voiceUrl = notification.object;
-//    NSLog(@"[levi] voice url %@",voiceUrl);
+    //    NSLog(@"[levi] voice url %@",voiceUrl);
     NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
     AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
     self.avPlay = player;
@@ -329,7 +282,7 @@
     Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
     tmpStatus.isPlayTransVoice = NO;
     [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
-//    [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
+    //    [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpStatusCell.cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
@@ -350,47 +303,47 @@
 - (void)languageMenuAction {
     NSArray *menuItems =
     @[
-      
-      [KxMenuItem menuItem:@"中文"
-                     image:[UIImage imageNamed:@"icon_chat_flag_cn"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"English"
-                     image:[UIImage imageNamed:@"icon_chat_flag_e"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"日本語"
-                     image:[UIImage imageNamed:@"icon_chat_flag_j"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"한국어"
-                     image:[UIImage imageNamed:@"icon_chat_flag_k"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"España"
-                     image:[UIImage imageNamed:@"icon_chat_flag_x"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"Français"
-                     image:[UIImage imageNamed:@"icon_chat_flag_f"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"Deutsch"
-                     image:[UIImage imageNamed:@"icon_chat_flag_d"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      
-      [KxMenuItem menuItem:@"русский"
-                     image:[UIImage imageNamed:@"icon_chat_flag_p"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      ];
+    
+    [KxMenuItem menuItem:@"中文"
+                   image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"English"
+                   image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"日本語"
+                   image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"한국어"
+                   image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"España"
+                   image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Français"
+                   image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Deutsch"
+                   image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"русский"
+                   image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    ];
     
     [KxMenu showMenuInView:self.navigationController.view
                   fromRect:CGRectMake(250, 24, 20, 10)
@@ -449,13 +402,6 @@
     NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
     [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
     [manager FBGetTranslateWithBody:theCell.contentTF.text Language:theCell.languageStr PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    //    for (int i = theCell.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
-    //        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-    //        tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + height, tmpCell.frame.size.width, tmpCell.frame.size.height);
-    ////        [tmpCell adjustMainImagePosition:100];
-    //    }
-    //    theCell.frame = CGRectMake(theCell.frame.origin.x, theCell.frame.origin.y, theCell.frame.size.width, theCell.frame.size.height + height);
-    //    [theCell showTranslateTV:100 Content:theCell.contentTF.text];
 }
 
 -(void)cellMoreDoTaped:(StatusCell *)theCell {
@@ -470,5 +416,18 @@
     [super didReceiveMemoryWarning];
 }
 
-
+/**
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell...
+    
+    return cell;
+}
+**/
 @end

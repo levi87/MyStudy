@@ -183,6 +183,8 @@
 		A2F88954179E2659008E55ED /* MyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F88952179E2658008E55ED /* MyPageViewController.m */; };
 		A2F88955179E2659008E55ED /* MyPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2F88953179E2658008E55ED /* MyPageViewController.xib */; };
 		A2F8895D179E2F82008E55ED /* URBSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F8895C179E2F82008E55ED /* URBSegmentedControl.m */; };
+		A2F8896F179E8113008E55ED /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F8896D179E8113008E55ED /* PageViewController.m */; };
+		A2F88970179E8113008E55ED /* PageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2F8896E179E8113008E55ED /* PageViewController.xib */; };
 		A2FAE8641787AAF700F3F1E8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85B1787AAF700F3F1E8 /* FMDatabase.m */; };
 		A2FAE8651787AAF700F3F1E8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85D1787AAF700F3F1E8 /* FMDatabaseAdditions.m */; };
 		A2FAE8661787AAF700F3F1E8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85F1787AAF700F3F1E8 /* FMDatabasePool.m */; };
@@ -847,6 +849,9 @@
 		A2F88953179E2658008E55ED /* MyPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPageViewController.xib; sourceTree = "<group>"; };
 		A2F8895B179E2F82008E55ED /* URBSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URBSegmentedControl.h; sourceTree = "<group>"; };
 		A2F8895C179E2F82008E55ED /* URBSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URBSegmentedControl.m; sourceTree = "<group>"; };
+		A2F8896C179E8113008E55ED /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
+		A2F8896D179E8113008E55ED /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
+		A2F8896E179E8113008E55ED /* PageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PageViewController.xib; sourceTree = "<group>"; };
 		A2FAE85A1787AAF700F3F1E8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		A2FAE85B1787AAF700F3F1E8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		A2FAE85C1787AAF700F3F1E8 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -3053,6 +3058,9 @@
 				A2F88951179E2658008E55ED /* MyPageViewController.h */,
 				A2F88952179E2658008E55ED /* MyPageViewController.m */,
 				A2F88953179E2658008E55ED /* MyPageViewController.xib */,
+				A2F8896C179E8113008E55ED /* PageViewController.h */,
+				A2F8896D179E8113008E55ED /* PageViewController.m */,
+				A2F8896E179E8113008E55ED /* PageViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3709,6 +3717,7 @@
 				A2BDD133179D25A6007B08C5 /* icon_postedit_voice1_normal@2x.png in Resources */,
 				A2F88944179E1172008E55ED /* ProfileViewController.xib in Resources */,
 				A2F88955179E2659008E55ED /* MyPageViewController.xib in Resources */,
+				A2F88970179E8113008E55ED /* PageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3982,6 +3991,7 @@
 				A2F8894B179E1F64008E55ED /* ProfileInfo.m in Sources */,
 				A2F88954179E2659008E55ED /* MyPageViewController.m in Sources */,
 				A2F8895D179E2F82008E55ED /* URBSegmentedControl.m in Sources */,
+				A2F8896F179E8113008E55ED /* PageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

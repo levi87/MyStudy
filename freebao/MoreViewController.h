@@ -10,6 +10,7 @@
 #import "MoreTableViewCell.h"
 #import "ProfileViewController.h"
 #import "MyPageViewController.h"
+#import "PageViewController.h"
 
 @interface MoreViewController : UITableViewController {
     UILabel *tittleLabel;

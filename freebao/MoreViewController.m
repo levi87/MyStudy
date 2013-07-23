@@ -194,17 +194,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
     if (indexPath.row == 1) {
         tittleView.hidden = YES;
         tittleLineView.hidden = YES;
-        MyPageViewController *proVC = [[MyPageViewController alloc] init];
+        PageViewController *proVC = [[PageViewController alloc] init];
         [self.navigationController pushViewController:proVC animated:YES];
     } else if (indexPath.row == 2) {
         tittleView.hidden = YES;
