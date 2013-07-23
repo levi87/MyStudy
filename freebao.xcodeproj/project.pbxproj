@@ -180,6 +180,9 @@
 		A2F88944179E1172008E55ED /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2F88942179E1172008E55ED /* ProfileViewController.xib */; };
 		A2F88948179E1ECE008E55ED /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F88947179E1ECE008E55ED /* ProfileCell.m */; };
 		A2F8894B179E1F64008E55ED /* ProfileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F8894A179E1F64008E55ED /* ProfileInfo.m */; };
+		A2F88954179E2659008E55ED /* MyPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F88952179E2658008E55ED /* MyPageViewController.m */; };
+		A2F88955179E2659008E55ED /* MyPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2F88953179E2658008E55ED /* MyPageViewController.xib */; };
+		A2F8895D179E2F82008E55ED /* URBSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F8895C179E2F82008E55ED /* URBSegmentedControl.m */; };
 		A2FAE8641787AAF700F3F1E8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85B1787AAF700F3F1E8 /* FMDatabase.m */; };
 		A2FAE8651787AAF700F3F1E8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85D1787AAF700F3F1E8 /* FMDatabaseAdditions.m */; };
 		A2FAE8661787AAF700F3F1E8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE85F1787AAF700F3F1E8 /* FMDatabasePool.m */; };
@@ -839,6 +842,11 @@
 		A2F88947179E1ECE008E55ED /* ProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
 		A2F88949179E1F64008E55ED /* ProfileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileInfo.h; sourceTree = "<group>"; };
 		A2F8894A179E1F64008E55ED /* ProfileInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileInfo.m; sourceTree = "<group>"; };
+		A2F88951179E2658008E55ED /* MyPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPageViewController.h; sourceTree = "<group>"; };
+		A2F88952179E2658008E55ED /* MyPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPageViewController.m; sourceTree = "<group>"; };
+		A2F88953179E2658008E55ED /* MyPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPageViewController.xib; sourceTree = "<group>"; };
+		A2F8895B179E2F82008E55ED /* URBSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URBSegmentedControl.h; sourceTree = "<group>"; };
+		A2F8895C179E2F82008E55ED /* URBSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URBSegmentedControl.m; sourceTree = "<group>"; };
 		A2FAE85A1787AAF700F3F1E8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		A2FAE85B1787AAF700F3F1E8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		A2FAE85C1787AAF700F3F1E8 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -1767,6 +1775,15 @@
 				A2DE860D17869DAA00170907 /* typingSomeone@2x.png */,
 			);
 			name = BubbleImage;
+			sourceTree = "<group>";
+		};
+		A2F8895A179E2F6A008E55ED /* URBSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				A2F8895B179E2F82008E55ED /* URBSegmentedControl.h */,
+				A2F8895C179E2F82008E55ED /* URBSegmentedControl.m */,
+			);
+			name = URBSegmentedControl;
 			sourceTree = "<group>";
 		};
 		A2FAE8581787AAE300F3F1E8 /* FMDB */ = {
@@ -3033,6 +3050,9 @@
 				A2F88940179E1172008E55ED /* ProfileViewController.h */,
 				A2F88941179E1172008E55ED /* ProfileViewController.m */,
 				A2F88942179E1172008E55ED /* ProfileViewController.xib */,
+				A2F88951179E2658008E55ED /* MyPageViewController.h */,
+				A2F88952179E2658008E55ED /* MyPageViewController.m */,
+				A2F88953179E2658008E55ED /* MyPageViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3215,6 +3235,7 @@
 		DB9FCF5A175828E900AE837D /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				A2F8895A179E2F6A008E55ED /* URBSegmentedControl */,
 				A208F4181796340E0007878F /* SVProgressHUD */,
 				A2FAE8581787AAE300F3F1E8 /* FMDB */,
 				DB64339C175849E8005CAD2F /* NSStringEx.h */,
@@ -3687,6 +3708,7 @@
 				A2BDD131179D259F007B08C5 /* icon_postedit_voice3_normal@2x.png in Resources */,
 				A2BDD133179D25A6007B08C5 /* icon_postedit_voice1_normal@2x.png in Resources */,
 				A2F88944179E1172008E55ED /* ProfileViewController.xib in Resources */,
+				A2F88955179E2659008E55ED /* MyPageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3958,6 +3980,8 @@
 				A2F88943179E1172008E55ED /* ProfileViewController.m in Sources */,
 				A2F88948179E1ECE008E55ED /* ProfileCell.m in Sources */,
 				A2F8894B179E1F64008E55ED /* ProfileInfo.m in Sources */,
+				A2F88954179E2659008E55ED /* MyPageViewController.m in Sources */,
+				A2F8895D179E2F82008E55ED /* URBSegmentedControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

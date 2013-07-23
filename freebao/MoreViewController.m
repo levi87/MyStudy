@@ -201,7 +201,12 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-    if (indexPath.row == 2) {
+    if (indexPath.row == 1) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        MyPageViewController *proVC = [[MyPageViewController alloc] init];
+        [self.navigationController pushViewController:proVC animated:YES];
+    } else if (indexPath.row == 2) {
         tittleView.hidden = YES;
         tittleLineView.hidden = YES;
         ProfileViewController *proVC = [[ProfileViewController alloc] init];
