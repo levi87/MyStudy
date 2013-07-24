@@ -11,6 +11,7 @@
 #import "UIBubbleTableViewDataSource.h"
 #import "NSBubbleData.h"
 #import "UIView+AnimationOptionsForCurve.h"
+#import "UIMenuItem+CXAImageSupport.h"
 #import "AppDelegate.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
@@ -28,6 +29,7 @@
 #define IMAGE_TAP @"fb_image_tap"
 #define VOICE_DATA @"fb_voice_data"
 #define MAP_POINT @"fb_map_point"
+#define LONG_PRESS @"fb_long_press"
 
 #define  SHOW_LANGUAGE_MENU @"fb_language_menu"
 
@@ -184,6 +186,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:VOICE_DATA object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMapView:) name:MAP_POINT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLanguageMenu) name:SHOW_LANGUAGE_MENU object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(longPress:) name:LONG_PRESS object:nil];
     bubbleTable.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - toolBarHeight);
     NSBubbleData *heyBubble = [NSBubbleData dataWithText:@"Hey, halloween is soon" date:[NSDate dateWithTimeIntervalSinceNow:-300] type:BubbleTypeSomeoneElse];
     heyBubble.avatar = [UIImage imageNamed:@"avatar1.png"];
@@ -205,6 +208,57 @@
     
     [bubbleTable reloadData];
     [self queryMessageFromDb];
+    [self initPopMenu];
+}
+
+- (void)longPress:(NSNotification*)notification {
+    NSLog(@"long,,,,,");
+    CGFloat x = [[notification.userInfo objectForKey:@"x"] floatValue];
+    CGFloat y = [[notification.userInfo objectForKey:@"y"] floatValue];
+    popMenuCell = [notification.userInfo objectForKey:@"cell"];
+    NSLog(@"[levi] finger position... x %f y %f", x, y);
+    if (x > 245) {
+        x = 245.0;
+    }
+    if (x < 70) {
+        x = 70.0;
+    }
+    [self.popupMenu showInView:self.view atPoint:CGPointMake(x, y)];
+}
+
+- (void)initPopMenu {
+    // popupMenu
+    QBPopupMenu *popupMenu = [[QBPopupMenu alloc] init];
+    
+    QBPopupMenuItem *item1 = [QBPopupMenuItem itemWithTitle:@"Copy" image:[UIImage imageNamed:@"icon_reply.png"] target:self action:@selector(copyAction)];
+    item1.width = 64;
+    
+    QBPopupMenuItem *item3 = [QBPopupMenuItem itemWithTitle:@"Delete" image:[UIImage imageNamed:@"icon_retweet.png"] target:self action:@selector(deleteAction)];
+    item3.width = 64;
+    
+    popupMenu.items = [NSArray arrayWithObjects:item1, item3, nil];
+    
+    self.popupMenu = popupMenu;
+}
+
+-(void)deleteAction {
+    NSIndexPath *tmpIndexP = popMenuCell.indexPath;
+    NSLog(@"delete... row %d", tmpIndexP.row);
+    NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
+    NSLog(@"[levi cell row] %@", data.cellRow);
+    [bubbleData removeObjectAtIndex:tmpIndexP.row - 1];
+    [bubbleTable reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        int deleteCount = [LPDataBaseutil deleteMessageByRowId:data.cellRow];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"[levi] delete message %d", deleteCount);
+        });
+    });
+//    [bubbleTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:tmpIndexP.row - 1 inSection:tmpIndexP.section - 1]] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+-(void)copyAction {
+    NSLog(@"copy");
 }
 
 -(void)showMapView:(NSNotification*)notification {
@@ -302,6 +356,7 @@
                     } else {
                         tmpBd = [NSBubbleData dataWithText:tmpM.body date:[NSDate date] type:BubbleTypeSomeoneElse];
                     }
+                    tmpBd.cellRow = tmpM.rowId;
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPR_PIC) {
                     NSBubbleData *tmpBd;
@@ -310,6 +365,7 @@
                     } else {
                         tmpBd = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpM.data] date:[NSDate date] type:BubbleTypeSomeoneElse];
                     }
+                    tmpBd.cellRow = tmpM.rowId;
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_VOICE) {
                     NSBubbleData *tmpBd;
@@ -320,6 +376,7 @@
                         UIEdgeInsets imageInsetsMine = {10, 10, 35, 85};
                         tmpBd = [NSBubbleData dataWithVoice:tmpM.data VoiceLength:tmpM.voiceTime date:[NSDate date] IsSelf:NO type:BubbleTypeSomeoneElse insets:imageInsetsMine];
                     }
+                    tmpBd.cellRow = tmpM.rowId;
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_MAP) {
                     NSBubbleData *tmpBd;
@@ -332,6 +389,7 @@
                         UIEdgeInsets imageInsetsMine = {10, 10, 225, 225};
                         tmpBd = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeSomeoneElse insets:imageInsetsMine Language:@"zh_CN"];
                     }
+                    tmpBd.cellRow = tmpM.rowId;
                     [bubbleData addObject:tmpBd];
                 }
             }
@@ -491,6 +549,7 @@
             }
             if (cTime > 2) {//如果录制时间<2 不发送
                 NSLog(@"send voice...");
+                [self sendVoiceAction];
             }else {
                 NSLog(@"delete voice...");
                 //删除记录的文件
@@ -499,7 +558,6 @@
             }
             [recorder stop];
             [recordtTimer invalidate];
-            [self sendVoiceAction];
         }
             break;
         default:

@@ -367,6 +367,26 @@ static FMDatabaseQueue *dbQueen = nil;
     return messageListArray;
 }
 
++(NSInteger)deleteMessageByRowId:(NSString *)rowId {
+    if (!dbQueen)
+    {
+        [self createDB];
+    }
+    __block int count = 0;
+    [dbQueen inDatabase:^(FMDatabase *db){
+        if ([db open]) {
+            [db setShouldCacheStatements:YES];
+            
+            if([db tableExists:@"MessageLast"])
+            {
+                count = [db executeUpdate:@"DELETE FROM MessageLast WHERE ID=?",rowId];
+            }
+        }
+        [db close];
+    }];
+    return count;
+}
+
 +(NSInteger)updateMessageLast:(NSString *)fromId ToId:(NSString *)toId AtId:(NSString *)atId {
     if (!dbQueen)
     {

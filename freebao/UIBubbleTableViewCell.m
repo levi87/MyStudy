@@ -17,6 +17,7 @@
 #define HIDE_KEYBOARD @"fb_hide_keyboard"
 #define VOICE_DATA @"fb_voice_data"
 #define MAP_POINT @"fb_map_point"
+#define LONG_PRESS @"fb_long_press"
 
 @interface UIBubbleTableViewCell ()
 
@@ -191,6 +192,9 @@
         [self.customView setUserInteractionEnabled:YES];
         [self.contentView addSubview:self.customView];
     }
+    UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTap:)];
+    longTap.minimumPressDuration = 0.5;
+    [self.contentView addGestureRecognizer:longTap];
 
     if (type == BubbleTypeSomeoneElse)
     {
@@ -202,6 +206,22 @@
     }
 
     self.bubbleImage.frame = CGRectMake(x, y, width + self.data.insets.left + self.data.insets.right, height + self.data.insets.top + self.data.insets.bottom);
+}
+
+- (void)longPressTap:(UILongPressGestureRecognizer *)recogonizer {
+    NSLog(@"long tap....");
+    CGPoint p = [recogonizer locationInView:self.contentView.superview.superview.superview];
+    switch (recogonizer.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%f", p.x],@"x",[NSString stringWithFormat:@"%f", p.y],@"y", self, @"cell", nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:LONG_PRESS object:self.data userInfo:tmpDic];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

@@ -15,6 +15,8 @@
 #import "ImageBrowser.h"
 #import "KxMenu.h"
 #import "UserLocationViewController.h"
+#import "QBPopupMenu.h"
+#import "UIBubbleTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate,AVAudioPlayerDelegate> {
@@ -46,6 +48,8 @@
     __weak IBOutlet UIImageView *recordPowerImageView;
     
     UILabel *tmpVoiceLengthLabel;
+    
+    UIBubbleTableViewCell *popMenuCell;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
@@ -60,4 +64,6 @@
 @property (nonatomic, retain) NSString *toUserId;
 
 @property (nonatomic, retain) UILabel *tittleLabel;
+
+@property (nonatomic, retain) QBPopupMenu *popupMenu;
 @end

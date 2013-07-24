@@ -34,6 +34,7 @@ typedef enum _NSBubbleType
 @property BOOL isSelf;
 @property BOOL isPlayAnimation;
 @property (nonatomic) CGPoint positionPoint;
+@property NSString *cellRow;
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;

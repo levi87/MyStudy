@@ -29,6 +29,7 @@
 @synthesize voiceLength = _voiceLength;
 @synthesize isPlayAnimation = _isPlayAnimation;
 @synthesize positionPoint = _positionPoint;
+@synthesize cellRow = _cellRow;
 
 #pragma mark - Lifecycle
 
