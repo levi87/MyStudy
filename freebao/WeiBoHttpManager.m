@@ -250,6 +250,19 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoConversationLanguageWithUserId:(NSString *)aUserId ToUserId:(NSString *)toUserId Language:(NSString *)language PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetMessageTransSet];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"chatLanguage.fromId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:toUserId forKey:@"chatLanguage.toId"];
+    [item setPostValue:language     forKey:@"chatLanguage.language"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoSetConversationLanguage];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -522,6 +535,15 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CONVERSATION object:resultArray];
         } else {
             NSLog(@"[levi] request Get Conversation Listfailed...");
+        }
+    }
+    if (requestType == FreebaoSetConversationLanguage) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] Set Conversation Language %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Set Conversation Language Success...");
+        } else {
+            NSLog(@"[levi] request Set Conversation Language failed...");
         }
     }
 }

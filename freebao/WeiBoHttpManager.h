@@ -51,6 +51,7 @@
 #define FB_GET_TRANSLATION_VOICE    @"fb_get_translation_voice"
 #define FB_ADD_COMMENT              @"fb_add_comment"
 #define FB_GET_CONVERSATION         @"fb_get_conversation"
+#define FB_SET_CONVERSATION_LANGUAGE @"fb_set_conversation_language"
 
 /*
  Freebao
@@ -260,6 +261,7 @@ typedef enum {
     FreebaoGetTranslateVoice,
     FreebaoAddComment,
     FreebaoGetConversationList,
+    FreebaoSetConversationLanguage,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -332,4 +334,6 @@ typedef enum {
 //Freebao 获取会话列表
 -(void)didFreebaoGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
 
+//Freebao 设置会话语言
+-(void)didFreebaoConversationLanguageWithUserId:(NSString*)aUserId ToUserId:(NSString*)toUserId Language:(NSString*)language PassId:(NSString*)passId;
 @end

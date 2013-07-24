@@ -17,8 +17,10 @@
 #import "UserLocationViewController.h"
 #import "QBPopupMenu.h"
 #import "UIBubbleTableViewCell.h"
+#import "WeiBoMessageManager.h"
 #import <QuartzCore/QuartzCore.h>
 
+@class WeiBoMessageManager;
 @interface ChatViewController : UIViewController <UIBubbleTableViewDataSource,FaceToolBarDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVAudioRecorderDelegate,ImageBrowserDelegate,AVAudioPlayerDelegate> {
     NSMutableArray *bubbleData;
     UIImagePickerController *_imagePicker;
@@ -50,6 +52,8 @@
     UILabel *tmpVoiceLengthLabel;
     
     UIBubbleTableViewCell *popMenuCell;
+    NSString *currentLanguage;
+    WeiBoMessageManager *manager;
 }
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

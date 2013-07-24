@@ -98,4 +98,9 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetConversationListWithUserId:aUserId Page:page PassId:passId];
 }
 
+//Freebao 设置会话语言
+-(void)FBSetConversationLanguageWithUserId:(NSString *)aUserId ToUserId:(NSString *)toUserId Language:(NSString *)language PassId:(NSString *)passId {
+    [httpManager didFreebaoConversationLanguageWithUserId:aUserId ToUserId:toUserId Language:language PassId:passId];
+}
+
 @end

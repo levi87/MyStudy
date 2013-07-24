@@ -62,6 +62,7 @@ AllowShare:(NSString *)allowShare ContentBody:(NSString *)contentBody CircleId:(
 + (NSInteger)deleteChatByMessage:(NSString *)fromId toid:(NSString *)toId;
 
 + (NSInteger)deleteMessageByRowId:(NSString *)rowId;
++ (NSInteger)updateConversationLanguageByFromUserId:(NSString *)fromUserId Language:(NSString*)language;
 
 + (void)queryMessageTable;
 + (void)queryChatTable;

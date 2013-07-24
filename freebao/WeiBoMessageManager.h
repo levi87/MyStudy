@@ -53,4 +53,7 @@
 
 //Freebao Get Conversation
 -(void)FBGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
+
+//Freebao set Conversation Language
+-(void)FBSetConversationLanguageWithUserId:(NSString*)aUserId ToUserId:(NSString*)toUserId Language:(NSString*)language PassId:(NSString*)passId;
 @end

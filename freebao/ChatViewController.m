@@ -121,27 +121,46 @@
     KxMenuItem *tmpKxM = sender;
     NSLog(@"tittle %@", tmpKxM.title);
     if ([tmpKxM.title isEqualToString:@"中文"]) {
+        currentLanguage = @"zh_CN";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_cn"]]];
     } else if ([tmpKxM.title isEqualToString:@"English"]) {
+        currentLanguage = @"en_US";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_e"]]];
     } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+        currentLanguage = @"ja_JP";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_j"]]];
     } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+        currentLanguage = @"ko_KR";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_k"]]];
     } else if ([tmpKxM.title isEqualToString:@"España"]) {
+        currentLanguage = @"es_ES";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_x"]]];
     } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+        currentLanguage = @"fr_FR";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_f"]]];
     } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+        currentLanguage = @"de_DE";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_d"]]];
     } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+        currentLanguage = @"ru_RU";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_p"]]];
     }
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBSetConversationLanguageWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ToUserId:_toUserId Language:currentLanguage PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        int count = [LPDataBaseutil updateConversationLanguageByFromUserId:_toUserId Language:currentLanguage];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"update count %d", count);
+        });
+    });
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentLanguage = @"0";
     recordBackgroundView.layer.cornerRadius = 8;
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
@@ -364,6 +383,7 @@
             [bubbleData removeAllObjects];
             for (int i = 0; i < [tmpArray count]; i ++) {
                 MessageInfo *tmpM = [tmpArray objectAtIndex:i];
+                currentLanguage = tmpM.language;
                 if ([tmpM.postType integerValue] == MSG_TYPE_TEXT) {
                     NSBubbleData *tmpBd;
                     if ([tmpM.isSelf integerValue] == 1) {
@@ -413,8 +433,35 @@
             if ([bubbleData count] != 0) {
                 [self scrollToBottomAnimated:NO];
             }
+            [self setLanguageIcon];
         });
     });
+}
+
+- (void)setLanguageIcon {
+    if ([currentLanguage isEqualToString:@"0"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"chat_Translation_chat"]]];
+    } else if ([currentLanguage isEqualToString:@"zh_CN"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_cn"]]];
+    } else if ([currentLanguage isEqualToString:@"en_US"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_e"]]];
+    } else if ([currentLanguage isEqualToString:@"ja_JP"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_j"]]];
+    } else if ([currentLanguage isEqualToString:@"ko_KR"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_k"]]];
+    } else if ([currentLanguage isEqualToString:@"es_ES"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_x"]]];
+    } else if ([currentLanguage isEqualToString:@"fr_FR"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_f"]]];
+    } else if ([currentLanguage isEqualToString:@"de_DE"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_d"]]];
+    } else if ([currentLanguage isEqualToString:@"ru_RU"]) {
+        [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_p"]]];
+    }
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBSetConversationLanguageWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ToUserId:_toUserId Language:currentLanguage PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)sendTextAction:(NSString *)inputText Frame:(CGRect)frame {
@@ -449,7 +496,7 @@
     [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_TEXT]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
-    [language setStringValue:@"zh_CN"];
+    [language setStringValue:currentLanguage];
     //数据（声音/图片）
     NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
     [bData setStringValue:@""];
@@ -483,7 +530,7 @@
         KAppDelegate.insertChatQueen = dispatch_queue_create("insertChat", NULL);
     }
     dispatch_async(KAppDelegate.insertChatQueen, ^{
-        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",_toUserId] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:voiceLength body:body postType:postType isSelf:@"1" language:@"0" fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
+        [LPDataBaseutil insertMessageLast:[NSString stringWithFormat:@"%@",_toUserId] nickName:@"test" date:[NSDate date] face_path:@"" voicetime:voiceLength body:body postType:postType isSelf:@"1" language:currentLanguage fail:@"0" userId:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]] bData:bData];
     });
 }
 
@@ -612,7 +659,7 @@
     [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_VOICE]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
-    [language setStringValue:@"zh_CN"];
+    [language setStringValue:currentLanguage];
     //数据（声音/图片）
     NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
     NSData *data=[NSData dataWithContentsOfFile:tmpVoicePath options:0 error:nil];
@@ -712,7 +759,7 @@
     [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPE_MAP]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
-    [language setStringValue:@"zh_CN"];
+    [language setStringValue:currentLanguage];
     //数据（声音/图片）
     NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
     [bData setStringValue:@""];
@@ -781,7 +828,7 @@
     [type setStringValue:[NSString stringWithFormat:@"%d", MSG_TYPR_PIC]];
     //语言
     NSXMLElement *language = [NSXMLElement elementWithName:@"language"];
-    [language setStringValue:@"zh_CN"];
+    [language setStringValue:currentLanguage];
     //数据（声音/图片）
     NSXMLElement *bData = [NSXMLElement elementWithName:@"bData"];
     [bData setStringValue:pictureDataString];

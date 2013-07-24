@@ -387,6 +387,27 @@ static FMDatabaseQueue *dbQueen = nil;
     return count;
 }
 
++(NSInteger)updateConversationLanguageByFromUserId:(NSString *)fromUserId Language:(NSString *)language {
+    if (!dbQueen)
+    {
+        [self createDB];
+    }
+    __block int count = 0;
+    [dbQueen inDatabase:^(FMDatabase *db){
+        
+        if ([db open]) {
+            [db setShouldCacheStatements:YES];
+            
+            if([db tableExists:@"MessageLast"])
+            {
+                count = [db executeUpdate:@"UPDATE MessageLast SET LANGUAGE=? WHERE FROM_USERID=?", language, fromUserId];
+            }
+        }
+        [db close];
+    }];
+    return count;
+}
+
 +(NSInteger)updateMessageLast:(NSString *)fromId ToId:(NSString *)toId AtId:(NSString *)atId {
     if (!dbQueen)
     {
