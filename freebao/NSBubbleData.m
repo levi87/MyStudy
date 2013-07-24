@@ -23,6 +23,7 @@
 @synthesize mapView = _mapView;
 @synthesize isMap = _isMap;
 @synthesize isVoice = _isVoice;
+@synthesize isPic = _isPic;
 @synthesize isSelf = _isSelf;
 @synthesize voiceButton = _voiceButton;
 @synthesize voiceData = _voiceData;
@@ -30,6 +31,7 @@
 @synthesize isPlayAnimation = _isPlayAnimation;
 @synthesize positionPoint = _positionPoint;
 @synthesize cellRow = _cellRow;
+@synthesize textContent = _textContent;
 
 #pragma mark - Lifecycle
 
@@ -64,6 +66,9 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type
 {
     _isMap = FALSE;
+    _isPic = FALSE;
+    _isVoice = FALSE;
+    _textContent = text;
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
     
@@ -99,6 +104,8 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
 - (id)initWithImage:(UIImage *)image date:(NSDate *)date type:(NSBubbleType)type
 {
     _isMap = FALSE;
+    _isPic = TRUE;
+    _isVoice = FALSE;
     CGSize size = image.size;
     if (size.width > 220)
     {
@@ -137,6 +144,8 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     if (self)
     {
         _isMap = FALSE;
+        _isVoice = FALSE;
+        _isPic = FALSE;
 #if !__has_feature(objc_arc)
         _view = [view retain];
         _date = [date retain];
@@ -159,7 +168,9 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     if (self)
     {
         EGOImageView *mapImageView = [[EGOImageView alloc] init];
-        _isMap = YES;
+        _isMap = TRUE;
+        _isPic = FALSE;
+        _isVoice = FALSE;
         mapImageView.frame = CGRectMake(0, 0, 220, 220);
 //        NSString *myPositionUrl=@"http://maps.google.com/maps/api/staticmap?center=30.2094,120.204&zoom=14&size=220x220&sensor=false&markers=30.2094,120.204&language=zh_CN";
         NSString *myPositionUrl = [NSString stringWithFormat:@"http://maps.google.com/maps/api/staticmap?center=%f,%f&zoom=14&size=220x220&sensor=false&markers=%f,%f&language=%@", cgPoint.x, cgPoint.y, cgPoint.x, cgPoint.y, language];
@@ -183,6 +194,8 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
     {
         UIButton *voiceButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _isVoice = TRUE;
+        _isPic = FALSE;
+        _isMap = FALSE;
         _isSelf = isSelf;
         _voiceLength = voiceLength;
         [voiceButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

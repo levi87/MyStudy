@@ -216,6 +216,8 @@
     CGFloat x = [[notification.userInfo objectForKey:@"x"] floatValue];
     CGFloat y = [[notification.userInfo objectForKey:@"y"] floatValue];
     popMenuCell = [notification.userInfo objectForKey:@"cell"];
+    NSIndexPath *tmpIndexP = popMenuCell.indexPath;
+    NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
     NSLog(@"[levi] finger position... x %f y %f", x, y);
     if (x > 245) {
         x = 245.0;
@@ -223,20 +225,29 @@
     if (x < 70) {
         x = 70.0;
     }
+    NSArray *itemArray;
+    if (data.isPic) {
+        NSLog(@"[levi] is pic///");
+    }
+    if (data.isMap || data.isVoice || data.isPic) {
+        QBPopupMenuItem *item3 = [QBPopupMenuItem itemWithTitle:@"Delete" image:[UIImage imageNamed:@"icon_retweet.png"] target:self action:@selector(deleteAction)];
+        item3.width = 64;
+        itemArray = [NSArray arrayWithObjects:item3, nil];
+    } else {
+        QBPopupMenuItem *item1 = [QBPopupMenuItem itemWithTitle:@"Copy" image:[UIImage imageNamed:@"icon_reply.png"] target:self action:@selector(copyAction)];
+        item1.width = 64;
+        
+        QBPopupMenuItem *item3 = [QBPopupMenuItem itemWithTitle:@"Delete" image:[UIImage imageNamed:@"icon_retweet.png"] target:self action:@selector(deleteAction)];
+        item3.width = 64;
+        itemArray = [NSArray arrayWithObjects:item1, item3, nil];
+    }
+    [self.popupMenu setItems:itemArray];
     [self.popupMenu showInView:self.view atPoint:CGPointMake(x, y)];
 }
 
 - (void)initPopMenu {
     // popupMenu
     QBPopupMenu *popupMenu = [[QBPopupMenu alloc] init];
-    
-    QBPopupMenuItem *item1 = [QBPopupMenuItem itemWithTitle:@"Copy" image:[UIImage imageNamed:@"icon_reply.png"] target:self action:@selector(copyAction)];
-    item1.width = 64;
-    
-    QBPopupMenuItem *item3 = [QBPopupMenuItem itemWithTitle:@"Delete" image:[UIImage imageNamed:@"icon_retweet.png"] target:self action:@selector(deleteAction)];
-    item3.width = 64;
-    
-    popupMenu.items = [NSArray arrayWithObjects:item1, item3, nil];
     
     self.popupMenu = popupMenu;
 }
@@ -259,6 +270,10 @@
 
 -(void)copyAction {
     NSLog(@"copy");
+    NSIndexPath *tmpIndexP = popMenuCell.indexPath;
+    NSBubbleData *data = [[bubbleTable.bubbleSection objectAtIndex:tmpIndexP.section] objectAtIndex:tmpIndexP.row - 1];
+    UIPasteboard *pboard = [UIPasteboard generalPasteboard];
+    pboard.string = data.textContent;
 }
 
 -(void)showMapView:(NSNotification*)notification {
@@ -365,6 +380,7 @@
                     } else {
                         tmpBd = [NSBubbleData dataWithImage:[UIImage imageWithData:tmpM.data] date:[NSDate date] type:BubbleTypeSomeoneElse];
                     }
+                    tmpBd.isPic = TRUE;
                     tmpBd.cellRow = tmpM.rowId;
                     [bubbleData addObject:tmpBd];
                 } else if ([tmpM.postType integerValue] == MSG_TYPE_VOICE) {
@@ -616,6 +632,7 @@
     [self insertMessageToDb:@"" VoiceLength:voiceRecordLength PostType:[NSString stringWithFormat:@"%d",MSG_TYPE_VOICE] Bdata:data];
     UIEdgeInsets imageInsetsMine = {5, 5, 35, 85};
     NSBubbleData *heyBubble = [NSBubbleData dataWithVoice:data VoiceLength:voiceRecordLength date:[NSDate date] IsSelf:YES type:BubbleTypeMine insets:imageInsetsMine];
+    heyBubble.isVoice = TRUE;
 //    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleData addObject:heyBubble];
     [bubbleTable reloadData];
@@ -719,6 +736,7 @@
     UIEdgeInsets imageInsetsMine = {5, 5, 225, 225};
     CGPoint tmpP = CGPointMake(30.2094, 120.204);
     NSBubbleData *heyBubble = [NSBubbleData dataWithPosition:@"" Point:tmpP date:[NSDate date] type:BubbleTypeMine insets:imageInsetsMine Language:@"zh_CN"];
+    heyBubble.isMap = TRUE;
 //    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleData addObject:heyBubble];
     [bubbleTable reloadData];
@@ -780,6 +798,7 @@
     [KAppDelegate.xmppStream sendElement:mes];
     [self insertMessageToDb:@"" VoiceLength:@"" PostType:[NSString stringWithFormat:@"%d",MSG_TYPR_PIC] Bdata:pictureData];
     NSBubbleData *heyBubble = [NSBubbleData dataWithImage:[UIImage imageWithData:pictureData] date:[NSDate date] type:BubbleTypeMine];
+    heyBubble.isPic = TRUE;
 //    [bubbleData insertObject:heyBubble atIndex:[bubbleData count] - 1];
     [bubbleData addObject:heyBubble];
     [bubbleTable reloadData];

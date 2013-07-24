@@ -32,9 +32,11 @@ typedef enum _NSBubbleType
 @property BOOL isMap;
 @property BOOL isVoice;
 @property BOOL isSelf;
+@property BOOL isPic;
 @property BOOL isPlayAnimation;
 @property (nonatomic) CGPoint positionPoint;
 @property NSString *cellRow;
+@property NSString *textContent;
 
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
