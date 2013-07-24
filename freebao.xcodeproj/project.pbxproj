@@ -101,6 +101,10 @@
 		A2700438179F64D500D3D6A6 /* icon_reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2700435179F64D500D3D6A6 /* icon_reply@2x.png */; };
 		A2700439179F64D500D3D6A6 /* icon_retweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2700436179F64D500D3D6A6 /* icon_retweet@2x.png */; };
 		A2700440179F759D00D3D6A6 /* UIMenuItem+CXAImageSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = A270043F179F759D00D3D6A6 /* UIMenuItem+CXAImageSupport.m */; };
+		A270045C179FC77D00D3D6A6 /* FansViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A270045A179FC77C00D3D6A6 /* FansViewController.m */; };
+		A270045D179FC77D00D3D6A6 /* FansViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A270045B179FC77D00D3D6A6 /* FansViewController.xib */; };
+		A2700460179FC7A700D3D6A6 /* FansCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A270045F179FC7A700D3D6A6 /* FansCell.m */; };
+		A2700463179FD20E00D3D6A6 /* FansInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A2700462179FD20E00D3D6A6 /* FansInfo.m */; };
 		A274AB5E1783B830009D9523 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB5D1783B830009D9523 /* EGOCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A274AB621783B849009D9523 /* EGOImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB611783B849009D9523 /* EGOImageButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A274AB681783B862009D9523 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = A274AB651783B862009D9523 /* EGOImageLoader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -747,6 +751,13 @@
 		A2700436179F64D500D3D6A6 /* icon_retweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_retweet@2x.png"; sourceTree = "<group>"; };
 		A270043E179F759D00D3D6A6 /* UIMenuItem+CXAImageSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIMenuItem+CXAImageSupport.h"; sourceTree = "<group>"; };
 		A270043F179F759D00D3D6A6 /* UIMenuItem+CXAImageSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIMenuItem+CXAImageSupport.m"; sourceTree = "<group>"; };
+		A2700459179FC77C00D3D6A6 /* FansViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FansViewController.h; sourceTree = "<group>"; };
+		A270045A179FC77C00D3D6A6 /* FansViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FansViewController.m; sourceTree = "<group>"; };
+		A270045B179FC77D00D3D6A6 /* FansViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FansViewController.xib; sourceTree = "<group>"; };
+		A270045E179FC7A700D3D6A6 /* FansCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FansCell.h; sourceTree = "<group>"; };
+		A270045F179FC7A700D3D6A6 /* FansCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FansCell.m; sourceTree = "<group>"; };
+		A2700461179FD20E00D3D6A6 /* FansInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FansInfo.h; sourceTree = "<group>"; };
+		A2700462179FD20E00D3D6A6 /* FansInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FansInfo.m; sourceTree = "<group>"; };
 		A274AB5C1783B830009D9523 /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		A274AB5D1783B830009D9523 /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		A274AB601783B849009D9523 /* EGOImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageButton.h; sourceTree = "<group>"; };
@@ -3097,6 +3108,9 @@
 				A2F8896C179E8113008E55ED /* PageViewController.h */,
 				A2F8896D179E8113008E55ED /* PageViewController.m */,
 				A2F8896E179E8113008E55ED /* PageViewController.xib */,
+				A2700459179FC77C00D3D6A6 /* FansViewController.h */,
+				A270045A179FC77C00D3D6A6 /* FansViewController.m */,
+				A270045B179FC77D00D3D6A6 /* FansViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3174,6 +3188,8 @@
 				A24BA609178F9EAA0031A878 /* MoreTableViewCell.m */,
 				A2F88946179E1ECE008E55ED /* ProfileCell.h */,
 				A2F88947179E1ECE008E55ED /* ProfileCell.m */,
+				A270045E179FC7A700D3D6A6 /* FansCell.h */,
+				A270045F179FC7A700D3D6A6 /* FansCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -3259,6 +3275,8 @@
 				A29CC96917991C3B000A60CC /* ConversationInfo.m */,
 				A2F88949179E1F64008E55ED /* ProfileInfo.h */,
 				A2F8894A179E1F64008E55ED /* ProfileInfo.m */,
+				A2700461179FD20E00D3D6A6 /* FansInfo.h */,
+				A2700462179FD20E00D3D6A6 /* FansInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3758,6 +3776,7 @@
 				A2700437179F64D500D3D6A6 /* icon_favorite@2x.png in Resources */,
 				A2700438179F64D500D3D6A6 /* icon_reply@2x.png in Resources */,
 				A2700439179F64D500D3D6A6 /* icon_retweet@2x.png in Resources */,
+				A270045D179FC77D00D3D6A6 /* FansViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4036,6 +4055,9 @@
 				A2700432179F642C00D3D6A6 /* QBPopupMenuItem.m in Sources */,
 				A2700433179F642C00D3D6A6 /* QBPopupMenuOverlayView.m in Sources */,
 				A2700440179F759D00D3D6A6 /* UIMenuItem+CXAImageSupport.m in Sources */,
+				A270045C179FC77D00D3D6A6 /* FansViewController.m in Sources */,
+				A2700460179FC7A700D3D6A6 /* FansCell.m in Sources */,
+				A2700463179FD20E00D3D6A6 /* FansInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

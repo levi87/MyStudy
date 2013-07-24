@@ -103,4 +103,9 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoConversationLanguageWithUserId:aUserId ToUserId:toUserId Language:language PassId:passId];
 }
 
+//Freebao 获取follow列表
+-(void)FBFollowerListWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoFollowerListWithUserId:aUserId SomeBodyId:aSomeBodyId Page:page PageSize:pageSize PassId:passId];
+}
+
 @end

@@ -56,4 +56,7 @@
 
 //Freebao set Conversation Language
 -(void)FBSetConversationLanguageWithUserId:(NSString*)aUserId ToUserId:(NSString*)toUserId Language:(NSString*)language PassId:(NSString*)passId;
+
+//Freebao get follower list
+-(void)FBFollowerListWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

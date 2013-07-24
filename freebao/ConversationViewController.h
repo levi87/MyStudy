@@ -17,6 +17,7 @@
 #import "ChatViewController.h"
 #import "WeiBoMessageManager.h"
 #import "ConversationInfo.h"
+#import "FansViewController.h"
 
 @class WeiBoMessageManager;
 @interface ConversationViewController : PullRefreshTableViewController<EGORefreshTableHeaderDelegate> {

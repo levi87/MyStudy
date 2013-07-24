@@ -263,6 +263,20 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoFollowerListWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestFriendsUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aSomeBodyId     forKey:@"query.sendUid"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoFollowerList];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -539,11 +553,24 @@
     }
     if (requestType == FreebaoSetConversationLanguage) {
         NSMutableDictionary *tmpDic = returnObject;
-        NSLog(@"[levi] Set Conversation Language %@", tmpDic);
+//        NSLog(@"[levi] Set Conversation Language %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] request Set Conversation Language Success...");
         } else {
             NSLog(@"[levi] request Set Conversation Language failed...");
+        }
+    }
+    if (requestType == FreebaoFollowerList) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] follow list %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] follow list Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSDictionary *maxCount = [NSDictionary dictionaryWithObjectsAndKeys:[[resultMap objectForKey:@"currentPageInfo"] objectForKey:@"totalPage"],@"maxCount", nil];
+            NSArray *resultArray = [resultMap objectForKey:@"followList"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_FOLLOWER_LIST object:resultArray userInfo:maxCount];
+        } else {
+            NSLog(@"[levi] follow list failed...");
         }
     }
 }
