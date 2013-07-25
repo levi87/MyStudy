@@ -12,6 +12,8 @@
 #import "SVProgressHUD.h"
 #import "FaceToolBar.h"
 #import <AVFoundation/AVFoundation.h>
+#import "Status.h"
+#import "WeiBoHttpManager.h"
 
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,MKMapViewDelegate,CLLocationManagerDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
     UIImagePickerController *_imagePicker;
@@ -32,7 +34,12 @@
     __weak IBOutlet UILabel *recordViewLabel;
     __weak IBOutlet UILabel *recordLengthLabel;
     __weak IBOutlet UIImageView *recordPowerImageView;
+
+    BOOL _hasPhoto;
+    BOOL _hasVoice;
+    BOOL _hasLocation;
 }
+- (IBAction)PostAciton:(id)sender;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
 @property (weak, nonatomic) IBOutlet UIView *recordView;
 @property (weak, nonatomic) IBOutlet UIButton *selectPictureButton;

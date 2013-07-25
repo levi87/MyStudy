@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">11G63</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">2083</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -382,7 +382,6 @@
 										<string key="NSFrameSize">{280, 80}</string>
 										<reference key="NSSuperview" ref="714083742"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:639</string>
 										<reference key="IBUIBackgroundColor" ref="736168607"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -402,7 +401,6 @@
 								<string key="NSFrame">{{0, 166}, {280, 160}}</string>
 								<reference key="NSSuperview" ref="154365241"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:196</string>
 								<reference key="IBUIBackgroundColor" ref="736168607"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -443,7 +441,6 @@
 								<string key="NSFrame">{{105, 68}, {100, 100}}</string>
 								<reference key="NSSuperview" ref="154365241"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -673,7 +670,6 @@
 						<string key="NSFrameSize">{320, 376}</string>
 						<reference key="NSSuperview" ref="103545911"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:395</string>
 						<reference key="IBUIBackgroundColor" ref="736168607"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -1484,11 +1480,9 @@
 						<string key="HeadView">UIView</string>
 						<string key="addLikeIconImage">UIImageView</string>
 						<string key="avatarImage">UIImageView</string>
-						<string key="bgImage">UIImageView</string>
 						<string key="bottomBarView">UIView</string>
 						<string key="commentToolBarView">UIView</string>
 						<string key="comtCount">UILabel</string>
-						<string key="contentImage">UIImageView</string>
 						<string key="contentTF">UITextView</string>
 						<string key="distanceLabel">UILabel</string>
 						<string key="fromLB">UILabel</string>
@@ -1502,8 +1496,6 @@
 						<string key="line3Label">UILabel</string>
 						<string key="mainImageView">UIImageView</string>
 						<string key="playTranslateVoiceImageView">UIImageView</string>
-						<string key="retwitterBgImage">UIImageView</string>
-						<string key="retwitterContentImage">UIImageView</string>
 						<string key="retwitterContentTF">UITextView</string>
 						<string key="retwitterMainV">UIView</string>
 						<string key="timeLB">UILabel</string>
@@ -1527,10 +1519,6 @@
 							<string key="name">avatarImage</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="bgImage">
-							<string key="name">bgImage</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="bottomBarView">
 							<string key="name">bottomBarView</string>
 							<string key="candidateClassName">UIView</string>
@@ -1542,10 +1530,6 @@
 						<object class="IBToOneOutletInfo" key="comtCount">
 							<string key="name">comtCount</string>
 							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="contentImage">
-							<string key="name">contentImage</string>
-							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="contentTF">
 							<string key="name">contentTF</string>
@@ -1599,14 +1583,6 @@
 							<string key="name">playTranslateVoiceImageView</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="retwitterBgImage">
-							<string key="name">retwitterBgImage</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="retwitterContentImage">
-							<string key="name">retwitterContentImage</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="retwitterContentTF">
 							<string key="name">retwitterContentTF</string>
 							<string key="candidateClassName">UITextView</string>
@@ -1650,6 +1626,6 @@
 			<string key="loadingImage_50x118.png">{100, 118}</string>
 			<string key="touxiang_40x40.png">{50, 50}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">2083</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

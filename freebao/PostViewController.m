@@ -8,6 +8,7 @@
 
 #import "PostViewController.h"
 #define FONT @"HelveticaNeue-Light"
+#define FB_FAKE_WEIBO @"fb_fake_weibo"
 
 @interface PostViewController ()
 
@@ -40,6 +41,9 @@
     _mkMap = [[MKMapView alloc] init];
     _mkMap.delegate = self;
     _isLocation = NO;
+    _hasLocation = NO;
+    _hasPhoto = NO;
+    _hasVoice = NO;
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _geocoder = [[CLGeocoder alloc] init];
@@ -186,6 +190,7 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSLog(@"[levi]take photo...");
+    _hasPhoto = YES;
     [picker dismissModalViewControllerAnimated:YES];
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
 //    NSData *pictureData = UIImageJPEGRepresentation(editedImage,1);
@@ -300,6 +305,7 @@
             }
             if (cTime > 2) {//如果录制时间<2 不发送
                 NSLog(@"send voice...");
+                _hasVoice = YES;
                 self.VoiceImageView.hidden = NO;
                 self.voiceLengthLabel.text = [NSString stringWithFormat:@"%@ s", voiceRecordLength];
             }else {
@@ -333,5 +339,59 @@
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     [self.voicePlayButton.imageView stopAnimating];
+}
+- (IBAction)PostAciton:(id)sender {
+    Status *status = [[Status alloc] init];
+    status.language = @"0";
+    status.soundPath = @"";
+    status.soundLength = @"";
+    status.statusId = 0;
+    status.createdAt = @"just now";
+    status.text = self.postTextView.text;
+    status.sourceUrl = @"";
+    status.commentsCount = 0;
+    status.likeCount = 0;
+    status.favorited = FALSE;
+    status.hasImage = FALSE;
+    status.longitude = 0.0;
+    status.language = @"0";
+    status.distance = @"0";
+    status.user.userId = [[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] integerValue];
+    status.user.screenName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NAME];
+    status.user.profileImageUrl = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH];
+    status.user.avatarImage = [UIImage imageNamed:@"icon_reply"];
+//    if (_hasPhoto) {
+//        [statusInfo setValue:@"" forKey:@"bmiddle_pic"];
+//        [statusInfo setValue:@"" forKey:@"original_pic"];
+//        [statusInfo setValue:@"" forKey:@"thumbnail_pic"];
+//    }
+//    [statusInfo setValue:@"0" forKey:@"comment_count"];
+//    [statusInfo setValue:[NSDate date] forKey:@"create_at"];
+//    [statusInfo setValue:@"0" forKey:@"distance"];
+//    [statusInfo setValue:@"0" forKey:@"like_count"];
+//    [statusInfo setValue:@"0" forKey:@"liked"];
+//    [statusInfo setValue:@"en_US" forKey:@"post_language"];
+//    [statusInfo setValue:self.postTextView.text forKey:@"text"];
+//    [statusInfo setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] forKey:@"user_face_path"];
+//    [statusInfo setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NICK_NAME] forKey:@"user_name"];
+//    [statusInfo setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] forKey:@"user_id"];
+//    if (_hasVoice) {
+//        NSDictionary *soundDic = [[NSDictionary alloc] init];
+//        [soundDic setValue:@"" forKey:@"soundTime"];
+//        [soundDic setValue:@"" forKey:@"soundPath"];
+//        [statusInfo setValue:soundDic forKey:@"sound"];
+//    }
+//    Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
+    if ([_geocoder isGeocoding]) {
+        [_geocoder cancelGeocode];
+    }
+    [SVProgressHUD dismiss];
+    [self dismissModalViewControllerAnimated:YES];
+
+    [self performSelector:@selector(delayPostNotification:) withObject:status afterDelay:0.2];
+}
+
+-(void)delayPostNotification:(Status *)status{
+    [[NSNotificationCenter defaultCenter] postNotificationName:FB_FAKE_WEIBO object:status];
 }
 @end

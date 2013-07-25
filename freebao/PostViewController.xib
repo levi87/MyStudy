@@ -227,7 +227,6 @@
 										<string key="NSFrame">{{30, -3}, {270, 21}}</string>
 										<reference key="NSSuperview" ref="453001340"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -651,6 +650,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">PostAciton:</string>
+						<reference key="source" ref="343199319"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">288</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">SelectPictureAction:</string>
 						<reference key="source" ref="532483569"/>
 						<reference key="destination" ref="372490531"/>
@@ -864,7 +872,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">287</int>
+			<int key="maxID">288</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -872,12 +880,17 @@
 					<string key="className">PostViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="PostAciton:">id</string>
 						<string key="SelectPictureAction:">id</string>
 						<string key="backButtonAction:">id</string>
 						<string key="getUserLocationAction:">id</string>
 						<string key="voicePlayButtonAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="PostAciton:">
+							<string key="name">PostAciton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="SelectPictureAction:">
 							<string key="name">SelectPictureAction:</string>
 							<string key="candidateClassName">id</string>

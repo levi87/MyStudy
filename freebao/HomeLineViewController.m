@@ -14,6 +14,7 @@
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
 #define FONT @"HelveticaNeue-Light"
+#define FB_FAKE_WEIBO @"fb_fake_weibo"
 
 @interface HomeLineViewController ()
 -(void)getDataFromCD;
@@ -76,6 +77,16 @@
     [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
 
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
+    
+    [defaultNotifCenter addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
+}
+
+- (void)insertFakeWeiobo:(NSNotification*)notfication {
+    NSLog(@"inser Fake weibo");
+    Status *tmpStatus = (Status*)notfication.object;
+    [statuesArr insertObject:tmpStatus atIndex:0];
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    [[HHNetDataCacheManager getInstance] getDataWithURL:tmpStatus.user.profileImageUrl withIndex:0];
 }
 
 - (void)backButtonAction {
@@ -91,6 +102,7 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_FAKE_WEIBO object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
