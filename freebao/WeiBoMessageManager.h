@@ -62,4 +62,7 @@
 
 //Freebao post
 -(void)FBPostWithUserId:(NSString *)aUserId Boay:(NSString *)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString *)circleId Location:(NSString *)location Latitude:(NSString *)aLatitude Longgitude:(NSString *)aLonggitude FileType:(NSString *)fileType MediaFile:(NSData *)mediaData SoundFile:(NSData *)soundData PassId:(NSString *)passId;
+
+//Freebao Circle
+-(void)FBGetCircleWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
 @end

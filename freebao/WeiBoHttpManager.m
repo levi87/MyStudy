@@ -286,7 +286,7 @@
     [item setPostValue:content     forKey:@"content.contentbody"];
     [item setPostValue:[NSNumber numberWithBool:isShare]     forKey:@"content.allowShare"];
     [item setPostValue:[NSNumber numberWithBool:isComment]     forKey:@"content.allowComment"];
-    [item setPostValue:circleId forKey:@"content.teamIds"];
+    [item setPostValue:[NSNumber numberWithInteger:[circleId integerValue]] forKey:@"content.teamIds"];
     [item setPostValue:location forKey:@"content.location"];//地点
     [item setPostValue:aLatitude forKey:@"content.longgitude"];//经度
     [item setPostValue:aLonggitude forKey:@"content.latitude"];//维度
@@ -301,6 +301,17 @@
     }
     
     [self setPostUserInfo:item withRequestType:FreebaoPost];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoGetCircleWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestCirclesUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoCircle];
     [requestQueue addOperation:item];
 }
 
@@ -602,11 +613,23 @@
     }
     if (requestType == FreebaoPost) {
         NSMutableDictionary *tmpDic = returnObject;
-        NSLog(@"[levi] post dic %@", tmpDic);
+//        NSLog(@"[levi] post dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] post Success...");
         } else {
             NSLog(@"[levi] post failed...");
+        }
+    }
+    if (requestType == FreebaoCircle) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] circle dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] get circle Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSArray *resultArray = [resultMap objectForKey:@"teams"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CIRCLE object:resultArray];
+        } else {
+            NSLog(@"[levi] get circle failed...");
         }
     }
 }

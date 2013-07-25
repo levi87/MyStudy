@@ -53,6 +53,7 @@
 #define FB_GET_CONVERSATION         @"fb_get_conversation"
 #define FB_SET_CONVERSATION_LANGUAGE @"fb_set_conversation_language"
 #define FB_GET_FOLLOWER_LIST        @"fb_get_follow_list"
+#define FB_GET_CIRCLE               @"fb_get_circle"
 
 /*
  Freebao
@@ -265,6 +266,7 @@ typedef enum {
     FreebaoSetConversationLanguage,
     FreebaoFollowerList,
     FreebaoPost,
+    FreebaoCircle,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -345,4 +347,7 @@ typedef enum {
 
 //Freebao 发布分享
 -(void)didFreebaoPostWithUserId:(NSString*)aUserId Boay:(NSString*)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString*)circleId Location:(NSString*)location Latitude:(NSString*)aLatitude Longgitude:(NSString*)aLonggitude FileType:(NSString*)fileType MediaFile:(NSData*)mediaData SoundFile:(NSData*)soundData PassId:(NSString*)passId;
+
+//Freebao 获取圈子
+-(void)didFreebaoGetCircleWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
 @end

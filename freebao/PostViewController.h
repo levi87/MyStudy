@@ -43,6 +43,8 @@
     BOOL _hasLocation;
     
     NSData          *_photoData;
+    FaceToolBar* bar;
+    NSString *defaultCircle;
 }
 - (IBAction)PostAciton:(id)sender;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

@@ -114,4 +114,9 @@ static WeiBoMessageManager * instance=nil;
                              AllowComment:isComment CircleId:circleId Location:location Latitude:aLatitude Longgitude:aLonggitude FileType:fileType MediaFile:mediaData SoundFile:soundData PassId:passId];
 }
 
+//Freebao 获取圈子
+-(void)FBGetCircleWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
+    [httpManager didFreebaoGetCircleWithUserId:aUserId PassId:passId];
+}
+
 @end

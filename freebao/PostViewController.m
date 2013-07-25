@@ -47,7 +47,7 @@
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _geocoder = [[CLGeocoder alloc] init];
-    FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES IsPostView:YES];
+    bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES IsPostView:YES];
     bar.delegate=self;
     self.voicePlayButton.imageView.animationImages = [NSArray arrayWithObjects:
                                                       [UIImage imageNamed:@"icon_postedit_voice0_normal"],
@@ -56,6 +56,17 @@
                                                       [UIImage imageNamed:@"icon_postedit_voice3_normal"],
                                                       nil];
     self.voicePlayButton.imageView.animationDuration = 1;
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBGetCircleWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestCircle:) name:FB_GET_CIRCLE object:nil];
+}
+
+- (void)onRequestCircle:(NSNotification*)notification {
+    NSLog(@"[levi] onRequest %@", (NSDictionary*)notification.object);
+    NSArray *tmpArray = notification.object;
+    defaultCircle = [(NSDictionary*)[tmpArray objectAtIndex:0] objectForKey:@"teamId"];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
@@ -153,6 +164,7 @@
 }
 
 - (void)viewDidUnload {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_CIRCLE object:nil];
     [self setSelectPictureButton:nil];
     [self setUpperView:nil];
     [self setUserLocationButton:nil];
@@ -425,6 +437,23 @@
     [tmpDic setValue:[NSNumber numberWithBool:_hasVoice] forKey:@"hasVoice"];
     [tmpDic setValue:[self returnFilePath:@"tmpShareJPEG@2x.jpg"] forKey:@"PhotoPath"];
     [tmpDic setValue:tmpVoicePath forKey:@"VoicePath"];
+    [tmpDic setValue:defaultCircle forKey:@"defaultCircle"];
     [[NSNotificationCenter defaultCenter] postNotificationName:FB_FAKE_WEIBO object:status userInfo:tmpDic];
+    [self clearData];
+}
+
+-(void)clearData {
+    _hasVoice = NO;
+    _hasPhoto = NO;
+    _hasLocation = NO;
+    if ([_geocoder isGeocoding]) {
+        [_geocoder cancelGeocode];
+    }
+    [SVProgressHUD dismiss];
+    self.addressLabel.text = @"";
+    _mkMap.showsUserLocation = NO;
+    self.VoiceImageView.hidden = YES;
+    [self.userLocationButton setImage:[UIImage imageNamed:@"icon_postedit_location_off"] forState:UIControlStateNormal];
+    [self.selectPictureButton setBackgroundImage:[UIImage imageNamed:@"icon_postedit_camera_normal"] forState:UIControlStateNormal];
 }
 @end
