@@ -14,8 +14,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import "Status.h"
 #import "WeiBoHttpManager.h"
+#import "WeiBoMessageManager.h"
 
+@class WeiBoMessageManager;
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,MKMapViewDelegate,CLLocationManagerDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
+    WeiBoMessageManager *manager;
     UIImagePickerController *_imagePicker;
     CustomActionSheet *_customActionSheet;
     MKMapView *_mkMap;

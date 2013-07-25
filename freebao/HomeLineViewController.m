@@ -84,9 +84,30 @@
 - (void)insertFakeWeiobo:(NSNotification*)notfication {
     NSLog(@"inser Fake weibo");
     Status *tmpStatus = (Status*)notfication.object;
+    NSDictionary *tmpDic = notfication.userInfo;
     [statuesArr insertObject:tmpStatus atIndex:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-    [[HHNetDataCacheManager getInstance] getDataWithURL:tmpStatus.user.profileImageUrl withIndex:0];
+    [self performSelector:@selector(submitFakeWeibo:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:tmpStatus,@"status", tmpDic, @"userinfo", nil] afterDelay:1];
+}
+
+-(void)submitFakeWeibo:(NSDictionary *)dictionary {
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    Status *status = (Status*)[dictionary objectForKey:@"status"];
+    NSDictionary *userInfo = [dictionary objectForKey:@"userinfo"];
+    NSString *postFileType = @"0";
+    NSData *mediaData = nil;
+    NSData *soundData = nil;
+    NSLog(@"userinfo %@", userInfo);
+    if ([[userInfo objectForKey:@"hasPhoto"] integerValue] == 1) {
+        postFileType = @"1";
+        mediaData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"PhotoPath"]];
+    }
+    if ([userInfo objectForKey:@"hasVoice"]) {
+        soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
+    }
+    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.text AllowShare:YES AllowComment:YES CircleId:0 Location:@"0" Latitude:@"0" Longgitude:@"0" FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 - (void)backButtonAction {

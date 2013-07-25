@@ -419,6 +419,12 @@
 }
 
 -(void)delayPostNotification:(Status *)status{
-    [[NSNotificationCenter defaultCenter] postNotificationName:FB_FAKE_WEIBO object:status];
+    NSMutableDictionary *tmpDic = [[NSMutableDictionary alloc] init];
+    [tmpDic setValue:[NSNumber numberWithBool:_hasLocation] forKey:@"hasLocation"];
+    [tmpDic setValue:[NSNumber numberWithBool:_hasPhoto] forKey:@"hasPhoto"];
+    [tmpDic setValue:[NSNumber numberWithBool:_hasVoice] forKey:@"hasVoice"];
+    [tmpDic setValue:[self returnFilePath:@"tmpShareJPEG@2x.jpg"] forKey:@"PhotoPath"];
+    [tmpDic setValue:tmpVoicePath forKey:@"VoicePath"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FB_FAKE_WEIBO object:status userInfo:tmpDic];
 }
 @end

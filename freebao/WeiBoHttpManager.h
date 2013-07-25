@@ -264,6 +264,7 @@ typedef enum {
     FreebaoGetConversationList,
     FreebaoSetConversationLanguage,
     FreebaoFollowerList,
+    FreebaoPost,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -341,4 +342,7 @@ typedef enum {
 
 //Freebao 获取Follower列表
 -(void)didFreebaoFollowerListWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao 发布分享
+-(void)didFreebaoPostWithUserId:(NSString*)aUserId Boay:(NSString*)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString*)circleId Location:(NSString*)location Latitude:(NSString*)aLatitude Longgitude:(NSString*)aLonggitude FileType:(NSString*)fileType MediaFile:(NSData*)mediaData SoundFile:(NSData*)soundData PassId:(NSString*)passId;
 @end

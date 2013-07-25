@@ -277,6 +277,33 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoPostWithUserId:(NSString *)aUserId Boay:(NSString *)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString *)circleId Location:(NSString *)location Latitude:(NSString *)aLatitude Longgitude:(NSString *)aLonggitude FileType:(NSString *)fileType MediaFile:(NSData *)mediaData SoundFile:(NSData *)soundData PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kPostUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"content.contentuid"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:content     forKey:@"content.contentbody"];
+    [item setPostValue:[NSNumber numberWithBool:isShare]     forKey:@"content.allowShare"];
+    [item setPostValue:[NSNumber numberWithBool:isComment]     forKey:@"content.allowComment"];
+    [item setPostValue:circleId forKey:@"content.teamIds"];
+    [item setPostValue:location forKey:@"content.location"];//地点
+    [item setPostValue:aLatitude forKey:@"content.longgitude"];//经度
+    [item setPostValue:aLonggitude forKey:@"content.latitude"];//维度
+    
+    if (mediaData != nil) {
+        [item setPostValue:[NSNumber numberWithInt:[fileType integerValue]] forKey:@"content.filetype"];
+        [item setData:mediaData forKey:@"mediaFile"];
+    }
+    
+    if (soundData != nil) {
+        [item setData:soundData forKey:@"soundFile"];
+    }
+    
+    [self setPostUserInfo:item withRequestType:FreebaoPost];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -571,6 +598,15 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_FOLLOWER_LIST object:resultArray userInfo:maxCount];
         } else {
             NSLog(@"[levi] follow list failed...");
+        }
+    }
+    if (requestType == FreebaoPost) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] post dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] post Success...");
+        } else {
+            NSLog(@"[levi] post failed...");
         }
     }
 }
