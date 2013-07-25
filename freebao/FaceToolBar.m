@@ -115,6 +115,7 @@
         [textView.internalTextView setReturnKeyType:UIReturnKeySend];
         textView.delegate = self;
         textView.maximumNumberOfLines=5;
+        currentMode = isPostValue;
         if (!isPostValue) {
             [toolBar addSubview:textView];
         }
@@ -349,6 +350,10 @@
     }
     //如果键盘没有显示，点击表情了，隐藏表情，显示键盘
     if (!keyboardIsShow) {
+        if ([delegate respondsToSelector:@selector(showKeyboardPost)])
+        {
+            [delegate showKeyboardPost];
+        }
         [UIView animateWithDuration:Time animations:^{
             [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height, self.theSuperView.frame.size.width, keyboardHeight)];
         }];
@@ -358,6 +363,10 @@
     }else{
         
         //键盘显示的时候，toolbar需要还原到正常位置，并显示表情
+        if ([delegate respondsToSelector:@selector(hideKeyboardPost)])
+        {
+            [delegate hideKeyboardPost];
+        }
         [UIView animateWithDuration:Time animations:^{
             toolBar.frame = CGRectMake(0, self.theSuperView.frame.size.height-keyboardHeight-toolBar.frame.size.height,  self.theSuperView.bounds.size.width,toolBar.frame.size.height);
         }];
@@ -413,24 +422,31 @@
 #pragma mark facialView delegate 点击表情键盘上的文字
 -(void)selectedFacialView:(NSString*)str
 {
-    NSLog(@"进代理了");
-    NSString *newStr;
-    if ([str isEqualToString:@"删除"]) {
-        if (textView.text.length>0) {
-            if ([[Emoji allEmoji] containsObject:[textView.text substringFromIndex:textView.text.length-2]]) {
-                NSLog(@"删除emoji %@",[textView.text substringFromIndex:textView.text.length-2]);
-                newStr=[textView.text substringToIndex:textView.text.length-2];
-            }else{
-                NSLog(@"删除文字%@",[textView.text substringFromIndex:textView.text.length-1]);
-                newStr=[textView.text substringToIndex:textView.text.length-1];
-            }
-            textView.text=newStr;
+    if (currentMode) {
+        if ([delegate respondsToSelector:@selector(inputText:)])
+        {
+            [delegate inputText:str];
         }
-        NSLog(@"删除后更新%@",textView.text);
-    }else{
-        NSString *newStr=[NSString stringWithFormat:@"%@%@",textView.text,str];
-        [textView setText:newStr];
-        NSLog(@"点击其他后更新%d,%@",str.length,textView.text);
+    } else {
+        NSLog(@"进代理了");
+        NSString *newStr;
+        if ([str isEqualToString:@"删除"]) {
+            if (textView.text.length>0) {
+                if ([[Emoji allEmoji] containsObject:[textView.text substringFromIndex:textView.text.length-2]]) {
+                    NSLog(@"删除emoji %@",[textView.text substringFromIndex:textView.text.length-2]);
+                    newStr=[textView.text substringToIndex:textView.text.length-2];
+                }else{
+                    NSLog(@"删除文字%@",[textView.text substringFromIndex:textView.text.length-1]);
+                    newStr=[textView.text substringToIndex:textView.text.length-1];
+                }
+                textView.text=newStr;
+            }
+            NSLog(@"删除后更新%@",textView.text);
+        }else{
+            NSString *newStr=[NSString stringWithFormat:@"%@%@",textView.text,str];
+            [textView setText:newStr];
+            NSLog(@"点击其他后更新%d,%@",str.length,textView.text);
+        }
     }
     NSLog(@"出代理了");
 }

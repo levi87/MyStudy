@@ -38,6 +38,8 @@
     BOOL _hasPhoto;
     BOOL _hasVoice;
     BOOL _hasLocation;
+    
+    NSData          *_photoData;
 }
 - (IBAction)PostAciton:(id)sender;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;

@@ -77,7 +77,18 @@
     }];
 }
 
+-(void)hideKeyboardPost {
+    NSLog(@"hide k");
+    [self.postTextView resignFirstResponder];
+}
+
+-(void)showKeyboardPost {
+    NSLog(@"show k");
+    [self.postTextView becomeFirstResponder];
+}
+
 -(void)hideKeyboardAndFaceV {
+    NSLog(@"hide keyboard...");
     [self.postTextView resignFirstResponder];
     [UIView animateWithDuration:0.2 animations:^{
         [self.mainScrollView setFrame:CGRectMake(0, 44, 320, self.view.bounds.size.height - 45)];
@@ -86,6 +97,27 @@
             //            [self scrollToBottomAnimated:YES];
         }
     }];
+}
+
+-(void)inputText:(NSString *)str {
+    NSString *newStr;
+    if ([str isEqualToString:@"删除"]) {
+        if (self.postTextView.text.length>0) {
+            if ([[Emoji allEmoji] containsObject:[self.postTextView.text substringFromIndex:self.postTextView.text.length-2]]) {
+                NSLog(@"删除emoji %@",[self.postTextView.text substringFromIndex:self.postTextView.text.length-2]);
+                newStr=[self.postTextView.text substringToIndex:self.postTextView.text.length-2];
+            }else{
+                NSLog(@"删除文字%@",[self.postTextView.text substringFromIndex:self.postTextView.text.length-1]);
+                newStr=[self.postTextView.text substringToIndex:self.postTextView.text.length-1];
+            }
+            self.postTextView.text=newStr;
+        }
+        NSLog(@"删除后更新%@",self.postTextView.text);
+    }else{
+        NSString *newStr=[NSString stringWithFormat:@"%@%@",self.postTextView.text,str];
+        [self.postTextView setText:newStr];
+        NSLog(@"点击其他后更新%d,%@",str.length,self.postTextView.text);
+    }
 }
 
 -(void)showKeyboard:(CGRect)frame {
@@ -194,7 +226,18 @@
     [picker dismissModalViewControllerAnimated:YES];
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
 //    NSData *pictureData = UIImageJPEGRepresentation(editedImage,1);
+    _photoData = UIImageJPEGRepresentation(editedImage, 1);
+    [_photoData writeToFile:[self returnFilePath:@"tmpShareJPEG@2x.jpg"] atomically:YES];
     [self.selectPictureButton setBackgroundImage:editedImage forState:UIControlStateNormal];
+}
+
+-(NSString *)returnFilePath:(NSString*)nameStr
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentPath stringByAppendingPathComponent:nameStr];
+    
+    return filePath;
 }
 
 - (void)detectionVoice
@@ -342,6 +385,7 @@
 }
 - (IBAction)PostAciton:(id)sender {
     Status *status = [[Status alloc] init];
+    status.isFakeWeibo = TRUE;
     status.language = @"0";
     status.soundPath = @"";
     status.soundLength = @"";
@@ -352,7 +396,12 @@
     status.commentsCount = 0;
     status.likeCount = 0;
     status.favorited = FALSE;
-    status.hasImage = FALSE;
+    status.hasImage = _hasPhoto;
+    if (_hasPhoto) {
+        status.originalPic = [self returnFilePath:@"tmpShareJPEG.jpg"];
+        status.bmiddlePic = [self returnFilePath:@"tmpShareJPEG.jpg"];
+        status.thumbnailPic = [self returnFilePath:@"tmpShareJPEG.jpg"];
+    }
     status.longitude = 0.0;
     status.language = @"0";
     status.distance = @"0";
@@ -360,28 +409,6 @@
     status.user.screenName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NAME];
     status.user.profileImageUrl = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH];
     status.user.avatarImage = [UIImage imageNamed:@"icon_reply"];
-//    if (_hasPhoto) {
-//        [statusInfo setValue:@"" forKey:@"bmiddle_pic"];
-//        [statusInfo setValue:@"" forKey:@"original_pic"];
-//        [statusInfo setValue:@"" forKey:@"thumbnail_pic"];
-//    }
-//    [statusInfo setValue:@"0" forKey:@"comment_count"];
-//    [statusInfo setValue:[NSDate date] forKey:@"create_at"];
-//    [statusInfo setValue:@"0" forKey:@"distance"];
-//    [statusInfo setValue:@"0" forKey:@"like_count"];
-//    [statusInfo setValue:@"0" forKey:@"liked"];
-//    [statusInfo setValue:@"en_US" forKey:@"post_language"];
-//    [statusInfo setValue:self.postTextView.text forKey:@"text"];
-//    [statusInfo setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] forKey:@"user_face_path"];
-//    [statusInfo setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NICK_NAME] forKey:@"user_name"];
-//    [statusInfo setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] forKey:@"user_id"];
-//    if (_hasVoice) {
-//        NSDictionary *soundDic = [[NSDictionary alloc] init];
-//        [soundDic setValue:@"" forKey:@"soundTime"];
-//        [soundDic setValue:@"" forKey:@"soundPath"];
-//        [statusInfo setValue:soundDic forKey:@"sound"];
-//    }
-//    Status *status = [Status statusWithJsonDictionaryFreebao:statusInfo];
     if ([_geocoder isGeocoding]) {
         [_geocoder cancelGeocode];
     }

@@ -382,6 +382,21 @@
         self.line3Label.hidden = NO;
         self.CommentView.frame = tmpF;
     }
+    if (status.isFakeWeibo) {
+        NSLog(@"....FAKE IMAGE........");
+        UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[self returnFilePath:@"tmpShareJPEG@2x.jpg"]]];
+        imageV.frame = self.mainImageView.frame;
+        [self.mainImageView addSubview:imageV];
+    }
+}
+
+-(NSString *)returnFilePath:(NSString*)nameStr
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentPath stringByAppendingPathComponent:nameStr];
+    
+    return filePath;
 }
 
 -(void)setCommentPosition:(CGFloat)height {

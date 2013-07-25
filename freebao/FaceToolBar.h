@@ -28,6 +28,12 @@
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer;
 
 -(void)hideKeyboardAndFaceV;
+
+-(void)inputText:(NSString*)str;
+
+
+-(void)hideKeyboardPost;
+-(void)showKeyboardPost;
 @end
 @interface FaceToolBar : UIToolbar<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
 {
@@ -45,6 +51,8 @@
     UIView *theSuperView;
 
     NSObject <FaceToolBarDelegate> *delegate;
+    
+    BOOL currentMode;
 }
 @property(nonatomic,retain)UIView *theSuperView;
 @property (retain) NSObject<FaceToolBarDelegate> *delegate;

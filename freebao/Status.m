@@ -27,6 +27,7 @@
 @synthesize language = _language;
 @synthesize soundPath = _soundPath;
 @synthesize soundLength = _soundLength;
+@synthesize isFakeWeibo = _isFakeWeibo;
 
 -(StatusCDItem*)updateStatusCDItem:(StatusCDItem*)sts index:(int)theIndex isHomeLine:(BOOL) isHome
 {
@@ -210,6 +211,7 @@
 
 - (Status*)initWithJsonDictionaryFreebao:(NSDictionary *)dic {
 	if (self = [super init]) {
+        _isFakeWeibo = FALSE;
         _isPlayTransVoice = FALSE;
         _language = [dic getStringValueForKey:@"post_language" defaultValue:@"0"];
         NSDictionary *soundDic = [dic objectForKey:@"sound"];

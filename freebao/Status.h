@@ -53,8 +53,11 @@
     
     NSString *_language;
     NSString *_soundPath;
+    
+    BOOL _isFakeWeibo;
 }
 
+@property BOOL isFakeWeibo;
 @property (nonatomic, assign) long long     statusId;
 @property (nonatomic, retain) NSNumber*		statusKey;
 @property (nonatomic, retain) NSString*        createdAt;
