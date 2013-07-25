@@ -12,6 +12,10 @@
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
 
+#import "AppDelegate.h"
+
+#define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
+
 @interface FansViewController ()
 
 @end
@@ -27,6 +31,10 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
 - (void)viewDidLoad
@@ -84,7 +92,7 @@
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
         NSLog(@"current page %d max page %d", maxPage, currentPage);
-        if (maxPage > currentPage + 1) {
+        if (currentPage + 1 >= maxPage) {
             return;
         }
         currentPage ++;
@@ -201,13 +209,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if (KAppDelegate.commChat == nil) {
+        KAppDelegate.commChat = [[ChatViewController alloc] init];
+    } else {
+        KAppDelegate.commChat.isFirst = FALSE;
+        KAppDelegate.commChat.isReload = TRUE;
+    }
+    FansInfo *tmpFaninfo = [likersArray objectAtIndex:indexPath.row];
+    [KAppDelegate.commChat setToUserId:tmpFaninfo.userId];
+    [KAppDelegate.commChat.tittleLabel setText:tmpFaninfo.userName];
+    [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
 }
 
 @end
