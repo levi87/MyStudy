@@ -141,6 +141,8 @@
             [_button_1 setBackgroundColor:[UIColor clearColor]];
             [_button_4 setBackgroundColor:[UIColor clearColor]];
             [_button_center setBackgroundColor:[UIColor clearColor]];
+            
+            [self.delegate touchBtnAtIndex:3];
             break;
         case 104:
 //            [_tabbarView setImage:[UIImage imageNamed:@"tabbar_4"]];

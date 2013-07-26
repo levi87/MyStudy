@@ -15,6 +15,7 @@
 #import "SettingVC.h"
 #import "ConversationViewController.h"
 #import "MoreViewController.h"
+#import "ContactsViewController.h"
 
 #define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : 0)
 #define addHeight 88
