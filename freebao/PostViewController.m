@@ -201,6 +201,7 @@
 
 
 - (IBAction)backButtonAction:(id)sender {
+    [self clearData];
     if ([_geocoder isGeocoding]) {
         [_geocoder cancelGeocode];
     }
@@ -443,6 +444,7 @@
 }
 
 -(void)clearData {
+    self.postTextView.text = @"";
     _hasVoice = NO;
     _hasPhoto = NO;
     _hasLocation = NO;
