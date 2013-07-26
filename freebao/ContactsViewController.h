@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "ContactsUserCell.h"
 #import "ContactsNoticeCell.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 @interface ContactsViewController : UITableViewController {
     NSMutableArray *_contactsArray;
@@ -17,5 +19,7 @@
 
 @property (nonatomic, retain) NSMutableArray *contactsArray;
 @property (nonatomic, retain) NSArray *keys;
+@property (nonatomic, retain) NSMutableArray *sortedArrForArrays;
+@property (nonatomic, retain) NSMutableArray *sectionHeadsKeys;
 
 @end

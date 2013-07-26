@@ -190,6 +190,10 @@
 		A2DE86291786C31000170907 /* bg_chat_blue_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86281786C31000170907 /* bg_chat_blue_normal.png */; };
 		A2E1A09317A2478A002C2867 /* ContactsUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E1A09217A2478A002C2867 /* ContactsUserCell.m */; };
 		A2E1A09717A2479C002C2867 /* ContactsNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E1A09617A2479C002C2867 /* ContactsNoticeCell.m */; };
+		A2E1A0A217A24F28002C2867 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2E1A0A117A24F28002C2867 /* AddressBook.framework */; };
+		A2E1A0A417A24F31002C2867 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2E1A0A317A24F31002C2867 /* AddressBookUI.framework */; };
+		A2E1A0AE17A2602A002C2867 /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E1A0AB17A2602A002C2867 /* ChineseString.m */; };
+		A2E1A0AF17A2602A002C2867 /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = A2E1A0AC17A2602A002C2867 /* pinyin.c */; };
 		A2F00AF4179543C000B447F0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F00AF3179543C000B447F0 /* MapKit.framework */; };
 		A2F88943179E1172008E55ED /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2F88941179E1172008E55ED /* ProfileViewController.m */; };
 		A2F88944179E1172008E55ED /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2F88942179E1172008E55ED /* ProfileViewController.xib */; };
@@ -876,6 +880,12 @@
 		A2E1A09217A2478A002C2867 /* ContactsUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsUserCell.m; sourceTree = "<group>"; };
 		A2E1A09517A2479C002C2867 /* ContactsNoticeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsNoticeCell.h; sourceTree = "<group>"; };
 		A2E1A09617A2479C002C2867 /* ContactsNoticeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsNoticeCell.m; sourceTree = "<group>"; };
+		A2E1A0A117A24F28002C2867 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		A2E1A0A317A24F31002C2867 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		A2E1A0AA17A2602A002C2867 /* ChineseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseString.h; sourceTree = "<group>"; };
+		A2E1A0AB17A2602A002C2867 /* ChineseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseString.m; sourceTree = "<group>"; };
+		A2E1A0AC17A2602A002C2867 /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
+		A2E1A0AD17A2602A002C2867 /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
 		A2F00AF3179543C000B447F0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A2F88940179E1172008E55ED /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		A2F88941179E1172008E55ED /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
@@ -1588,6 +1598,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2E1A0A417A24F31002C2867 /* AddressBookUI.framework in Frameworks */,
+				A2E1A0A217A24F28002C2867 /* AddressBook.framework in Frameworks */,
 				A2F00AF4179543C000B447F0 /* MapKit.framework in Frameworks */,
 				DB9FD0121758364900AE837D /* CoreLocation.framework in Frameworks */,
 				DB9B02151791992C0092C82D /* AVFoundation.framework in Frameworks */,
@@ -1835,6 +1847,17 @@
 				A2DE860D17869DAA00170907 /* typingSomeone@2x.png */,
 			);
 			name = BubbleImage;
+			sourceTree = "<group>";
+		};
+		A2E1A0A917A26011002C2867 /* ContactSort */ = {
+			isa = PBXGroup;
+			children = (
+				A2E1A0AA17A2602A002C2867 /* ChineseString.h */,
+				A2E1A0AB17A2602A002C2867 /* ChineseString.m */,
+				A2E1A0AC17A2602A002C2867 /* pinyin.c */,
+				A2E1A0AD17A2602A002C2867 /* pinyin.h */,
+			);
+			name = ContactSort;
 			sourceTree = "<group>";
 		};
 		A2F8895A179E2F6A008E55ED /* URBSegmentedControl */ = {
@@ -2604,6 +2627,8 @@
 		A2FF2C9217544BF200D31B2F = {
 			isa = PBXGroup;
 			children = (
+				A2E1A0A317A24F31002C2867 /* AddressBookUI.framework */,
+				A2E1A0A117A24F28002C2867 /* AddressBook.framework */,
 				A23504AD1797C9AF0070343E /* Default-568h@2x.png */,
 				A2F00AF3179543C000B447F0 /* MapKit.framework */,
 				DB9B02141791992C0092C82D /* AVFoundation.framework */,
@@ -3315,6 +3340,7 @@
 		DB9FCF5A175828E900AE837D /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				A2E1A0A917A26011002C2867 /* ContactSort */,
 				A2700429179F640F00D3D6A6 /* QBPopMenu */,
 				A2F8895A179E2F6A008E55ED /* URBSegmentedControl */,
 				A208F4181796340E0007878F /* SVProgressHUD */,
@@ -4080,6 +4106,8 @@
 				A247893417A20B330067A296 /* ContactsViewController.m in Sources */,
 				A2E1A09317A2478A002C2867 /* ContactsUserCell.m in Sources */,
 				A2E1A09717A2479C002C2867 /* ContactsNoticeCell.m in Sources */,
+				A2E1A0AE17A2602A002C2867 /* ChineseString.m in Sources */,
+				A2E1A0AF17A2602A002C2867 /* pinyin.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
