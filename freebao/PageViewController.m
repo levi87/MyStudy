@@ -570,22 +570,24 @@
     [self stopLoading];
     [self doneLoadingTableViewData];
     
-    if (statuesArr == nil || _shouldAppendTheDataArr == NO || _maxID < 0) {
-        self.statuesArr = sender.object;
-        Status *sts = [statuesArr objectAtIndex:0];
-        _maxID = sts.statusId;
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:_maxID] forKey:@"homePageMaxID"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        _page = 1;
+    if (currentView == HOME_PAGE) {
+        if (statuesArr == nil || _shouldAppendTheDataArr == NO || _maxID < 0) {
+            self.statuesArr = sender.object;
+            Status *sts = [statuesArr objectAtIndex:0];
+            _maxID = sts.statusId;
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:_maxID] forKey:@"homePageMaxID"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            _page = 1;
+        }
+        else {
+            [statuesArr addObjectsFromArray:sender.object];
+        }
+        _page++;
+        refreshFooterView.hidden = NO;
+        [self.tableView reloadData];
+        [[SHKActivityIndicator currentIndicator] hide];
+        [self refreshVisibleCellsImages];
     }
-    else {
-        [statuesArr addObjectsFromArray:sender.object];
-    }
-    _page++;
-    refreshFooterView.hidden = NO;
-    [self.tableView reloadData];
-    [[SHKActivityIndicator currentIndicator] hide];
-    [self refreshVisibleCellsImages];
 }
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
