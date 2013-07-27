@@ -240,6 +240,40 @@
     return height;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if (scrollView.contentOffset.y < 200) {
+        [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    }
+    else
+        [super scrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self refreshVisibleCellsImages];
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    //    [self refreshVisibleCellsImages];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+    if (!decelerate)
+	{
+        [self refreshVisibleCellsImages];
+    }
+    
+    if (scrollView.contentOffset.y < 200)
+    {
+        [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    }
+    else
+        [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+}
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger  row = indexPath.row;

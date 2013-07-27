@@ -16,6 +16,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 #import "URBSegmentedControl.h"
+#import "FansInfo.h"
+#import "FansCell.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface PageViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
@@ -33,6 +35,16 @@
     StatusCell *tmpStatusCellL;
     
     int currentView;
+    
+    
+    //Fans
+    NSString *_cellContentId;
+    BOOL _isRefresh;
+    BOOL isFirst;
+    NSMutableArray *headPhotos;
+    NSMutableArray *likersArray;
+    int currentPage;
+    int maxPage;
 }
 
 @property (nonatomic, copy)     NSString *userID;
@@ -40,5 +52,11 @@
 
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
 @property (strong, nonatomic) IBOutlet UIView *profileHeaderView;
+
+//Fans
+@property NSString *cellContentId;
+@property BOOL isRefresh;
+
+-(void)clearCache;
 
 @end

@@ -30,6 +30,9 @@
 @synthesize userID;
 @synthesize timer;
 @synthesize avPlay = _avPlay;
+//Fans
+@synthesize cellContentId = _cellContentId;
+@synthesize isRefresh = _isRefresh;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -46,6 +49,7 @@
     currentView = HOME_PAGE;
 
     [self initSegment];
+    [self initFansView];
     NSLog(@"[levi]view didload");
     refreshFooterView.hidden = NO;
     _page = 1;
@@ -89,6 +93,65 @@
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
 
+-(void)initFansView {
+    _isRefresh = FALSE;
+    currentPage = 0;
+    isFirst = TRUE;
+    likersArray = [[NSMutableArray alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resultOfFansRequest:) name:FB_GET_FOLLOWER_LIST object:nil];
+    
+    headPhotos = [[NSMutableArray alloc] init];
+}
+
+-(void)resultOfFansRequest:(NSNotification*)notification {
+    NSMutableArray *tmpArray = notification.object;
+    NSLog(@"tmpArray Array %@", tmpArray);
+    NSLog(@"[levi] %@", [notification.userInfo objectForKey:@"maxCount"]);
+    maxPage = [[notification.userInfo objectForKey:@"maxCount"] integerValue];
+    if (currentPage == 0) {
+        [likersArray removeAllObjects];
+        headPhotos = [[NSMutableArray alloc] init];
+    }
+    for (int i = 0; i < [tmpArray count]; i ++) {
+        NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
+        FansInfo *tmpInfo = [[FansInfo alloc] init];
+        tmpInfo.userName = [tmpDic objectForKey:@"nickname"];
+        tmpInfo.userId = [tmpDic objectForKey:@"userId"];
+        tmpInfo.userFacePath = [tmpDic objectForKey:@"facePath"];
+        [likersArray addObject:tmpInfo];
+        [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
+    }
+    [self.tableView reloadData];
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (currentView == FANS_PAGE) {
+        if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
+            NSLog(@"current page %d max page %d", maxPage, currentPage);
+            if (currentPage + 1 >= maxPage) {
+                return;
+            }
+            currentPage ++;
+            if (manager == nil) {
+                manager = [WeiBoMessageManager getInstance];
+            }
+            [manager FBFollowerListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+        }
+    } else if (currentView == HOME_PAGE) {
+        if (!decelerate)
+        {
+            [self refreshVisibleCellsImages];
+        }
+        
+        if (scrollView.contentOffset.y < 200)
+        {
+            [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+        }
+        else
+            [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
 - (void)initSegment {
     // items to be used for each segment (same as UISegmentControl) for all instances
 	NSArray *titles = [NSArray arrayWithObjects:[@"Post" uppercaseString], [@"Far." uppercaseString], [@"Follow" uppercaseString], [@"Fans" uppercaseString], [@"Photo" uppercaseString], nil];
@@ -120,7 +183,13 @@
             currentView = FOLLOW_PAGE;
         } else if (index == 3) {
             NSLog(@"fans");
+            [statuesArr removeAllObjects];
+            [self.tableView reloadData];
             currentView = FANS_PAGE;
+            if (manager == nil) {
+                manager = [WeiBoMessageManager getInstance];
+            }
+            [manager FBFollowerListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         } else if (index == 4) {
             NSLog(@"photo");
             currentView = PHOTO_PAGE;
@@ -130,14 +199,17 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (currentView == FANS_PAGE) {
+        return [likersArray count];
+    }
     return [statuesArr count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    if (indexPath.row == 0) {
-    //        return 44;
-    //    }
+    if (currentView == FANS_PAGE) {
+        return 58;
+    }
     NSInteger  row = indexPath.row;
     
     if (row >= [statuesArr count]) {
@@ -287,6 +359,16 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (currentView == FANS_PAGE) {
+        static NSString *CellIdentifier = @"FansCell";
+        FansCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[FansCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        [cell setCellValue:(FansInfo*)[likersArray objectAtIndex:indexPath.row]];
+        [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
+        return cell;
+    }
     NSInteger  row = indexPath.row;
     
     //    if (row == 0 || row == [statuesArr count]) {
@@ -617,4 +699,26 @@
     return cell;
 }
 **/
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (currentView == HOME_PAGE) {
+        if (scrollView.contentOffset.y < 200) {
+            [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+        }
+        else
+            [super scrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (currentView == HOME_PAGE) {
+        [self refreshVisibleCellsImages];
+    }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    //    [self refreshVisibleCellsImages];
+}
 @end
