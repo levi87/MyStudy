@@ -15,6 +15,7 @@
 #define  SHOW_LANGUAGE_MENU @"fb_language_menu"
 
 #import "AppDelegate.h"
+#import "FollowersViewController.h"
 
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
@@ -79,8 +80,10 @@
 
 -(void)createNewConversation {
     NSLog(@"[levi] create...");
-    FansViewController *fanVC = [[FansViewController alloc] init];
-    [self.navigationController pushViewController:fanVC animated:YES];
+//    FansViewController *fanVC = [[FansViewController alloc] init];
+//    [self.navigationController pushViewController:fanVC animated:YES];
+    FollowersViewController *follower = [[FollowersViewController alloc] init];
+    [self.navigationController pushViewController:follower animated:YES];
 }
 
 -(void)resultOfRequest:(NSNotification*)notification {

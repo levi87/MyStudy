@@ -108,6 +108,11 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoFollowerListWithUserId:aUserId SomeBodyId:aSomeBodyId Page:page PageSize:pageSize PassId:passId];
 }
 
+//Freebao 获取Fans列表
+-(void)FBFansListWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoFansListWithUserId:aUserId SomeBodyId:aSomeBodyId Page:page PageSize:pageSize PassId:passId];
+}
+
 //Freebao 发布分享
 -(void)FBPostWithUserId:(NSString *)aUserId Boay:(NSString *)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString *)circleId Location:(NSString *)location Latitude:(NSString *)aLatitude Longgitude:(NSString *)aLonggitude FileType:(NSString *)fileType MediaFile:(NSData *)mediaData SoundFile:(NSData *)soundData PassId:(NSString *)passId {
     [httpManager didFreebaoPostWithUserId: aUserId Boay:content AllowShare:isShare

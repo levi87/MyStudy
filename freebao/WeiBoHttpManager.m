@@ -277,6 +277,20 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoFansListWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestFollowersUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aSomeBodyId     forKey:@"query.receiveUid"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoFansList];
+    [requestQueue addOperation:item];
+}
+
 - (void)didFreebaoPostWithUserId:(NSString *)aUserId Boay:(NSString *)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString *)circleId Location:(NSString *)location Latitude:(NSString *)aLatitude Longgitude:(NSString *)aLonggitude FileType:(NSString *)fileType MediaFile:(NSData *)mediaData SoundFile:(NSData *)soundData PassId:(NSString *)passId {
     NSURL *url = [NSURL URLWithString:kPostUrl];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
@@ -609,6 +623,19 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_FOLLOWER_LIST object:resultArray userInfo:maxCount];
         } else {
             NSLog(@"[levi] follow list failed...");
+        }
+    }
+    if (requestType == FreebaoFansList) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] fans list %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] fans list Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSDictionary *maxCount = [NSDictionary dictionaryWithObjectsAndKeys:[[resultMap objectForKey:@"currentPageInfo"] objectForKey:@"totalPage"],@"maxCount", nil];
+            NSArray *resultArray = [resultMap objectForKey:@"fansList"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_FANS_LIST object:resultArray userInfo:maxCount];
+        } else {
+            NSLog(@"[levi] fans list failed...");
         }
     }
     if (requestType == FreebaoPost) {

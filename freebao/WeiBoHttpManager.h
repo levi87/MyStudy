@@ -53,6 +53,7 @@
 #define FB_GET_CONVERSATION         @"fb_get_conversation"
 #define FB_SET_CONVERSATION_LANGUAGE @"fb_set_conversation_language"
 #define FB_GET_FOLLOWER_LIST        @"fb_get_follow_list"
+#define FB_GET_FANS_LIST            @"fb_get_fans_list"
 #define FB_GET_CIRCLE               @"fb_get_circle"
 
 /*
@@ -265,6 +266,7 @@ typedef enum {
     FreebaoGetConversationList,
     FreebaoSetConversationLanguage,
     FreebaoFollowerList,
+    FreebaoFansList,
     FreebaoPost,
     FreebaoCircle,
 }RequestType;
@@ -344,6 +346,9 @@ typedef enum {
 
 //Freebao 获取Follower列表
 -(void)didFreebaoFollowerListWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao 获取我的Fans列表
+-(void)didFreebaoFansListWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 //Freebao 发布分享
 -(void)didFreebaoPostWithUserId:(NSString*)aUserId Boay:(NSString*)content AllowShare:(BOOL)isShare AllowComment:(BOOL)isComment CircleId:(NSString*)circleId Location:(NSString*)location Latitude:(NSString*)aLatitude Longgitude:(NSString*)aLonggitude FileType:(NSString*)fileType MediaFile:(NSData*)mediaData SoundFile:(NSData*)soundData PassId:(NSString*)passId;
