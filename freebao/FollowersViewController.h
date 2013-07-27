@@ -13,23 +13,23 @@
 @class WeiBoMessageManager;
 @interface FollowersViewController : UITableViewController {
     WeiBoMessageManager *manager;
-    NSString *_cellContentId;
-    BOOL _isRefresh;
-    BOOL isFirst;
+    NSString *_cellContentIdFollow;
+    BOOL _isRefreshFollow;
+    BOOL isFirstFollow;
     
     UILabel *_tittleLabel;
     UIButton *backButton;
     UIView *tittleView;
     UIView *tittleLineView;
 @private
-    NSMutableArray *headPhotos;
+    NSMutableArray *headPhotosFollow;
     NSMutableArray *followersArray;
-    int currentPage;
-    int maxPage;
+    int currentPageFollow;
+    int maxPageFollow;
 }
 
-@property NSString *cellContentId;
-@property BOOL isRefresh;
+@property NSString *cellContentIdFollow;
+@property BOOL isRefreshFollow;
 
 -(void)clearCache;
 

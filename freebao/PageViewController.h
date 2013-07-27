@@ -18,6 +18,8 @@
 #import "URBSegmentedControl.h"
 #import "FansInfo.h"
 #import "FansCell.h"
+#import "FollowerCell.h"
+#import "FollowerInfo.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface PageViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
@@ -45,6 +47,15 @@
     NSMutableArray *likersArray;
     int currentPage;
     int maxPage;
+    
+    //Follow
+    NSString *_cellContentIdFollow;
+    BOOL _isRefreshFollow;
+    BOOL isFirstFollow;
+    NSMutableArray *headPhotosFollow;
+    NSMutableArray *followersArray;
+    int currentPageFollow;
+    int maxPageFollow;
 }
 
 @property (nonatomic, copy)     NSString *userID;
@@ -56,6 +67,10 @@
 //Fans
 @property NSString *cellContentId;
 @property BOOL isRefresh;
+
+//Follow
+@property NSString *cellContentIdFollow;
+@property BOOL isRefreshFollow;
 
 -(void)clearCache;
 

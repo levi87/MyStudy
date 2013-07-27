@@ -21,8 +21,8 @@
 @end
 
 @implementation FollowersViewController
-@synthesize cellContentId = _cellContentId;
-@synthesize isRefresh = _isRefresh;
+@synthesize cellContentIdFollow = _cellContentIdFollow;
+@synthesize isRefreshFollow = _isRefreshFollow;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,19 +41,19 @@
 {
     [super viewDidLoad];
 
-    _isRefresh = FALSE;
-    currentPage = 0;
-    isFirst = TRUE;
+    _isRefreshFollow = FALSE;
+    currentPageFollow = 0;
+    isFirstFollow = TRUE;
     followersArray = [[NSMutableArray alloc] init];
     NSLog(@"likeruser.........");
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
     }
-    [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPageFollow PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tapHeadIcon:) name:TAP_NOTIFICATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resultOfFollowersRequest:) name:FB_GET_FANS_LIST object:nil];
     
-    headPhotos = [[NSMutableArray alloc] init];
+    headPhotosFollow = [[NSMutableArray alloc] init];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.tableView setTableHeaderView:headerView];
     
@@ -91,15 +91,15 @@
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
-        NSLog(@"current page %d max page %d", maxPage, currentPage);
-        if (currentPage + 1 >= maxPage) {
+        NSLog(@"current page %d max page %d", maxPageFollow, currentPageFollow);
+        if (currentPageFollow + 1 >= maxPageFollow) {
             return;
         }
-        currentPage ++;
+        currentPageFollow ++;
         if (manager == nil) {
             manager = [WeiBoMessageManager getInstance];
         }
-        [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+        [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPageFollow PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     }
 }
 
@@ -111,10 +111,10 @@
     NSMutableArray *tmpArray = notification.object;
 //    NSLog(@"tmpArray Array %@", tmpArray);
 //    NSLog(@"[levi] %@", [notification.userInfo objectForKey:@"maxCount"]);
-    maxPage = [[notification.userInfo objectForKey:@"maxCount"] integerValue];
-    if (currentPage == 0) {
+    maxPageFollow = [[notification.userInfo objectForKey:@"maxCount"] integerValue];
+    if (currentPageFollow == 0) {
         [followersArray removeAllObjects];
-        headPhotos = [[NSMutableArray alloc] init];
+        headPhotosFollow = [[NSMutableArray alloc] init];
     }
     for (int i = 0; i < [tmpArray count]; i ++) {
         NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
@@ -123,7 +123,7 @@
         tmpInfo.userId = [tmpDic objectForKey:@"userId"];
         tmpInfo.userFacePath = [tmpDic objectForKey:@"facePath"];
         [followersArray addObject:tmpInfo];
-        [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
+        [headPhotosFollow addObject:[tmpDic objectForKey:@"facePath"]];
     }
     [self.tableView reloadData];
 }
@@ -156,7 +156,7 @@
         cell = [[FollowerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     [cell setCellValue:(FollowerInfo*)[followersArray objectAtIndex:indexPath.row]];
-    [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
+    [cell setHeadPhoto:[headPhotosFollow objectAtIndex:indexPath.row]];
     
     // Configure the cell...
     

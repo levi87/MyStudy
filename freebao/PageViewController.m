@@ -33,6 +33,9 @@
 //Fans
 @synthesize cellContentId = _cellContentId;
 @synthesize isRefresh = _isRefresh;
+//Follow
+@synthesize cellContentIdFollow = _cellContentIdFollow;
+@synthesize isRefreshFollow = _isRefreshFollow;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -50,6 +53,7 @@
 
     [self initSegment];
     [self initFansView];
+    [self initFollowView];
     NSLog(@"[levi]view didload");
     refreshFooterView.hidden = NO;
     _page = 1;
@@ -103,6 +107,15 @@
     headPhotos = [[NSMutableArray alloc] init];
 }
 
+-(void)initFollowView{
+    _isRefreshFollow = FALSE;
+    currentPageFollow = 0;
+    isFirstFollow = TRUE;
+    followersArray = [[NSMutableArray alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resultOfFollowersRequest:) name:FB_GET_FANS_LIST object:nil];
+    headPhotosFollow = [[NSMutableArray alloc] init];
+}
+
 -(void)resultOfFansRequest:(NSNotification*)notification {
     NSMutableArray *tmpArray = notification.object;
     NSLog(@"tmpArray Array %@", tmpArray);
@@ -124,6 +137,27 @@
     [self.tableView reloadData];
 }
 
+-(void)resultOfFollowersRequest:(NSNotification*)notification {
+    NSMutableArray *tmpArray = notification.object;
+    //    NSLog(@"tmpArray Array %@", tmpArray);
+    //    NSLog(@"[levi] %@", [notification.userInfo objectForKey:@"maxCount"]);
+    maxPageFollow = [[notification.userInfo objectForKey:@"maxCount"] integerValue];
+    if (currentPageFollow == 0) {
+        [followersArray removeAllObjects];
+        headPhotosFollow = [[NSMutableArray alloc] init];
+    }
+    for (int i = 0; i < [tmpArray count]; i ++) {
+        NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
+        FollowerInfo *tmpInfo = [[FollowerInfo alloc] init];
+        tmpInfo.userName = [tmpDic objectForKey:@"nickname"];
+        tmpInfo.userId = [tmpDic objectForKey:@"userId"];
+        tmpInfo.userFacePath = [tmpDic objectForKey:@"facePath"];
+        [followersArray addObject:tmpInfo];
+        [headPhotosFollow addObject:[tmpDic objectForKey:@"facePath"]];
+    }
+    [self.tableView reloadData];
+}
+
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (currentView == FANS_PAGE) {
         if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
@@ -136,6 +170,18 @@
                 manager = [WeiBoMessageManager getInstance];
             }
             [manager FBFollowerListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+        }
+    } else if (currentView == FOLLOW_PAGE) {
+        if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
+            NSLog(@"current page %d max page %d", maxPageFollow, currentPageFollow);
+            if (currentPageFollow + 1 >= maxPageFollow) {
+                return;
+            }
+            currentPageFollow ++;
+            if (manager == nil) {
+                manager = [WeiBoMessageManager getInstance];
+            }
+            [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPageFollow PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         }
     } else if (currentView == HOME_PAGE) {
         if (!decelerate)
@@ -180,10 +226,20 @@
             currentView = FAV_PAGE;
         } else if (index == 2) {
             NSLog(@"follow");
+            [statuesArr removeAllObjects];
+            [followersArray removeAllObjects];
+            [likersArray removeAllObjects];
+            [self.tableView reloadData];
             currentView = FOLLOW_PAGE;
+            if (manager == nil) {
+                manager = [WeiBoMessageManager getInstance];
+            }
+            [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPageFollow PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         } else if (index == 3) {
             NSLog(@"fans");
             [statuesArr removeAllObjects];
+            [likersArray removeAllObjects];
+            [followersArray removeAllObjects];
             [self.tableView reloadData];
             currentView = FANS_PAGE;
             if (manager == nil) {
@@ -201,13 +257,15 @@
 {
     if (currentView == FANS_PAGE) {
         return [likersArray count];
+    } else if (currentView == FOLLOW_PAGE) {
+        return [followersArray count];
     }
     return [statuesArr count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (currentView == FANS_PAGE) {
+    if (currentView == FANS_PAGE || currentView == FOLLOW_PAGE) {
         return 58;
     }
     NSInteger  row = indexPath.row;
@@ -279,6 +337,8 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_FANS_LIST object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_FOLLOWER_LIST object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -368,6 +428,18 @@
         [cell setCellValue:(FansInfo*)[likersArray objectAtIndex:indexPath.row]];
         [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
         return cell;
+    } else if (currentView == FOLLOW_PAGE) {
+        static NSString *CellIdentifier = @"FollowCell";
+        FollowerCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[FollowerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        [cell setCellValue:(FollowerInfo*)[followersArray objectAtIndex:indexPath.row]];
+        [cell setHeadPhoto:[headPhotosFollow objectAtIndex:indexPath.row]];
+        
+        // Configure the cell...
+        
+        return cell;
     }
     NSInteger  row = indexPath.row;
     
@@ -422,6 +494,9 @@
 //上拉
 -(void)refresh
 {
+    if (currentView == FANS_PAGE || currentView == FOLLOW_PAGE) {
+        return;
+    }
     //    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
     NSLog(@"[levi]refresh page %d", _page);
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:_page PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
@@ -461,6 +536,9 @@
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     NSLog(@"[levi] didtrigger...");
+    if (currentView == FANS_PAGE || currentView == FOLLOW_PAGE) {
+        return;
+    }
     _reloading = YES;
     //	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
