@@ -613,6 +613,12 @@
 		DB9FD0191758373F00AE837D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9FD00D1758361C00AE837D /* MessageUI.framework */; };
 		DB9FD01A17583E8A00AE837D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A2FF2CC417544DF000D31B2F /* Default.png */; };
 		DB9FD01B17583E8D00AE837D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2FF2CC617544DFC00D31B2F /* Default@2x.png */; };
+		DBA63D2B17A36F730011DCC9 /* AtMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA63D2917A36F730011DCC9 /* AtMeViewController.m */; };
+		DBA63D2C17A36F730011DCC9 /* AtMeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA63D2A17A36F730011DCC9 /* AtMeViewController.xib */; };
+		DBA63D3017A374690011DCC9 /* NoticesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA63D2E17A374690011DCC9 /* NoticesViewController.m */; };
+		DBA63D3117A374690011DCC9 /* NoticesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA63D2F17A374690011DCC9 /* NoticesViewController.xib */; };
+		DBA63D3417A375200011DCC9 /* NoticesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA63D3317A375200011DCC9 /* NoticesCell.m */; };
+		DBA63D3717A375A40011DCC9 /* NoticeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA63D3617A375A40011DCC9 /* NoticeInfo.m */; };
 		DBA6405317599EF900ECCE6F /* navigationbar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA6405217599EF900ECCE6F /* navigationbar_background@2x.png */; };
 		DBA6405C1759A08800ECCE6F /* tabbar_home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640561759A08800ECCE6F /* tabbar_home@2x.png */; };
 		DBA6405D1759A08800ECCE6F /* tabbar_home_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = DBA640571759A08800ECCE6F /* tabbar_home_highlighted.png */; };
@@ -1555,6 +1561,16 @@
 		DB9FD0131758367B00AE837D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DB9FD0151758372000AE837D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		DB9FD0171758372C00AE837D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		DBA63D2817A36F730011DCC9 /* AtMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtMeViewController.h; sourceTree = "<group>"; };
+		DBA63D2917A36F730011DCC9 /* AtMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtMeViewController.m; sourceTree = "<group>"; };
+		DBA63D2A17A36F730011DCC9 /* AtMeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AtMeViewController.xib; sourceTree = "<group>"; };
+		DBA63D2D17A374680011DCC9 /* NoticesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticesViewController.h; sourceTree = "<group>"; };
+		DBA63D2E17A374690011DCC9 /* NoticesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticesViewController.m; sourceTree = "<group>"; };
+		DBA63D2F17A374690011DCC9 /* NoticesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoticesViewController.xib; sourceTree = "<group>"; };
+		DBA63D3217A375200011DCC9 /* NoticesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticesCell.h; sourceTree = "<group>"; };
+		DBA63D3317A375200011DCC9 /* NoticesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticesCell.m; sourceTree = "<group>"; };
+		DBA63D3517A375A40011DCC9 /* NoticeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeInfo.h; sourceTree = "<group>"; };
+		DBA63D3617A375A40011DCC9 /* NoticeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeInfo.m; sourceTree = "<group>"; };
 		DBA6405217599EF900ECCE6F /* navigationbar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationbar_background@2x.png"; sourceTree = "<group>"; };
 		DBA640561759A08800ECCE6F /* tabbar_home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_home@2x.png"; sourceTree = "<group>"; };
 		DBA640571759A08800ECCE6F /* tabbar_home_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_home_highlighted.png; sourceTree = "<group>"; };
@@ -3150,6 +3166,12 @@
 				A247893117A20B330067A296 /* ContactsViewController.h */,
 				A247893217A20B330067A296 /* ContactsViewController.m */,
 				A247893317A20B330067A296 /* ContactsViewController.xib */,
+				DBA63D2817A36F730011DCC9 /* AtMeViewController.h */,
+				DBA63D2917A36F730011DCC9 /* AtMeViewController.m */,
+				DBA63D2A17A36F730011DCC9 /* AtMeViewController.xib */,
+				DBA63D2D17A374680011DCC9 /* NoticesViewController.h */,
+				DBA63D2E17A374690011DCC9 /* NoticesViewController.m */,
+				DBA63D2F17A374690011DCC9 /* NoticesViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3233,6 +3255,8 @@
 				A2E1A09217A2478A002C2867 /* ContactsUserCell.m */,
 				A2E1A09517A2479C002C2867 /* ContactsNoticeCell.h */,
 				A2E1A09617A2479C002C2867 /* ContactsNoticeCell.m */,
+				DBA63D3217A375200011DCC9 /* NoticesCell.h */,
+				DBA63D3317A375200011DCC9 /* NoticesCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -3320,6 +3344,8 @@
 				A2F8894A179E1F64008E55ED /* ProfileInfo.m */,
 				A2700461179FD20E00D3D6A6 /* FansInfo.h */,
 				A2700462179FD20E00D3D6A6 /* FansInfo.m */,
+				DBA63D3517A375A40011DCC9 /* NoticeInfo.h */,
+				DBA63D3617A375A40011DCC9 /* NoticeInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3822,6 +3848,8 @@
 				A2700439179F64D500D3D6A6 /* icon_retweet@2x.png in Resources */,
 				A270045D179FC77D00D3D6A6 /* FansViewController.xib in Resources */,
 				A247893517A20B330067A296 /* ContactsViewController.xib in Resources */,
+				DBA63D2C17A36F730011DCC9 /* AtMeViewController.xib in Resources */,
+				DBA63D3117A374690011DCC9 /* NoticesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4108,6 +4136,10 @@
 				A2E1A09717A2479C002C2867 /* ContactsNoticeCell.m in Sources */,
 				A2E1A0AE17A2602A002C2867 /* ChineseString.m in Sources */,
 				A2E1A0AF17A2602A002C2867 /* pinyin.c in Sources */,
+				DBA63D2B17A36F730011DCC9 /* AtMeViewController.m in Sources */,
+				DBA63D3017A374690011DCC9 /* NoticesViewController.m in Sources */,
+				DBA63D3417A375200011DCC9 /* NoticesCell.m in Sources */,
+				DBA63D3717A375A40011DCC9 /* NoticeInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

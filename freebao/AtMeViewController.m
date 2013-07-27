@@ -1,12 +1,12 @@
 //
-//  PageViewController.m
+//  AtMeViewController.m
 //  freebao
 //
-//  Created by freebao on 13-7-23.
+//  Created by levi on 13-7-27.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
-#import "PageViewController.h"
+#import "AtMeViewController.h"
 #import "ZJTHelpler.h"
 #import "ZJTStatusBarAlertWindow.h"
 #import "CoreDataManager.h"
@@ -15,18 +15,12 @@
 #define SHOW_TABBAR @"10001"
 #define FONT @"HelveticaNeue-Light"
 
-#define HOME_PAGE 0
-#define FAV_PAGE 1
-#define FOLLOW_PAGE 2
-#define FANS_PAGE 3
-#define PHOTO_PAGE 4
-
-@interface PageViewController ()
+@interface AtMeViewController ()
 -(void)getDataFromCD;
 
 @end
 
-@implementation PageViewController
+@implementation AtMeViewController
 @synthesize userID;
 @synthesize timer;
 @synthesize avPlay = _avPlay;
@@ -43,22 +37,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    currentView = HOME_PAGE;
 
-    [self initSegment];
-    NSLog(@"[levi]view didload");
     refreshFooterView.hidden = NO;
     _page = 1;
     _maxID = -1;
     _shouldAppendTheDataArr = NO;
     //    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
     //    self.navigationItem.rightBarButtonItem = retwitterBtn;
-    UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [TittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
-    tittleLabel.text = @"Profile";
+    tittleLabel.text = @"@Me";
     [tittleLabel setFont:[UIFont fontWithName:FONT size:15]];
     tittleLabel.textColor = [UIColor whiteColor];
     [TittleView addSubview: tittleLabel];
@@ -71,13 +62,12 @@
     tap.numberOfTapsRequired = 1;
     [imgV addGestureRecognizer:tap];
     [backButton addSubview:imgV];
-    UIView *TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    TittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [TittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     [self.navigationController.view addSubview:TittleView];
     [self.navigationController.view addSubview:TittleLineView];
     [self.navigationController.view addSubview:backButton];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [self.tableView setTableHeaderView:self.profileHeaderView];
     [self.tableView setTableFooterView:headerView];
     
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
@@ -86,133 +76,21 @@
     [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
     
-    [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
-}
-
-- (void)initSegment {
-    // items to be used for each segment (same as UISegmentControl) for all instances
-	NSArray *titles = [NSArray arrayWithObjects:[@"Post" uppercaseString], [@"Far." uppercaseString], [@"Follow" uppercaseString], [@"Fans" uppercaseString], [@"Photo" uppercaseString], nil];
-	
-	//
-	// Basic horizontal segmented control
-	//
-	URBSegmentedControl *control = [[URBSegmentedControl alloc] initWithItems:titles];
-	control.frame = CGRectMake(-1, 367.0, 322.0, 80.0);
-	control.segmentBackgroundColor = [UIColor blueColor];
-	[control setSegmentBackgroundColor:[UIColor whiteColor] atIndex:2];
-	[self.profileHeaderView addSubview:control];
-	
-	// UIKit method of handling value changes
-	[control addTarget:self action:@selector(handleSelection:) forControlEvents:UIControlEventValueChanged];
-	// block-based value change handler
-	[control setControlEventBlock:^(NSInteger index, URBSegmentedControl *segmentedControl) {
-		NSLog(@"URBSegmentedControl: control block - index=%i", index);
-        //        int count = [KAppDelegate.tabBarVC.arrayViewcontrollers count];
-        //        NSLog(@"[count] count...%d", count);
-        if (index == 0) {
-            NSLog(@"home page");
-            currentView = HOME_PAGE;
-        } else if (index == 1) {
-            NSLog(@"fav. page");
-            currentView = FAV_PAGE;
-        } else if (index == 2) {
-            NSLog(@"follow");
-            currentView = FOLLOW_PAGE;
-        } else if (index == 3) {
-            NSLog(@"fans");
-            currentView = FANS_PAGE;
-        } else if (index == 4) {
-            NSLog(@"photo");
-            currentView = PHOTO_PAGE;
-        }
-	}];
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [statuesArr count];
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //    if (indexPath.row == 0) {
-    //        return 44;
-    //    }
-    NSInteger  row = indexPath.row;
-    
-    if (row >= [statuesArr count]) {
-        return 1;
-    }
-    
-    Status *status          = [statuesArr objectAtIndex:row];
-    Status *retwitterStatus = status.retweetedStatus;
-    NSString *url = status.retweetedStatus.thumbnailPic;
-    NSString *url2 = status.thumbnailPic;
-    
-    StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
-    [cell updateCellTextWith:status];
-    
-    CGFloat height = 0.0f;
-    
-    //有转发的博文
-    if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]])
-    {
-        height = [cell setTFHeightWithImage:NO
-                         haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO Status:status];//计算cell的高度
-    }
-    
-    //无转发的博文
-    else
-    {
-        height = [cell setTFHeightWithImage:url2 != nil && [url2 length] != 0 ? YES : NO
-                         haveRetwitterImage:NO Status:status];//计算cell的高度
-    }
-    //    [cell setCommentPosition:cell.frame.size.height];
-    return height;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return;
-    NSInteger  row = indexPath.row;
-    if (row >= [statuesArr count]) {
-        //        NSLog(@"didSelectRowAtIndexPath error ,index = %d,count = %d",row,[statuesArr count]);
-        return ;
-    }
-    
-    ZJTDetailStatusVC *detailVC = [[ZJTDetailStatusVC alloc] initWithNibName:@"ZJTDetailStatusVC" bundle:nil];
-    Status *status  = [statuesArr objectAtIndex:row];
-    detailVC.status = status;
-    
-    detailVC.avatarImage = status.user.avatarImage;
-    detailVC.contentImage = status.statusImage;
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailVC animated:YES];
-}
-
-- (void)handleSelection:(id)sender {
-	NSLog(@"URBSegmentedControl: value changed");
+//    [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
 
 - (void)backButtonAction {
     NSLog(@"[levi]back...");
-    tittleLabel.text = @"Profile";
+    TittleView.hidden = YES;
+    TittleLineView.hidden = YES;
+    backButton.hidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewDidUnload {
-    [self setProfileHeaderView:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_HOMELINE object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    NSLog(@"[levi]viewWillAppear...");
-    [super viewWillAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    TittleView.hidden = NO;
+    TittleLineView.hidden = NO;
+    backButton.hidden = NO;
     if (shouldLoad)
     {
         shouldLoad = NO;
@@ -223,7 +101,15 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+-(void)viewDidUnload{
+    [defaultNotifCenter removeObserver:self name:FB_GET_HOMELINE object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
@@ -260,81 +146,6 @@
             [self.tableView reloadData];
         });
     });
-}
-
--(CGFloat)cellHeight:(NSString*)contentText with:(CGFloat)with
-{
-    //    UIFont * font=[UIFont  systemFontOfSize:15];
-    //    CGSize size=[contentText sizeWithFont:font constrainedToSize:CGSizeMake(with - kTextViewPadding, 300000.0f) lineBreakMode:kLineBreakMode];
-    //    CGFloat height = size.height + 44;
-    CGFloat height = [StatusCell getJSHeight:contentText jsViewWith:with];
-    return height;
-}
-
-- (id)cellForTableView:(UITableView *)tableView fromNib:(UINib *)nib {
-    static NSString *cellID = @"StatusCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
-        NSArray *nibObjects = [nib instantiateWithOwner:nil options:nil];
-        cell = [nibObjects objectAtIndex:0];
-    }
-    else {
-        [(LPBaseCell *)cell reset];
-    }
-    
-    return cell;
-}
-
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSInteger  row = indexPath.row;
-    
-    //    if (row == 0 || row == [statuesArr count]) {
-    //        static NSString *CellIdentifier = @"BlankCell";
-    //        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //        if (cell == nil) {
-    //            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    //        }
-    //        return cell;
-    //    }
-    
-    StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
-    //    [cell setCellLayout];
-    
-    if (row >= [statuesArr count]) {
-        return cell;
-    }
-    
-    Status *status = [statuesArr objectAtIndex:row];
-    status.cellIndexPath = indexPath;
-    cell.delegate = self;
-    cell.cellIndexPath = indexPath;
-    [cell updateCellTextWith:status];
-    if (self.table.dragging == NO && self.table.decelerating == NO)
-    {
-        if (status.user.avatarImage == nil)
-        {
-            [[HHNetDataCacheManager getInstance] getDataWithURL:status.user.profileImageUrl withIndex:row];
-        }
-        
-        if (status.statusImage == nil)
-        {
-            [[HHNetDataCacheManager getInstance] getDataWithURL:status.thumbnailPic withIndex:row];
-            [[HHNetDataCacheManager getInstance] getDataWithURL:status.retweetedStatus.thumbnailPic withIndex:row];
-        }
-    }
-    cell.avatarImage.image = status.user.avatarImage;
-    //    cell.contentImage.image = status.statusImage;
-    cell.mainImageView.image = status.statusImage;
-    
-    //开始绘制第一个cell时，隐藏indecator.
-    if (isFirstCell) {
-        [[SHKActivityIndicator currentIndicator] hide];
-        //        [[ZJTStatusBarAlertWindow getInstance] hide];
-        isFirstCell = NO;
-    }
-    //    [cell setCommentPosition:cell.frame.size.height];
-    return cell;
 }
 
 //上拉
@@ -490,47 +301,47 @@
 - (void)languageMenuAction {
     NSArray *menuItems =
     @[
-    
-    [KxMenuItem menuItem:@"中文"
-                   image:[UIImage imageNamed:@"icon_chat_flag_cn"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"English"
-                   image:[UIImage imageNamed:@"icon_chat_flag_e"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"日本語"
-                   image:[UIImage imageNamed:@"icon_chat_flag_j"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"한국어"
-                   image:[UIImage imageNamed:@"icon_chat_flag_k"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"España"
-                   image:[UIImage imageNamed:@"icon_chat_flag_x"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"Français"
-                   image:[UIImage imageNamed:@"icon_chat_flag_f"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"Deutsch"
-                   image:[UIImage imageNamed:@"icon_chat_flag_d"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"русский"
-                   image:[UIImage imageNamed:@"icon_chat_flag_p"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    ];
+      
+      [KxMenuItem menuItem:@"中文"
+                     image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"English"
+                     image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"日本語"
+                     image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"한국어"
+                     image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"España"
+                     image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Français"
+                     image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Deutsch"
+                     image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"русский"
+                     image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      ];
     
     [KxMenu showMenuInView:self.navigationController.view
                   fromRect:CGRectMake(250, 24, 20, 10)
@@ -601,20 +412,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-/**
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    // Configure the cell...
-    
-    return cell;
-}
-**/
 @end

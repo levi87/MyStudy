@@ -1,8 +1,8 @@
 //
-//  PageViewController.h
+//  AtMeViewController.h
 //  freebao
 //
-//  Created by freebao on 13-7-23.
+//  Created by levi on 13-7-27.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
@@ -18,7 +18,7 @@
 #import "URBSegmentedControl.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
-@interface PageViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
+@interface AtMeViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
 {
     NSString *userID;
     int _page;
@@ -32,13 +32,13 @@
     StatusCell *tmpStatusCell;
     StatusCell *tmpStatusCellL;
     
-    int currentView;
+    UIView *TittleView;
+    UIView *TittleLineView;
 }
 
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;
 
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
-@property (strong, nonatomic) IBOutlet UIView *profileHeaderView;
 
 @end

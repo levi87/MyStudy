@@ -37,6 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self initTitleBar];
 
     curRow = NSNotFound;
     
@@ -91,6 +92,28 @@
     [_dataArr addObject:@"Kobe Brand"];
     [_dataArr addObject:@"Kobe Crand"];
     _contactsArray = [self getChineseStringArr:_dataArr];
+    [self.tableView setTableHeaderView:self.headerView];
+}
+
+-(void)initTitleBar {
+    tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    UILabel *tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tittleLabel.textAlignment = UITextAlignmentCenter;
+    [tittleLabel setBackgroundColor:[UIColor clearColor]];
+    tittleLabel.text = @"Contacts";
+    tittleLabel.textColor = [UIColor whiteColor];
+    [tittleView addSubview: tittleLabel];
+    tittleLabel.center = CGPointMake(160, 22);
+    tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+//    UIButton *newConversationButton = [[UIButton alloc] initWithFrame:CGRectMake(260, 10, 50, 20)];
+//    newConversationButton.titleLabel.text = @" + ";
+//    newConversationButton.backgroundColor = [UIColor whiteColor];
+//    [newConversationButton addTarget:self action:@selector(createNewConversation) forControlEvents:UIControlEventTouchUpInside];
+//    [tittleView addSubview:newConversationButton];
+    [self.navigationController.view addSubview:tittleView];
+    [self.navigationController.view addSubview:tittleLineView];
 }
 
 - (void)readContactFromLocal {
@@ -229,9 +252,9 @@
     return key;
 }
 
--(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    return _sectionHeadsKeys;
-}
+//-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+//    return _sectionHeadsKeys;
+//}
 
 /*
 // Override to support conditional editing of the table view.
@@ -345,4 +368,37 @@
     return arrayForArrays;
 }
 
+- (void)viewDidUnload {
+    [self setHeaderView:nil];
+    [super viewDidUnload];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    tittleView.hidden = NO;
+    tittleLineView.hidden = NO;
+}
+
+- (IBAction)noticeButtonAction:(id)sender {
+    NSLog(@"notice action");
+    tittleView.hidden = YES;
+    tittleLineView.hidden = YES;
+    if (_noticeVc == nil) {
+        _noticeVc = [[NoticesViewController alloc] init];
+    }
+    [self.navigationController pushViewController:_noticeVc animated:YES];
+}
+
+- (IBAction)atButtonAction:(id)sender {
+    NSLog(@"at action");
+    tittleView.hidden = YES;
+    tittleLineView.hidden = YES;
+    if (_atMeVc == nil) {
+        _atMeVc = [[AtMeViewController alloc] init];
+    }
+    [self.navigationController pushViewController:_atMeVc animated:YES];
+}
+
+- (IBAction)commentButtonAction:(id)sender {
+    NSLog(@"comment action");
+}
 @end

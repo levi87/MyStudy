@@ -155,6 +155,143 @@
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
+- (id)cellForTableView:(UITableView *)tableView fromNib:(UINib *)nib {
+    static NSString *cellID = @"StatusCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        NSArray *nibObjects = [nib instantiateWithOwner:nil options:nil];
+        cell = [nibObjects objectAtIndex:0];
+    }
+    else {
+        [(LPBaseCell *)cell reset];
+    }
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [statuesArr count];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //    if (indexPath.row == 0) {
+    //        return 44;
+    //    }
+    NSInteger  row = indexPath.row;
+    
+    if (row >= [statuesArr count]) {
+        return 1;
+    }
+    
+    Status *status          = [statuesArr objectAtIndex:row];
+    Status *retwitterStatus = status.retweetedStatus;
+    NSString *url = status.retweetedStatus.thumbnailPic;
+    NSString *url2 = status.thumbnailPic;
+    
+    StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
+    [cell updateCellTextWith:status];
+    
+    CGFloat height = 0.0f;
+    
+    //有转发的博文
+    if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]])
+    {
+        height = [cell setTFHeightWithImage:NO
+                         haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO Status:status];//计算cell的高度
+    }
+    
+    //无转发的博文
+    else
+    {
+        height = [cell setTFHeightWithImage:url2 != nil && [url2 length] != 0 ? YES : NO
+                         haveRetwitterImage:NO Status:status];//计算cell的高度
+    }
+    //    [cell setCommentPosition:cell.frame.size.height];
+    return height;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return;
+    NSInteger  row = indexPath.row;
+    if (row >= [statuesArr count]) {
+        //        NSLog(@"didSelectRowAtIndexPath error ,index = %d,count = %d",row,[statuesArr count]);
+        return ;
+    }
+    
+    ZJTDetailStatusVC *detailVC = [[ZJTDetailStatusVC alloc] initWithNibName:@"ZJTDetailStatusVC" bundle:nil];
+    Status *status  = [statuesArr objectAtIndex:row];
+    detailVC.status = status;
+    
+    detailVC.avatarImage = status.user.avatarImage;
+    detailVC.contentImage = status.statusImage;
+    detailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+-(CGFloat)cellHeight:(NSString*)contentText with:(CGFloat)with
+{
+    //    UIFont * font=[UIFont  systemFontOfSize:15];
+    //    CGSize size=[contentText sizeWithFont:font constrainedToSize:CGSizeMake(with - kTextViewPadding, 300000.0f) lineBreakMode:kLineBreakMode];
+    //    CGFloat height = size.height + 44;
+    CGFloat height = [StatusCell getJSHeight:contentText jsViewWith:with];
+    return height;
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger  row = indexPath.row;
+    
+    //    if (row == 0 || row == [statuesArr count]) {
+    //        static NSString *CellIdentifier = @"BlankCell";
+    //        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //        if (cell == nil) {
+    //            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    //        }
+    //        return cell;
+    //    }
+    
+    StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
+    //    [cell setCellLayout];
+    
+    if (row >= [statuesArr count]) {
+        return cell;
+    }
+    
+    Status *status = [statuesArr objectAtIndex:row];
+    status.cellIndexPath = indexPath;
+    cell.delegate = self;
+    cell.cellIndexPath = indexPath;
+    [cell updateCellTextWith:status];
+    if (self.table.dragging == NO && self.table.decelerating == NO)
+    {
+        if (status.user.avatarImage == nil)
+        {
+            [[HHNetDataCacheManager getInstance] getDataWithURL:status.user.profileImageUrl withIndex:row];
+        }
+        
+        if (status.statusImage == nil)
+        {
+            [[HHNetDataCacheManager getInstance] getDataWithURL:status.thumbnailPic withIndex:row];
+            [[HHNetDataCacheManager getInstance] getDataWithURL:status.retweetedStatus.thumbnailPic withIndex:row];
+        }
+    }
+    cell.avatarImage.image = status.user.avatarImage;
+    //    cell.contentImage.image = status.statusImage;
+    cell.mainImageView.image = status.statusImage;
+    
+    //开始绘制第一个cell时，隐藏indecator.
+    if (isFirstCell) {
+        [[SHKActivityIndicator currentIndicator] hide];
+        //        [[ZJTStatusBarAlertWindow getInstance] hide];
+        isFirstCell = NO;
+    }
+    //    [cell setCommentPosition:cell.frame.size.height];
+    return cell;
+}
+
 -(void)getDataFromCD
 {
     NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"homePageMaxID"];
