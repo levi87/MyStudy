@@ -20,6 +20,11 @@
 #import "FansCell.h"
 #import "FollowerCell.h"
 #import "FollowerInfo.h"
+
+#import "REPhotoObjectProtocol.h"
+#import "REPhotoGroup.h"
+#import "Photo.h"
+#import "ThumbnailView.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @interface PageViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
@@ -45,6 +50,7 @@
     BOOL isFirst;
     NSMutableArray *headPhotos;
     NSMutableArray *likersArray;
+    NSMutableArray *photoArray;
     int currentPage;
     int maxPage;
     
@@ -56,6 +62,9 @@
     NSMutableArray *followersArray;
     int currentPageFollow;
     int maxPageFollow;
+    
+    //Photo
+    NSMutableArray *_ds;
 }
 
 @property (nonatomic, copy)     NSString *userID;
@@ -72,6 +81,14 @@
 @property NSString *cellContentIdFollow;
 @property BOOL isRefreshFollow;
 
+//Photo
+//@property (nonatomic, strong, setter = setDatasource:) NSMutableArray *photoDatasource;
+@property (nonatomic, readwrite) BOOL groupByDate;
+@property (nonatomic, readwrite) Class thumbnailViewClass;
+@property (nonatomic, retain) NSMutableArray *ds;
+
 -(void)clearCache;
+
+- (void)reloadPhotoData;
 
 @end

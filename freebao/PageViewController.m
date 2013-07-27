@@ -21,6 +21,8 @@
 #define FANS_PAGE 3
 #define PHOTO_PAGE 4
 
+#import "REPhotoThumbnailsCell.h"
+
 @interface PageViewController ()
 -(void)getDataFromCD;
 
@@ -36,6 +38,11 @@
 //Follow
 @synthesize cellContentIdFollow = _cellContentIdFollow;
 @synthesize isRefreshFollow = _isRefreshFollow;
+//Photo
+//@synthesize photoDatasource = _photoDatasource;
+@synthesize groupByDate = _groupByDate;
+@synthesize thumbnailViewClass = _thumbnailViewClass;
+@synthesize ds = _ds;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -54,6 +61,7 @@
     [self initSegment];
     [self initFansView];
     [self initFollowView];
+    [self initPhotoView];
     NSLog(@"[levi]view didload");
     refreshFooterView.hidden = NO;
     _page = 1;
@@ -86,7 +94,7 @@
     [self.navigationController.view addSubview:backButton];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.tableView setTableHeaderView:self.profileHeaderView];
-    [self.tableView setTableFooterView:headerView];
+//    [self.tableView setTableFooterView:headerView];
     
     [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
@@ -95,6 +103,15 @@
     [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
     
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
+}
+
+-(void)initPhotoView {
+    _ds = [[NSMutableArray alloc] init];
+    _groupByDate = YES;
+    photoArray = [NSMutableArray arrayWithArray:[self prepareDatasource]];
+    NSLog(@"photo array count %d", [photoArray count]);
+    self.title = @"Photos.";
+    self.thumbnailViewClass = [ThumbnailView class];
 }
 
 -(void)initFansView {
@@ -229,7 +246,8 @@
             [statuesArr removeAllObjects];
             [followersArray removeAllObjects];
             [likersArray removeAllObjects];
-            [self.tableView reloadData];
+//            [photoArray removeAllObjects];
+//            [self.tableView reloadData];
             currentView = FOLLOW_PAGE;
             if (manager == nil) {
                 manager = [WeiBoMessageManager getInstance];
@@ -240,7 +258,8 @@
             [statuesArr removeAllObjects];
             [likersArray removeAllObjects];
             [followersArray removeAllObjects];
-            [self.tableView reloadData];
+//            [photoArray removeAllObjects];
+//            [self.tableView reloadData];
             currentView = FANS_PAGE;
             if (manager == nil) {
                 manager = [WeiBoMessageManager getInstance];
@@ -248,7 +267,12 @@
             [manager FBFollowerListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         } else if (index == 4) {
             NSLog(@"photo");
+            [statuesArr removeAllObjects];
+            [followersArray removeAllObjects];
+            [likersArray removeAllObjects];
+//            [self.tableView reloadData];
             currentView = PHOTO_PAGE;
+            [self reloadPhotoData];
         }
 	}];
 }
@@ -259,6 +283,9 @@
         return [likersArray count];
     } else if (currentView == FOLLOW_PAGE) {
         return [followersArray count];
+    } else if (currentView == PHOTO_PAGE) {
+        REPhotoGroup *group = (REPhotoGroup *)[_ds objectAtIndex:section];
+        return ceil([group.items count] / 4.0f);
     }
     return [statuesArr count];
 }
@@ -267,6 +294,9 @@
 {
     if (currentView == FANS_PAGE || currentView == FOLLOW_PAGE) {
         return 58;
+    } else if (currentView == PHOTO_PAGE) {
+        NSLog(@"photo...");
+        return 80;
     }
     NSInteger  row = indexPath.row;
     
@@ -438,6 +468,30 @@
         [cell setHeadPhoto:[headPhotosFollow objectAtIndex:indexPath.row]];
         
         // Configure the cell...
+        
+        return cell;
+    } else if (currentView == PHOTO_PAGE) {
+        NSLog(@"cell photo...");
+        static NSString *CellIdentifier = @"REPhotoThumbnailsCell";
+        REPhotoThumbnailsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[REPhotoThumbnailsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier thumbnailViewClass:_thumbnailViewClass];
+        }
+        
+        REPhotoGroup *group = (REPhotoGroup *)[_ds objectAtIndex:indexPath.section];
+        
+        int startIndex = indexPath.row * 4;
+        int endIndex = startIndex + 4;
+        if (endIndex > [group.items count])
+            endIndex = [group.items count];
+        
+        [cell removeAllPhotos];
+        for (int i = startIndex; i < endIndex; i++) {
+            NSObject <REPhotoObjectProtocol> *photo = [group.items objectAtIndex:i];
+            [cell addPhoto:photo];
+        }
+        [cell refresh];
         
         return cell;
     }
@@ -798,5 +852,144 @@
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
     //    [self refreshVisibleCellsImages];
+}
+
+//Photo
+- (NSMutableArray *)prepareDatasource
+{
+    NSMutableArray *datasource = [[NSMutableArray alloc] init];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage6.s3.amazonaws.com/5acf0f48d5ac11e1a3461231381315e1_5.jpg"
+                                               date:[self dateFromString:@"05/01/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage0.s3.amazonaws.com/622c57d4ced411e1ae7122000a1e86bb_5.jpg"
+                                               date:[self dateFromString:@"05/02/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage7.s3.amazonaws.com/1a8f3db4b87811e1ab011231381052c0_5.jpg"
+                                               date:[self dateFromString:@"05/03/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage6.s3.amazonaws.com/c0039594b74011e181bd12313817987b_5.jpg"
+                                               date:[self dateFromString:@"05/25/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage10.s3.amazonaws.com/b9e61198b69411e180d51231380fcd7e_5.jpg"
+                                               date:[self dateFromString:@"05/25/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage3.s3.amazonaws.com/334b13f4b5ae11e1abd612313810100a_5.jpg"
+                                               date:[self dateFromString:@"05/25/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage2.s3.amazonaws.com/9ab3ff16b59911e1b00112313800c5e4_5.jpg"
+                                               date:[self dateFromString:@"05/26/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage10.s3.amazonaws.com/e02206c8b59511e1be6a12313820455d_5.jpg"
+                                               date:[self dateFromString:@"06/25/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage9.s3.amazonaws.com/3b9c9182b53a11e1be6a12313820455d_5.jpg"
+                                               date:[self dateFromString:@"06/23/2012"]]];
+    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage6.s3.amazonaws.com/93f1fab2b4b711e192e91231381b3d7a_5.jpg"
+                                               date:[self dateFromString:@"07/25/2012"]]];
+    return datasource;
+}
+
+- (NSDate *)dateFromString:(NSString *)string
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MM/dd/yyyy"];
+    return [dateFormat dateFromString:string];
+}
+
+- (void)reloadPhotoData
+{
+    if (!_groupByDate) {
+        REPhotoGroup *group = [[REPhotoGroup alloc] init];
+        group.month = 1;
+        group.year = 1900;
+        [_ds removeAllObjects];
+        NSLog(@"photo array count %d", [photoArray count]);
+        for (NSObject *object in photoArray) {
+            [group.items addObject:object];
+        }
+        [_ds addObject:group];
+        NSLog(@"_ds count %d", [_ds count]);
+        return;
+    }
+    NSArray *sorted = [photoArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSObject <REPhotoObjectProtocol> *photo1 = obj1;
+        NSObject <REPhotoObjectProtocol> *photo2 = obj2;
+        return ![photo1.date compare:photo2.date];
+    }];
+    [_ds removeAllObjects];
+    for (NSObject *object in sorted) {
+        NSObject <REPhotoObjectProtocol> *photo = (NSObject <REPhotoObjectProtocol> *)object;
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit |
+                                        NSMonthCalendarUnit | NSYearCalendarUnit fromDate:photo.date];
+        NSUInteger month = [components month];
+        NSUInteger year = [components year];
+        REPhotoGroup *group = ^REPhotoGroup *{
+            for (REPhotoGroup *group in _ds) {
+                if (group.month == month && group.year == year)
+                    return group;
+            }
+            return nil;
+        }();
+        if (group == nil) {
+            group = [[REPhotoGroup alloc] init];
+            group.month = month;
+            group.year = year;
+            [group.items addObject:photo];
+            [_ds addObject:group];
+        } else {
+            [group.items addObject:photo];
+        }
+    }
+    NSLog(@"~~~~~~~~~~photo reload... %d", [_ds count]);
+    [self.tableView reloadData];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (currentView == PHOTO_PAGE) {
+        NSLog(@"section num  photo");
+        NSLog(@"%d", [_ds count]);
+        if ([_ds count] == 0) return 0;
+        if (!_groupByDate) return 1;
+        
+        if ([self tableView:self.tableView numberOfRowsInSection:[_ds count] - 1] == 0) {
+            NSLog(@"~~~~~~~~~~~~~~~~~~~");
+            return [_ds count] - 1;
+        }
+        NSLog(@".................... %d", [_ds count]);
+        return [_ds count];
+    } else {
+        return 1;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (currentView == PHOTO_PAGE) {
+        NSLog(@"h  photo");
+        return !_groupByDate ? 0 : 22;
+    } else {
+        return 0;
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (currentView == PHOTO_PAGE) {
+        NSLog(@"tittle  photo");
+        REPhotoGroup *group = (REPhotoGroup *)[_ds objectAtIndex:section];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *date = [dateFormatter dateFromString:[NSString stringWithFormat:@"%i-%i-1", group.year, group.month]];
+        
+        [dateFormatter setDateFormat:@"MMMM yyyy"];
+        NSString *resultString = [dateFormatter stringFromDate:date];
+        return resultString;
+    } else {
+        return @"";
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (currentView == PHOTO_PAGE) {
+        NSLog(@"tittle height footer  photo");
+        return 5;
+    } else {
+        return 0;
+    }
 }
 @end
