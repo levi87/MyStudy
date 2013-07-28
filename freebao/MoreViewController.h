@@ -13,6 +13,7 @@
 #import "PageViewController.h"
 #import "AboutViewController.h"
 #import "FeedbackViewController.h"
+#import "SearchViewController.h"
 
 @interface MoreViewController : UITableViewController {
     UILabel *tittleLabel;

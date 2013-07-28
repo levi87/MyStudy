@@ -204,6 +204,11 @@
         tittleLineView.hidden = YES;
         ProfileViewController *proVC = [[ProfileViewController alloc] init];
         [self.navigationController pushViewController:proVC animated:YES];
+    } else if (indexPath.row == 5) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        SearchViewController *searchVC = [[SearchViewController alloc] init];
+        [self.navigationController pushViewController:searchVC animated:YES];
     } else if (indexPath.row == 9) {
         tittleView.hidden = YES;
         tittleLineView.hidden = YES;

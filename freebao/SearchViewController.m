@@ -1,20 +1,21 @@
 //
-//  AboutViewController.m
+//  SearchViewController.m
 //  freebao
 //
 //  Created by levi on 13-7-28.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
-#import "AboutViewController.h"
+#import "SearchViewController.h"
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
 
-@interface AboutViewController ()
+@interface SearchViewController ()
 
 @end
 
-@implementation AboutViewController
+@implementation SearchViewController
+@synthesize searchBar = _searchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,12 +34,22 @@
 {
     [super viewDidLoad];
     itemsArray = [[NSMutableArray alloc] initWithObjects:@"Rate Freebao",@"User Guide",@"Check New Version", nil];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar.placeholder = @"Name/Post/ID";
+    self.searchBar.delegate = self;
+    
+    [self.searchBar sizeToFit];
+    [self.searchTableView addSubview:self.searchBar];
+    self.searchTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+    self.searchTableView.scrollIndicatorInsets = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+//    self.searchTableView.frame = CGRectMake(0, 44, 320, 416);
+    
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     _tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     _tittleLabel.textAlignment = UITextAlignmentCenter;
     [_tittleLabel setBackgroundColor:[UIColor clearColor]];
-    _tittleLabel.text = @"About";
+    _tittleLabel.text = @"Search";
     _tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: _tittleLabel];
     _tittleLabel.center = CGPointMake(160, 22);
@@ -72,10 +83,9 @@
 }
 
 - (void)viewDidUnload {
-    [self setAboutTableview:nil];
+    [self setSearchTableView:nil];
     [super viewDidUnload];
 }
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -104,6 +114,18 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 58;
+    return 44;
+}
+
+#pragma mark - Search Delegate
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"[levi] search...");
+    [self.searchBar resignFirstResponder];
+    CustomActionSheet *as = [[CustomActionSheet alloc] init];
+    [as addButtonWithTitle:@"Name"];
+    [as addButtonWithTitle:@"Post"];
+    [as addButtonWithTitle:@"ID"];
+    [as showInView:self.view];
 }
 @end

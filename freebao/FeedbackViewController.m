@@ -7,6 +7,8 @@
 //
 
 #import "FeedbackViewController.h"
+#define HIDE_TABBAR @"10000"
+#define SHOW_TABBAR @"10001"
 
 @interface FeedbackViewController ()
 
@@ -21,6 +23,10 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
 - (void)viewDidLoad

@@ -664,6 +664,8 @@
 		DBE61F5E17A4C42400D741D5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBE61F5C17A4C42400D741D5 /* AboutViewController.xib */; };
 		DBE61F6217A4C67000D741D5 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE61F6017A4C67000D741D5 /* FeedbackViewController.m */; };
 		DBE61F6317A4C67000D741D5 /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBE61F6117A4C67000D741D5 /* FeedbackViewController.xib */; };
+		DBE61F6717A4CAF400D741D5 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE61F6517A4CAF400D741D5 /* SearchViewController.m */; };
+		DBE61F6817A4CAF400D741D5 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBE61F6617A4CAF400D741D5 /* SearchViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1642,6 +1644,9 @@
 		DBE61F5F17A4C67000D741D5 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		DBE61F6017A4C67000D741D5 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		DBE61F6117A4C67000D741D5 /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
+		DBE61F6417A4CAF400D741D5 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		DBE61F6517A4CAF400D741D5 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		DBE61F6617A4CAF400D741D5 /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3210,6 +3215,9 @@
 				DBA63D3A17A384330011DCC9 /* FollowersViewController.h */,
 				DBA63D3B17A384340011DCC9 /* FollowersViewController.m */,
 				DBA63D3C17A384350011DCC9 /* FollowersViewController.xib */,
+				DBE61F6417A4CAF400D741D5 /* SearchViewController.h */,
+				DBE61F6517A4CAF400D741D5 /* SearchViewController.m */,
+				DBE61F6617A4CAF400D741D5 /* SearchViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3918,6 +3926,7 @@
 				DBA63D3E17A384350011DCC9 /* FollowersViewController.xib in Resources */,
 				DBE61F5E17A4C42400D741D5 /* AboutViewController.xib in Resources */,
 				DBE61F6317A4C67000D741D5 /* FeedbackViewController.xib in Resources */,
+				DBE61F6817A4CAF400D741D5 /* SearchViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4218,6 +4227,7 @@
 				DBA63D7D17A3D0650011DCC9 /* ThumbnailView.m in Sources */,
 				DBE61F5D17A4C42400D741D5 /* AboutViewController.m in Sources */,
 				DBE61F6217A4C67000D741D5 /* FeedbackViewController.m in Sources */,
+				DBE61F6717A4CAF400D741D5 /* SearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
