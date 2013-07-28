@@ -11,6 +11,8 @@
 #import "ProfileViewController.h"
 #import "MyPageViewController.h"
 #import "PageViewController.h"
+#import "AboutViewController.h"
+#import "FeedbackViewController.h"
 
 @interface MoreViewController : UITableViewController {
     UILabel *tittleLabel;

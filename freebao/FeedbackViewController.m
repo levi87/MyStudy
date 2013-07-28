@@ -1,18 +1,18 @@
 //
-//  AboutViewController.m
+//  FeedbackViewController.m
 //  freebao
 //
 //  Created by levi on 13-7-28.
 //  Copyright (c) 2013年 WeiQun. All rights reserved.
 //
 
-#import "AboutViewController.h"
+#import "FeedbackViewController.h"
 
-@interface AboutViewController ()
+@interface FeedbackViewController ()
 
 @end
 
-@implementation AboutViewController
+@implementation FeedbackViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,13 +26,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    itemsArray = [[NSMutableArray alloc] initWithObjects:@"Rate Freebao",@"User Guide",@"Check New Version", nil];
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     _tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     _tittleLabel.textAlignment = UITextAlignmentCenter;
     [_tittleLabel setBackgroundColor:[UIColor clearColor]];
-    _tittleLabel.text = @"About";
+    _tittleLabel.text = @"Feedback";
     _tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: _tittleLabel];
     _tittleLabel.center = CGPointMake(160, 22);
@@ -65,39 +64,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [self setAboutTableview:nil];
-    [super viewDidUnload];
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [itemsArray count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    cell.textLabel.text = (NSString*)[itemsArray objectAtIndex:indexPath.row];
-    // Configure the cell...
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 58;
-}
 @end

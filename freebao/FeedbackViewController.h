@@ -1,5 +1,5 @@
 //
-//  AboutViewController.h
+//  FeedbackViewController.h
 //  freebao
 //
 //  Created by levi on 13-7-28.
@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AboutViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
-    NSMutableArray *itemsArray;
+@interface FeedbackViewController : UIViewController {
     UILabel *_tittleLabel;
     UIButton *backButton;
     UIButton *languageButton;
@@ -17,5 +16,4 @@
     UIView *tittleLineView;
 }
 
-@property (weak, nonatomic) IBOutlet UITableView *aboutTableview;
 @end

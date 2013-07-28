@@ -204,6 +204,16 @@
         tittleLineView.hidden = YES;
         ProfileViewController *proVC = [[ProfileViewController alloc] init];
         [self.navigationController pushViewController:proVC animated:YES];
+    } else if (indexPath.row == 9) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        FeedbackViewController *feedbackVC = [[FeedbackViewController alloc] init];
+        [self.navigationController pushViewController:feedbackVC animated:YES];
+    } else if (indexPath.row == 10) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        AboutViewController *aboutVC = [[AboutViewController alloc] init];
+        [self.navigationController pushViewController:aboutVC animated:YES];
     }
 }
 
