@@ -68,4 +68,7 @@
 
 //Freebao Circle
 -(void)FBGetCircleWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
+
+//Freebao Photo
+-(void)FBGetUserPhotosWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

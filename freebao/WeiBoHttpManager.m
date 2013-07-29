@@ -329,6 +329,20 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoGetUserPhotosWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetUserPicListUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aSomeBodyId     forKey:@"query.sendUid"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoPhotoList];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -657,6 +671,18 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CIRCLE object:resultArray];
         } else {
             NSLog(@"[levi] get circle failed...");
+        }
+    }
+    if (requestType == FreebaoPhotoList) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] photo dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] get phtoto Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSArray *resultArray = [resultMap objectForKey:@"userPic"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_PHOTO_LIST object:resultArray];
+        } else {
+            NSLog(@"[levi] get photo failed...");
         }
     }
 }

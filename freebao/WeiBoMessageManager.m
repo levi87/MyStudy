@@ -124,4 +124,9 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetCircleWithUserId:aUserId PassId:passId];
 }
 
+//Freebao 获取用户Photo
+-(void)FBGetUserPhotosWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoGetUserPhotosWithUserId:aUserId SomeBodyId:aSomeBodyId Page:page PageSize:pageSize PassId:passId];
+}
+
 @end

@@ -55,6 +55,7 @@
 #define FB_GET_FOLLOWER_LIST        @"fb_get_follow_list"
 #define FB_GET_FANS_LIST            @"fb_get_fans_list"
 #define FB_GET_CIRCLE               @"fb_get_circle"
+#define FB_GET_PHOTO_LIST           @"fb_get_photo_list"
 
 /*
  Freebao
@@ -269,6 +270,7 @@ typedef enum {
     FreebaoFansList,
     FreebaoPost,
     FreebaoCircle,
+    FreebaoPhotoList,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -355,4 +357,7 @@ typedef enum {
 
 //Freebao 获取圈子
 -(void)didFreebaoGetCircleWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
+
+//Freebao 获取用户照片
+-(void)didFreebaoGetUserPhotosWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

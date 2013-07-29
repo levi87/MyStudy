@@ -101,6 +101,7 @@
     [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
+    [defaultNotifCenter addObserver:self selector:@selector(onRequestPhotoResult:) name:FB_GET_PHOTO_LIST object:nil];
     
     [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
 }
@@ -108,7 +109,7 @@
 -(void)initPhotoView {
     _ds = [[NSMutableArray alloc] init];
     _groupByDate = YES;
-    photoArray = [NSMutableArray arrayWithArray:[self prepareDatasource]];
+//    photoArray = [NSMutableArray arrayWithArray:[self prepareDatasource]];
     NSLog(@"photo array count %d", [photoArray count]);
     self.title = @"Photos.";
     self.thumbnailViewClass = [ThumbnailView class];
@@ -131,6 +132,23 @@
     followersArray = [[NSMutableArray alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resultOfFollowersRequest:) name:FB_GET_FANS_LIST object:nil];
     headPhotosFollow = [[NSMutableArray alloc] init];
+}
+
+-(void)onRequestPhotoResult:(NSNotification*)notification {
+    NSMutableArray *tmpArray = notification.object;
+//    NSLog(@"Photo Array %@", tmpArray);
+    NSMutableArray *tmpPhotoArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [tmpArray count]; i ++) {
+        NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
+        NSString *tmpTime = [tmpDic objectForKey:@"createtime"];
+        tmpTime = [tmpTime substringToIndex:10];
+        tmpTime = [tmpTime stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+        NSLog(@"time Time %@", tmpTime);
+        [tmpPhotoArray addObject:[Photo photoWithURLString:[tmpDic objectForKey:@"imagePath"]
+                                                   date:[self dateFromString:tmpTime]]];
+    };
+    photoArray = tmpPhotoArray;
+    [self reloadPhotoData];
 }
 
 -(void)resultOfFansRequest:(NSNotification*)notification {
@@ -272,7 +290,8 @@
             [likersArray removeAllObjects];
 //            [self.tableView reloadData];
             currentView = PHOTO_PAGE;
-            [self reloadPhotoData];
+//            [self reloadPhotoData];
+            [manager FBGetUserPhotosWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         }
 	}];
 }
@@ -369,6 +388,7 @@
     [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_FANS_LIST object:nil];
     [defaultNotifCenter removeObserver:self name:FB_GET_FOLLOWER_LIST object:nil];
+    [defaultNotifCenter removeObserver:self name:FB_GET_PHOTO_LIST object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -471,7 +491,6 @@
         
         return cell;
     } else if (currentView == PHOTO_PAGE) {
-        NSLog(@"cell photo...");
         static NSString *CellIdentifier = @"REPhotoThumbnailsCell";
         REPhotoThumbnailsCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
@@ -886,7 +905,7 @@
 - (NSDate *)dateFromString:(NSString *)string
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"MM/dd/yyyy"];
+    [dateFormat setDateFormat:@"yyyy/MM/dd"];
     return [dateFormat dateFromString:string];
 }
 
