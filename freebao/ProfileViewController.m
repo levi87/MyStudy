@@ -7,6 +7,10 @@
 //
 
 #import "ProfileViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#define  PIC_WIDTH 80
+#define  PIC_HEIGHT 80
+#define  INSETS 10
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
@@ -57,6 +61,24 @@
     [self.navigationController.view addSubview:tittleView];
     [self.navigationController.view addSubview:tittleLineView];
     [self.navigationController.view addSubview:backButton];
+    headImageArray = [[NSMutableArray alloc] init];
+    [self refreshScrollView];
+
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+- (void)refreshScrollView
+{
+    CGFloat width=100*(headImageArray.count)<300?320:100+headImageArray.count*90;
+    
+    CGSize contentSize=CGSizeMake(width, 100);
+    [self.headerImagesScrollView setContentSize:contentSize];
+    [self.headerImagesScrollView setContentOffset:CGPointMake(width<320?0:width-320, 0) animated:YES];
+    
 }
 
 - (void)backButtonAction {
@@ -154,6 +176,42 @@
 
 - (void)viewDidUnload {
     [self setHeaderView:nil];
+    [self setHeaderImagesScrollView:nil];
+    [self setAddButton:nil];
     [super viewDidUnload];
+}
+- (IBAction)addAction:(id)sender {
+    //移动添加按钮
+    CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
+    [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x, self.addButton.center.y)]];
+    [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)]];
+    [positionAnim setDelegate:self];
+    [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [positionAnim setDuration:0.25f];
+    [self.addButton.layer addAnimation:positionAnim forKey:nil];
+    [self.addButton setCenter:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)];
+    
+    //添加图片
+    UIImageView *aImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"boy"]];
+    [aImageView setFrame:CGRectMake(INSETS-90, INSETS, PIC_WIDTH, PIC_HEIGHT)];
+    [headImageArray addObject:aImageView];
+    [self.headerImagesScrollView addSubview:aImageView];
+    
+    for (UIImageView *img in headImageArray) {
+        
+        CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
+        [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x, img.center.y)]];
+        [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)]];
+        [positionAnim setDelegate:self];
+        [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [positionAnim setDuration:0.25f];
+        [img.layer addAnimation:positionAnim forKey:nil];
+        
+        [img setCenter:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)];
+    }
+    
+    
+    
+    [self refreshScrollView];
 }
 @end

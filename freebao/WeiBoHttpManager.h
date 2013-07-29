@@ -271,6 +271,12 @@ typedef enum {
     FreebaoPost,
     FreebaoCircle,
     FreebaoPhotoList,
+    FreebaoPersonInfo,
+    FreebaoPersonPhoto,
+    FreebaoPersonPhotoUpload,
+    FreebaoPersonPhotoDelete,
+    FreebaoFollowFriend,
+    FreebaounFollowFriend,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -360,4 +366,22 @@ typedef enum {
 
 //Freebao 获取用户照片
 -(void)didFreebaoGetUserPhotosWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao 获取个人资料
+-(void)didFreebaoGetPersonInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
+
+//Freebao 获取头像照片
+-(void)didFreebaoGetPersonPhotoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
+
+//Freebao 上传头像信息
+-(void)didFreebaoAddPersonPhotoWithUserId:(NSString*)aUserId PhotoFile:(NSData*)photoData PassId:(NSString*)passId;
+
+//Freebao 删除头像信息
+-(void)didFreebaoDeletePersonPhotoWithUserId:(NSString*)aUserId PhotoUrl:(NSString*)photoUrl PassId:(NSString*)passId;
+
+//Freebao 关注好友
+-(void)didFreebaoFollowFriendWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId CircleId:(NSString*)circleId PassId:(NSString*)passId;
+
+//Freebao 取消关注好友
+-(void)didFreebaounFollowFriendWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId PassId:(NSString*)passId;
 @end

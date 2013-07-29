@@ -142,6 +142,9 @@
 		A2BDD130179D259F007B08C5 /* icon_postedit_voice2_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2BDD12D179D259F007B08C5 /* icon_postedit_voice2_normal@2x.png */; };
 		A2BDD131179D259F007B08C5 /* icon_postedit_voice3_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2BDD12E179D259F007B08C5 /* icon_postedit_voice3_normal@2x.png */; };
 		A2BDD133179D25A6007B08C5 /* icon_postedit_voice1_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2BDD132179D25A6007B08C5 /* icon_postedit_voice1_normal@2x.png */; };
+		A2C1B5D017A61B43001E84DF /* plus_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C1B5CF17A61B43001E84DF /* plus_icon.png */; };
+		A2C1B5D317A61C72001E84DF /* boy.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C1B5D217A61C72001E84DF /* boy.png */; };
+		A2C1B5D617A647B3001E84DF /* PersonInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C1B5D517A647B3001E84DF /* PersonInfo.m */; };
 		A2DAFEA3178E426200B40D24 /* con-liked.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEA2178E426200B40D24 /* con-liked.png */; };
 		A2DAFEC2178E64C400B40D24 /* DeleteGrey.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEBE178E64C400B40D24 /* DeleteGrey.png */; };
 		A2DAFEC3178E64C400B40D24 /* DeleteGrey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */; };
@@ -836,6 +839,10 @@
 		A2BDD12D179D259F007B08C5 /* icon_postedit_voice2_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_postedit_voice2_normal@2x.png"; sourceTree = "<group>"; };
 		A2BDD12E179D259F007B08C5 /* icon_postedit_voice3_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_postedit_voice3_normal@2x.png"; sourceTree = "<group>"; };
 		A2BDD132179D25A6007B08C5 /* icon_postedit_voice1_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_postedit_voice1_normal@2x.png"; sourceTree = "<group>"; };
+		A2C1B5CF17A61B43001E84DF /* plus_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus_icon.png; sourceTree = "<group>"; };
+		A2C1B5D217A61C72001E84DF /* boy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boy.png; sourceTree = "<group>"; };
+		A2C1B5D417A647B3001E84DF /* PersonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonInfo.h; sourceTree = "<group>"; };
+		A2C1B5D517A647B3001E84DF /* PersonInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInfo.m; sourceTree = "<group>"; };
 		A2DAFEA2178E426200B40D24 /* con-liked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "con-liked.png"; sourceTree = "<group>"; };
 		A2DAFEBE178E64C400B40D24 /* DeleteGrey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteGrey.png; sourceTree = "<group>"; };
 		A2DAFEBF178E64C400B40D24 /* DeleteGrey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteGrey@2x.png"; sourceTree = "<group>"; };
@@ -2827,6 +2834,8 @@
 		DB6433B617585A03005CAD2F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A2C1B5D217A61C72001E84DF /* boy.png */,
+				A2C1B5CF17A61B43001E84DF /* plus_icon.png */,
 				A2700434179F64D500D3D6A6 /* icon_favorite@2x.png */,
 				A2700435179F64D500D3D6A6 /* icon_reply@2x.png */,
 				A2700436179F64D500D3D6A6 /* icon_retweet@2x.png */,
@@ -3399,6 +3408,8 @@
 				DBA63D3617A375A40011DCC9 /* NoticeInfo.m */,
 				DBA63D4217A3B9F00011DCC9 /* FollowerInfo.h */,
 				DBA63D4317A3B9F00011DCC9 /* FollowerInfo.m */,
+				A2C1B5D417A647B3001E84DF /* PersonInfo.h */,
+				A2C1B5D517A647B3001E84DF /* PersonInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3927,6 +3938,8 @@
 				DBE61F5E17A4C42400D741D5 /* AboutViewController.xib in Resources */,
 				DBE61F6317A4C67000D741D5 /* FeedbackViewController.xib in Resources */,
 				DBE61F6817A4CAF400D741D5 /* SearchViewController.xib in Resources */,
+				A2C1B5D017A61B43001E84DF /* plus_icon.png in Resources */,
+				A2C1B5D317A61C72001E84DF /* boy.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4228,6 +4241,7 @@
 				DBE61F5D17A4C42400D741D5 /* AboutViewController.m in Sources */,
 				DBE61F6217A4C67000D741D5 /* FeedbackViewController.m in Sources */,
 				DBE61F6717A4CAF400D741D5 /* SearchViewController.m in Sources */,
+				A2C1B5D617A647B3001E84DF /* PersonInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

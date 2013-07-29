@@ -129,4 +129,33 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetUserPhotosWithUserId:aUserId SomeBodyId:aSomeBodyId Page:page PageSize:pageSize PassId:passId];
 }
 
+//Freebao 获取个人资料
+-(void)FBGetPersonInfoWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
+    [httpManager didFreebaoGetPersonInfoWithUserId:aUserId PassId:passId];
+}
+
+//Freebao 获取个人头像
+-(void)FBGetPersonPhotoWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
+    [httpManager didFreebaoGetPersonPhotoWithUserId:aUserId PassId:passId];
+}
+
+//Freebao 上传个人头像
+-(void)FBAddPersonPhotoWithUserId:(NSString *)aUserId PhotoFile:(NSData *)photoData PassId:(NSString *)passId {
+    [httpManager didFreebaoAddPersonPhotoWithUserId:aUserId PhotoFile:photoData PassId:passId];
+}
+
+//Freebao 删除个人头像
+-(void)FBDeletePersonPhotoWithUserId:(NSString *)aUserId PhotoUrl:(NSString *)photoUrl PassId:(NSString *)passId {
+    [httpManager didFreebaoDeletePersonPhotoWithUserId:aUserId PhotoUrl:photoUrl PassId:passId];
+}
+
+//Freebao follow Friend
+-(void)FBFollowFriendWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId CircleId:(NSString *)circleId PassId:(NSString *)passId {
+    [httpManager didFreebaoFollowFriendWithUserId:aUserId SomeBodyId:aSomeBodyId CircleId:circleId PassId:passId];
+}
+
+//Freebao unFollow Friend
+-(void)FBunFollowFriendWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId PassId:(NSString *)passId {
+    [httpManager didFreebaounFollowFriendWithUserId:aUserId SomeBodyId:aSomeBodyId PassId:passId];
+}
 @end

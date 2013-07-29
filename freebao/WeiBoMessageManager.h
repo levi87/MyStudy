@@ -71,4 +71,22 @@
 
 //Freebao Photo
 -(void)FBGetUserPhotosWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao Person Info
+-(void)FBGetPersonInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;
+
+//Freebao Person Photo
+-(void)FBGetPersonPhotoWithUserId:(NSString *)aUserId PassId:(NSString *)passId;
+
+//Freebao Person Photo upload
+-(void)FBAddPersonPhotoWithUserId:(NSString*)aUserId PhotoFile:(NSData*)photoData PassId:(NSString*)passId;
+
+//Freebao Person Photo delete
+-(void)FBDeletePersonPhotoWithUserId:(NSString*)aUserId PhotoUrl:(NSString*)photoUrl PassId:(NSString*)passId;
+
+//Freebao Follow Friend
+-(void)FBFollowFriendWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId CircleId:(NSString*)circleId PassId:(NSString*)passId;
+
+//Freebao unFollow Friend
+-(void)FBunFollowFriendWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId PassId:(NSString*)passId;
 @end

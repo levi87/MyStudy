@@ -343,6 +343,79 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoGetPersonInfoWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestUserInfoUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoPersonInfo];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoGetPersonPhotoWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kgetfaceUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoPersonPhoto];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoAddPersonPhotoWithUserId:(NSString *)aUserId PhotoFile:(NSData *)photoData PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kaddfaceUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    if (photoData != nil) {
+        [item setPostValue:photoData      forKey:@"faceFile"];
+    }
+    
+    [self setPostUserInfo:item withRequestType:FreebaoPersonPhotoUpload];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoDeletePersonPhotoWithUserId:(NSString *)aUserId PhotoUrl:(NSString *)photoUrl PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kaddfaceUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userface.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:photoUrl      forKey:@"userface.facepath"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoPersonPhotoDelete];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoFollowFriendWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId CircleId:(NSString *)circleId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:KFollowUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aSomeBodyId     forKey:@"friend.receiveUid"];
+    [item setPostValue:[NSNumber numberWithInteger:[circleId integerValue]] forKey:@"friend.teamId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoFollowFriend];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaounFollowFriendWithUserId:(NSString *)aUserId SomeBodyId:(NSString *)aSomeBodyId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:KFollowUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aSomeBodyId     forKey:@"friend.receiveUid"];;
+    
+    [self setPostUserInfo:item withRequestType:FreebaounFollowFriend];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -427,18 +500,7 @@
             NSLog(@"[levi] login failed...");
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_LOGIN_FAILED object:nil];
         }
-//        if (dic)
-//        {
-//            if ([delegate respondsToSelector:@selector(didCommentAStatus:)]) {
-//                [delegate didCommentAStatus:YES];
-//            }
-//        }
-//        else
-//        {
-//            if ([delegate respondsToSelector:@selector(didCommentAStatus:)]) {
-//                [delegate didCommentAStatus:NO];
-//            }
-//        }
+        return;
     }
     //Freebao获取用户信息
     if (requestType == FreebaoGetUserInfo) {
@@ -454,6 +516,7 @@
         } else {
             NSLog(@"[levi] request UserInfo failed...");
         }
+        return;
     }
     
     if (requestType == FreebaoGetHomeline) {
@@ -475,6 +538,7 @@
         } else {
             NSLog(@"[levi] request HomeLine failed...");
         }
+        return;
     }
     
     if (requestType == FreebaoGetComment) {
@@ -499,6 +563,7 @@
         } else {
             NSLog(@"[levi] request Comments failed...");
         }
+        return;
     }
 
     if (requestType == FreebaoGetMention) {
@@ -534,6 +599,7 @@
         } else {
             NSLog(@"[levi] request Mentions failed...");
         }
+        return;
     }
     if (requestType == FreebaoLike) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -543,6 +609,7 @@
         } else {
             NSLog(@"[levi] request Like failed...");
         }
+        return;
     }
     if (requestType == FreebaoUnlike) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -552,6 +619,7 @@
         } else {
             NSLog(@"[levi] request UnLike failed...");
         }
+        return;
     }
     if (requestType == FreebaoGetLikers) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -564,6 +632,7 @@
         } else {
             NSLog(@"[levi] request Likers failed...");
         }
+        return;
     }
     if (requestType == FreebaoGetTranslate) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -579,6 +648,7 @@
         } else {
             NSLog(@"[levi] request Translate failed...");
         }
+        return;
     }
     if (requestType == FreebaoGetTranslateVoice) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -594,6 +664,7 @@
         } else {
             NSLog(@"[levi] request Translate Voice failed...");
         }
+        return;
     }
     if (requestType == FreebaoAddComment) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -604,6 +675,7 @@
         } else {
             NSLog(@"[levi] request add comment failed...");
         }
+        return;
     }
     if (requestType == FreebaoGetConversationList) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -616,6 +688,7 @@
         } else {
             NSLog(@"[levi] request Get Conversation Listfailed...");
         }
+        return;
     }
     if (requestType == FreebaoSetConversationLanguage) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -625,6 +698,7 @@
         } else {
             NSLog(@"[levi] request Set Conversation Language failed...");
         }
+        return;
     }
     if (requestType == FreebaoFollowerList) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -638,6 +712,7 @@
         } else {
             NSLog(@"[levi] follow list failed...");
         }
+        return;
     }
     if (requestType == FreebaoFansList) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -651,6 +726,7 @@
         } else {
             NSLog(@"[levi] fans list failed...");
         }
+        return;
     }
     if (requestType == FreebaoPost) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -660,6 +736,7 @@
         } else {
             NSLog(@"[levi] post failed...");
         }
+        return;
     }
     if (requestType == FreebaoCircle) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -672,6 +749,7 @@
         } else {
             NSLog(@"[levi] get circle failed...");
         }
+        return;
     }
     if (requestType == FreebaoPhotoList) {
         NSMutableDictionary *tmpDic = returnObject;
@@ -684,6 +762,73 @@
         } else {
             NSLog(@"[levi] get photo failed...");
         }
+        return;
+    }
+    if (requestType == FreebaoPersonInfo) {
+        NSMutableDictionary *tmpDic = returnObject;
+//        NSLog(@"[levi] person info dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] get Person Info Success...");
+//            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+//            NSArray *resultArray = [resultMap objectForKey:@"userPic"];
+//            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_PHOTO_LIST object:resultArray];
+        } else {
+            NSLog(@"[levi] get Person Info failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoPersonPhoto) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] person photo dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] get Person photo Success...");
+            //            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            //            NSArray *resultArray = [resultMap objectForKey:@"userPic"];
+            //            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_PHOTO_LIST object:resultArray];
+        } else {
+            NSLog(@"[levi] get Person photo failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoPersonPhotoUpload) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] person photo upload dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] upload Person photo Success...");
+        } else {
+            NSLog(@"[levi] upload Person photo failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoPersonPhotoDelete) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] person photo delete dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] delete Person photo Success...");
+        } else {
+            NSLog(@"[levi] delete Person photo failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoFollowFriend) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] follow friend dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] follow friend Success...");
+        } else {
+            NSLog(@"[levi] follow friend failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaounFollowFriend) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] unfollow friend dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] unfollow friend Success...");
+        } else {
+            NSLog(@"[levi] unfollow friend failed...");
+        }
+        return;
     }
 }
 
