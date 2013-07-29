@@ -344,7 +344,7 @@
 }
 
 -(void)didFreebaoGetPersonInfoWithUserId:(NSString *)aUserId PassId:(NSString *)passId {
-    NSURL *url = [NSURL URLWithString:kRequestUserInfoUrl];
+    NSURL *url = [NSURL URLWithString:kRequestUserProfile];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
     
     [item setPostValue:aUserId    forKey:@"userId"];
@@ -766,7 +766,7 @@
     }
     if (requestType == FreebaoPersonInfo) {
         NSMutableDictionary *tmpDic = returnObject;
-//        NSLog(@"[levi] person info dic %@", tmpDic);
+        NSLog(@"[levi] person info dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] get Person Info Success...");
 //            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];

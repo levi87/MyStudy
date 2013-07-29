@@ -152,6 +152,7 @@
 #define kAddFavouriteTimeline           kHostUrl@"favorite/addFavorite.html"
 #define kDeleteFavouriteTimeline        kHostUrl@"favorite/deleteFavorite.html"
 #define kRequestUserInfoUrl             kHostUrl@"userInfo/getUserInfo.html"
+#define kRequestUserProfile             kHostUrl@"userInfo//profile.html"
 #define KUpdateUserInfoUrl              kHostUrl@"userInfo/updateBasicInfo.html"
 #define kPostUrl                        kHostUrl@"content/createContent.html"
 #define kRepostUrl                      kHostUrl@"content/shareContentToTeam.html"
