@@ -766,12 +766,12 @@
     }
     if (requestType == FreebaoPersonInfo) {
         NSMutableDictionary *tmpDic = returnObject;
-        NSLog(@"[levi] person info dic %@", tmpDic);
+//        NSLog(@"[levi] person info dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] get Person Info Success...");
-//            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
-//            NSArray *resultArray = [resultMap objectForKey:@"userPic"];
-//            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_PHOTO_LIST object:resultArray];
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSDictionary *resultUser = [resultMap objectForKey:@"user"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_PERSON_INFO object:resultUser];
         } else {
             NSLog(@"[levi] get Person Info failed...");
         }

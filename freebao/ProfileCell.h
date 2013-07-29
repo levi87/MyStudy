@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProfileInfo.h"
+#import "PersonInfo.h"
 
 @interface ProfileCell : UITableViewCell {
-    UILabel *keyLabel;
-    UILabel *valueLabel;
+    UILabel *_keyLabel;
+    UILabel *_valueLabel;
 }
 
--(void)setCellValue:(ProfileInfo*)value;
+//-(void)setCellValue:(PersonInfo*)value;
+@property UILabel *keyLabel;
+@property UILabel *valueLabel;
 
 @end

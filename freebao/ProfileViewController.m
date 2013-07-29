@@ -8,6 +8,7 @@
 
 #import "ProfileViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "EGOImageView.h"
 #define  PIC_WIDTH 80
 #define  PIC_HEIGHT 80
 #define  INSETS 10
@@ -38,7 +39,12 @@
 {
     [super viewDidLoad];
 
+    itemsArray = [[NSMutableArray alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultPersonInfo:) name:FB_GET_PERSON_INFO object:nil];
     [self.tableView setTableHeaderView:self.headerView];
+    headImageView = [[EGOImageView alloc] init];
+    headImageView.frame = CGRectMake(0, 0, 60, 60);
+    [self.headViewButton addSubview:headImageView];
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
     _tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -68,7 +74,65 @@
         manager = [WeiBoMessageManager getInstance];
     }
     [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+//    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)onResultPersonInfo:(NSNotification*)notification {
+    NSLog(@"result...person...info%@",notification.object);
+    NSDictionary *tmpDic = notification.object;
+    PersonInfo *personInfo = [[PersonInfo alloc] init];
+    personInfo.age = [tmpDic getStringValueForKey:@"age" defaultValue:@""];
+    personInfo.birthday = [[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] substringToIndex:10];
+    personInfo.biography = [tmpDic getStringValueForKey:@"biography" defaultValue:@""];
+    personInfo.bloodtype = [tmpDic getStringValueForKey:@"bloodtype" defaultValue:@""];
+    personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
+    personInfo.city = [tmpDic getStringValueForKey:@"city" defaultValue:@""];
+    personInfo.constellation = [tmpDic getStringValueForKey:@"constellation" defaultValue:@""];
+    personInfo.contentCount = [tmpDic getStringValueForKey:@"contentCount" defaultValue:@""];
+    personInfo.countryVisited = [tmpDic getStringValueForKey:@"country_visited" defaultValue:@""];
+    personInfo.facePath = [tmpDic getStringValueForKey:@"facePath" defaultValue:@""];
+    personInfo.faceArray = [tmpDic objectForKey:@"faces"];
+    personInfo.fansCount = [tmpDic getStringValueForKey:@"fansCount" defaultValue:@""];
+    personInfo.favoriteCount = [tmpDic getStringValueForKey:@"favoriteCount" defaultValue:@""];
+    personInfo.follow = [tmpDic getStringValueForKey:@"follow" defaultValue:@""];
+    personInfo.followCount = [tmpDic getStringValueForKey:@"followCount" defaultValue:@""];
+    personInfo.footmarkArray = [tmpDic objectForKey:@"footmark"];
+    personInfo.gender = [tmpDic getStringValueForKey:@"gender" defaultValue:@""];
+    personInfo.height = [tmpDic getStringValueForKey:@"height" defaultValue:@"0"];
+    personInfo.interests = [tmpDic getStringValueForKey:@"interests" defaultValue:@""];
+    personInfo.nation = [tmpDic getStringValueForKey:@"nation" defaultValue:@""];
+    personInfo.nickname = [tmpDic getStringValueForKey:@"nickname" defaultValue:@""];
+    personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
+    personInfo.tourism = [tmpDic getStringValueForKey:@"tourism" defaultValue:@""];
+    personInfo.userId = [tmpDic getStringValueForKey:@"userId" defaultValue:@""];
+    personInfo.weight = [tmpDic getStringValueForKey:@"weight" defaultValue:@"0"];
+    [self refreshView:personInfo];
+}
+
+-(void)refreshView:(PersonInfo*)info {
+    headImageView.imageURL = [NSURL URLWithString:info.facePath];
+    self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",info.userId];
+    [itemsArray addObject:info.nickname];
+    if ([info.gender integerValue] == 1) {
+        self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",info.age];
+        [itemsArray addObject:@"Male"];
+    } else {
+        self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",info.age];
+        [itemsArray addObject:@"Female"];
+    }
+    self.nationLabel.text = info.nation;
+    self.describeTextView.text = info.biography;
+    [itemsArray addObject:info.birthday];
+    [itemsArray addObject:[NSString stringWithFormat:@"%@cm",info.height]];
+    [itemsArray addObject:[NSString stringWithFormat:@"%@kg",info.weight]];
+    [itemsArray addObject:info.bloodtype];
+    [itemsArray addObject:info.constellation];
+    [itemsArray addObject:info.nation];
+    [itemsArray addObject:info.profession];
+    [itemsArray addObject:info.interests];
+    [itemsArray addObject:info.countryVisited];
+    [itemsArray addObject:info.tourism];
+    [self.tableView reloadData];
 }
 
 - (void)refreshScrollView
@@ -106,7 +170,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 12;
+    return [itemsArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,7 +180,32 @@
     if (cell == nil) {
         cell = [[ProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    if (indexPath.row == 0) {
+        cell.keyLabel.text = @"Name";
+    } else if (indexPath.row == 1) {
+        cell.keyLabel.text = @"Sex";
+    } else if (indexPath.row == 2) {
+        cell.keyLabel.text = @"Birthday";
+    } else if (indexPath.row == 3) {
+        cell.keyLabel.text = @"Height";
+    } else if (indexPath.row == 4) {
+        cell.keyLabel.text = @"Weight";
+    } else if (indexPath.row == 5) {
+        cell.keyLabel.text = @"Blood Type";
+    } else if (indexPath.row == 6) {
+        cell.keyLabel.text = @"Constellation";
+    } else if (indexPath.row == 7) {
+        cell.keyLabel.text = @"Country";
+    } else if (indexPath.row == 8) {
+        cell.keyLabel.text = @"Occupation";
+    } else if (indexPath.row == 9) {
+        cell.keyLabel.text = @"Interests";
+    } else if (indexPath.row == 10) {
+        cell.keyLabel.text = @"Countries Visited";
+    } else if (indexPath.row == 11) {
+        cell.keyLabel.text = @"Travelling Plans";
+    }
+    cell.valueLabel.text = [itemsArray objectAtIndex:indexPath.row];
     // Configure the cell...
     
     return cell;
@@ -178,7 +267,13 @@
     [self setHeaderView:nil];
     [self setHeaderImagesScrollView:nil];
     [self setAddButton:nil];
+    [self setHeadViewButton:nil];
+    [self setUserIdLabel:nil];
+    [self setUserAgeLabel:nil];
+    [self setNationLabel:nil];
+    [self setDescribeTextView:nil];
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_PERSON_INFO object:nil];
 }
 - (IBAction)addAction:(id)sender {
     //移动添加按钮

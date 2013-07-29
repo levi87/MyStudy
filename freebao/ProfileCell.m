@@ -9,22 +9,29 @@
 #import "ProfileCell.h"
 
 @implementation ProfileCell
+@synthesize keyLabel = _keyLabel;
+@synthesize valueLabel = _valueLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        keyLabel = [[UILabel alloc] init];
-        keyLabel.frame = CGRectMake(0, 0, 80, 44);
-        valueLabel = [[UILabel alloc] init];
-        valueLabel.frame = CGRectMake(260, 0, 60, 44);
-        keyLabel.text = @"key";
-        valueLabel.text = @"value";
-        [self addSubview:keyLabel];
-        [self addSubview:valueLabel];
+        _keyLabel = [[UILabel alloc] init];
+        _keyLabel.frame = CGRectMake(5, 0, 120, 44);
+        _valueLabel = [[UILabel alloc] init];
+        _valueLabel.frame = CGRectMake(220, 0, 95, 44);
+        _valueLabel.textAlignment = UITextAlignmentRight;
+//        _keyLabel.text = @"key";
+//        _valueLabel.text = @"value";
+        [self addSubview:_keyLabel];
+        [self addSubview:_valueLabel];
     }
     return self;
+}
+
+-(void)setCellValue:(PersonInfo *)value {
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

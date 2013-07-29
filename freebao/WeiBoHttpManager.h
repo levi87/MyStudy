@@ -56,6 +56,7 @@
 #define FB_GET_FANS_LIST            @"fb_get_fans_list"
 #define FB_GET_CIRCLE               @"fb_get_circle"
 #define FB_GET_PHOTO_LIST           @"fb_get_photo_list"
+#define FB_GET_PERSON_INFO          @"fb_get_person_info"
 
 /*
  Freebao
