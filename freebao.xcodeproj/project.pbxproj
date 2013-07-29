@@ -663,6 +663,11 @@
 		DBA6409C175A07E100ECCE6F /* MessageUIView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBA6409B175A07E100ECCE6F /* MessageUIView.xib */; };
 		DBBE598D177E966B00FC055B /* StatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBBE598B177E966B00FC055B /* StatusCell.m */; };
 		DBBE598E177E966B00FC055B /* StatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBBE598C177E966B00FC055B /* StatusCell.xib */; };
+		DBE08BCF17A6A350007CC169 /* StatusNewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE08BCE17A6A350007CC169 /* StatusNewCell.m */; };
+		DBE08BD317A6AB3B007CC169 /* HomePageNewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE08BD117A6AB3B007CC169 /* HomePageNewViewController.m */; };
+		DBE08BD417A6AB3B007CC169 /* HomePageNewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBE08BD217A6AB3B007CC169 /* HomePageNewViewController.xib */; };
+		DBE08BD717A6B0B9007CC169 /* StatusNewImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE08BD617A6B0B9007CC169 /* StatusNewImageCell.m */; };
+		DBE08BDA17A6B738007CC169 /* StatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE08BD917A6B738007CC169 /* StatusInfo.m */; };
 		DBE61F5D17A4C42400D741D5 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE61F5B17A4C42400D741D5 /* AboutViewController.m */; };
 		DBE61F5E17A4C42400D741D5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBE61F5C17A4C42400D741D5 /* AboutViewController.xib */; };
 		DBE61F6217A4C67000D741D5 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE61F6017A4C67000D741D5 /* FeedbackViewController.m */; };
@@ -1645,6 +1650,15 @@
 		DBBE598A177E966B00FC055B /* StatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCell.h; sourceTree = "<group>"; };
 		DBBE598B177E966B00FC055B /* StatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCell.m; sourceTree = "<group>"; };
 		DBBE598C177E966B00FC055B /* StatusCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusCell.xib; sourceTree = "<group>"; };
+		DBE08BCD17A6A350007CC169 /* StatusNewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusNewCell.h; sourceTree = "<group>"; };
+		DBE08BCE17A6A350007CC169 /* StatusNewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusNewCell.m; sourceTree = "<group>"; };
+		DBE08BD017A6AB3B007CC169 /* HomePageNewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageNewViewController.h; sourceTree = "<group>"; };
+		DBE08BD117A6AB3B007CC169 /* HomePageNewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageNewViewController.m; sourceTree = "<group>"; };
+		DBE08BD217A6AB3B007CC169 /* HomePageNewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomePageNewViewController.xib; sourceTree = "<group>"; };
+		DBE08BD517A6B0B9007CC169 /* StatusNewImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusNewImageCell.h; sourceTree = "<group>"; };
+		DBE08BD617A6B0B9007CC169 /* StatusNewImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusNewImageCell.m; sourceTree = "<group>"; };
+		DBE08BD817A6B738007CC169 /* StatusInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusInfo.h; sourceTree = "<group>"; };
+		DBE08BD917A6B738007CC169 /* StatusInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusInfo.m; sourceTree = "<group>"; };
 		DBE61F5A17A4C42300D741D5 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		DBE61F5B17A4C42400D741D5 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		DBE61F5C17A4C42400D741D5 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
@@ -3227,6 +3241,9 @@
 				DBE61F6417A4CAF400D741D5 /* SearchViewController.h */,
 				DBE61F6517A4CAF400D741D5 /* SearchViewController.m */,
 				DBE61F6617A4CAF400D741D5 /* SearchViewController.xib */,
+				DBE08BD017A6AB3B007CC169 /* HomePageNewViewController.h */,
+				DBE08BD117A6AB3B007CC169 /* HomePageNewViewController.m */,
+				DBE08BD217A6AB3B007CC169 /* HomePageNewViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3317,6 +3334,10 @@
 				DBA63D3317A375200011DCC9 /* NoticesCell.m */,
 				DBA63D3F17A3B7130011DCC9 /* FollowerCell.h */,
 				DBA63D4017A3B7130011DCC9 /* FollowerCell.m */,
+				DBE08BCD17A6A350007CC169 /* StatusNewCell.h */,
+				DBE08BCE17A6A350007CC169 /* StatusNewCell.m */,
+				DBE08BD517A6B0B9007CC169 /* StatusNewImageCell.h */,
+				DBE08BD617A6B0B9007CC169 /* StatusNewImageCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -3410,6 +3431,8 @@
 				DBA63D4317A3B9F00011DCC9 /* FollowerInfo.m */,
 				A2C1B5D417A647B3001E84DF /* PersonInfo.h */,
 				A2C1B5D517A647B3001E84DF /* PersonInfo.m */,
+				DBE08BD817A6B738007CC169 /* StatusInfo.h */,
+				DBE08BD917A6B738007CC169 /* StatusInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -3940,6 +3963,7 @@
 				DBE61F6817A4CAF400D741D5 /* SearchViewController.xib in Resources */,
 				A2C1B5D017A61B43001E84DF /* plus_icon.png in Resources */,
 				A2C1B5D317A61C72001E84DF /* boy.png in Resources */,
+				DBE08BD417A6AB3B007CC169 /* HomePageNewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4242,6 +4266,10 @@
 				DBE61F6217A4C67000D741D5 /* FeedbackViewController.m in Sources */,
 				DBE61F6717A4CAF400D741D5 /* SearchViewController.m in Sources */,
 				A2C1B5D617A647B3001E84DF /* PersonInfo.m in Sources */,
+				DBE08BCF17A6A350007CC169 /* StatusNewCell.m in Sources */,
+				DBE08BD317A6AB3B007CC169 /* HomePageNewViewController.m in Sources */,
+				DBE08BD717A6B0B9007CC169 /* StatusNewImageCell.m in Sources */,
+				DBE08BDA17A6B738007CC169 /* StatusInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -40,6 +40,7 @@
 
 //FB_HOMELINE
 #define FB_GET_HOMELINE             @"fb_get_homeline"
+#define FB_GET_HOMELINE_NEW         @"fb_get_homeline_new"
 #define FB_GET_USERINFO             @"fb_get_userinfo"
 #define FB_GET_UNREAD_COUNT         @"fb_get_unread_count"
 #define FB_GET_COMMENT              @"fb_get_comment"
@@ -258,6 +259,7 @@ typedef enum {
     FreebaoLogin,
     FreebaoGetUserInfo,
     FreebaoGetHomeline,
+    FreebaoGetHomelineNew,
     FreebaoGetComment,
     FreebaoGetMention,
     FreebaoLike,
@@ -323,6 +325,9 @@ typedef enum {
 
 //Freebao获取微博信息
 -(void)didFreebaoGetHomeline:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao获取微博信息new
+-(void)didFreebaoGetHomelineNew:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
 //Freebao获取微博评论
 -(void)didFreebaoGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;

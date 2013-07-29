@@ -53,6 +53,11 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetHomeline:userId Page:page PageSize:pageSize PassId:passId];
 }
 
+//Freebao 获取微博信息new
+-(void)FBGetHomelineNew:(NSString *)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoGetHomelineNew:userId Page:page PageSize:pageSize PassId:passId];
+}
+
 //Freebao 获取微博评论
 -(void)FBGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
     [httpManager didFreebaoGetCommentWithHomelineId:StatusId StatusType:statusType Page:page PageSize:pageSize PassId:passId];

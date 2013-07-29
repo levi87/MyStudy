@@ -12,6 +12,7 @@
 #import "Status.h"
 #import "SBJson.h"
 #import "Comment.h"
+#import "StatusInfo.h"
 
 @implementation WeiBoHttpManager
 @synthesize requestQueue;
@@ -115,6 +116,19 @@
     [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
     
     [self setPostUserInfo:item withRequestType:FreebaoGetHomeline];
+    [requestQueue addOperation:item];
+}
+
+- (void)didFreebaoGetHomelineNew:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestTimeLinesUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetHomelineNew];
     [requestQueue addOperation:item];
 }
 
@@ -537,6 +551,43 @@
             NSLog(@"[levi] status array count : %d",[timeline count]);
         } else {
             NSLog(@"[levi] request HomeLine failed...");
+        }
+        return;
+    }
+    
+    if (requestType == FreebaoGetHomelineNew) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request new HomeLine Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            
+            NSArray *contents = [resultMap objectForKey:@"posts"];
+            NSLog(@"post new %@",contents);
+            
+            NSMutableArray *timeline = [NSMutableArray array];
+            for (NSInteger index=0; index<[contents count]; index++) {
+                NSDictionary *tmpDic = [contents objectAtIndex:index];
+                StatusInfo *statusInfo = [[StatusInfo alloc] init];
+                statusInfo.originalPicUrl = [tmpDic getStringValueForKey:@"original_pic" defaultValue:@""];
+                statusInfo.commentCount = [tmpDic getStringValueForKey:@"comment_count" defaultValue:@"0"];
+                statusInfo.contentId = [tmpDic getStringValueForKey:@"contentId" defaultValue:@"0"];
+                statusInfo.createAt = [tmpDic getStringValueForKey:@"create_at" defaultValue:@"0"];
+                statusInfo.distance = [tmpDic getStringValueForKey:@"distance" defaultValue:@"0"];
+                statusInfo.likeCount = [tmpDic getStringValueForKey:@"like_count" defaultValue:@"0"];
+                statusInfo.liked = [tmpDic getStringValueForKey:@"liked" defaultValue:@"0"];
+                statusInfo.postLanguage = [tmpDic getStringValueForKey:@"post_language" defaultValue:@"0"];
+                statusInfo.content = [tmpDic getStringValueForKey:@"text" defaultValue:@""];
+                statusInfo.userFacePath = [tmpDic getStringValueForKey:@"user_face_path" defaultValue:@""];
+                statusInfo.userId = [tmpDic getStringValueForKey:@"user_id" defaultValue:@"0"];
+                statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@""];
+                statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
+                statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
+                [timeline addObject:statusInfo];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW object:timeline];
+            NSLog(@"[levi] new status array count : %d",[timeline count]);
+        } else {
+            NSLog(@"[levi] new request HomeLine failed...");
         }
         return;
     }
