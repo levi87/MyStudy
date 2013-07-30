@@ -65,6 +65,9 @@
     [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [editButton setBackgroundColor:[UIColor clearColor]];
     self.describeTextView.editable = NO;
+    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editDescribe)];
+    tap1.numberOfTapsRequired = 1;
+    [self.describeTextView addGestureRecognizer:tap1];
     tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
@@ -89,6 +92,15 @@
 //    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
+-(void)editDescribe {
+    commDialogView = [[OneLineDialogView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    commDialogView.tag = 20;
+    commDialogView.oneLineText.placeholder = self.describeTextView.text;
+    [commDialogView show];
+    tmpTextField = commDialogView.oneLineText;
+    [commDialogView.oneLineText becomeFirstResponder];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (alertView.tag) {
         case 0:
@@ -100,6 +112,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -115,6 +130,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -130,6 +148,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -145,6 +166,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -160,6 +184,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -175,6 +202,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -190,6 +220,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -205,6 +238,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -220,6 +256,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -235,6 +274,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -250,6 +292,9 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -265,6 +310,26 @@
                     break;
                 case 1:
                     NSLog(@"1 %@", tmpTextField.text);
+                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self updatePerson:itemsArray];
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 20:
+        {
+            //Travelling Plans
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    self.describeTextView.text = tmpTextField.text;
+                    [self updatePerson:itemsArray];
                     break;
                 default:
                     break;
@@ -277,8 +342,11 @@
     }
 }
 
--(void)setEditMode {
-    NSLog(@"Edit...");
+-(void)updatePerson:(NSMutableArray*)itemArray {
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBUpdatePersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] NickName:[itemsArray objectAtIndex:0] Biography:self.describeTextView.text City:[itemsArray objectAtIndex:7] Email:@"" Gender:[itemsArray objectAtIndex:1] Height:[itemsArray objectAtIndex:3] Weight:[itemsArray objectAtIndex:4] Birthday:[itemsArray objectAtIndex:2] BloodType:[itemsArray objectAtIndex:5] Profession:[itemsArray objectAtIndex:8] Tourism:[itemsArray objectAtIndex:11] Intersets:[itemsArray objectAtIndex:9] CountryVisited:[itemsArray objectAtIndex:10]];
 }
 
 -(void)onResultPersonInfo:(NSNotification*)notification {
@@ -328,8 +396,8 @@
     self.nationLabel.text = info.nation;
     self.describeTextView.text = info.biography;
     [itemsArray addObject:info.birthday];
-    [itemsArray addObject:[NSString stringWithFormat:@"%@cm",info.height]];
-    [itemsArray addObject:[NSString stringWithFormat:@"%@kg",info.weight]];
+    [itemsArray addObject:info.height];
+    [itemsArray addObject:info.weight];
     [itemsArray addObject:info.bloodtype];
     [itemsArray addObject:info.constellation];
     [itemsArray addObject:info.nation];
@@ -410,7 +478,13 @@
     } else if (indexPath.row == 11) {
         cell.keyLabel.text = @"Travelling Plans";
     }
-    cell.valueLabel.text = [itemsArray objectAtIndex:indexPath.row];
+    if (indexPath.row == 3) {
+        cell.valueLabel.text = [NSString stringWithFormat:@"%@cm", [itemsArray objectAtIndex:indexPath.row]];
+    } else if (indexPath.row == 4) {
+        cell.valueLabel.text = [NSString stringWithFormat:@"%@kg", [itemsArray objectAtIndex:indexPath.row]];
+    } else {
+       cell.valueLabel.text = [itemsArray objectAtIndex:indexPath.row]; 
+    }
     // Configure the cell...
     
     return cell;
@@ -461,7 +535,7 @@
 {
     commDialogView = [[OneLineDialogView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
     commDialogView.tag = indexPath.row;
-    commDialogView.oneLineText.placeholder = [itemsArray objectAtIndex:indexPath.row];
+    commDialogView.oneLineText.placeholder = [NSString stringWithFormat:@"%@",[itemsArray objectAtIndex:indexPath.row]];
     [commDialogView show];
     tmpTextField = commDialogView.oneLineText;
     if (indexPath.row == 3 || indexPath.row == 4) {

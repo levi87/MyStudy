@@ -281,6 +281,7 @@ typedef enum {
     FreebaoPersonPhotoDelete,
     FreebaoFollowFriend,
     FreebaounFollowFriend,
+    FreebaoUpdatePersonInfo,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -391,4 +392,7 @@ typedef enum {
 
 //Freebao 取消关注好友
 -(void)didFreebaounFollowFriendWithUserId:(NSString*)aUserId SomeBodyId:(NSString*)aSomeBodyId PassId:(NSString*)passId;
+
+//Freebao 更新个人资料
+-(void)didFreebaoUpdatePersonInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId NickName:(NSString*)nickName Biography:(NSString*)biography City:(NSString*)city Email:(NSString*)email Gender:(NSString*)gender Height:(NSString*)height Weight:(NSString*)weight Birthday:(NSString*)birthday BloodType:(NSString*)bloodType Profession:(NSString*)profession Tourism:(NSString*)tourism Intersets:(NSString*)interests CountryVisited:(NSString*)countryVisited;
 @end

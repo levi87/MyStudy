@@ -430,6 +430,30 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoUpdatePersonInfoWithUserId:(NSString *)aUserId PassId:(NSString *)passId NickName:(NSString *)nickName Biography:(NSString *)biography City:(NSString *)city Email:(NSString *)email Gender:(NSString *)gender Height:(NSString *)height Weight:(NSString *)weight Birthday:(NSString *)birthday BloodType:(NSString *)bloodType Profession:(NSString *)profession Tourism:(NSString *)tourism Intersets:(NSString *)interests CountryVisited:(NSString *)countryVisited {
+    NSURL *url = [NSURL URLWithString:KUpdateUserInfoUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"user.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:nickName     forKey:@"user.nickname"];
+    [item setPostValue:biography     forKey:@"user.biography"];
+    [item setPostValue:city     forKey:@"user.userInfo.city"];
+    [item setPostValue:email forKey:@"user.email"];
+    [item setPostValue:gender forKey:@"user.userInfo.gender"];
+    [item setPostValue:height forKey:@"user.userInfo.height"];
+    [item setPostValue:weight forKey:@"user.userInfo.wight"];
+    [item setPostValue:birthday forKey:@"birthday"];
+    [item setPostValue:bloodType forKey:@"user.userInfo.bloodtype"];
+    [item setPostValue:profession forKey:@"user.userInfo.profession"];
+    [item setPostValue:tourism forKey:@"user.userInfo.tourism"];
+    [item setPostValue:interests forKey:@"user.userInfo.interests"];
+    [item setPostValue:countryVisited forKey:@"user.userInfo.country_visited"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoUpdatePersonInfo];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -878,6 +902,16 @@
             NSLog(@"[levi] unfollow friend Success...");
         } else {
             NSLog(@"[levi] unfollow friend failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoUpdatePersonInfo) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] update person info dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] update person info Success...");
+        } else {
+            NSLog(@"[levi] update person info failed...");
         }
         return;
     }
