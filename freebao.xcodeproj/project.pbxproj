@@ -69,6 +69,7 @@
 		A23631E61785674100BA0DED /* icon-contury01.png in Resources */ = {isa = PBXBuildFile; fileRef = A23631E51785674100BA0DED /* icon-contury01.png */; };
 		A2383E6C178A4C2300BA749F /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = A2383E6B178A4C2300BA749F /* CustomToolbar.m */; };
 		A2383E7D178AAB1900BA749F /* UserCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A2383E7C178AAB1800BA749F /* UserCDItem.m */; };
+		A239FBD617A75D99003B67D2 /* OneLineDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = A239FBD417A75D99003B67D2 /* OneLineDialogView.m */; };
 		A23ED7E71791376100B9CFFD /* MessageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A23ED7E61791376100B9CFFD /* MessageInfo.m */; };
 		A247893417A20B330067A296 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A247893217A20B330067A296 /* ContactsViewController.m */; };
 		A247893517A20B330067A296 /* ContactsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A247893317A20B330067A296 /* ContactsViewController.xib */; };
@@ -748,6 +749,8 @@
 		A2383E6B178A4C2300BA749F /* CustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomToolbar.m; sourceTree = "<group>"; };
 		A2383E7B178AAB1800BA749F /* UserCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCDItem.h; sourceTree = "<group>"; };
 		A2383E7C178AAB1800BA749F /* UserCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCDItem.m; sourceTree = "<group>"; };
+		A239FBD417A75D99003B67D2 /* OneLineDialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneLineDialogView.m; sourceTree = "<group>"; };
+		A239FBD517A75D99003B67D2 /* OneLineDialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneLineDialogView.h; sourceTree = "<group>"; };
 		A23ED7E51791376100B9CFFD /* MessageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageInfo.h; sourceTree = "<group>"; };
 		A23ED7E61791376100B9CFFD /* MessageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageInfo.m; sourceTree = "<group>"; };
 		A247893117A20B330067A296 /* ContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
@@ -3453,6 +3456,8 @@
 		DB9FCF5A175828E900AE837D /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				A239FBD417A75D99003B67D2 /* OneLineDialogView.m */,
+				A239FBD517A75D99003B67D2 /* OneLineDialogView.h */,
 				DBA63D6A17A3D0330011DCC9 /* REPhotoController */,
 				A2E1A0A917A26011002C2867 /* ContactSort */,
 				A2700429179F640F00D3D6A6 /* QBPopMenu */,
@@ -4270,6 +4275,7 @@
 				DBE08BD317A6AB3B007CC169 /* HomePageNewViewController.m in Sources */,
 				DBE08BD717A6B0B9007CC169 /* StatusNewImageCell.m in Sources */,
 				DBE08BDA17A6B738007CC169 /* StatusInfo.m in Sources */,
+				A239FBD617A75D99003B67D2 /* OneLineDialogView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

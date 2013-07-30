@@ -40,6 +40,9 @@
     [super viewDidLoad];
 
     itemsArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 12; i++) {
+        [itemsArray addObject:@""];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultPersonInfo:) name:FB_GET_PERSON_INFO object:nil];
     [self.tableView setTableHeaderView:self.headerView];
     headImageView = [[EGOImageView alloc] init];
@@ -56,6 +59,12 @@
     _tittleLabel.center = CGPointMake(160, 22);
     backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    editButton = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 40, 44)];
+    [editButton addTarget:self action:@selector(setEditMode) forControlEvents:UIControlEventTouchUpInside];
+    [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [editButton setBackgroundColor:[UIColor clearColor]];
+    self.describeTextView.editable = NO;
     tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
@@ -67,14 +76,209 @@
     [self.navigationController.view addSubview:tittleView];
     [self.navigationController.view addSubview:tittleLineView];
     [self.navigationController.view addSubview:backButton];
+    [tittleView addSubview:editButton];
     headImageArray = [[NSMutableArray alloc] init];
     [self refreshScrollView];
+    commDialogView = [[OneLineDialogView alloc] init];
+    [commDialogView setDelegate:self];
 
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
     }
     [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 //    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (alertView.tag) {
+        case 0:
+        {
+            //Name
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 1:
+        {
+            //Sex
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 2:
+        {
+            //Birthday
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 3:
+        {
+            //Height
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 4:
+        {
+            //Weight
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 5:
+        {
+            //Blood Type
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 6:
+        {
+            //Constellation
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 7:
+        {
+            //Country
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 8:
+        {
+            //Occupation
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 9:
+        {
+            //Intersets
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 10:
+        {
+            //Countries Visited
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 11:
+        {
+            //Travelling Plans
+            switch (buttonIndex) {
+                case 0:
+                    NSLog(@"0");
+                    break;
+                case 1:
+                    NSLog(@"1 %@", tmpTextField.text);
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)setEditMode {
+    NSLog(@"Edit...");
 }
 
 -(void)onResultPersonInfo:(NSNotification*)notification {
@@ -110,6 +314,7 @@
 }
 
 -(void)refreshView:(PersonInfo*)info {
+    itemsArray = [[NSMutableArray alloc] init];
     headImageView.imageURL = [NSURL URLWithString:info.facePath];
     self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",info.userId];
     [itemsArray addObject:info.nickname];
@@ -170,7 +375,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [itemsArray count];
+    return 12;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -254,13 +459,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    commDialogView = [[OneLineDialogView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    commDialogView.tag = indexPath.row;
+    commDialogView.oneLineText.placeholder = [itemsArray objectAtIndex:indexPath.row];
+    [commDialogView show];
+    tmpTextField = commDialogView.oneLineText;
+    if (indexPath.row == 3 || indexPath.row == 4) {
+        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumberPad];
+    } else if (indexPath.row == 2) {
+        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
+    }
+    [commDialogView.oneLineText becomeFirstResponder];
 }
 
 - (void)viewDidUnload {
