@@ -364,6 +364,7 @@
     personInfo.countryVisited = [tmpDic getStringValueForKey:@"country_visited" defaultValue:@""];
     personInfo.facePath = [tmpDic getStringValueForKey:@"facePath" defaultValue:@""];
     personInfo.faceArray = [tmpDic objectForKey:@"faces"];
+    [self loadingPics:(NSMutableArray*)personInfo.faceArray];
     personInfo.fansCount = [tmpDic getStringValueForKey:@"fansCount" defaultValue:@""];
     personInfo.favoriteCount = [tmpDic getStringValueForKey:@"favoriteCount" defaultValue:@""];
     personInfo.follow = [tmpDic getStringValueForKey:@"follow" defaultValue:@""];
@@ -414,7 +415,7 @@
     
     CGSize contentSize=CGSizeMake(width, 100);
     [self.headerImagesScrollView setContentSize:contentSize];
-    [self.headerImagesScrollView setContentOffset:CGPointMake(width<320?0:width-320, 0) animated:YES];
+//    [self.headerImagesScrollView setContentOffset:CGPointMake(width<320?0:width-320, 0) animated:YES];
     
 }
 
@@ -558,6 +559,20 @@
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_PERSON_INFO object:nil];
 }
+
+- (void)loadingPics:(NSMutableArray*)faceArray {
+    [headImageArray removeAllObjects];
+    for (int i = 0; i < [faceArray count]; i ++) {
+        NSDictionary *tmpDic = [faceArray objectAtIndex:i];
+        EGOImageView *tmpEGV = [[EGOImageView alloc] init];
+        tmpEGV.frame = CGRectMake(i*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
+        tmpEGV.imageURL = [NSURL URLWithString:[tmpDic objectForKey:@"facepath"]];
+        [self.headerImagesScrollView addSubview:tmpEGV];
+        [headImageArray addObject:tmpEGV];
+    }
+    [self refreshScrollView];
+}
+
 - (IBAction)addAction:(id)sender {
     //移动添加按钮
     CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
