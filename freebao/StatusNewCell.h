@@ -26,6 +26,10 @@
     UIImageView *_moreImageView;
     UIImageView *_likeImageView;
     UIImageView *_commentImageView;
+    
+    UIView *_middleView;
+    UILabel *_likeCount;
+    UILabel *_commentCount;
 }
 
 @property (nonatomic, retain) JSTwitterCoreTextView *contentTextView;

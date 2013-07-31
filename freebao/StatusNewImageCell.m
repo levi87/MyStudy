@@ -104,6 +104,32 @@
         _forwordContentTextView.text = @"test message.";
         _forwordContentTextView.hidden = YES;
         
+        _middleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
+        UILabel *likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(9, 2, 25, 21)];
+        [likeLabel setText:@"Like"];
+        [likeLabel setTextColor:[UIColor blueColor]];
+        [likeLabel setFont:[UIFont systemFontOfSize:12]];
+        [likeLabel setBackgroundColor:[UIColor clearColor]];
+        _likeCount = [[UILabel alloc] initWithFrame:CGRectMake(34, 2, 17, 21)];
+        [_likeCount setText:@"10"];
+        [_likeCount setFont:[UIFont systemFontOfSize:12]];
+        [_likeCount setTextColor:[UIColor blueColor]];
+        [_likeCount setBackgroundColor:[UIColor clearColor]];
+        UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 2, 56, 21)];
+        [commentLabel setText:@"Comment"];
+        [commentLabel setFont:[UIFont systemFontOfSize:12]];
+        [commentLabel setTextColor:[UIColor blueColor]];
+        [commentLabel setBackgroundColor:[UIColor clearColor]];
+        _commentCount = [[UILabel alloc] initWithFrame:CGRectMake(121, 2, 17, 21)];
+        [_commentCount setText:@"10"];
+        [_commentCount setFont:[UIFont systemFontOfSize:12]];
+        [_commentCount setTextColor:[UIColor blueColor]];
+        [_commentCount setBackgroundColor:[UIColor clearColor]];
+        [_middleView addSubview:likeLabel];
+        [_middleView addSubview:commentLabel];
+        [_middleView addSubview:_likeCount];
+        [_middleView addSubview:_commentCount];
+        
         _soundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(9, 52, 20, 20)];
         [_soundImageView setImage:[UIImage imageNamed:@"con-voice"]];
         _soundImageView.animationImages = [NSArray arrayWithObjects:
@@ -122,6 +148,7 @@
         [self.contentView addSubview:_forwordContentTextView];
         [self.contentView addSubview:_upperView];
         [self.contentView addSubview:_lowerView];
+        [self.contentView addSubview:_middleView];
     }
     return self;
 }
@@ -151,13 +178,22 @@
         _forwordContentTextView.frame = forwordFrame;
         NSString *nickName = [tmpForword getStringValueForKey:@"user_name" defaultValue:@""];
         _forwordContentTextView.text = [NSString stringWithFormat:@"@%@ %@",nickName,[tmpForword getStringValueForKey:@"text" defaultValue:@""]];
-        frame = _lowerView.frame;
+        
+        frame = _middleView.frame;
         frame.origin.y = _forwordContentTextView.frame.origin.y + _forwordContentTextView.frame.size.height + 5;
+        _middleView.frame = frame;
+        
+        frame = _lowerView.frame;
+        frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
         _lowerView.frame = frame;
     } else {
         _forwordContentTextView.hidden = YES;
-        frame = _lowerView.frame;
+        frame = _middleView.frame;
         frame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height + 5;
+        _middleView.frame = frame;
+        
+        frame = _lowerView.frame;
+        frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
         _lowerView.frame = frame;
     }
     
