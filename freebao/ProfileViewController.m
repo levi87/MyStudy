@@ -565,12 +565,22 @@
     for (int i = 0; i < [faceArray count]; i ++) {
         NSDictionary *tmpDic = [faceArray objectAtIndex:i];
         EGOImageView *tmpEGV = [[EGOImageView alloc] init];
+        tmpEGV.tag = i;
         tmpEGV.frame = CGRectMake(i*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
         tmpEGV.imageURL = [NSURL URLWithString:[tmpDic objectForKey:@"facepath"]];
+        UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headImageTap:)];
+        tap1.numberOfTapsRequired = 1;
+        [tmpEGV addGestureRecognizer:tap1];
+        tmpEGV.userInteractionEnabled = YES;
         [self.headerImagesScrollView addSubview:tmpEGV];
         [headImageArray addObject:tmpEGV];
     }
     [self refreshScrollView];
+}
+
+- (void)headImageTap:(UITapGestureRecognizer*)sender {
+    EGOImageView *tmpEgo = (EGOImageView*)sender.view;
+    NSLog(@"imgae %d", tmpEgo.tag);
 }
 
 - (IBAction)addAction:(id)sender {
