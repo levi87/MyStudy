@@ -12,10 +12,13 @@
 #import "PersonInfo.h"
 #import "NSDictionaryAdditions.h"
 #import "OneLineDialogView.h"
+#import "CustomActionSheet.h"
 
 @class WeiBoMessageManager;
 @class EGOImageView;
-@interface ProfileViewController : UITableViewController<UIAlertViewDelegate> {
+@interface ProfileViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UIActionSheetDelegate> {
+    UIImagePickerController *_imagePicker;
+    CustomActionSheet *_customActionSheet;
     WeiBoMessageManager *manager;
     UILabel *_tittleLabel;
     UIButton *backButton;

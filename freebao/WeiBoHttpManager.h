@@ -58,6 +58,8 @@
 #define FB_GET_CIRCLE               @"fb_get_circle"
 #define FB_GET_PHOTO_LIST           @"fb_get_photo_list"
 #define FB_GET_PERSON_INFO          @"fb_get_person_info"
+#define FB_UPLOAD_PHOTO_HEAD_IMAGE  @"fb_upload_head_image"
+#define FB_UPLOAD_PHOTO_RERESH      @"fb_upload_photo_refresh"
 
 /*
  Freebao

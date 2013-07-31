@@ -39,12 +39,23 @@
 {
     [super viewDidLoad];
 
+    self.addButton.hidden = YES;
+    _imagePicker = [[UIImagePickerController alloc] init];
+    _imagePicker.allowsEditing = YES;
+    _imagePicker.delegate = self;
+    _customActionSheet = [[CustomActionSheet alloc] init];
+    [_customActionSheet addButtonWithTitle:@"Take Photo"];
+    [_customActionSheet addButtonWithTitle:@"Library"];
+    [_customActionSheet addButtonWithTitle:@"Cancel"];
+    _customActionSheet.delegate = self;
     itemsArray = [[NSMutableArray alloc] init];
     headFacePathArray = [[NSMutableArray alloc] init];
     for (int i = 0; i < 12; i++) {
         [itemsArray addObject:@""];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultPersonInfo:) name:FB_GET_PERSON_INFO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultUploadPhotoHeadImage:) name:FB_UPLOAD_PHOTO_HEAD_IMAGE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultUploadComplete) name:FB_UPLOAD_PHOTO_RERESH object:nil];
     [self.tableView setTableHeaderView:self.headerView];
     headImageView = [[EGOImageView alloc] init];
     headImageView.frame = CGRectMake(0, 0, 60, 60);
@@ -412,8 +423,8 @@
 
 - (void)refreshScrollView
 {
-    CGFloat width=100*(headImageArray.count)<300?320:100+headImageArray.count*90;
-    
+    CGFloat width=100*(headImageArray.count + 1)<260?320:(headImageArray.count + 1)*90;
+    NSLog(@"width %f", width);
     CGSize contentSize=CGSizeMake(width, 100);
     [self.headerImagesScrollView setContentSize:contentSize];
 //    [self.headerImagesScrollView setContentOffset:CGPointMake(width<320?0:width-320, 0) animated:YES];
@@ -559,11 +570,18 @@
     [self setDescribeTextView:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_PERSON_INFO object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_UPLOAD_PHOTO_RERESH object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_UPLOAD_PHOTO_HEAD_IMAGE object:nil];
 }
 
 - (void)loadingPics:(NSMutableArray*)faceArray {
     [headImageArray removeAllObjects];
     [headFacePathArray removeAllObjects];
+    for (int i = 0; i < [self.headerImagesScrollView.subviews count]; i++) {
+        EGOImageView *tmpE = [self.headerImagesScrollView.subviews objectAtIndex:i];
+        [tmpE removeFromSuperview];
+        NSLog(@"remove count %d", i);
+    }
     for (int i = 0; i < [faceArray count]; i ++) {
         NSDictionary *tmpDic = [faceArray objectAtIndex:i];
         EGOImageView *tmpEGV = [[EGOImageView alloc] init];
@@ -571,55 +589,138 @@
         tmpEGV.frame = CGRectMake(i*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
         tmpEGV.imageURL = [NSURL URLWithString:[tmpDic objectForKey:@"facepath"]];
         [headImageArray addObject:[tmpDic objectForKey:@"facepath"]];
+        NSLog(@"headImageArray %@", headImageArray);
         UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headImageTap:)];
         tap1.numberOfTapsRequired = 1;
         [tmpEGV addGestureRecognizer:tap1];
+        UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTap:)];
+        longTap.minimumPressDuration = 0.5;
+        [tmpEGV addGestureRecognizer:longTap];
         tmpEGV.userInteractionEnabled = YES;
         [self.headerImagesScrollView addSubview:tmpEGV];
-        [headImageArray addObject:tmpEGV];
+        NSLog(@"iiii %d", i);
+    }
+    if ([faceArray count] < 5) {
+        self.addButton.hidden = NO;
+        self.addButton.frame = CGRectMake([faceArray count]*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
+        [self.headerImagesScrollView addSubview:self.addButton];
+    } else {
+        self.addButton.hidden = YES;
     }
     [self refreshScrollView];
+}
+
+- (void)longPressTap:(UILongPressGestureRecognizer *)recogonizer {
+    NSLog(@"long tap....");
+    switch (recogonizer.state) {
+        case UIGestureRecognizerStateBegan:
+        {
+            EGOImageView *tmpEgo = (EGOImageView*)recogonizer.view;
+            [manager FBDeletePersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PhotoUrl:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+            [headImageArray removeObjectAtIndex:[[NSString stringWithFormat:@"%d",tmpEgo.tag] integerValue]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)onResultUploadComplete {
+    NSLog(@"upload complete...");
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)onResultUploadPhotoHeadImage:(NSNotification*)notification {
+    NSLog(@"upload success...");
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 - (void)headImageTap:(UITapGestureRecognizer*)sender {
     EGOImageView *tmpEgo = (EGOImageView*)sender.view;
-    NSLog(@"imgae %d", tmpEgo.tag);
+    NSLog(@"imgae %d %@", tmpEgo.tag,[headImageArray objectAtIndex:tmpEgo.tag]);
     headImageView.imageURL = [NSURL URLWithString:[headImageArray objectAtIndex:tmpEgo.tag]];
     [manager FBUpdatePersonHeaderImageWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] FacePath:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
-- (IBAction)addAction:(id)sender {
-    //移动添加按钮
-    CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
-    [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x, self.addButton.center.y)]];
-    [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)]];
-    [positionAnim setDelegate:self];
-    [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [positionAnim setDuration:0.25f];
-    [self.addButton.layer addAnimation:positionAnim forKey:nil];
-    [self.addButton setCenter:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)];
-    
-    //添加图片
-    UIImageView *aImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"boy"]];
-    [aImageView setFrame:CGRectMake(INSETS-90, INSETS, PIC_WIDTH, PIC_HEIGHT)];
-    [headImageArray addObject:aImageView];
-    [self.headerImagesScrollView addSubview:aImageView];
-    
-    for (UIImageView *img in headImageArray) {
-        
-        CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
-        [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x, img.center.y)]];
-        [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)]];
-        [positionAnim setDelegate:self];
-        [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        [positionAnim setDuration:0.25f];
-        [img.layer addAnimation:positionAnim forKey:nil];
-        
-        [img setCenter:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)];
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0:
+            NSLog(@"0");
+            _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentModalViewController:_imagePicker animated:YES];
+            break;
+        case 1:
+            NSLog(@"1");
+            _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentModalViewController:_imagePicker animated:YES];
+            break;
+        case 2:
+            NSLog(@"2");
+            break;
+        default:
+            break;
     }
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSLog(@"[levi]take photo...");
+    [picker dismissModalViewControllerAnimated:YES];
+    UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    NSData *pictureData = UIImageJPEGRepresentation(editedImage,1);
+    [manager FBAddPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PhotoFile:pictureData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+//    _photoData = UIImageJPEGRepresentation(editedImage, 1);
+}
+
+-(NSString *)returnFilePath:(NSString*)nameStr
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [paths objectAtIndex:0];
+    NSString *filePath = [documentPath stringByAppendingPathComponent:nameStr];
     
-    
-    
-    [self refreshScrollView];
+    return filePath;
+}
+
+- (IBAction)addAction:(id)sender {
+    NSLog(@"[levi] add photo");
+    [_customActionSheet showInView:self.view];
+    //移动添加按钮
+//    CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
+//    [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x, self.addButton.center.y)]];
+//    [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)]];
+//    [positionAnim setDelegate:self];
+//    [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+//    [positionAnim setDuration:0.25f];
+//    [self.addButton.layer addAnimation:positionAnim forKey:nil];
+//    [self.addButton setCenter:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)];
+//    
+//    //添加图片
+//    UIImageView *aImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"boy"]];
+//    [aImageView setFrame:CGRectMake(INSETS-90, INSETS, PIC_WIDTH, PIC_HEIGHT)];
+//    [headImageArray addObject:aImageView];
+//    [self.headerImagesScrollView addSubview:aImageView];
+//    
+//    for (UIImageView *img in headImageArray) {
+//        
+//        CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
+//        [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x, img.center.y)]];
+//        [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)]];
+//        [positionAnim setDelegate:self];
+//        [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+//        [positionAnim setDuration:0.25f];
+//        [img.layer addAnimation:positionAnim forKey:nil];
+//        
+//        [img setCenter:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)];
+//    }
+//    
+//    
+//    
+//    [self refreshScrollView];
 }
 @end

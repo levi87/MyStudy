@@ -386,7 +386,7 @@
     [item setPostValue:aUserId    forKey:@"userId"];
     [item setPostValue:passId      forKey:@"passId"];
     if (photoData != nil) {
-        [item setPostValue:photoData      forKey:@"faceFile"];
+        [item setData:photoData      forKey:@"faceFile"];
     }
     
     [self setPostUserInfo:item withRequestType:FreebaoPersonPhotoUpload];
@@ -394,7 +394,7 @@
 }
 
 -(void)didFreebaoDeletePersonPhotoWithUserId:(NSString *)aUserId PhotoUrl:(NSString *)photoUrl PassId:(NSString *)passId {
-    NSURL *url = [NSURL URLWithString:kaddfaceUrl];
+    NSURL *url = [NSURL URLWithString:kdeleteface];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
     
     [item setPostValue:aUserId    forKey:@"userface.userId"];
@@ -882,6 +882,7 @@
         NSLog(@"[levi] person photo upload dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] upload Person photo Success...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_UPLOAD_PHOTO_HEAD_IMAGE object:nil];
         } else {
             NSLog(@"[levi] upload Person photo failed...");
         }
@@ -892,6 +893,7 @@
         NSLog(@"[levi] person photo delete dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] delete Person photo Success...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_UPLOAD_PHOTO_RERESH object:nil];
         } else {
             NSLog(@"[levi] delete Person photo failed...");
         }
@@ -932,6 +934,7 @@
         NSLog(@"[levi] update person headImage dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] update person headImage Success...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_UPLOAD_PHOTO_RERESH object:nil];
         } else {
             NSLog(@"[levi] update person headImage failed...");
         }
