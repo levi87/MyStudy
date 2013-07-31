@@ -30,6 +30,8 @@
     
     OneLineDialogView *commDialogView;
     UITextField *tmpTextField;
+    
+    NSMutableArray *headFacePathArray;
 }
 @property (weak, nonatomic) IBOutlet UITextView *describeTextView;
 @property (weak, nonatomic) IBOutlet UILabel *userAgeLabel;

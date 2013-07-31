@@ -40,6 +40,7 @@
     [super viewDidLoad];
 
     itemsArray = [[NSMutableArray alloc] init];
+    headFacePathArray = [[NSMutableArray alloc] init];
     for (int i = 0; i < 12; i++) {
         [itemsArray addObject:@""];
     }
@@ -562,12 +563,14 @@
 
 - (void)loadingPics:(NSMutableArray*)faceArray {
     [headImageArray removeAllObjects];
+    [headFacePathArray removeAllObjects];
     for (int i = 0; i < [faceArray count]; i ++) {
         NSDictionary *tmpDic = [faceArray objectAtIndex:i];
         EGOImageView *tmpEGV = [[EGOImageView alloc] init];
         tmpEGV.tag = i;
         tmpEGV.frame = CGRectMake(i*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
         tmpEGV.imageURL = [NSURL URLWithString:[tmpDic objectForKey:@"facepath"]];
+        [headImageArray addObject:[tmpDic objectForKey:@"facepath"]];
         UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headImageTap:)];
         tap1.numberOfTapsRequired = 1;
         [tmpEGV addGestureRecognizer:tap1];
@@ -581,6 +584,8 @@
 - (void)headImageTap:(UITapGestureRecognizer*)sender {
     EGOImageView *tmpEgo = (EGOImageView*)sender.view;
     NSLog(@"imgae %d", tmpEgo.tag);
+    headImageView.imageURL = [NSURL URLWithString:[headImageArray objectAtIndex:tmpEgo.tag]];
+    [manager FBUpdatePersonHeaderImageWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] FacePath:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 - (IBAction)addAction:(id)sender {

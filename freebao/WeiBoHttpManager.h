@@ -156,6 +156,7 @@
 #define kRequestUserInfoUrl             kHostUrl@"userInfo/getUserInfo.html"
 #define kRequestUserProfile             kHostUrl@"userInfo//profile.html"
 #define KUpdateUserInfoUrl              kHostUrl@"userInfo/updateBasicInfo.html"
+#define kUpdateUserHeaderImageUrl       kHostUrl@"userInfo/updateFace.html"
 #define kPostUrl                        kHostUrl@"content/createContent.html"
 #define kRepostUrl                      kHostUrl@"content/shareContentToTeam.html"
 #define kAddCommentUrl                  kHostUrl@"comment/addComment.html"
@@ -282,6 +283,7 @@ typedef enum {
     FreebaoFollowFriend,
     FreebaounFollowFriend,
     FreebaoUpdatePersonInfo,
+    FreebaoUpdatePersonHeadImage,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -395,4 +397,7 @@ typedef enum {
 
 //Freebao 更新个人资料
 -(void)didFreebaoUpdatePersonInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId NickName:(NSString*)nickName Biography:(NSString*)biography City:(NSString*)city Email:(NSString*)email Gender:(NSString*)gender Height:(NSString*)height Weight:(NSString*)weight Birthday:(NSString*)birthday BloodType:(NSString*)bloodType Profession:(NSString*)profession Tourism:(NSString*)tourism Intersets:(NSString*)interests CountryVisited:(NSString*)countryVisited;
+
+//Freebao 更新个人头像
+-(void)didFreebaoUpdatePersonHeaderImageWithUserId:(NSString*)aUserId FacePath:(NSString*)facePath PassId:(NSString*)passId;
 @end

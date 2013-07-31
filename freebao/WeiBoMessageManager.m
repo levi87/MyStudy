@@ -168,4 +168,9 @@ static WeiBoMessageManager * instance=nil;
 -(void)FBUpdatePersonInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId NickName:(NSString*)nickName Biography:(NSString*)biography City:(NSString*)city Email:(NSString*)email Gender:(NSString*)gender Height:(NSString*)height Weight:(NSString*)weight Birthday:(NSString*)birthday BloodType:(NSString*)bloodType Profession:(NSString*)profession Tourism:(NSString*)tourism Intersets:(NSString*)interests CountryVisited:(NSString*)countryVisited {
     [httpManager didFreebaoUpdatePersonInfoWithUserId:aUserId PassId:passId NickName:nickName Biography:biography City:city Email:email Gender:gender Height:height Weight:weight Birthday:birthday BloodType:bloodType Profession:profession Tourism:tourism Intersets:interests CountryVisited:countryVisited];
 }
+
+//Freebao 更新个人头像
+-(void)FBUpdatePersonHeaderImageWithUserId:(NSString *)aUserId FacePath:(NSString *)facePath PassId:(NSString *)passId {
+    [httpManager didFreebaoUpdatePersonHeaderImageWithUserId:aUserId FacePath:facePath PassId:passId];
+}
 @end

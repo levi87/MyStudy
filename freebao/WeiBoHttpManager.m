@@ -454,6 +454,18 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoUpdatePersonHeaderImageWithUserId:(NSString *)aUserId FacePath:(NSString *)facePath PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kUpdateUserHeaderImageUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"user.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:facePath     forKey:@"user.facePath"];;
+    
+    [self setPostUserInfo:item withRequestType:FreebaoUpdatePersonHeadImage];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -912,6 +924,16 @@
             NSLog(@"[levi] update person info Success...");
         } else {
             NSLog(@"[levi] update person info failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoUpdatePersonHeadImage) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] update person headImage dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] update person headImage Success...");
+        } else {
+            NSLog(@"[levi] update person headImage failed...");
         }
         return;
     }
