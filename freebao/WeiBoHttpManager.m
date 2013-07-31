@@ -594,7 +594,7 @@
     if (requestType == FreebaoGetHomelineNew) {
         NSMutableDictionary *tmpDic = returnObject;
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
-            NSLog(@"[levi] request new HomeLine Success...");
+//            NSLog(@"[levi] request new HomeLine Success...");
             NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
             
             NSArray *contents = [resultMap objectForKey:@"posts"];
@@ -604,7 +604,7 @@
             for (NSInteger index=0; index<[contents count]; index++) {
                 NSDictionary *tmpDic = [contents objectAtIndex:index];
                 StatusInfo *statusInfo = [[StatusInfo alloc] init];
-                statusInfo.originalPicUrl = [tmpDic getStringValueForKey:@"original_pic" defaultValue:@""];
+                statusInfo.originalPicUrl = [tmpDic getStringValueForKey:@"original_pic" defaultValue:@"0"];
                 statusInfo.commentCount = [tmpDic getStringValueForKey:@"comment_count" defaultValue:@"0"];
                 statusInfo.contentId = [tmpDic getStringValueForKey:@"contentId" defaultValue:@"0"];
                 statusInfo.createAt = [tmpDic getStringValueForKey:@"create_at" defaultValue:@"0"];
@@ -612,10 +612,10 @@
                 statusInfo.likeCount = [tmpDic getStringValueForKey:@"like_count" defaultValue:@"0"];
                 statusInfo.liked = [tmpDic getStringValueForKey:@"liked" defaultValue:@"0"];
                 statusInfo.postLanguage = [tmpDic getStringValueForKey:@"post_language" defaultValue:@"0"];
-                statusInfo.content = [tmpDic getStringValueForKey:@"text" defaultValue:@""];
-                statusInfo.userFacePath = [tmpDic getStringValueForKey:@"user_face_path" defaultValue:@""];
+                statusInfo.content = [tmpDic getStringValueForKey:@"text" defaultValue:@"0"];
+                statusInfo.userFacePath = [tmpDic getStringValueForKey:@"user_face_path" defaultValue:@"0"];
                 statusInfo.userId = [tmpDic getStringValueForKey:@"user_id" defaultValue:@"0"];
-                statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@""];
+                statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@"0"];
                 statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
                 statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
                 [timeline addObject:statusInfo];

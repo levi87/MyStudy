@@ -36,28 +36,6 @@
     return self;
 }
 
--(void)didGetComments:(NSNotification*)notification {
-    NSMutableArray *tmpArray = notification.object;
-    NSLog(@"tmpArray Array %@", tmpArray);
-    [statusArray removeAllObjects];
-    headPhotos = [[NSMutableArray alloc] init];
-    for (int i = 0; i < [tmpArray count]; i ++) {
-        NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
-        CommentInfo *tmpInfo = [[CommentInfo alloc] init];
-        tmpInfo.nickName = [tmpDic objectForKey:@"nickname"];
-        tmpInfo.content = [tmpDic objectForKey:@"commentBody"];
-        tmpInfo.contentId = [tmpDic objectForKey:@"contentId"];
-        tmpInfo.commentId = [tmpDic objectForKey:@"commentId"];
-        tmpInfo.commentDate = [tmpDic objectForKey:@"historyInfo"];
-        tmpInfo.voiceUrl = [tmpDic getStringValueForKey:@"soundPath" defaultValue:@"0"];
-        tmpInfo.voiceLength = [tmpDic getStringValueForKey:@"soundTime" defaultValue:@"0"];
-        NSLog(@"voiceUrl %@", tmpInfo.voiceUrl);
-        [statusArray addObject:tmpInfo];
-        [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
-    }
-    [self.homeTableView reloadData];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -69,10 +47,6 @@
         manager = [WeiBoMessageManager getInstance];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_HOMELINE_NEW object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAddComments:) name:FB_ADD_COMMENT object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:COMMENT_VOICE object:nil];
-//    [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] init];
@@ -82,6 +56,9 @@
 
 - (void)onRequestHomeLine:(NSNotification*)notification {
     NSLog(@"new status...");
+    NSMutableArray *tmpArray = notification.object;
+    statusArray = tmpArray;
+    [self.homeTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,19 +83,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL hasImage = YES;
-    if (hasImage) {
+    StatusInfo *tmpSI = [statusArray objectAtIndex:indexPath.row];
+    NSString *hasImage = tmpSI.originalPicUrl;
+//    NSLog(@"has image %@", hasImage);
+    if (![hasImage isEqualToString:@"0"]) {
         static NSString *CellIdentifier = @"StatusImageCell";
         StatusNewImageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[StatusNewImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        [cell setCellValue:(CommentInfo*)[statusArray objectAtIndex:indexPath.row]];
+        [cell setCellValue:(StatusInfo*)[statusArray objectAtIndex:indexPath.row]];
         [cell setSelectionStyle:UITableViewCellEditingStyleNone];
-        //    cell.delegate = self;
         cell.indexPath = indexPath;
-        [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
-        // Configure the cell...
         
         return cell;
     } else {
@@ -127,12 +103,9 @@
         if (cell == nil) {
             cell = [[StatusNewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        [cell setCellValue:(CommentInfo*)[statusArray objectAtIndex:indexPath.row]];
+        [cell setCellValue:(StatusInfo*)[statusArray objectAtIndex:indexPath.row]];
         [cell setSelectionStyle:UITableViewCellEditingStyleNone];
-        //    cell.delegate = self;
         cell.indexPath = indexPath;
-        [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
-        // Configure the cell...
         
         return cell;
     }
@@ -140,50 +113,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat tmpHeight;
-    CommentInfo *tmpInfo = [statusArray objectAtIndex:indexPath.row];
+    StatusInfo *tmpInfo = [statusArray objectAtIndex:indexPath.row];
     tmpHeight = [StatusNewCell getJSHeight:tmpInfo.content jsViewWith:230.0];
-    NSLog(@"tmpHeight %f", tmpHeight);
-    return 23 + tmpHeight + 25 + 30 + 330;
+//    NSLog(@"tmpHeight %f", tmpHeight);
+    NSString *hasImage = tmpInfo.originalPicUrl;
+    if (![hasImage isEqualToString:@"0"]) {
+        return 23 + tmpHeight + 25 + 30 + 330;
+    } else {
+        return 23 + tmpHeight + 25 + 30;
+    }
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -202,8 +141,5 @@
     [self setHomeTableView:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_COMMENT object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_ADD_COMMENT object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:COMMENT_VOICE object:nil];
 }
 @end

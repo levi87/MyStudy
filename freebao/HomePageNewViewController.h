@@ -11,6 +11,7 @@
 #import "CommentInfo.h"
 #import "StatusNewCell.h"
 #import "StatusNewImageCell.h"
+#import "StatusInfo.h"
 
 @class WeiBoMessageManager;
 @interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate> {

@@ -23,7 +23,7 @@
 @synthesize lowerView = _lowerView;
 @synthesize languageImageView = _languageImageView;
 @synthesize transVoiceImageView = _transVoiceImageView;
-@synthesize commentDateLabel = _commentDateLabel;
+@synthesize statusDateLabel = _statusDateLabel;
 @synthesize soundImageView = _soundImageView;
 @synthesize indexPath = _indexPath;
 @synthesize moreImageView = _moreImageView;
@@ -64,9 +64,9 @@
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         [_upperView addSubview:_languageImageView];
-        _commentDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
-        _commentDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
-        [_upperView addSubview:_commentDateLabel];
+        _statusDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
+        _statusDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
+        [_upperView addSubview:_statusDateLabel];
         _contentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 230, 25)];
         [_contentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_contentTextView setDelegate:self];
@@ -108,10 +108,10 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:COMMENT_VOICE object:tmpDic];
 }
 
--(void)setCellValue:(CommentInfo *)info {
-    nickNameLabel.text = info.nickName;
+-(void)setCellValue:(StatusInfo *)info {
+    nickNameLabel.text = info.userFacePath;
     _contentTextView.text = info.content;
-    _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
+//    _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
     CGFloat tmpHeight = [StatusNewCell getJSHeight:info.content jsViewWith:230];
     CGRect frame = _contentTextView.frame;
     frame.size.height = tmpHeight;
@@ -121,18 +121,19 @@
     frame = _lowerView.frame;
     frame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height + 5;
     _lowerView.frame = frame;
-    _commentDateLabel.text = info.commentDate;
-    if (![info.voiceUrl isEqualToString:@"0"]) {
-        _soundImageView.hidden = NO;
-        _contentTextView.hidden = YES;
-        _languageImageView.hidden = YES;
-        _transVoiceImageView.hidden = YES;
-    } else {
-        _soundImageView.hidden = YES;
-        _contentTextView.hidden = NO;
-        _languageImageView.hidden = NO;
-        _transVoiceImageView.hidden = NO;
-    }
+    _statusDateLabel.text = info.createAt;
+    headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
+//    if (![info.voiceUrl isEqualToString:@"0"]) {
+//        _soundImageView.hidden = NO;
+//        _contentTextView.hidden = YES;
+//        _languageImageView.hidden = YES;
+//        _transVoiceImageView.hidden = YES;
+//    } else {
+//        _soundImageView.hidden = YES;
+//        _contentTextView.hidden = NO;
+//        _languageImageView.hidden = NO;
+//        _transVoiceImageView.hidden = NO;
+//    }
 }
 
 -(void)setHeadPhoto:(NSString *)headPhoto {

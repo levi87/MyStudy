@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JSTwitterCoreTextView.h"
-#import "CommentInfo.h"
+#import "StatusInfo.h"
 
 @class EGOImageView;
 @interface StatusNewImageCell : UITableViewCell <JSCoreTextViewDelegate> {
@@ -20,7 +20,7 @@
     UIView *_lowerView;
     UIImageView *_languageImageView;
     UIImageView *_transVoiceImageView;
-    UILabel *_commentDateLabel;
+    UILabel *_statusDateLabel;
     UIImageView *_soundImageView;
     
     UIImageView *_moreImageView;
@@ -33,7 +33,7 @@
 @property (nonatomic, retain) UIView *lowerView;
 @property (nonatomic, retain) UIImageView *languageImageView;
 @property (nonatomic, retain) UIImageView *transVoiceImageView;
-@property (nonatomic, retain) UILabel *commentDateLabel;
+@property (nonatomic, retain) UILabel *statusDateLabel;
 @property (nonatomic, retain) UIImageView *soundImageView;
 
 @property (nonatomic, retain) UIImageView *moreImageView;
@@ -44,7 +44,7 @@
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
 
--(void)setCellValue:(CommentInfo *)info;
+-(void)setCellValue:(StatusInfo *)info;
 
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
 

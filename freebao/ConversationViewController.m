@@ -7,6 +7,7 @@
 //
 
 #import "ConversationViewController.h"
+#import "HomePageNewViewController.h"
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
@@ -79,8 +80,10 @@
 
 -(void)createNewConversation {
     NSLog(@"[levi] create...");
-    FansViewController *fanVC = [[FansViewController alloc] init];
-    [self.navigationController pushViewController:fanVC animated:YES];
+//    FansViewController *fanVC = [[FansViewController alloc] init];
+//    [self.navigationController pushViewController:fanVC animated:YES];
+    HomePageNewViewController *homeP = [[HomePageNewViewController alloc] init];
+    [self.navigationController pushViewController:homeP animated:YES];
 }
 
 -(void)resultOfRequest:(NSNotification*)notification {
