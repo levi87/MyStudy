@@ -9,6 +9,7 @@
 #import "StatusNewCell.h"
 #import "EGOImageView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "NSDictionaryAdditions.h"
 
 #define FONT_SIZE 15.0
 #define FONT @"HelveticaNeue-Light"
@@ -19,6 +20,7 @@
 
 @implementation StatusNewCell
 @synthesize contentTextView = _contentTextView;
+@synthesize forwordContentTextView = _forwordContentTextView;
 @synthesize upperView = _upperView;
 @synthesize lowerView = _lowerView;
 @synthesize languageImageView = _languageImageView;
@@ -67,7 +69,8 @@
         _statusDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
         _statusDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [_upperView addSubview:_statusDateLabel];
-        _contentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 230, 25)];
+        
+        _contentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 302, 25)];
         [_contentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_contentTextView setDelegate:self];
         [_contentTextView setFontName:FONT];
@@ -81,6 +84,23 @@
         _contentTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
         _contentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         _contentTextView.text = @"test message.";
+        
+        _forwordContentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 302, 25)];
+        [_forwordContentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_forwordContentTextView setDelegate:self];
+        [_forwordContentTextView setFontName:FONT];
+        [_forwordContentTextView setFontSize:FONT_SIZE];
+        [_forwordContentTextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_forwordContentTextView setBackgroundColor:[UIColor clearColor]];
+        [_forwordContentTextView setPaddingTop:PADDING_TOP];
+        [_forwordContentTextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _forwordContentTextView.backgroundColor = [UIColor clearColor];
+        _forwordContentTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _forwordContentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _forwordContentTextView.text = @"test message.";
+        _forwordContentTextView.hidden = YES;
+        
         _soundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(9, 52, 20, 20)];
         [_soundImageView setImage:[UIImage imageNamed:@"con-voice"]];
         _soundImageView.animationImages = [NSArray arrayWithObjects:
@@ -96,6 +116,7 @@
         _soundImageView.userInteractionEnabled = YES;
         [self.contentView addSubview:_soundImageView];
         [self.contentView addSubview:_contentTextView];
+        [self.contentView addSubview:_forwordContentTextView];
         [self.contentView addSubview:_upperView];
         [self.contentView addSubview:_lowerView];
     }
@@ -109,31 +130,37 @@
 }
 
 -(void)setCellValue:(StatusInfo *)info {
+    NSLog(@"retwitter %@", info.rePostDic);
     nickNameLabel.text = info.userFacePath;
     _contentTextView.text = info.content;
 //    _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
-    CGFloat tmpHeight = [StatusNewCell getJSHeight:info.content jsViewWith:230];
+    CGFloat tmpHeight = [StatusNewCell getJSHeight:info.content jsViewWith:300];
     CGRect frame = _contentTextView.frame;
     frame.size.height = tmpHeight;
     _contentTextView.frame = frame;
+    if (info.rePostDic != nil) {
+        _forwordContentTextView.hidden = NO;
+        NSDictionary *tmpForword = info.rePostDic;
+        CGFloat forwordHeight = [StatusNewCell getJSHeight:[tmpForword getStringValueForKey:@"text" defaultValue:@""] jsViewWith:300];
+        CGRect forwordFrame = _forwordContentTextView.frame;
+        forwordFrame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height;
+        forwordFrame.size.height = forwordHeight;
+        _forwordContentTextView.frame = forwordFrame;
+        NSString *nickName = [tmpForword getStringValueForKey:@"user_name" defaultValue:@""];
+        _forwordContentTextView.text = [NSString stringWithFormat:@"@%@ %@",nickName,[tmpForword getStringValueForKey:@"text" defaultValue:@""]];
+        frame = _lowerView.frame;
+        frame.origin.y = _forwordContentTextView.frame.origin.y + _forwordContentTextView.frame.size.height + 5;
+        _lowerView.frame = frame;
+    } else {
+        _forwordContentTextView.hidden = YES;
+        frame = _lowerView.frame;
+        frame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height + 5;
+        _lowerView.frame = frame;
+    }
     
     NSLog(@"[levi] run this...");
-    frame = _lowerView.frame;
-    frame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height + 5;
-    _lowerView.frame = frame;
     _statusDateLabel.text = info.createAt;
     headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
-//    if (![info.voiceUrl isEqualToString:@"0"]) {
-//        _soundImageView.hidden = NO;
-//        _contentTextView.hidden = YES;
-//        _languageImageView.hidden = YES;
-//        _transVoiceImageView.hidden = YES;
-//    } else {
-//        _soundImageView.hidden = YES;
-//        _contentTextView.hidden = NO;
-//        _languageImageView.hidden = NO;
-//        _transVoiceImageView.hidden = NO;
-//    }
 }
 
 -(void)setHeadPhoto:(NSString *)headPhoto {

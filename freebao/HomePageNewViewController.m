@@ -113,14 +113,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat tmpHeight;
+    CGFloat forwordHeight;
     StatusInfo *tmpInfo = [statusArray objectAtIndex:indexPath.row];
-    tmpHeight = [StatusNewCell getJSHeight:tmpInfo.content jsViewWith:230.0];
+    tmpHeight = [StatusNewCell getJSHeight:tmpInfo.content jsViewWith:300.0];
 //    NSLog(@"tmpHeight %f", tmpHeight);
+    if (tmpInfo.rePostDic != nil) {
+        NSDictionary *forwordDic = tmpInfo.rePostDic;
+        NSString *nickName = [forwordDic getStringValueForKey:@"user_name" defaultValue:@""];
+    forwordHeight = [StatusNewCell getJSHeight:[NSString stringWithFormat:@"@%@ %@", nickName, [forwordDic getStringValueForKey:@"text" defaultValue:@""]] jsViewWith:300.0];
+    } else {
+        forwordHeight = 0.0;
+    }
     NSString *hasImage = tmpInfo.originalPicUrl;
     if (![hasImage isEqualToString:@"0"]) {
-        return 23 + tmpHeight + 25 + 30 + 330;
+        return 23 + tmpHeight + 25 + 30 + 330 + forwordHeight;
     } else {
-        return 23 + tmpHeight + 25 + 30;
+        return 23 + tmpHeight + 25 + 30 + forwordHeight;
     }
 }
 

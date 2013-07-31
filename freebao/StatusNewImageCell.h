@@ -16,6 +16,7 @@
     EGOImageView* mainImageView;
     UILabel *nickNameLabel;
     JSTwitterCoreTextView *_contentTextView;
+    JSTwitterCoreTextView *_forwordContentTextView;
     UIView *_upperView;
     UIView *_lowerView;
     UIImageView *_languageImageView;
@@ -29,6 +30,7 @@
 }
 
 @property (nonatomic, retain) JSTwitterCoreTextView *contentTextView;
+@property (nonatomic, retain) JSTwitterCoreTextView *forwordContentTextView;
 @property (nonatomic, retain) UIView *upperView;
 @property (nonatomic, retain) UIView *lowerView;
 @property (nonatomic, retain) UIImageView *languageImageView;
