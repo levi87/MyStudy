@@ -218,6 +218,8 @@
 }
 
 -(void)setCellValue:(StatusInfo *)info {
+    NSArray *commentAy = info.commentArray;
+    NSDictionary *tmpCommDic;
     NSLog(@"statusNew %@", info.commentArray);
     nickNameLabel.text = info.userFacePath;
     _contentTextView.text = info.content;
@@ -249,6 +251,9 @@
             frame.size.height = _middleView.frame.size.height;
             _commentsView.frame = frame;
         } else if (cCount == 1) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
             _commentsView.hidden = NO;
             _line1label.hidden = NO;
             _line1TextView.hidden = NO;
@@ -261,6 +266,12 @@
             frame.size.height = 25;
             _commentsView.frame = frame;
         } else if (cCount == 2) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
             _commentsView.hidden = NO;
             _line1label.hidden = NO;
             _line1TextView.hidden = NO;
@@ -273,6 +284,15 @@
             frame.size.height = 50;
             _commentsView.frame = frame;
         } else if (cCount >= 3) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:2];
+            _line3Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line3TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
             _commentsView.hidden = NO;
             _line1label.hidden = NO;
             _line1TextView.hidden = NO;
@@ -304,6 +324,9 @@
             frame.size.height = _middleView.frame.size.height;
             _commentsView.frame = frame;
         } else if (cCount == 1) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
             _commentsView.hidden = NO;
             _line1label.hidden = NO;
             _line1TextView.hidden = NO;
@@ -316,6 +339,12 @@
             frame.size.height = 25;
             _commentsView.frame = frame;
         } else if (cCount == 2) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
             _commentsView.hidden = NO;
             _line1label.hidden = NO;
             _line1TextView.hidden = NO;
@@ -328,6 +357,15 @@
             frame.size.height = 50;
             _commentsView.frame = frame;
         } else if (cCount >= 3) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:2];
+            _line3Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line3TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
             _commentsView.hidden = NO;
             _line1label.hidden = NO;
             _line1TextView.hidden = NO;
