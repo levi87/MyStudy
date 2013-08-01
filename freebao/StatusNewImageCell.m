@@ -221,6 +221,13 @@
 }
 
 -(void)setCellValue:(StatusInfo *)info {
+    if ([info.liked integerValue] == 1) {
+        _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
+    } else {
+        _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+    }
+    _likeCount.text = [NSString stringWithFormat:@"%@",info.likeCount];
+    _commentCount.text = [NSString stringWithFormat:@"%@",info.commentCount];
     NSArray *commentAy = info.commentArray;
     NSDictionary *tmpCommDic;
     nickNameLabel.text = info.userName;
