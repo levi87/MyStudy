@@ -31,6 +31,8 @@
 @synthesize moreImageView = _moreImageView;
 @synthesize likeImageView = _likeImageView;
 @synthesize commentImageView = _commentImageView;
+@synthesize locationImageView = _locationImageView;
+@synthesize distanceLabel = _distanceLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -70,9 +72,16 @@
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         [_upperView addSubview:_languageImageView];
-        _statusDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
-        _statusDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
+        _locationImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"con-location.png"]];
+        _locationImageView.frame = CGRectMake(0, 24, 15, 15);
+        _distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 24, 45, 15)];
+        [_distanceLabel setFont:[UIFont systemFontOfSize:12]];
+        [_distanceLabel setText:@"0.07km"];
+        _statusDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 24, 120, 15)];
+        _statusDateLabel.font = [UIFont fontWithName:FONT size:12];
         [_upperView addSubview:_statusDateLabel];
+        [_upperView addSubview:_locationImageView];
+        [_upperView addSubview:_distanceLabel];
         _contentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 380, 302, 25)];
         [_contentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_contentTextView setDelegate:self];
@@ -226,6 +235,7 @@
     } else {
         _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
     }
+    _distanceLabel.text = [NSString stringWithFormat:@"%@km",info.distance];
     _likeCount.text = [NSString stringWithFormat:@"%@",info.likeCount];
     _commentCount.text = [NSString stringWithFormat:@"%@",info.commentCount];
     NSArray *commentAy = info.commentArray;

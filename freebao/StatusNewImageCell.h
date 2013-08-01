@@ -21,6 +21,8 @@
     UIView *_lowerView;
     UIImageView *_languageImageView;
     UIImageView *_transVoiceImageView;
+    UIImageView *_locationImageView;
+    UILabel *_distanceLabel;
     UILabel *_statusDateLabel;
     UIImageView *_soundImageView;
     
@@ -47,6 +49,8 @@
 @property (nonatomic, retain) UIView *lowerView;
 @property (nonatomic, retain) UIImageView *languageImageView;
 @property (nonatomic, retain) UIImageView *transVoiceImageView;
+@property (nonatomic, retain) UIImageView *locationImageView;
+@property (nonatomic, retain) UILabel *distanceLabel;
 @property (nonatomic, retain) UILabel *statusDateLabel;
 @property (nonatomic, retain) UIImageView *soundImageView;
 
