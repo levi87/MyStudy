@@ -101,6 +101,66 @@
         _forwordContentTextView.text = @"test message.";
         _forwordContentTextView.hidden = YES;
         
+        _commentsView = [[UIView alloc] initWithFrame:CGRectMake(9, 0, 302, 25)];
+        _line1label = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 75, 21)];
+        [_line1label setText:@"Echo"];
+        [_line1label setFont:[UIFont systemFontOfSize:12]];
+        [_line1label setTextColor:[UIColor blueColor]];
+        _line1TextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 2, 240, 21)];
+        [_line1TextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_line1TextView setDelegate:self];
+        [_line1TextView setFontName:FONT];
+        [_line1TextView setFontSize:FONT_SIZE];
+        [_line1TextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_line1TextView setBackgroundColor:[UIColor clearColor]];
+        [_line1TextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _line1TextView.backgroundColor = [UIColor clearColor];
+        _line1TextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line1TextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _line1TextView.text = @"test message.";
+        _line2Label = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 75, 21)];
+        [_line2Label setText:@"Echo"];
+        [_line2Label setFont:[UIFont systemFontOfSize:12]];
+        [_line2Label setTextColor:[UIColor blueColor]];
+        _line2TextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 24, 240, 21)];
+        [_line2TextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_line2TextView setDelegate:self];
+        [_line2TextView setFontName:FONT];
+        [_line2TextView setFontSize:FONT_SIZE];
+        [_line2TextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_line2TextView setBackgroundColor:[UIColor clearColor]];
+        [_line2TextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _line2TextView.backgroundColor = [UIColor clearColor];
+        _line2TextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line2TextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _line2TextView.text = @"test message.";
+        _line3Label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, 75, 21)];
+        [_line3Label setText:@"Echo"];
+        [_line3Label setFont:[UIFont systemFontOfSize:12]];
+        [_line3Label setTextColor:[UIColor blueColor]];
+        _line3TextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 46, 240, 21)];
+        [_line3TextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_line3TextView setDelegate:self];
+        [_line3TextView setFontName:FONT];
+        [_line3TextView setFontSize:FONT_SIZE];
+        [_line3TextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_line3TextView setBackgroundColor:[UIColor clearColor]];
+        [_line3TextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _line3TextView.backgroundColor = [UIColor clearColor];
+        _line3TextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line3TextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _line3TextView.text = @"test message.";
+        [_commentsView addSubview:_line1label];
+        [_commentsView addSubview:_line1TextView];
+        [_commentsView addSubview:_line2Label];
+        [_commentsView addSubview:_line2TextView];
+        [_commentsView addSubview:_line3Label];
+        [_commentsView addSubview:_line3TextView];
+        _commentsView.hidden = YES;
+        
         _middleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
         UILabel *likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(9, 2, 25, 21)];
         [likeLabel setText:@"Like"];
@@ -146,6 +206,7 @@
         [self.contentView addSubview:_upperView];
         [self.contentView addSubview:_lowerView];
         [self.contentView addSubview:_middleView];
+        [self.contentView addSubview:_commentsView];
     }
     return self;
 }
@@ -157,7 +218,7 @@
 }
 
 -(void)setCellValue:(StatusInfo *)info {
-    NSLog(@"retwitter %@", info.rePostDic);
+    NSLog(@"statusNew %@", info.commentArray);
     nickNameLabel.text = info.userFacePath;
     _contentTextView.text = info.content;
 //    _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
@@ -179,9 +240,54 @@
         frame = _middleView.frame;
         frame.origin.y = _forwordContentTextView.frame.origin.y + _forwordContentTextView.frame.size.height + 5;
         _middleView.frame = frame;
+
+        NSInteger cCount = [info.commentCount integerValue];
+        if (cCount == 0) {
+            _commentsView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y;
+            frame.size.height = _middleView.frame.size.height;
+            _commentsView.frame = frame;
+        } else if (cCount == 1) {
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = YES;
+            _line2TextView.hidden = YES;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 25;
+            _commentsView.frame = frame;
+        } else if (cCount == 2) {
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 50;
+            _commentsView.frame = frame;
+        } else if (cCount >= 3) {
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = NO;
+            _line3TextView.hidden = NO;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 75;
+            _commentsView.frame = frame;
+        }
         
         frame = _lowerView.frame;
-        frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+        frame.origin.y = _commentsView.frame.origin.y + _commentsView.frame.size.height + 5;
         _lowerView.frame = frame;
     } else {
         _forwordContentTextView.hidden = YES;
@@ -190,12 +296,56 @@
         frame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height + 5;
         _middleView.frame = frame;
         
+        NSInteger cCount = [info.commentCount integerValue];
+        if (cCount == 0) {
+            _commentsView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y;
+            frame.size.height = _middleView.frame.size.height;
+            _commentsView.frame = frame;
+        } else if (cCount == 1) {
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = YES;
+            _line2TextView.hidden = YES;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 25;
+            _commentsView.frame = frame;
+        } else if (cCount == 2) {
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 50;
+            _commentsView.frame = frame;
+        } else if (cCount >= 3) {
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = NO;
+            _line3TextView.hidden = NO;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 75;
+            _commentsView.frame = frame;
+        }
+        
         frame = _lowerView.frame;
-        frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+        frame.origin.y = _commentsView.frame.origin.y + _commentsView.frame.size.height + 5;
         _lowerView.frame = frame;
     }
     
-    NSLog(@"[levi] run this...");
     _statusDateLabel.text = info.createAt;
     headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
 }

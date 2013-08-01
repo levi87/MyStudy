@@ -114,6 +114,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat tmpHeight;
     CGFloat forwordHeight;
+    CGFloat commentsHeight;
     StatusInfo *tmpInfo = [statusArray objectAtIndex:indexPath.row];
     tmpHeight = [StatusNewCell getJSHeight:tmpInfo.content jsViewWith:300.0];
 //    NSLog(@"tmpHeight %f", tmpHeight);
@@ -124,11 +125,22 @@
     } else {
         forwordHeight = 0.0;
     }
+    NSInteger cCount = [tmpInfo.commentCount integerValue];
+    NSLog(@"comment count %d  row %d", cCount, indexPath.row);
+    if (cCount == 0) {
+        commentsHeight = 0.0;
+    } else if (cCount == 1) {
+        commentsHeight = 35.0;
+    } else if (cCount == 2) {
+        commentsHeight = 60.0;
+    } else if (cCount >= 3) {
+        commentsHeight = 100.0;
+    }
     NSString *hasImage = tmpInfo.originalPicUrl;
     if (![hasImage isEqualToString:@"0"]) {
-        return 23 + tmpHeight + 50 + 30 + 330 + forwordHeight;
+        return 25 + tmpHeight + 50 + 30 + 330 + forwordHeight + commentsHeight;
     } else {
-        return 23 + tmpHeight + 50 + 30 + forwordHeight;
+        return 25 + tmpHeight + 50 + 30 + forwordHeight + commentsHeight;
     }
 }
 

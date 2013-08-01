@@ -31,6 +31,14 @@
     UIView *_middleView;
     UILabel *_likeCount;
     UILabel *_commentCount;
+    
+    UIView *_commentsView;
+    UILabel *_line1label;
+    JSTwitterCoreTextView *_line1TextView;
+    UILabel *_line2Label;
+    JSTwitterCoreTextView *_line2TextView;
+    UILabel *_line3Label;
+    JSTwitterCoreTextView *_line3TextView;
 }
 
 @property (nonatomic, retain) JSTwitterCoreTextView *contentTextView;
