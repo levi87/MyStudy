@@ -184,4 +184,22 @@
         [manager FBUnLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     }
 }
+
+-(void)cellMoreDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"cell more tap");
+    CustomActionSheet *as = [[CustomActionSheet alloc] init];
+    [as addButtonWithTitle:@"收藏"];
+    [as addButtonWithTitle:@"举报"];
+    [as addButtonWithTitle:@"删除"];
+    [as showInView:self.view];
+}
+
+-(void)imageCellMoreDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image cell more tap");
+    CustomActionSheet *as = [[CustomActionSheet alloc] init];
+    [as addButtonWithTitle:@"收藏"];
+    [as addButtonWithTitle:@"举报"];
+    [as addButtonWithTitle:@"删除"];
+    [as showInView:self.view];
+}
 @end

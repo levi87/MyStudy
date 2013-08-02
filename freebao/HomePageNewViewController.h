@@ -12,6 +12,7 @@
 #import "StatusNewCell.h"
 #import "StatusNewImageCell.h"
 #import "StatusInfo.h"
+#import "CustomActionSheet.h"
 
 @class WeiBoMessageManager;
 @interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate> {

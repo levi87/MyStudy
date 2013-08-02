@@ -51,6 +51,10 @@
         _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 339, 320, 20)];
         _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 6, 23, 7)];
         _moreImageView.image = [UIImage imageNamed:@"con-moredo.png"];
+        UITapGestureRecognizer *moreGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreTapAction)];
+        moreGesTap.numberOfTapsRequired = 1;
+        [_moreImageView addGestureRecognizer:moreGesTap];
+        [_moreImageView setUserInteractionEnabled:YES];
         _likeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250, 2, 18, 16)];
         _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
         UITapGestureRecognizer *likeGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addLikeTapAction)];
@@ -462,6 +466,13 @@
             _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
         }
         [_delegate imageCellAddLikeDidTaped:self];
+    }
+}
+
+-(void)moreTapAction {
+    if ([_delegate respondsToSelector:@selector(imageCellMoreDidTaped:)])
+    {
+        [_delegate imageCellMoreDidTaped:self];
     }
 }
 

@@ -16,6 +16,8 @@
 
 -(void)imageCellAddLikeDidTaped:(StatusNewImageCell *)theCell;
 
+-(void)imageCellMoreDidTaped:(StatusNewImageCell *)theCell;
+
 @end
 
 @class EGOImageView;
