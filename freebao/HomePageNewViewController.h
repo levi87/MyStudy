@@ -15,6 +15,11 @@
 #import "CustomActionSheet.h"
 #import "LikersViewController.h"
 #import "CommentViewController.h"
+#import "UserLocationViewController.h"
+#import "AppDelegate.h"
+#define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
+
+#define FONT @"HelveticaNeue-Light"
 
 @class WeiBoMessageManager;
 @interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate> {
@@ -28,6 +33,9 @@
     
     LikersViewController *likeVC;
     CommentViewController *commentVC;
+    
+    UILabel *tittleLabel;
+    UIButton *backButton;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;

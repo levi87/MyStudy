@@ -85,6 +85,10 @@
         _locationImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"con-location.png"]];
         _locationImageView.frame = CGRectMake(0, 24, 15, 15);
         _distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 24, 45, 15)];
+        UITapGestureRecognizer *distanceGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(distanceTapAction)];
+        distanceGesTap.numberOfTapsRequired = 1;
+        [_distanceLabel addGestureRecognizer:distanceGesTap];
+        [_distanceLabel setUserInteractionEnabled:YES];
         [_distanceLabel setFont:[UIFont systemFontOfSize:12]];
         [_distanceLabel setText:@"0.07km"];
         _statusDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 24, 120, 15)];
@@ -495,6 +499,13 @@
     if ([_delegate respondsToSelector:@selector(imageCellCommentDidTaped:)])
     {
         [_delegate imageCellCommentDidTaped:self];
+    }
+}
+
+-(void)distanceTapAction {
+    if ([_delegate respondsToSelector:@selector(imageCellDistanceDidTaped:)])
+    {
+        [_delegate imageCellDistanceDidTaped:self];
     }
 }
 

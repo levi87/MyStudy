@@ -22,6 +22,8 @@
 
 -(void)cellCommentDidTaped:(StatusNewCell *)theCell;
 
+-(void)cellDistanceDidTaped:(StatusNewCell *)theCell;
+
 @end
 
 @class EGOImageView;

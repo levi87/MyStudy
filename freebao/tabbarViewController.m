@@ -77,7 +77,8 @@
 {
     NSArray* tabBarItems = nil;
     
-    HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
+//    HomeLineViewController *HomeVC = [[HomeLineViewController alloc] initWithNibName:@"HomeLineViewController" bundle:nil];
+    HomePageNewViewController *HomeVC = [[HomePageNewViewController alloc] init];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:HomeVC];
     [nav1.navigationBar setHidden:YES];
     

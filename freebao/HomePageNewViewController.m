@@ -47,11 +47,50 @@
         manager = [WeiBoMessageManager getInstance];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_HOMELINE_NEW object:nil];
+    [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] init];
+    
+    UIView *tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [tittleView setBackgroundColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
+    tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    tittleLabel.textAlignment = UITextAlignmentCenter;
+    [tittleLabel setBackgroundColor:[UIColor clearColor]];
+    tittleLabel.text = @"Freebao";
+    [tittleLabel setFont:[UIFont fontWithName:FONT size:15]];
+    tittleLabel.textColor = [UIColor whiteColor];
+    [tittleView addSubview: tittleLabel];
+    tittleLabel.center = CGPointMake(160, 22);
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
+    [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
+    [imgV setFrame:CGRectMake(0, 0, 7, 12)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonAction)];
+    tap.numberOfTapsRequired = 1;
+    [imgV addGestureRecognizer:tap];
+    [backButton addSubview:imgV];
+    UIView *tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
+    [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
+    [self.navigationController.view addSubview:tittleView];
+    [self.navigationController.view addSubview:tittleLineView];
+    [self.navigationController.view addSubview:backButton];
+    backButton.hidden = YES;
+    
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.homeTableView setTableHeaderView:headerView];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
+}
+
+- (void)backButtonAction {
+    NSLog(@"[levi]back...");
+    backButton.hidden = YES;
+    tittleLabel.text = @"Freebao";
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)onRequestHomeLine:(NSNotification*)notification {
@@ -211,8 +250,8 @@
         [likeVC setIsRefresh:YES];
     }
     likeVC.cellContentId = theCell.statusInfo.contentId;
-//    tittleLabel.text = @"Likers";
-//    backButton.hidden = NO;
+    tittleLabel.text = @"Likers";
+    backButton.hidden = NO;
     [self.navigationController pushViewController:likeVC animated:YES];
 }
 
@@ -224,8 +263,8 @@
         [likeVC setIsRefresh:YES];
     }
     likeVC.cellContentId = theCell.statusInfo.contentId;
-//    tittleLabel.text = @"Likers";
-//    backButton.hidden = NO;   
+    tittleLabel.text = @"Likers";
+    backButton.hidden = NO;
     [self.navigationController pushViewController:likeVC animated:YES];
 }
 
@@ -237,8 +276,8 @@
         [commentVC setIsRefresh:YES];
     }
     commentVC.cellContentId = theCell.statusInfo.contentId;
-//    tittleLabel.text = @"Comments";
-//    backButton.hidden = NO;
+    tittleLabel.text = @"Comments";
+    backButton.hidden = NO;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
@@ -250,8 +289,34 @@
         [commentVC setIsRefresh:YES];
     }
     commentVC.cellContentId = theCell.statusInfo.contentId;
-//    tittleLabel.text = @"Comments";
-//    backButton.hidden = NO;
+    tittleLabel.text = @"Comments";
+    backButton.hidden = NO;
     [self.navigationController pushViewController:commentVC animated:YES];
+}
+
+-(void)cellDistanceDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"distance tap.");
+    if (KAppDelegate.commMap == nil) {
+        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
+    }
+    CLLocationCoordinate2D userCoordinate;
+//    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
+    userCoordinate.latitude = 0.0;
+    userCoordinate.longitude = 0.0;
+    [KAppDelegate.commMap setUserCoordinate:userCoordinate];
+    [self presentModalViewController:KAppDelegate.commMap animated:YES];
+}
+
+-(void)imageCellDistanceDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image distance tap");
+    if (KAppDelegate.commMap == nil) {
+        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
+    }
+    CLLocationCoordinate2D userCoordinate;
+//    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
+    userCoordinate.latitude = 0.0;
+    userCoordinate.longitude = 0.0;
+    [KAppDelegate.commMap setUserCoordinate:userCoordinate];
+    [self presentModalViewController:KAppDelegate.commMap animated:YES];
 }
 @end
