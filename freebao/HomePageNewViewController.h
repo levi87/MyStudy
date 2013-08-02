@@ -13,6 +13,7 @@
 #import "StatusNewImageCell.h"
 #import "StatusInfo.h"
 #import "CustomActionSheet.h"
+#import "LikersViewController.h"
 
 @class WeiBoMessageManager;
 @interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate> {
@@ -23,6 +24,8 @@
 @private
     NSMutableArray *headPhotos;
     NSMutableArray *statusArray;
+    
+    LikersViewController *likeVC;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;

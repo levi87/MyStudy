@@ -182,6 +182,10 @@
         
         _middleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 25)];
         UILabel *likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(9, 2, 25, 21)];
+        UITapGestureRecognizer *likerGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likerTapAction)];
+        likerGesTap.numberOfTapsRequired = 1;
+        [likeLabel addGestureRecognizer:likerGesTap];
+        [likeLabel setUserInteractionEnabled:YES];
         [likeLabel setText:@"Like"];
         [likeLabel setTextColor:[UIColor blueColor]];
         [likeLabel setFont:[UIFont systemFontOfSize:12]];
@@ -192,6 +196,10 @@
         [_likeCount setTextColor:[UIColor blueColor]];
         [_likeCount setBackgroundColor:[UIColor clearColor]];
         UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 2, 56, 21)];
+        UITapGestureRecognizer *commentGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapAction)];
+        commentGesTap.numberOfTapsRequired = 1;
+        [commentLabel addGestureRecognizer:commentGesTap];
+        [commentLabel setUserInteractionEnabled:YES];
         [commentLabel setText:@"Comment"];
         [commentLabel setFont:[UIFont systemFontOfSize:12]];
         [commentLabel setTextColor:[UIColor blueColor]];
@@ -469,6 +477,20 @@
     if ([_delegate respondsToSelector:@selector(cellMoreDidTaped:)])
     {
         [_delegate cellMoreDidTaped:self];
+    }
+}
+
+-(void)likerTapAction {
+    if ([_delegate respondsToSelector:@selector(cellLikerDidTaped:)])
+    {
+        [_delegate cellLikerDidTaped:self];
+    }
+}
+
+-(void)commentTapAction {
+    if ([_delegate respondsToSelector:@selector(cellCommentDidTaped:)])
+    {
+        [_delegate cellCommentDidTaped:self];
     }
 }
 

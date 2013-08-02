@@ -202,4 +202,38 @@
     [as addButtonWithTitle:@"删除"];
     [as showInView:self.view];
 }
+
+-(void)cellLikerDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"liker tap");
+    if (likeVC == nil) {
+        likeVC = [[LikersViewController alloc] init];
+    } else {
+        [likeVC setIsRefresh:YES];
+    }
+    likeVC.cellContentId = theCell.statusInfo.contentId;
+//    tittleLabel.text = @"Likers";
+//    backButton.hidden = NO;
+    [self.navigationController pushViewController:likeVC animated:YES];
+}
+
+-(void)imageCellLikerDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image liker tap");
+    if (likeVC == nil) {
+        likeVC = [[LikersViewController alloc] init];
+    } else {
+        [likeVC setIsRefresh:YES];
+    }
+    likeVC.cellContentId = theCell.statusInfo.contentId;
+//    tittleLabel.text = @"Likers";
+//    backButton.hidden = NO;   
+    [self.navigationController pushViewController:likeVC animated:YES];
+}
+
+-(void)cellCommentDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"comment tap");
+}
+
+-(void)imageCellCommentDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image commnet tap");
+}
 @end

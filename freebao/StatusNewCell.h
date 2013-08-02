@@ -18,6 +18,10 @@
 
 -(void)cellMoreDidTaped:(StatusNewCell *)theCell;
 
+-(void)cellLikerDidTaped:(StatusNewCell *)theCell;
+
+-(void)cellCommentDidTaped:(StatusNewCell *)theCell;
+
 @end
 
 @class EGOImageView;
