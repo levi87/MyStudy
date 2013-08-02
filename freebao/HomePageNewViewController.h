@@ -39,6 +39,8 @@
     UILabel *tittleLabel;
     UIButton *backButton;
     NSIndexPath *tmpIndexPath;
+    
+    NSString *currentTransLanguage;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;

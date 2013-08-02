@@ -389,4 +389,127 @@
     _avPlay.delegate = self;
     [_avPlay play];
 }
+
+-(void)cellLanguageDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"language select...");
+    tmpIndexPath = theCell.indexPath;
+    [self languageMenuAction];
+}
+
+-(void)imageCellLanguageDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image language select...");
+    tmpIndexPath = theCell.indexPath;
+    [self languageMenuAction];
+}
+
+- (void)languageMenuAction {
+    NSArray *menuItems =
+    @[
+    
+    [KxMenuItem menuItem:@"中文"
+                   image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"English"
+                   image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"日本語"
+                   image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"한국어"
+                   image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"España"
+                   image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Français"
+                   image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Deutsch"
+                   image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"русский"
+                   image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                  target:self
+                  action:@selector(pushMenuItem:)],
+    ];
+    
+    [KxMenu showMenuInView:self.navigationController.view
+                  fromRect:CGRectMake(250, 24, 20, 10)
+                 menuItems:menuItems];
+}
+
+- (void) pushMenuItem:(id)sender
+{
+    KxMenuItem *tmpKxM = sender;
+    NSLog(@"tittle %@", tmpKxM.title);
+    if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+        StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        if ([tmpKxM.title isEqualToString:@"中文"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+            tmpCell.statusInfo.postLanguage = @"zh_CN";
+        } else if ([tmpKxM.title isEqualToString:@"English"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+            tmpCell.statusInfo.postLanguage = @"en_US";
+        } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+            tmpCell.statusInfo.postLanguage = @"ja_JP";
+        } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+            tmpCell.statusInfo.postLanguage = @"ko_KR";
+        } else if ([tmpKxM.title isEqualToString:@"España"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+            tmpCell.statusInfo.postLanguage = @"es_ES";
+        } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+            tmpCell.statusInfo.postLanguage = @"fr_FR";
+        } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
+            tmpCell.statusInfo.postLanguage = @"";
+        } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+            tmpCell.statusInfo.postLanguage = @"ru_RU";
+        }
+    } else {
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        if ([tmpKxM.title isEqualToString:@"中文"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+            tmpCell.statusInfo.postLanguage = @"zh_CN";
+        } else if ([tmpKxM.title isEqualToString:@"English"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+            tmpCell.statusInfo.postLanguage = @"en_US";
+        } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+            tmpCell.statusInfo.postLanguage = @"ja_JP";
+        } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+            tmpCell.statusInfo.postLanguage = @"ko_KR";
+        } else if ([tmpKxM.title isEqualToString:@"España"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+            tmpCell.statusInfo.postLanguage = @"es_ES";
+        } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+            tmpCell.statusInfo.postLanguage = @"fr_FR";
+        } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
+            tmpCell.statusInfo.postLanguage = @"";
+        } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+            tmpCell.statusInfo.postLanguage = @"ru_RU";
+        }
+    }
+}
 @end

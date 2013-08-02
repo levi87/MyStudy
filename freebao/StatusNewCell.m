@@ -43,7 +43,7 @@
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
-        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 230, 50)];
+        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 260, 50)];
         _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
         _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 6, 23, 7)];
         _moreImageView.image = [UIImage imageNamed:@"con-moredo.png"];
@@ -81,6 +81,10 @@
         _transVoiceImageView.animationDuration = 1;
         [_upperView addSubview:_transVoiceImageView];
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
+        UITapGestureRecognizer *languageGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectAction)];
+        languageGesTap.numberOfTapsRequired = 1;
+        [_languageImageView addGestureRecognizer:languageGesTap];
+        [_languageImageView setUserInteractionEnabled:YES];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         [_upperView addSubview:_languageImageView];
         _locationImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"con-location.png"]];
@@ -255,6 +259,23 @@
 
 -(void)setCellValue:(StatusInfo *)info {
     _statusInfo = info;
+    if ([info.postLanguage isEqualToString:@"zh_CN"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+    } else if ([info.postLanguage isEqualToString:@"en_US"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+    } else if ([info.postLanguage isEqualToString:@"fr_FR"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+    } else if ([info.postLanguage isEqualToString:@"hi_IN"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+    } else if ([info.postLanguage isEqualToString:@"ja_JP"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+    } else if ([info.postLanguage isEqualToString:@"ru_RU"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+    } else if ([info.postLanguage isEqualToString:@"es_ES"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+    } else if ([info.postLanguage isEqualToString:@"ko_KR"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+    }
     if (info.isPlayingVoice) {
         [_transVoiceImageView startAnimating];
     } else {
@@ -526,6 +547,13 @@
             [_transVoiceImageView startAnimating];
         }
         [_delegate cellTransVoiceDidTaped:self];
+    }
+}
+
+-(void)languageSelectAction {
+    if ([_delegate respondsToSelector:@selector(cellLanguageDidTaped:)])
+    {
+        [_delegate cellLanguageDidTaped:self];
     }
 }
 

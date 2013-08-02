@@ -26,6 +26,8 @@
 
 -(void)cellTransVoiceDidTaped:(StatusNewCell *)theCell;
 
+-(void)cellLanguageDidTaped:(StatusNewCell *)theCell;
+
 @end
 
 @class EGOImageView;
