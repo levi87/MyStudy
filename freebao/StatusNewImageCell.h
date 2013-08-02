@@ -24,6 +24,8 @@
 
 -(void)imageCellDistanceDidTaped:(StatusNewImageCell *)theCell;
 
+-(void)imageCellTransVoiceDidTaped:(StatusNewImageCell *)theCell;
+
 @end
 
 @class EGOImageView;

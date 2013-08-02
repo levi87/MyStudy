@@ -72,12 +72,17 @@
         nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [_upperView addSubview:nickNameLabel];
         _transVoiceImageView = [[UIImageView alloc] initWithFrame:CGRectMake(200, 17, 13, 13)];
+        UITapGestureRecognizer *transVoiceGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(transVoiceTapAction)];
+        transVoiceGesTap.numberOfTapsRequired = 1;
+        [_transVoiceImageView addGestureRecognizer:transVoiceGesTap];
+        [_transVoiceImageView setUserInteractionEnabled:YES];
         [_transVoiceImageView setImage:[UIImage imageNamed:@"con-speek"]];
         _transVoiceImageView.animationImages = [NSArray arrayWithObjects:
                                                 [UIImage imageNamed:@"con-speek02"],
                                                 [UIImage imageNamed:@"con-speek04"],
                                                 [UIImage imageNamed:@"con-speek06"],
                                                 nil];
+        _transVoiceImageView.animationDuration = 1;
         [_upperView addSubview:_transVoiceImageView];
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
@@ -253,6 +258,11 @@
 
 -(void)setCellValue:(StatusInfo *)info {
     _statusInfo = info;
+    if (info.isPlayingVoice) {
+        [_transVoiceImageView startAnimating];
+    } else {
+        [_transVoiceImageView stopAnimating];
+    }
     if ([info.liked integerValue] == 1) {
         _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
     } else {
@@ -506,6 +516,20 @@
     if ([_delegate respondsToSelector:@selector(imageCellDistanceDidTaped:)])
     {
         [_delegate imageCellDistanceDidTaped:self];
+    }
+}
+
+-(void)transVoiceTapAction {
+    if ([_delegate respondsToSelector:@selector(imageCellTransVoiceDidTaped:)])
+    {
+        if (_statusInfo.isPlayingVoice) {
+            _statusInfo.isPlayingVoice = NO;
+            [_transVoiceImageView stopAnimating];
+        } else {
+            _statusInfo.isPlayingVoice = YES;
+            [_transVoiceImageView startAnimating];
+        }
+        [_delegate imageCellTransVoiceDidTaped:self];
     }
 }
 

@@ -24,6 +24,9 @@
     NSDictionary *_rePostDic;
     NSMutableArray *_commentArray;
     NSString *_contentId;
+    
+    BOOL _isPlayingVoice;
+    BOOL _isPlayingSound;
 }
 
 @property (nonatomic) NSString *originalPicUrl;
@@ -41,5 +44,8 @@
 @property (nonatomic) NSDictionary *rePostDic;
 @property (nonatomic) NSMutableArray *commentArray;
 @property (nonatomic) NSString *contentId;
+
+@property (nonatomic) BOOL isPlayingVoice;
+@property (nonatomic) BOOL isPlayingSound;
 
 @end

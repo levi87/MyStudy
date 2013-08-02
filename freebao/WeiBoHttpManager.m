@@ -618,6 +618,8 @@
                 statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@"0"];
                 statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
                 statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
+                statusInfo.isPlayingVoice = NO;
+                statusInfo.isPlayingSound = NO;
                 [timeline addObject:statusInfo];
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW object:timeline];

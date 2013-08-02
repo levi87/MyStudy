@@ -17,12 +17,14 @@
 #import "CommentViewController.h"
 #import "UserLocationViewController.h"
 #import "AppDelegate.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 #define FONT @"HelveticaNeue-Light"
 
 @class WeiBoMessageManager;
-@interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate> {
+@interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;
@@ -36,9 +38,11 @@
     
     UILabel *tittleLabel;
     UIButton *backButton;
+    NSIndexPath *tmpIndexPath;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;
+@property (retain, nonatomic) AVAudioPlayer *avPlay;
 
 @property NSString *cellContentId;
 @property BOOL isRefresh;

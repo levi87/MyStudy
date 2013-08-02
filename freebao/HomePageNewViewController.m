@@ -26,6 +26,7 @@
 @implementation HomePageNewViewController
 @synthesize cellContentId = _cellContentId;
 @synthesize isRefresh = _isRefresh;
+@synthesize avPlay = _avPlay;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -47,6 +48,7 @@
         manager = [WeiBoMessageManager getInstance];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_HOMELINE_NEW object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
@@ -167,7 +169,6 @@
         forwordHeight = 0.0;
     }
     NSInteger cCount = [tmpInfo.commentCount integerValue];
-    NSLog(@"comment count %d  row %d", cCount, indexPath.row);
     if (cCount == 0) {
         commentsHeight = 0.0;
     } else if (cCount == 1) {
@@ -202,6 +203,7 @@
     [self setHomeTableView:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
 }
 
 -(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
@@ -318,5 +320,73 @@
     userCoordinate.longitude = 0.0;
     [KAppDelegate.commMap setUserCoordinate:userCoordinate];
     [self presentModalViewController:KAppDelegate.commMap animated:YES];
+}
+
+-(void)cellTransVoiceDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"trans voice tap");
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.playing) {
+        [_avPlay stop];
+        if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+            NSLog(@"statusNewCell");
+            StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        } else {
+            NSLog(@"statusNewImageCell");
+            StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        }
+        return;
+    }
+    [manager FBGetTranslateVoiceWithBody:theCell.statusInfo.content Language:theCell.statusInfo.postLanguage PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)imageCellTransVoiceDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image trans voice tap");
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.playing) {
+        [_avPlay stop];
+        if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+            NSLog(@"statusNewCell");
+            StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        } else {
+            NSLog(@"statusNewImageCell");
+            StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        }
+        return;
+    }
+    [manager FBGetTranslateVoiceWithBody:theCell.statusInfo.content Language:theCell.statusInfo.postLanguage PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    NSLog(@"[levi] play completed...");
+    [self stopVoiceAnimating];
+}
+
+-(void)stopVoiceAnimating {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    tmpStatusInfo.isPlayingVoice = NO;
+    [statusArray replaceObjectAtIndex:tmpIndexPath.row withObject:tmpStatusInfo];
+    if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+        NSLog(@"statusNewCell");
+        StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.transVoiceImageView stopAnimating];
+    } else {
+        NSLog(@"statusNewImageCell");
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.transVoiceImageView stopAnimating];
+    }
+}
+
+-(void)onRequestVoiceResult:(NSNotification*)notification {
+    NSString *voiceUrl = notification.object;
+    //    NSLog(@"[levi] voice url %@",voiceUrl);
+    NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+    _avPlay = player;
+    _avPlay.delegate = self;
+    [_avPlay play];
 }
 @end
