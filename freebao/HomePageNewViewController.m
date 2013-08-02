@@ -231,9 +231,27 @@
 
 -(void)cellCommentDidTaped:(StatusNewCell *)theCell {
     NSLog(@"comment tap");
+    if (commentVC == nil) {
+        commentVC = [[CommentViewController alloc] init];
+    } else {
+        [commentVC setIsRefresh:YES];
+    }
+    commentVC.cellContentId = theCell.statusInfo.contentId;
+//    tittleLabel.text = @"Comments";
+//    backButton.hidden = NO;
+    [self.navigationController pushViewController:commentVC animated:YES];
 }
 
 -(void)imageCellCommentDidTaped:(StatusNewImageCell *)theCell {
     NSLog(@"image commnet tap");
+    if (commentVC == nil) {
+        commentVC = [[CommentViewController alloc] init];
+    } else {
+        [commentVC setIsRefresh:YES];
+    }
+    commentVC.cellContentId = theCell.statusInfo.contentId;
+//    tittleLabel.text = @"Comments";
+//    backButton.hidden = NO;
+    [self.navigationController pushViewController:commentVC animated:YES];
 }
 @end

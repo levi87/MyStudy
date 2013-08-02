@@ -14,6 +14,7 @@
 #import "StatusInfo.h"
 #import "CustomActionSheet.h"
 #import "LikersViewController.h"
+#import "CommentViewController.h"
 
 @class WeiBoMessageManager;
 @interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate> {
@@ -26,6 +27,7 @@
     NSMutableArray *statusArray;
     
     LikersViewController *likeVC;
+    CommentViewController *commentVC;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;
