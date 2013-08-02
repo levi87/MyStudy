@@ -19,6 +19,7 @@
 #define COMMENT_VOICE @"fb_comment_voice"
 
 @implementation StatusNewImageCell
+@synthesize delegate = _delegate;
 @synthesize contentTextView = _contentTextView;
 @synthesize forwordContentTextView = _forwordContentTextView;
 @synthesize upperView = _upperView;
@@ -33,6 +34,7 @@
 @synthesize commentImageView = _commentImageView;
 @synthesize locationImageView = _locationImageView;
 @synthesize distanceLabel = _distanceLabel;
+@synthesize statusInfo = _statusInfo;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -51,6 +53,10 @@
         _moreImageView.image = [UIImage imageNamed:@"con-moredo.png"];
         _likeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250, 2, 18, 16)];
         _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+        UITapGestureRecognizer *likeGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addLikeTapAction)];
+        likeGesTap.numberOfTapsRequired = 1;
+        [_likeImageView addGestureRecognizer:likeGesTap];
+        [_likeImageView setUserInteractionEnabled:YES];
         _commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(290, 2, 18, 16)];
         _commentImageView.image = [UIImage imageNamed:@"con-comment.png"];
         [_lowerView addSubview:_moreImageView];
@@ -230,6 +236,7 @@
 }
 
 -(void)setCellValue:(StatusInfo *)info {
+    _statusInfo = info;
     if ([info.liked integerValue] == 1) {
         _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
     } else {
@@ -437,6 +444,25 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+}
+
+-(void)addLikeTapAction {
+    if ([_delegate respondsToSelector:@selector(imageCellAddLikeDidTaped:)])
+    {
+        NSInteger isLiked = [_statusInfo.liked integerValue];
+        if (isLiked == 1) {
+            _statusInfo.liked = @"0";
+            _statusInfo.likeCount = [NSString stringWithFormat:@"%d",[_statusInfo.likeCount integerValue] - 1];
+            _likeCount.text = _statusInfo.likeCount;
+            _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+        } else {
+            _statusInfo.liked = @"1";
+            _statusInfo.likeCount = [NSString stringWithFormat:@"%d",[_statusInfo.likeCount integerValue] + 1];
+            _likeCount.text = _statusInfo.likeCount;
+            _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
+        }
+        [_delegate imageCellAddLikeDidTaped:self];
+    }
 }
 
 @end

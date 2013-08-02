@@ -10,8 +10,18 @@
 #import "JSTwitterCoreTextView.h"
 #import "StatusInfo.h"
 
+@class StatusNewImageCell;
+
+@protocol StatusNewImageCellDelegate <NSObject>
+
+-(void)imageCellAddLikeDidTaped:(StatusNewImageCell *)theCell;
+
+@end
+
 @class EGOImageView;
 @interface StatusNewImageCell : UITableViewCell <JSCoreTextViewDelegate> {
+    id<StatusNewImageCellDelegate> _delegate;
+    
     EGOImageView* headImageView;
     EGOImageView* mainImageView;
     UILabel *nickNameLabel;
@@ -41,8 +51,11 @@
     JSTwitterCoreTextView *_line2TextView;
     UILabel *_line3Label;
     JSTwitterCoreTextView *_line3TextView;
+    
+    StatusInfo *_statusInfo;
 }
 
+@property (nonatomic, retain) id<StatusNewImageCellDelegate> delegate;
 @property (nonatomic, retain) JSTwitterCoreTextView *contentTextView;
 @property (nonatomic, retain) JSTwitterCoreTextView *forwordContentTextView;
 @property (nonatomic, retain) UIView *upperView;
@@ -59,6 +72,8 @@
 @property (nonatomic, retain) UIImageView *commentImageView;
 
 @property (nonatomic, retain) NSIndexPath *indexPath;
+
+@property (nonatomic, retain) StatusInfo *statusInfo;
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
 

@@ -92,6 +92,7 @@
         if (cell == nil) {
             cell = [[StatusNewImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        cell.delegate = self;
         [cell setCellValue:(StatusInfo*)[statusArray objectAtIndex:indexPath.row]];
         [cell setSelectionStyle:UITableViewCellEditingStyleNone];
         cell.indexPath = indexPath;
@@ -103,6 +104,7 @@
         if (cell == nil) {
             cell = [[StatusNewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        cell.delegate = self;
         [cell setCellValue:(StatusInfo*)[statusArray objectAtIndex:indexPath.row]];
         [cell setSelectionStyle:UITableViewCellEditingStyleNone];
         cell.indexPath = indexPath;
@@ -161,5 +163,25 @@
     [self setHomeTableView:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW object:nil];
+}
+
+-(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"cell like tap");
+    NSInteger isLiked = [theCell.statusInfo.liked integerValue];
+    if (isLiked == 1) {
+        [manager FBAddLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    } else {
+        [manager FBUnLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    }
+}
+
+-(void)imageCellAddLikeDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image cell like tap");
+    NSInteger isLiked = [theCell.statusInfo.liked integerValue];
+    if (isLiked == 1) {
+        [manager FBAddLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    } else {
+        [manager FBUnLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    }
 }
 @end

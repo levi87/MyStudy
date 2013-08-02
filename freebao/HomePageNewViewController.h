@@ -14,7 +14,7 @@
 #import "StatusInfo.h"
 
 @class WeiBoMessageManager;
-@interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate> {
+@interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;
