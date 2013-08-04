@@ -596,6 +596,7 @@
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
 //            NSLog(@"[levi] request new HomeLine Success...");
             NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSDictionary *maxCount = [NSDictionary dictionaryWithObjectsAndKeys:[[resultMap objectForKey:@"currentPageInfo"] objectForKey:@"totalPage"],@"maxCount", nil];
             
             NSArray *contents = [resultMap objectForKey:@"posts"];
             NSLog(@"post new %@",contents);
@@ -622,7 +623,7 @@
                 statusInfo.isPlayingSound = NO;
                 [timeline addObject:statusInfo];
             }
-            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW object:timeline];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW object:timeline userInfo:maxCount];
             NSLog(@"[levi] new status array count : %d",[timeline count]);
         } else {
             NSLog(@"[levi] new request HomeLine failed...");

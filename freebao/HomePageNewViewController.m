@@ -40,9 +40,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+    refresh.tintColor = [UIColor lightGrayColor];
+    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refresh;
 
     _isRefresh = FALSE;
     isFirst = TRUE;
+    currentPage = 0;
     statusArray = [[NSMutableArray alloc] init];
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
@@ -83,6 +90,21 @@
     [self.homeTableView setTableHeaderView:headerView];
 }
 
+-(void)refreshView:(UIRefreshControl *)refresh
+{
+    if (refresh.refreshing) {
+        refresh.attributedTitle = [[NSAttributedString alloc]initWithString:@"Refreshing data..."];
+        [self performSelector:@selector(handleData) withObject:nil afterDelay:2];
+    }
+}
+
+-(void)handleData
+{
+    NSLog(@"hellof....");
+    currentPage = 0;
+    [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
@@ -98,7 +120,16 @@
 - (void)onRequestHomeLine:(NSNotification*)notification {
     NSLog(@"new status...");
     NSMutableArray *tmpArray = notification.object;
-    statusArray = tmpArray;
+    maxPage = [[notification.userInfo objectForKey:@"maxCount"] integerValue];
+    if (currentPage == 0) {
+        [statusArray removeAllObjects];
+        statusArray = tmpArray;
+        [self.refreshControl endRefreshing];
+    } else {
+        for (int i = 0; i < [tmpArray count]; i ++) {
+            [statusArray addObject:[tmpArray objectAtIndex:i]];
+        }
+    }
     [self.homeTableView reloadData];
 }
 
@@ -510,6 +541,20 @@
             [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
             tmpCell.statusInfo.postLanguage = @"ru_RU";
         }
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
+        NSLog(@"current page %d max page %d", maxPage, currentPage);
+        if (currentPage + 1 >= maxPage) {
+            return;
+        }
+        currentPage ++;
+        if (manager == nil) {
+            manager = [WeiBoMessageManager getInstance];
+        }
+        [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     }
 }
 @end

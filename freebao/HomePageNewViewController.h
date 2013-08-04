@@ -41,6 +41,9 @@
     NSIndexPath *tmpIndexPath;
     
     NSString *currentTransLanguage;
+    
+    int currentPage;
+    int maxPage;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;
