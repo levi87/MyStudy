@@ -737,6 +737,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION object:contents];
         } else {
             NSLog(@"[levi] request Translate failed...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION_FAIL object:nil];
         }
         return;
     }

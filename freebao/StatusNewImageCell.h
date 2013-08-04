@@ -39,6 +39,7 @@
     UILabel *nickNameLabel;
     JSTwitterCoreTextView *_contentTextView;
     JSTwitterCoreTextView *_forwordContentTextView;
+    JSTwitterCoreTextView *_translateContentTextView;
     UIView *_upperView;
     UIView *_lowerView;
     UIImageView *_languageImageView;
@@ -70,6 +71,7 @@
 @property (nonatomic, retain) id<StatusNewImageCellDelegate> delegate;
 @property (nonatomic, retain) JSTwitterCoreTextView *contentTextView;
 @property (nonatomic, retain) JSTwitterCoreTextView *forwordContentTextView;
+@property (nonatomic, retain) JSTwitterCoreTextView *translateContentTextView;
 @property (nonatomic, retain) UIView *upperView;
 @property (nonatomic, retain) UIView *lowerView;
 @property (nonatomic, retain) UIImageView *languageImageView;
@@ -92,5 +94,7 @@
 -(void)setCellValue:(StatusInfo *)info;
 
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
+
+-(void)showTranslateTextView:(NSString*)content StatusInfo:(StatusInfo*)status;
 
 @end

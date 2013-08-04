@@ -35,6 +35,7 @@
 @synthesize locationImageView = _locationImageView;
 @synthesize distanceLabel = _distanceLabel;
 @synthesize statusInfo = _statusInfo;
+@synthesize translateContentTextView = _translateContentTextView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -134,6 +135,22 @@
         _forwordContentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         _forwordContentTextView.text = @"test message.";
         _forwordContentTextView.hidden = YES;
+        
+        _translateContentTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 302, 25)];
+        [_translateContentTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_translateContentTextView setDelegate:self];
+        [_translateContentTextView setFontName:FONT];
+        [_translateContentTextView setFontSize:FONT_SIZE];
+        [_translateContentTextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_translateContentTextView setBackgroundColor:[UIColor clearColor]];
+        [_translateContentTextView setPaddingTop:PADDING_TOP];
+        [_translateContentTextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _translateContentTextView.backgroundColor = [UIColor clearColor];
+        _translateContentTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _translateContentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _translateContentTextView.text = @"test message.";
+        _translateContentTextView.hidden = YES;
         
         _commentsView = [[UIView alloc] initWithFrame:CGRectMake(9, 0, 302, 25)];
         _line1label = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 75, 21)];
@@ -249,6 +266,7 @@
         [self.contentView addSubview:_lowerView];
         [self.contentView addSubview:_middleView];
         [self.contentView addSubview:_commentsView];
+        [self.contentView addSubview:_translateContentTextView];
     }
     return self;
 }
@@ -259,7 +277,172 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:COMMENT_VOICE object:tmpDic];
 }
 
+-(void)showTranslateTextView:(NSString *)content StatusInfo:(StatusInfo *)status{
+    CGFloat transHeight = [StatusNewImageCell getJSHeight:content jsViewWith:300];
+    _translateContentTextView.hidden = NO;
+    _translateContentTextView.text = content;
+    if (status.rePostDic != nil) {
+        NSLog(@"has rePost");
+        NSArray *commentAy = status.commentArray;
+        NSDictionary *tmpCommDic;
+        CGRect frame = _translateContentTextView.frame;
+        frame.size.height = transHeight;
+        frame.origin.y = _forwordContentTextView.frame.origin.y + _forwordContentTextView.frame.size.height + 5;
+        _translateContentTextView.frame = frame;
+        
+        frame = _middleView.frame;
+        frame.origin.y = _translateContentTextView.frame.origin.y + _translateContentTextView.frame.size.height + 5;
+        _middleView.frame = frame;
+        
+        NSInteger cCount = [status.commentCount integerValue];
+        if (cCount == 0) {
+            _commentsView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y;
+            frame.size.height = _middleView.frame.size.height;
+            _commentsView.frame = frame;
+        } else if (cCount == 1) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = YES;
+            _line2TextView.hidden = YES;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 25;
+            _commentsView.frame = frame;
+        } else if (cCount == 2) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 50;
+            _commentsView.frame = frame;
+        } else if (cCount >= 3) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:2];
+            _line3Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line3TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = NO;
+            _line3TextView.hidden = NO;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 75;
+            _commentsView.frame = frame;
+        }
+        
+        frame = _lowerView.frame;
+        frame.origin.y = _commentsView.frame.origin.y + _commentsView.frame.size.height + 5;
+        _lowerView.frame = frame;
+    } else {
+        NSArray *commentAy = status.commentArray;
+        NSDictionary *tmpCommDic;
+        CGRect frame = _translateContentTextView.frame;
+        frame.size.height = transHeight;
+        frame.origin.y = _contentTextView.frame.origin.y + _contentTextView.frame.size.height + 5;
+        _translateContentTextView.frame = frame;
+        
+        frame = _middleView.frame;
+        frame.origin.y = _translateContentTextView.frame.origin.y + _translateContentTextView.frame.size.height + 5;
+        _middleView.frame = frame;
+        
+        NSInteger cCount = [status.commentCount integerValue];
+        if (cCount == 0) {
+            _commentsView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y;
+            frame.size.height = _middleView.frame.size.height;
+            _commentsView.frame = frame;
+        } else if (cCount == 1) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = YES;
+            _line2TextView.hidden = YES;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 25;
+            _commentsView.frame = frame;
+        } else if (cCount == 2) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = YES;
+            _line3TextView.hidden = YES;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 50;
+            _commentsView.frame = frame;
+        } else if (cCount >= 3) {
+            tmpCommDic = [commentAy objectAtIndex:0];
+            _line1label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line1TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:1];
+            _line2Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line2TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            tmpCommDic = [commentAy objectAtIndex:2];
+            _line3Label.text = [tmpCommDic getStringValueForKey:@"nickname" defaultValue:@""];
+            _line3TextView.text = [tmpCommDic getStringValueForKey:@"commentBody" defaultValue:@""];
+            _commentsView.hidden = NO;
+            _line1label.hidden = NO;
+            _line1TextView.hidden = NO;
+            _line2Label.hidden = NO;
+            _line2TextView.hidden = NO;
+            _line3Label.hidden = NO;
+            _line3TextView.hidden = NO;
+            frame = _commentsView.frame;
+            frame.origin.y = _middleView.frame.origin.y + _middleView.frame.size.height + 5;
+            frame.size.height = 75;
+            _commentsView.frame = frame;
+        }
+        
+        frame = _lowerView.frame;
+        frame.origin.y = _commentsView.frame.origin.y + _commentsView.frame.size.height + 5;
+        _lowerView.frame = frame;
+    }
+}
+
 -(void)setCellValue:(StatusInfo *)info {
+    _translateContentTextView.hidden = YES;
     _statusInfo = info;
     if ([info.postLanguage isEqualToString:@"zh_CN"]) {
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];

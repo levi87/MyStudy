@@ -80,10 +80,8 @@
 
 -(void)createNewConversation {
     NSLog(@"[levi] create...");
-//    FansViewController *fanVC = [[FansViewController alloc] init];
-//    [self.navigationController pushViewController:fanVC animated:YES];
-    HomePageNewViewController *homeP = [[HomePageNewViewController alloc] init];
-    [self.navigationController pushViewController:homeP animated:YES];
+    FansViewController *fanVC = [[FansViewController alloc] init];
+    [self.navigationController pushViewController:fanVC animated:YES];
 }
 
 -(void)resultOfRequest:(NSNotification*)notification {

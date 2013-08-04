@@ -56,6 +56,8 @@
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_HOMELINE_NEW object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateResult:)       name:FB_GET_TRANSLATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
@@ -235,6 +237,8 @@
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_FAIL object:nil];
 }
 
 -(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
@@ -414,11 +418,15 @@
 -(void)onRequestVoiceResult:(NSNotification*)notification {
     NSString *voiceUrl = notification.object;
     //    NSLog(@"[levi] voice url %@",voiceUrl);
-    NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
-    _avPlay = player;
-    _avPlay.delegate = self;
-    [_avPlay play];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+            _avPlay = player;
+            _avPlay.delegate = self;
+            [_avPlay play];
+        });
+    });
 }
 
 -(void)cellLanguageDidTaped:(StatusNewCell *)theCell {
@@ -514,6 +522,7 @@
             [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
             tmpCell.statusInfo.postLanguage = @"ru_RU";
         }
+        [self getTranslate:tmpCell.statusInfo.content Language:tmpCell.statusInfo.postLanguage];
     } else {
         StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
         if ([tmpKxM.title isEqualToString:@"中文"]) {
@@ -541,7 +550,54 @@
             [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
             tmpCell.statusInfo.postLanguage = @"ru_RU";
         }
+        [self getTranslate:tmpCell.statusInfo.content Language:tmpCell.statusInfo.postLanguage];
     }
+}
+
+-(void)getTranslate:(NSString *)content Language:(NSString*)language{
+    [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
+    [manager FBGetTranslateWithBody:content Language:language PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)onTranslateFailResult:(NSNotification*)notification {
+    [SVProgressHUD dismiss];
+}
+
+-(void)onTranslateResult:(NSNotification*)notification {
+    NSLog(@"[levi] translate result %@", notification.object);
+    NSString *transResult = notification.object;
+    CGFloat transHeght = [StatusNewCell getJSHeight:transResult jsViewWith:300];
+    for (int i = tmpIndexPath.row + 1; i < [statusArray count]; i ++) {
+        if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+            StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + transHeght, tmpCell.frame.size.width, tmpCell.frame.size.height);
+        } else {
+            StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + transHeght, tmpCell.frame.size.width, tmpCell.frame.size.height);
+        }
+    }
+    if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+        StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell showTranslateTextView:transResult StatusInfo:[statusArray objectAtIndex:tmpIndexPath.row]];
+        CGRect frame = tmpCell.frame;
+        frame.size.height += transHeght + 10;
+        tmpCell.frame = frame;
+    } else {
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell showTranslateTextView:transResult StatusInfo:[statusArray objectAtIndex:tmpIndexPath.row]];
+        CGRect frame = tmpCell.frame;
+        frame.size.height += transHeght + 10;
+        tmpCell.frame = frame;
+    }
+    [SVProgressHUD dismiss];
+//    CGFloat transHeight = [StatusCell getJSHeight:transResult jsViewWith:tmpStatusCellL.contentTF.frame.size.width];
+//    for (int i = tmpStatusCellL.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+//        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+//        tmpCell.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y + transHeight, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height);
+//        //        [tmpCell adjustMainImagePosition:100];
+//    }
+//    tmpStatusCellL.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height + transHeight);
+//    [tmpStatusCellL showTranslateTV:100 Content:transResult];
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
