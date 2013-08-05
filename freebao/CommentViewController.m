@@ -8,6 +8,7 @@
 
 #import "CommentViewController.h"
 #import "EGOCache.h"
+#import "NSDictionaryAdditions.h"
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
@@ -46,7 +47,8 @@
     for (int i = 0; i < [tmpArray count]; i ++) {
         NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
         CommentInfo *tmpInfo = [[CommentInfo alloc] init];
-        tmpInfo.nickName = [tmpDic objectForKey:@"nickname"];
+        tmpInfo.nickName = [tmpDic getStringValueForKey:@"nickname" defaultValue:@""];
+        tmpInfo.commentUserId = [tmpDic getStringValueForKey:@"commentUid" defaultValue:@"0"];
         tmpInfo.content = [tmpDic objectForKey:@"commentBody"];
         tmpInfo.contentId = [tmpDic objectForKey:@"contentId"];
         tmpInfo.commentId = [tmpDic objectForKey:@"commentId"];
@@ -76,7 +78,7 @@
     }
     _isRefresh = FALSE;
     isFirst = TRUE;
-    FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES IsPostView:NO];
+    bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES IsPostView:NO];
     bar.delegate=self;
     
     commentsArray = [[NSMutableArray alloc] init];
@@ -91,6 +93,13 @@
     headPhotos = [[NSMutableArray alloc] init];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.commentTableView setTableHeaderView:headerView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"selected row %d", indexPath.row);
+    CommentInfo *tmpInfo = [commentsArray objectAtIndex:indexPath.row];
+    bar.textView.text = [NSString stringWithFormat:@"@%@ ", tmpInfo.nickName];
+    [bar.textView becomeFirstResponder];
 }
 
 - (void)clearCache {
@@ -139,11 +148,24 @@
     }
     [cell setCellValue:(CommentInfo*)[commentsArray objectAtIndex:indexPath.row]];
     [cell setSelectionStyle:UITableViewCellEditingStyleNone];
-    cell.delegate = self;
     cell.indexPath = indexPath;
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    CommentInfo *tmpInfo = [commentsArray objectAtIndex:indexPath.row];
+    NSString *comentUserId = tmpInfo.commentUserId;
+    NSLog(@"comment %@  fuser %@", comentUserId, [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]);
+    if ([[NSString stringWithFormat:@"%@",comentUserId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"comment...");
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -169,64 +191,6 @@
         [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
-}
-
-#pragma mark - Swipe Table View Cell Delegate
-
--(void)swipeTableViewCellDidStartSwiping:(CommentsCell *)swipeTableViewCell {
-    
-}
-
--(void)swipeTableViewCell:(CommentsCell *)swipeTableViewCell didSwipeToPoint:(CGPoint)point velocity:(CGPoint)velocity {
-    
-}
-
--(void)swipeTableViewCellWillResetState:(CommentsCell *)swipeTableViewCell fromPoint:(CGPoint)point animation:(RMSwipeTableViewCellAnimationType)animation velocity:(CGPoint)velocity {
-    if (point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
-        NSLog(@"[levi]...mmmmmmm");
-        //        NSIndexPath *indexPath = [self.tableView indexPathForCell:swipeTableViewCell];
-        //        if ([[[self.array objectAtIndex:indexPath.row] objectForKey:@"isFavourite"] boolValue]) {
-        //            [[self.array objectAtIndex:indexPath.row] setObject:@NO forKey:@"isFavourite"];
-        //        } else {
-        //            [[self.array objectAtIndex:indexPath.row] setObject:@YES forKey:@"isFavourite"];
-        //        }
-        //        [(RMPersonTableViewCell*)swipeTableViewCell setFavourite:[[[self.array objectAtIndex:indexPath.row] objectForKey:@"isFavourite"] boolValue] animated:YES];
-    } else if (point.x < 0 && -point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
-        swipeTableViewCell.shouldAnimateCellReset = YES;
-        NSLog(@"[levi]...nnnnnn");
-        CustomActionSheet *as = [[CustomActionSheet alloc] init];
-        [as addButtonWithTitle:@"举报"];
-        [as addButtonWithTitle:@"删除"];
-        [as showInView:self.view];
-        //        [[(RMPersonTableViewCell*)swipeTableViewCell checkmarkGreyImageView] removeFromSuperview];
-        [UIView animateWithDuration:0.25
-                              delay:0
-                            options:UIViewAnimationCurveLinear
-                         animations:^{
-                             //                             swipeTableViewCell.contentView.frame = CGRectOffset(swipeTableViewCell.contentView.bounds, swipeTableViewCell.contentView.frame.size.width, 0);
-                             swipeTableViewCell.contentView.frame = CGRectMake(0, 0, swipeTableViewCell.contentView.frame.size.width, swipeTableViewCell.contentView.frame.size.height);
-                         }
-                         completion:^(BOOL finished) {
-                             //                             [swipeTableViewCell.contentView setHidden:YES];
-                             //                             NSIndexPath *indexPath = [self.tableView indexPathForCell:swipeTableViewCell];
-                             //                             [self.array removeObjectAtIndex:indexPath.row];
-                             //                             [self.tableView beginUpdates];
-                             //                             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                             //                             [self.tableView endUpdates];
-                         }
-         ];
-    }
-}
-
--(void)swipeTableViewCellDidResetState:(CommentsCell *)swipeTableViewCell fromPoint:(CGPoint)point animation:(RMSwipeTableViewCellAnimationType)animation velocity:(CGPoint)velocity {
-    if (point.x < 0 && -point.x > CGRectGetHeight(swipeTableViewCell.frame)) {
-        NSLog(@"[levi]...ppooooo");
-        //        NSIndexPath *indexPath = [self.tableView indexPathForCell:swipeTableViewCell];
-        //        [self.array removeObjectAtIndex:indexPath.row];
-        //        [self.tableView beginUpdates];
-        //        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        //        [self.tableView endUpdates];
-    }
 }
 
 -(void)hideKeyboardAndFaceV {
@@ -286,12 +250,9 @@
     tmpInfo.commentDate = @"just now";
     tmpInfo.voiceLength = @"0";
     tmpInfo.voiceUrl = @"0";
-//    [headPhotos addObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH]];
     [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
     [commentsArray insertObject:tmpInfo atIndex:0];
     [self.commentTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-    [self.commentTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-//    [self.commentTableView reloadData];
     [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:inputText UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@""];
 }
 

@@ -38,7 +38,7 @@
 @interface FaceToolBar : UIToolbar<facialViewDelegate,UIExpandingTextViewDelegate,UIScrollViewDelegate>
 {
     CustomToolbar *toolBar;//工具栏
-    UIExpandingTextView *textView;//文本输入框
+    UIExpandingTextView *_textView;//文本输入框
     UIButton *faceButton ;
     UIButton *voiceButton;
     UIButton *sendButton;
@@ -56,6 +56,7 @@
 }
 @property(nonatomic,retain)UIView *theSuperView;
 @property (retain) NSObject<FaceToolBarDelegate> *delegate;
+@property (nonatomic, retain) UIExpandingTextView *textView;
 @property BOOL isComment;
 -(void)dismissKeyBoard;
 -(id)initWithFrame:(CGRect)frame superView:(UIView *)superView IsCommentView:(BOOL)value IsPostView:(BOOL)isPostValue;

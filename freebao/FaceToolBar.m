@@ -19,6 +19,7 @@
 @implementation FaceToolBar
 @synthesize theSuperView,delegate;
 @synthesize isComment = _isComment;
+@synthesize textView = _textView;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -110,14 +111,14 @@
 //        [toolBar setBarStyle:UIBarStyleDefault];
        
         //可以自适应高度的文本输入框
-        textView = [[UIExpandingTextView alloc] initWithFrame:CGRectMake(40, 5, 210, 36)];
-        textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(4.0f, 0.0f, 10.0f, 0.0f);
-        [textView.internalTextView setReturnKeyType:UIReturnKeySend];
-        textView.delegate = self;
-        textView.maximumNumberOfLines=5;
+        _textView = [[UIExpandingTextView alloc] initWithFrame:CGRectMake(40, 5, 210, 36)];
+        _textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(4.0f, 0.0f, 10.0f, 0.0f);
+        [_textView.internalTextView setReturnKeyType:UIReturnKeySend];
+        _textView.delegate = self;
+        _textView.maximumNumberOfLines=5;
         currentMode = isPostValue;
         if (!isPostValue) {
-            [toolBar addSubview:textView];
+            [toolBar addSubview:_textView];
         }
         
         UILongPressGestureRecognizer *longGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(voiceBtnLongPress:)];
@@ -224,14 +225,14 @@
 -(void)expandingTextView:(UIExpandingTextView *)expandingTextView willChangeHeight:(float)height
 {
     /* Adjust the height of the toolbar when the input component expands */
-    float diff = (textView.frame.size.height - height);
+    float diff = (_textView.frame.size.height - height);
     CGRect r = toolBar.frame;
     r.origin.y += diff;
     r.size.height -= diff;
     toolBar.frame = r;
     if (expandingTextView.text.length>2&&[[Emoji allEmoji] containsObject:[expandingTextView.text substringFromIndex:expandingTextView.text.length-2]]) {
-        NSLog(@"最后输入的是表情%@",[textView.text substringFromIndex:textView.text.length-2]);
-        textView.internalTextView.contentOffset=CGPointMake(0,textView.internalTextView.contentSize.height-textView.internalTextView.frame.size.height );
+        NSLog(@"最后输入的是表情%@",[_textView.text substringFromIndex:_textView.text.length-2]);
+        _textView.internalTextView.contentOffset=CGPointMake(0,_textView.internalTextView.contentSize.height-_textView.internalTextView.frame.size.height );
     }
     
 }
@@ -243,7 +244,7 @@
 //文本是否改变
 -(void)expandingTextViewDidChange:(UIExpandingTextView *)expandingTextView
 {
-    NSLog(@"文本的长度%d",textView.text.length);
+    NSLog(@"文本的长度%d",_textView.text.length);
     /* Enable/Disable the button */
 //    if ([expandingTextView.text length] > 0)
 //        sendButton.enabled = YES;
@@ -253,10 +254,10 @@
 #pragma mark -
 #pragma mark ActionMethods  发送sendAction 音频 voiceChange  显示表情 disFaceKeyboard
 -(void)sendAction{
-    if (textView.text.length>0) {
+    if (_textView.text.length>0) {
         NSLog(@"点击发送");
-        NSString *tmpStr = textView.text;
-        [textView clearText];
+        NSString *tmpStr = _textView.text;
+        [_textView clearText];
         if ([delegate respondsToSelector:@selector(sendTextAction:Frame:)])
         {
             [delegate sendTextAction:tmpStr Frame:toolBar.frame];
@@ -323,7 +324,7 @@
     [UIView animateWithDuration:Time animations:^{
         [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height, self.theSuperView.frame.size.width, keyboardHeight)];
     }];
-    [textView resignFirstResponder];
+    [_textView resignFirstResponder];
     [pageControl setHidden:YES];
     [voiceButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more+"] forState:UIControlStateNormal];
     button.tag = 0;
@@ -357,7 +358,7 @@
         [UIView animateWithDuration:Time animations:^{
             [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height, self.theSuperView.frame.size.width, keyboardHeight)];
         }];
-        [textView becomeFirstResponder];
+        [_textView becomeFirstResponder];
         [pageControl setHidden:YES];
         
     }else{
@@ -376,7 +377,7 @@
         }];
         [self hideKb:toolBar.frame];
         [pageControl setHidden:NO];
-        [textView resignFirstResponder];
+        [_textView resignFirstResponder];
     }
     
 }
@@ -391,7 +392,7 @@
         [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height,self.theSuperView.frame.size.width, keyboardHeight)];
     }];
     [pageControl setHidden:YES];
-    [textView resignFirstResponder];
+    [_textView resignFirstResponder];
     [faceButton setBackgroundImage:[UIImage imageNamed:@"face"] forState:UIControlStateNormal];
     [self hideKb:toolBar.frame];
 }
@@ -431,21 +432,21 @@
         NSLog(@"进代理了");
         NSString *newStr;
         if ([str isEqualToString:@"删除"]) {
-            if (textView.text.length>0) {
-                if ([[Emoji allEmoji] containsObject:[textView.text substringFromIndex:textView.text.length-2]]) {
-                    NSLog(@"删除emoji %@",[textView.text substringFromIndex:textView.text.length-2]);
-                    newStr=[textView.text substringToIndex:textView.text.length-2];
+            if (_textView.text.length>0) {
+                if ([[Emoji allEmoji] containsObject:[_textView.text substringFromIndex:_textView.text.length-2]]) {
+                    NSLog(@"删除emoji %@",[_textView.text substringFromIndex:_textView.text.length-2]);
+                    newStr=[_textView.text substringToIndex:_textView.text.length-2];
                 }else{
-                    NSLog(@"删除文字%@",[textView.text substringFromIndex:textView.text.length-1]);
-                    newStr=[textView.text substringToIndex:textView.text.length-1];
+                    NSLog(@"删除文字%@",[_textView.text substringFromIndex:_textView.text.length-1]);
+                    newStr=[_textView.text substringToIndex:_textView.text.length-1];
                 }
-                textView.text=newStr;
+                _textView.text=newStr;
             }
-            NSLog(@"删除后更新%@",textView.text);
+            NSLog(@"删除后更新%@",_textView.text);
         }else{
-            NSString *newStr=[NSString stringWithFormat:@"%@%@",textView.text,str];
-            [textView setText:newStr];
-            NSLog(@"点击其他后更新%d,%@",str.length,textView.text);
+            NSString *newStr=[NSString stringWithFormat:@"%@%@",_textView.text,str];
+            [_textView setText:newStr];
+            NSLog(@"点击其他后更新%d,%@",str.length,_textView.text);
         }
     }
     NSLog(@"出代理了");

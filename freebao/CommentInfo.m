@@ -17,5 +17,6 @@
 @synthesize commentId = _commentId;
 @synthesize commentDate = _commentDate;
 @synthesize voiceLength = _voiceLength;
+@synthesize commentUserId = _commentUserId;
 
 @end

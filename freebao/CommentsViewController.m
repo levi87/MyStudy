@@ -105,7 +105,6 @@
     }
     [cell setCellValue:(CommentInfo*)[commentsArray objectAtIndex:indexPath.row]];
     [cell setSelectionStyle:UITableViewCellEditingStyleNone];
-    cell.delegate = self;
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     return cell;
@@ -180,46 +179,6 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
-}
-
-#pragma mark - Swipe Table View Cell Delegate
-
--(void)swipeTableViewCellDidStartSwiping:(CommentsCell *)swipeTableViewCell {
-
-}
-
--(void)swipeTableViewCell:(CommentsCell *)swipeTableViewCell didSwipeToPoint:(CGPoint)point velocity:(CGPoint)velocity {
-
-}
-
--(void)swipeTableViewCellWillResetState:(CommentsCell *)swipeTableViewCell fromPoint:(CGPoint)point animation:(RMSwipeTableViewCellAnimationType)animation velocity:(CGPoint)velocity {
-    if (point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
-        NSLog(@"[levi]...mmmmmmm");
-    } else if (point.x < 0 && -point.x >= CGRectGetHeight(swipeTableViewCell.frame)) {
-        swipeTableViewCell.shouldAnimateCellReset = YES;
-        NSLog(@"[levi]...nnnnnn");
-        CustomActionSheet *as = [[CustomActionSheet alloc] init];
-        [as addButtonWithTitle:@"举报"];
-        [as addButtonWithTitle:@"删除"];
-        [as showInView:self.view];
-//        [[(RMPersonTableViewCell*)swipeTableViewCell checkmarkGreyImageView] removeFromSuperview];
-        [UIView animateWithDuration:0.25
-                              delay:0
-                            options:UIViewAnimationCurveLinear
-                         animations:^{
-//                             swipeTableViewCell.contentView.frame = CGRectOffset(swipeTableViewCell.contentView.bounds, swipeTableViewCell.contentView.frame.size.width, 0);
-                             swipeTableViewCell.contentView.frame = CGRectMake(0, 0, swipeTableViewCell.contentView.frame.size.width, swipeTableViewCell.contentView.frame.size.height);
-                         }
-                         completion:^(BOOL finished) {
-                         }
-         ];
-    }
-}
-
--(void)swipeTableViewCellDidResetState:(CommentsCell *)swipeTableViewCell fromPoint:(CGPoint)point animation:(RMSwipeTableViewCellAnimationType)animation velocity:(CGPoint)velocity {
-    if (point.x < 0 && -point.x > CGRectGetHeight(swipeTableViewCell.frame)) {
-        NSLog(@"[levi]...ppooooo");
-    }
 }
 
 -(void)hideKeyboardAndFaceV {

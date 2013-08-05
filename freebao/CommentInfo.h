@@ -17,6 +17,7 @@
     NSString *_contentId;
     NSString *_commentId;
     NSString *_commentDate;
+    NSString *_commentUserId;
 }
 
 @property (nonatomic, retain) NSString *nickName;
@@ -27,4 +28,5 @@
 @property (nonatomic, retain) NSString *contentId;
 @property (nonatomic, retain) NSString *commentId;
 @property (nonatomic, retain) NSString *commentDate;
+@property (nonatomic, retain) NSString *commentUserId;
 @end
