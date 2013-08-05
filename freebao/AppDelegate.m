@@ -117,8 +117,8 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
 #if TARGET_IPHONE_SIMULATOR
-	DDLogError(@"The iPhone simulator does not process background network traffic. "
-			   @"Inbound traffic is queued until the keepAliveTimeout:handler: fires.");
+//	DDLogError(@"The iPhone simulator does not process background network traffic. "
+//			   @"Inbound traffic is queued until the keepAliveTimeout:handler: fires.");
 #endif
     
 	if ([application respondsToSelector:@selector(setKeepAliveTimeout:handler:)])

@@ -18,7 +18,7 @@
     if (self) {
         // Initialization code
         _keyLabel = [[UILabel alloc] init];
-        _keyLabel.frame = CGRectMake(5, 0, 120, 44);
+        _keyLabel.frame = CGRectMake(5, 0, 130, 44);
         _valueLabel = [[UILabel alloc] init];
         _valueLabel.frame = CGRectMake(220, 0, 95, 44);
         _valueLabel.textAlignment = UITextAlignmentRight;
