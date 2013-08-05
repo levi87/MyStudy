@@ -38,8 +38,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.addButton.hidden = YES;
+    isEditModel = NO;
+    tittlesForSectionOneArray = [NSArray arrayWithObjects:@"Name",@"Sex",@"Birthday",@"Height",@"Weight",@"Blood Type",@"Constellation",@"Country", nil];
+    tittlesForSectionTwoArray = [NSArray arrayWithObjects:@"Occupation",@"Interests",@"Countries Visited",@"Countries Visited",@"Travelling Plans", nil];
+    itemsArrayOne = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 12; i++) {
+        [itemsArrayOne addObject:@""];
+    }
+    
+    
+    
     _imagePicker = [[UIImagePickerController alloc] init];
     _imagePicker.allowsEditing = YES;
     _imagePicker.delegate = self;
@@ -48,11 +58,8 @@
     [_customActionSheet addButtonWithTitle:@"Library"];
     [_customActionSheet addButtonWithTitle:@"Cancel"];
     _customActionSheet.delegate = self;
-    itemsArray = [[NSMutableArray alloc] init];
     headFacePathArray = [[NSMutableArray alloc] init];
-    for (int i = 0; i < 12; i++) {
-        [itemsArray addObject:@""];
-    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultPersonInfo:) name:FB_GET_PERSON_INFO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultUploadPhotoHeadImage:) name:FB_UPLOAD_PHOTO_HEAD_IMAGE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultUploadComplete) name:FB_UPLOAD_PHOTO_RERESH object:nil];
@@ -72,10 +79,18 @@
     backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     editButton = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 40, 44)];
-    [editButton addTarget:self action:@selector(setEditMode) forControlEvents:UIControlEventTouchUpInside];
+    [editButton addTarget:self action:@selector(editButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [editButton setTitle:@"Edit" forState:UIControlStateNormal];
     [editButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [editButton setBackgroundColor:[UIColor clearColor]];
+    
+    saveButton = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 40, 44)];
+    [saveButton addTarget:self action:@selector(saveButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [saveButton setBackgroundColor:[UIColor clearColor]];
+    saveButton.hidden = YES;
+    
     self.describeTextView.editable = NO;
     UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editDescribe)];
     tap1.numberOfTapsRequired = 1;
@@ -92,17 +107,37 @@
     [self.navigationController.view addSubview:tittleLineView];
     [self.navigationController.view addSubview:backButton];
     [tittleView addSubview:editButton];
+    [tittleView addSubview:saveButton];
     headImageArray = [[NSMutableArray alloc] init];
     [self refreshScrollView];
     commDialogView = [[OneLineDialogView alloc] init];
     [commDialogView setDelegate:self];
-
+    
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
     }
     [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-//    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    //    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
+
+-(void)editButtonPressed
+{
+    NSLog(@"editButtonPressed");
+    isEditModel = YES;
+    saveButton.hidden = NO;
+    editButton.hidden = YES;
+    
+}
+
+-(void)saveButtonPressed
+{
+    NSLog(@"saveButtonPressed");
+    isEditModel = NO;
+    saveButton.hidden = YES;
+    editButton.hidden = NO;
+    
+}
+
 
 -(void)editDescribe {
     commDialogView = [[OneLineDialogView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
@@ -114,251 +149,33 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (alertView.tag) {
-        case 0:
-        {
-            //Name
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 1:
-        {
-            //Sex
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 2:
-        {
-            //Birthday
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 3:
-        {
-            //Height
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 4:
-        {
-            //Weight
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 5:
-        {
-            //Blood Type
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 6:
-        {
-            //Constellation
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 7:
-        {
-            //Country
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 8:
-        {
-            //Occupation
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 9:
-        {
-            //Intersets
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 10:
-        {
-            //Countries Visited
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 11:
-        {
-            //Travelling Plans
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 20:
-        {
-            //Travelling Plans
-            switch (buttonIndex) {
-                case 0:
-                    NSLog(@"0");
-                    break;
-                case 1:
-                    NSLog(@"1 %@", tmpTextField.text);
-                    self.describeTextView.text = tmpTextField.text;
-                    [self updatePerson:itemsArray];
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-            
-        default:
-            break;
-    }
+    //    switch (alertView.tag) {
+    //        case 0:
+    //        {
+    //            //Name
+    //            switch (buttonIndex) {
+    //                case 0:
+    //                    NSLog(@"0");
+    //                    break;
+    //                case 1:
+    //                    NSLog(@"1 %@", tmpTextField.text);
+    //                    [itemsArray replaceObjectAtIndex:alertView.tag withObject:tmpTextField.text];
+    //                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:alertView.tag inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+    //                    [self updatePerson:itemsArray];
+    //                    break;
+    //                default:
+    //                    break;
+    //            }
+    //        }
+    //
+    //    }
 }
 
 -(void)updatePerson:(NSMutableArray*)itemArray {
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
     }
-    [manager FBUpdatePersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] NickName:[itemsArray objectAtIndex:0] Biography:self.describeTextView.text City:[itemsArray objectAtIndex:7] Email:@"" Gender:[itemsArray objectAtIndex:1] Height:[itemsArray objectAtIndex:3] Weight:[itemsArray objectAtIndex:4] Birthday:[itemsArray objectAtIndex:2] BloodType:[itemsArray objectAtIndex:5] Profession:[itemsArray objectAtIndex:8] Tourism:[itemsArray objectAtIndex:11] Intersets:[itemsArray objectAtIndex:9] CountryVisited:[itemsArray objectAtIndex:10]];
+    [manager FBUpdatePersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] NickName:[itemsArrayOne objectAtIndex:0] Biography:self.describeTextView.text City:[itemsArrayOne objectAtIndex:7] Email:@"" Gender:[itemsArrayOne objectAtIndex:1] Height:[itemsArrayOne objectAtIndex:3] Weight:[itemsArrayOne objectAtIndex:4] Birthday:[itemsArrayOne objectAtIndex:2] BloodType:[itemsArrayOne objectAtIndex:5] Profession:[itemsArrayOne objectAtIndex:8] Tourism:[itemsArrayOne objectAtIndex:11] Intersets:[itemsArrayOne objectAtIndex:9] CountryVisited:[itemsArrayOne objectAtIndex:10]];
 }
 
 -(void)onResultPersonInfo:(NSNotification*)notification {
@@ -366,7 +183,10 @@
     NSDictionary *tmpDic = notification.object;
     PersonInfo *personInfo = [[PersonInfo alloc] init];
     personInfo.age = [tmpDic getStringValueForKey:@"age" defaultValue:@""];
-    personInfo.birthday = [[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] substringToIndex:10];
+    if ([[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] length] > 10) {
+        personInfo.birthday = [[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] substringToIndex:10];
+    }
+    
     personInfo.biography = [tmpDic getStringValueForKey:@"biography" defaultValue:@""];
     personInfo.bloodtype = [tmpDic getStringValueForKey:@"bloodtype" defaultValue:@""];
     personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
@@ -395,29 +215,29 @@
 }
 
 -(void)refreshView:(PersonInfo*)info {
-    itemsArray = [[NSMutableArray alloc] init];
+    itemsArrayOne = [[NSMutableArray alloc] init];
     headImageView.imageURL = [NSURL URLWithString:info.facePath];
     self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",info.userId];
-    [itemsArray addObject:info.nickname];
+    [itemsArrayOne addObject:info.nickname];
     if ([info.gender integerValue] == 1) {
         self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",info.age];
-        [itemsArray addObject:@"Male"];
+        [itemsArrayOne addObject:@"Male"];
     } else {
         self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",info.age];
-        [itemsArray addObject:@"Female"];
+        [itemsArrayOne addObject:@"Female"];
     }
     self.nationLabel.text = info.nation;
     self.describeTextView.text = info.biography;
-    [itemsArray addObject:info.birthday];
-    [itemsArray addObject:info.height];
-    [itemsArray addObject:info.weight];
-    [itemsArray addObject:info.bloodtype];
-    [itemsArray addObject:info.constellation];
-    [itemsArray addObject:info.nation];
-    [itemsArray addObject:info.profession];
-    [itemsArray addObject:info.interests];
-    [itemsArray addObject:info.countryVisited];
-    [itemsArray addObject:info.tourism];
+    [itemsArrayOne addObject:@"19860402"];
+    [itemsArrayOne addObject:info.height];
+    [itemsArrayOne addObject:info.weight];
+    [itemsArrayOne addObject:info.bloodtype];
+    [itemsArrayOne addObject:info.constellation];
+    [itemsArrayOne addObject:info.nation];
+    [itemsArrayOne addObject:info.profession];
+    [itemsArrayOne addObject:info.interests];
+    [itemsArrayOne addObject:info.countryVisited];
+    [itemsArrayOne addObject:info.tourism];
     [self.tableView reloadData];
 }
 
@@ -427,7 +247,7 @@
     NSLog(@"width %f", width);
     CGSize contentSize=CGSizeMake(width, 100);
     [self.headerImagesScrollView setContentSize:contentSize];
-//    [self.headerImagesScrollView setContentOffset:CGPointMake(width<320?0:width-320, 0) animated:YES];
+    //    [self.headerImagesScrollView setContentOffset:CGPointMake(width<320?0:width-320, 0) animated:YES];
     
 }
 
@@ -450,14 +270,32 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 12;
+    if (section == 0) {
+        return 8;
+    }else{
+        return 4;
+    }
+    
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 20)];
+    sectionHeaderView.backgroundColor = [UIColor colorWithRed:242.0/255 green:242.0/255 blue:242.0/255 alpha:1];
+    return sectionHeaderView;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -466,37 +304,19 @@
     if (cell == nil) {
         cell = [[ProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    if (indexPath.row == 0) {
-        cell.keyLabel.text = @"Name";
-    } else if (indexPath.row == 1) {
-        cell.keyLabel.text = @"Sex";
-    } else if (indexPath.row == 2) {
-        cell.keyLabel.text = @"Birthday";
-    } else if (indexPath.row == 3) {
-        cell.keyLabel.text = @"Height";
-    } else if (indexPath.row == 4) {
-        cell.keyLabel.text = @"Weight";
-    } else if (indexPath.row == 5) {
-        cell.keyLabel.text = @"Blood Type";
-    } else if (indexPath.row == 6) {
-        cell.keyLabel.text = @"Constellation";
-    } else if (indexPath.row == 7) {
-        cell.keyLabel.text = @"Country";
-    } else if (indexPath.row == 8) {
-        cell.keyLabel.text = @"Occupation";
-    } else if (indexPath.row == 9) {
-        cell.keyLabel.text = @"Interests";
-    } else if (indexPath.row == 10) {
-        cell.keyLabel.text = @"Countries Visited";
-    } else if (indexPath.row == 11) {
-        cell.keyLabel.text = @"Travelling Plans";
+    
+    if (indexPath.section == 0) {
+        cell.keyLabel.text = [tittlesForSectionOneArray objectAtIndex:indexPath.row];
+    }else{
+        cell.keyLabel.text = [tittlesForSectionTwoArray objectAtIndex:indexPath.row];
     }
+    
     if (indexPath.row == 3) {
-        cell.valueLabel.text = [NSString stringWithFormat:@"%@cm", [itemsArray objectAtIndex:indexPath.row]];
+        cell.valueLabel.text = [NSString stringWithFormat:@"%@cm", [itemsArrayOne objectAtIndex:indexPath.row]];
     } else if (indexPath.row == 4) {
-        cell.valueLabel.text = [NSString stringWithFormat:@"%@kg", [itemsArray objectAtIndex:indexPath.row]];
+        cell.valueLabel.text = [NSString stringWithFormat:@"%@kg", [itemsArrayOne objectAtIndex:indexPath.row]];
     } else {
-       cell.valueLabel.text = [itemsArray objectAtIndex:indexPath.row]; 
+        cell.valueLabel.text = [itemsArrayOne objectAtIndex:indexPath.row];
     }
     // Configure the cell...
     
@@ -504,59 +324,60 @@
 }
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    commDialogView = [[OneLineDialogView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    commDialogView.tag = indexPath.row;
-    commDialogView.oneLineText.placeholder = [NSString stringWithFormat:@"%@",[itemsArray objectAtIndex:indexPath.row]];
-    [commDialogView show];
-    tmpTextField = commDialogView.oneLineText;
-    if (indexPath.row == 3 || indexPath.row == 4) {
-        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumberPad];
-    } else if (indexPath.row == 2) {
-        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
-    }
-    [commDialogView.oneLineText becomeFirstResponder];
+    //    commDialogView = [[OneLineDialogView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    //    commDialogView.tag = indexPath.row;
+    //    commDialogView.oneLineText.placeholder = [NSString stringWithFormat:@"%@",[itemsArray objectAtIndex:indexPath.row]];
+    //    [commDialogView show];
+    //    tmpTextField = commDialogView.oneLineText;
+    //    if (indexPath.row == 3 || indexPath.row == 4) {
+    //        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumberPad];
+    //    } else if (indexPath.row == 2) {
+    //        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
+    //    }
+    //    [commDialogView.oneLineText becomeFirstResponder];
+    NSLog(@"didSelectRowAtIndexPath");
 }
 
 - (void)viewDidUnload {
@@ -675,7 +496,7 @@
     UIImage *editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     NSData *pictureData = UIImageJPEGRepresentation(editedImage,1);
     [manager FBAddPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PhotoFile:pictureData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-//    _photoData = UIImageJPEGRepresentation(editedImage, 1);
+    //    _photoData = UIImageJPEGRepresentation(editedImage, 1);
 }
 
 -(NSString *)returnFilePath:(NSString*)nameStr
@@ -691,36 +512,36 @@
     NSLog(@"[levi] add photo");
     [_customActionSheet showInView:self.view];
     //移动添加按钮
-//    CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
-//    [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x, self.addButton.center.y)]];
-//    [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)]];
-//    [positionAnim setDelegate:self];
-//    [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-//    [positionAnim setDuration:0.25f];
-//    [self.addButton.layer addAnimation:positionAnim forKey:nil];
-//    [self.addButton setCenter:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)];
-//    
-//    //添加图片
-//    UIImageView *aImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"boy"]];
-//    [aImageView setFrame:CGRectMake(INSETS-90, INSETS, PIC_WIDTH, PIC_HEIGHT)];
-//    [headImageArray addObject:aImageView];
-//    [self.headerImagesScrollView addSubview:aImageView];
-//    
-//    for (UIImageView *img in headImageArray) {
-//        
-//        CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
-//        [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x, img.center.y)]];
-//        [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)]];
-//        [positionAnim setDelegate:self];
-//        [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-//        [positionAnim setDuration:0.25f];
-//        [img.layer addAnimation:positionAnim forKey:nil];
-//        
-//        [img setCenter:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)];
-//    }
-//    
-//    
-//    
-//    [self refreshScrollView];
+    //    CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
+    //    [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x, self.addButton.center.y)]];
+    //    [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)]];
+    //    [positionAnim setDelegate:self];
+    //    [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    //    [positionAnim setDuration:0.25f];
+    //    [self.addButton.layer addAnimation:positionAnim forKey:nil];
+    //    [self.addButton setCenter:CGPointMake(self.addButton.center.x+INSETS+PIC_WIDTH, self.addButton.center.y)];
+    //
+    //    //添加图片
+    //    UIImageView *aImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"boy"]];
+    //    [aImageView setFrame:CGRectMake(INSETS-90, INSETS, PIC_WIDTH, PIC_HEIGHT)];
+    //    [headImageArray addObject:aImageView];
+    //    [self.headerImagesScrollView addSubview:aImageView];
+    //
+    //    for (UIImageView *img in headImageArray) {
+    //
+    //        CABasicAnimation *positionAnim=[CABasicAnimation animationWithKeyPath:@"position"];
+    //        [positionAnim setFromValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x, img.center.y)]];
+    //        [positionAnim setToValue:[NSValue valueWithCGPoint:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)]];
+    //        [positionAnim setDelegate:self];
+    //        [positionAnim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    //        [positionAnim setDuration:0.25f];
+    //        [img.layer addAnimation:positionAnim forKey:nil];
+    //        
+    //        [img setCenter:CGPointMake(img.center.x+INSETS+PIC_WIDTH, img.center.y)];
+    //    }
+    //    
+    //    
+    //    
+    //    [self refreshScrollView];
 }
 @end

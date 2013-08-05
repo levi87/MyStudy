@@ -23,18 +23,24 @@
     UILabel *_tittleLabel;
     UIButton *backButton;
     UIButton *editButton;
+    UIButton *saveButton;
     UIButton *languageButton;
     UIView *tittleView;
     UIView *tittleLineView;
     
     NSMutableArray *headImageArray;
     EGOImageView *headImageView;
-    NSMutableArray *itemsArray;
+    
     
     OneLineDialogView *commDialogView;
     UITextField *tmpTextField;
     
     NSMutableArray *headFacePathArray;
+    BOOL isEditModel;
+    NSArray *tittlesForSectionOneArray;
+    NSArray *tittlesForSectionTwoArray;
+    NSMutableArray *itemsArrayOne;
+    NSMutableArray *itemsArrayTwo;
 }
 @property (weak, nonatomic) IBOutlet UITextView *describeTextView;
 @property (weak, nonatomic) IBOutlet UILabel *userAgeLabel;
