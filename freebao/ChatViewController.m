@@ -160,6 +160,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    CGRect frame;
+    if ([[UIScreen mainScreen] bounds].size.height == 568) {
+        frame = self.view.frame;
+        frame.size.height = 568;
+        self.view.frame = frame;
+    } else {
+        frame = self.view.frame;
+        frame.size.height = 460;
+        self.view.frame = frame;
+    }
     currentLanguage = @"0";
     recordBackgroundView.layer.cornerRadius = 8;
     tittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];

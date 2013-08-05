@@ -30,6 +30,16 @@
 {
     [super viewDidLoad];
     [self initAudio];
+    CGRect frame;
+    if ([[UIScreen mainScreen] bounds].size.height == 568) {
+        frame = self.view.frame;
+        frame.size.height = 568;
+        self.view.frame = frame;
+    } else {
+        frame = self.view.frame;
+        frame.size.height = 460;
+        self.view.frame = frame;
+    }
     _imagePicker = [[UIImagePickerController alloc] init];
     _imagePicker.allowsEditing = YES;
     _imagePicker.delegate = self;

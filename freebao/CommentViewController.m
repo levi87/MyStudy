@@ -64,6 +64,16 @@
 {
     [super viewDidLoad];
     [self initAudio];
+    CGRect frame;
+    if ([[UIScreen mainScreen] bounds].size.height == 568) {
+        frame = self.view.frame;
+        frame.size.height = 568;
+        self.view.frame = frame;
+    } else {
+        frame = self.view.frame;
+        frame.size.height = 460;
+        self.view.frame = frame;
+    }
     _isRefresh = FALSE;
     isFirst = TRUE;
     FaceToolBar* bar=[[FaceToolBar alloc]initWithFrame:CGRectMake(0.0f,self.view.frame.size.height - toolBarHeight,self.view.frame.size.width,toolBarHeight) superView:self.view IsCommentView:YES IsPostView:NO];
