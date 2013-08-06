@@ -60,6 +60,8 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *headerImagesScrollView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
+@property (weak, nonatomic) IBOutlet UIButton *chatButton;
+@property (weak, nonatomic) IBOutlet UIButton *FBButton;
 @property (nonatomic,strong) NSArray *bloodTypes;
 - (IBAction)addAction:(id)sender;
 @end

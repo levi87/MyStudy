@@ -101,6 +101,12 @@
     [saveButton setBackgroundColor:[UIColor clearColor]];
     saveButton.hidden = YES;
     
+    [self.chatButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_chat_normal.png"] forState:UIControlStateNormal];
+    [self.chatButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_chat_pressed.png"] forState:UIControlStateSelected];
+    
+    [self.FBButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_follow_normal.png"] forState:UIControlStateNormal];
+    [self.FBButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_follow_pressed.png"] forState:UIControlStateSelected];
+    
     self.describeTextView.editable = NO;
     [self.describeTextView setDelegate:self];
     UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editDescribe)];
@@ -164,6 +170,8 @@
     
     keysForSectionOne = [NSArray arrayWithObjects:@"nickname",@"gender",@"birthday",@"height",@"weight",@"bloodtype",@"constellation",@"nation", nil];
     keysForSectionTwo = [NSArray arrayWithObjects:@"profession",@"interests",@"country_visited",@"tourism", nil];
+    
+    NSLog(@"");
     
     [manager FBUpdatePersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]
                                    PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]
@@ -229,78 +237,82 @@
 
 -(void)onResultPersonInfo:(NSNotification*)notification {
     NSLog(@"result...person...info%@",notification.object);
-    NSDictionary *tmpDic = notification.object;
-    personalInfoDic = notification.object;
+//    NSDictionary *tmpDic = notification.object;
     
+    personalInfoDic = notification.object;
+    self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",[personalInfoDic getStringValueForKey:@"userId" defaultValue:@""]];
+    headImageView.imageURL = [NSURL URLWithString:[personalInfoDic getStringValueForKey:@"facePath" defaultValue:@""]];
+    [self loadingPics:(NSMutableArray*)[personalInfoDic objectForKey:@"faces"]];
     if ([personalInfoDic getIntValueForKey:@"gender" defaultValue:0] == 1) {
         self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",[personalInfoDic getStringValueForKey:@"age" defaultValue:@"0"]];
     } else {
         self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",[personalInfoDic getStringValueForKey:@"age" defaultValue:@"0"]];
     }
+    self.describeTextView.text = [personalInfoDic getStringValueForKey:@"biography" defaultValue:@""];
     [self.tableView reloadData];
     
-    PersonInfo *personInfo = [[PersonInfo alloc] init];
-    personInfo.age = [tmpDic getStringValueForKey:@"age" defaultValue:@""];
-    if ([[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] length] > 10) {
-        personInfo.birthday = [[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] substringToIndex:10];
-    }
-    
-    personInfo.biography = [tmpDic getStringValueForKey:@"biography" defaultValue:@""];
-    personInfo.bloodtype = [tmpDic getStringValueForKey:@"bloodtype" defaultValue:@""];
-    personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
-    personInfo.city = [tmpDic getStringValueForKey:@"city" defaultValue:@""];
-    personInfo.constellation = [tmpDic getStringValueForKey:@"constellation" defaultValue:@""];
-    personInfo.contentCount = [tmpDic getStringValueForKey:@"contentCount" defaultValue:@""];
-    personInfo.countryVisited = [tmpDic getStringValueForKey:@"country_visited" defaultValue:@""];
-    personInfo.facePath = [tmpDic getStringValueForKey:@"facePath" defaultValue:@""];
-    personInfo.faceArray = [tmpDic objectForKey:@"faces"];
-    [self loadingPics:(NSMutableArray*)personInfo.faceArray];
-    personInfo.fansCount = [tmpDic getStringValueForKey:@"fansCount" defaultValue:@""];
-    personInfo.favoriteCount = [tmpDic getStringValueForKey:@"favoriteCount" defaultValue:@""];
-    personInfo.follow = [tmpDic getStringValueForKey:@"follow" defaultValue:@""];
-    personInfo.followCount = [tmpDic getStringValueForKey:@"followCount" defaultValue:@""];
-    personInfo.footmarkArray = [tmpDic objectForKey:@"footmark"];
-    personInfo.gender = [tmpDic getStringValueForKey:@"gender" defaultValue:@""];
-    personInfo.height = [tmpDic getStringValueForKey:@"height" defaultValue:@"0"];
-    personInfo.interests = [tmpDic getStringValueForKey:@"interests" defaultValue:@""];
-    personInfo.nation = [tmpDic getStringValueForKey:@"nation" defaultValue:@""];
-    personInfo.nickname = [tmpDic getStringValueForKey:@"nickname" defaultValue:@""];
-    personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
-    personInfo.tourism = [tmpDic getStringValueForKey:@"tourism" defaultValue:@""];
-    personInfo.userId = [tmpDic getStringValueForKey:@"userId" defaultValue:@""];
-    personInfo.weight = [tmpDic getStringValueForKey:@"weight" defaultValue:@"0"];
+//    PersonInfo *personInfo = [[PersonInfo alloc] init];
+//    personInfo.age = [tmpDic getStringValueForKey:@"age" defaultValue:@""];
+//    if ([[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] length] > 10) {
+//        personInfo.birthday = [[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] substringToIndex:10];
+//    }
+//    
+//    personInfo.biography = [tmpDic getStringValueForKey:@"biography" defaultValue:@""];
+//    personInfo.bloodtype = [tmpDic getStringValueForKey:@"bloodtype" defaultValue:@""];
+//    personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
+//    personInfo.city = [tmpDic getStringValueForKey:@"city" defaultValue:@""];
+//    personInfo.constellation = [tmpDic getStringValueForKey:@"constellation" defaultValue:@""];
+//    personInfo.contentCount = [tmpDic getStringValueForKey:@"contentCount" defaultValue:@""];
+//    personInfo.countryVisited = [tmpDic getStringValueForKey:@"country_visited" defaultValue:@""];
+//    personInfo.facePath = [tmpDic getStringValueForKey:@"facePath" defaultValue:@""];
+//    personInfo.faceArray = [tmpDic objectForKey:@"faces"];
+//    [self loadingPics:(NSMutableArray*)personInfo.faceArray];
+//    personInfo.fansCount = [tmpDic getStringValueForKey:@"fansCount" defaultValue:@""];
+//    personInfo.favoriteCount = [tmpDic getStringValueForKey:@"favoriteCount" defaultValue:@""];
+//    personInfo.follow = [tmpDic getStringValueForKey:@"follow" defaultValue:@""];
+//    personInfo.followCount = [tmpDic getStringValueForKey:@"followCount" defaultValue:@""];
+//    personInfo.footmarkArray = [tmpDic objectForKey:@"footmark"];
+//    personInfo.gender = [tmpDic getStringValueForKey:@"gender" defaultValue:@""];
+//    personInfo.height = [tmpDic getStringValueForKey:@"height" defaultValue:@"0"];
+//    personInfo.interests = [tmpDic getStringValueForKey:@"interests" defaultValue:@""];
+//    personInfo.nation = [tmpDic getStringValueForKey:@"nation" defaultValue:@""];
+//    personInfo.nickname = [tmpDic getStringValueForKey:@"nickname" defaultValue:@""];
+//    personInfo.profession = [tmpDic getStringValueForKey:@"profession" defaultValue:@""];
+//    personInfo.tourism = [tmpDic getStringValueForKey:@"tourism" defaultValue:@""];
+//    personInfo.userId = [tmpDic getStringValueForKey:@"userId" defaultValue:@""];
+//    personInfo.weight = [tmpDic getStringValueForKey:@"weight" defaultValue:@"0"];
 //    [self refreshView:personInfo];
 }
 
--(void)refreshView:(PersonInfo*)info {
-    
-    NSLog(@"aaaaadddddd %@",[info valueForKey:@"nickname"]);
-    
-    itemsArrayOne = [[NSMutableArray alloc] init];
-    headImageView.imageURL = [NSURL URLWithString:info.facePath];
-    self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",info.userId];
-    [itemsArrayOne addObject:info.nickname];
-    if ([info.gender integerValue] == 1) {
-        self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",info.age];
-        [itemsArrayOne addObject:@"Male"];
-    } else {
-        self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",info.age];
-        [itemsArrayOne addObject:@"Female"];
-    }
-    self.nationLabel.text = info.nation;
-    self.describeTextView.text = info.biography;
-    [itemsArrayOne addObject:@"19860402"];
-    [itemsArrayOne addObject:info.height];
-    [itemsArrayOne addObject:info.weight];
-    [itemsArrayOne addObject:info.bloodtype];
-    [itemsArrayOne addObject:info.constellation];
-    [itemsArrayOne addObject:info.nation];
-    [itemsArrayOne addObject:info.profession];
-    [itemsArrayOne addObject:info.interests];
-    [itemsArrayOne addObject:info.countryVisited];
-    [itemsArrayOne addObject:info.tourism];
-    [self.tableView reloadData];
-}
+//-(void)refreshView:(PersonInfo*)info {
+//    
+//    NSLog(@"aaaaadddddd %@",[info valueForKey:@"nickname"]);
+//    
+//    itemsArrayOne = [[NSMutableArray alloc] init];
+//    headImageView.imageURL = [NSURL URLWithString:info.facePath];
+//    self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",info.userId];
+//    [itemsArrayOne addObject:info.nickname];
+//    if ([info.gender integerValue] == 1) {
+//        self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",info.age];
+//        [itemsArrayOne addObject:@"Male"];
+//    } else {
+//        self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",info.age];
+//        [itemsArrayOne addObject:@"Female"];
+//    }
+//    self.nationLabel.text = info.nation;
+//    self.describeTextView.text = info.biography;
+//    [itemsArrayOne addObject:@"19860402"];
+//    [itemsArrayOne addObject:info.height];
+//    [itemsArrayOne addObject:info.weight];
+//    [itemsArrayOne addObject:info.bloodtype];
+//    [itemsArrayOne addObject:info.constellation];
+//    [itemsArrayOne addObject:info.nation];
+//    [itemsArrayOne addObject:info.profession];
+//    [itemsArrayOne addObject:info.interests];
+//    [itemsArrayOne addObject:info.countryVisited];
+//    [itemsArrayOne addObject:info.tourism];
+//    [self.tableView reloadData];
+//}
 
 - (void)refreshScrollView
 {
@@ -484,15 +496,19 @@
     if (indexPath.section == 0 && indexPath.row == 2) {
         
         NSString *birthday = [personalInfoDic getStringValueForKey:@"birthday" defaultValue:@""];
+        NSDate *date;
         
         if (birthday.length>10) {
             birthday = [birthday substringToIndex:10];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"yyyy-MM-dd"];
+            
+            date = [formatter dateFromString:birthday];
+        }else{
+            date = [NSDate date];
         }
         
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
         
-        NSDate *date = [formatter dateFromString:birthday];
         
         actionSheet = [[UIActionSheet alloc]initWithTitle:@"\n\n" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:@"test" otherButtonTitles:@"test",nil];
         
@@ -662,13 +678,13 @@
         [self.headerImagesScrollView addSubview:tmpEGV];
         NSLog(@"iiii %d", i);
     }
-    if ([faceArray count] < 5) {
-        self.addButton.hidden = NO;
-        self.addButton.frame = CGRectMake([faceArray count]*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
-        [self.headerImagesScrollView addSubview:self.addButton];
-    } else {
-        self.addButton.hidden = YES;
-    }
+//    if ([faceArray count] < 5) {
+//        self.addButton.hidden = NO;
+//        self.addButton.frame = CGRectMake([faceArray count]*85, INSETS, PIC_WIDTH, PIC_HEIGHT);
+//        [self.headerImagesScrollView addSubview:self.addButton];
+//    } else {
+//        self.addButton.hidden = YES;
+//    }
     [self refreshScrollView];
 }
 
@@ -705,10 +721,10 @@
 }
 
 - (void)headImageTap:(UITapGestureRecognizer*)sender {
-    EGOImageView *tmpEgo = (EGOImageView*)sender.view;
-    NSLog(@"imgae %d %@", tmpEgo.tag,[headImageArray objectAtIndex:tmpEgo.tag]);
-    headImageView.imageURL = [NSURL URLWithString:[headImageArray objectAtIndex:tmpEgo.tag]];
-    [manager FBUpdatePersonHeaderImageWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] FacePath:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+//    EGOImageView *tmpEgo = (EGOImageView*)sender.view;
+//    NSLog(@"imgae %d %@", tmpEgo.tag,[headImageArray objectAtIndex:tmpEgo.tag]);
+//    headImageView.imageURL = [NSURL URLWithString:[headImageArray objectAtIndex:tmpEgo.tag]];
+//    [manager FBUpdatePersonHeaderImageWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] FacePath:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
