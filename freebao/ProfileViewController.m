@@ -28,11 +28,15 @@
     if (self) {
         // Custom initialization
         personalInfoDic = [[NSDictionary alloc]init];
-        self.bloodTypes = [NSArray arrayWithObjects:
+        bloodTypes = [NSArray arrayWithObjects:
                                @"                      A",
                                @"                      B",
                                @"                      AB",
                                @"                      O", nil];
+        
+        genderTypes = [NSArray arrayWithObjects:
+                      @"                      Female",
+                      @"                      Male", nil];
     }
     return self;
 }
@@ -171,7 +175,6 @@
     keysForSectionOne = [NSArray arrayWithObjects:@"nickname",@"gender",@"birthday",@"height",@"weight",@"bloodtype",@"constellation",@"nation", nil];
     keysForSectionTwo = [NSArray arrayWithObjects:@"profession",@"interests",@"country_visited",@"tourism", nil];
     
-    NSLog(@"");
     
     [manager FBUpdatePersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]
                                    PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]
@@ -536,8 +539,50 @@
         [actionSheet addSubview:datePicker];
         [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
         [actionSheet showInView:self.view];
+    }else if(indexPath.section == 0 && indexPath.row == 1){
+        
+        
+        actionSheet = [[UIActionSheet alloc]initWithTitle:@"\n\n" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:@"test" otherButtonTitles:@"test",nil];
+        
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        //        UIImage *cancelImage = [UIImage imageNamed:@"cancel2.png"];
+        [cancelBtn setFrame:CGRectMake(11, 7.5, 60, 25)];
+        [cancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+        //        [cancelBtn setBackgroundImage:cancelImage forState:UIControlStateNormal];
+        [cancelBtn addTarget:self action:@selector(dismissActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        //        UIImage *saveImage = [UIImage imageNamed:@"save2.png"];
+        [saveBtn setFrame:CGRectMake(269, 7.5, 40, 25)];
+        [saveBtn setTitle:@"Save" forState:UIControlStateNormal];
+        //        [saveBtn setBackgroundImage:saveImage forState:UIControlStateNormal];
+        [saveBtn addTarget:self action:@selector(saveGenderType:) forControlEvents:UIControlEventTouchUpInside];
+        
+        intervalPicker = [[UIPickerView alloc]init];
+        intervalPicker.tag = 1;
+        intervalPicker.showsSelectionIndicator = YES;
+        intervalPicker.delegate = self;
+        intervalPicker.dataSource = self;
+        [intervalPicker selectRow:[personalInfoDic getIntValueForKey:@"gender" defaultValue:@""] inComponent:0 animated:NO];
+        
+        
+        [intervalPicker setFrame:CGRectMake(0, 40, 320, 216)];
+        [actionSheet addSubview:saveBtn];
+        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+        [actionSheet addSubview:cancelBtn];
+        [actionSheet addSubview:intervalPicker];
+        [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
+        [actionSheet showInView:self.view];
     }else if(indexPath.section == 0 && indexPath.row == 5){
         
+        int selectIndex = 0;
+        if ([@"B"isEqualToString:[personalInfoDic getStringValueForKey:@"bloodtype" defaultValue:@""] ]) {
+            selectIndex = 1;
+        }else if ([@"AB"isEqualToString:[personalInfoDic getStringValueForKey:@"bloodtype" defaultValue:@""] ]){
+            selectIndex = 2;
+        }else if ([@"O"isEqualToString:[personalInfoDic getStringValueForKey:@"bloodtype" defaultValue:@""] ]){
+            selectIndex = 3;
+        }
         
         actionSheet = [[UIActionSheet alloc]initWithTitle:@"\n\n" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:@"test" otherButtonTitles:@"test",nil];
         
@@ -556,21 +601,20 @@
         [saveBtn addTarget:self action:@selector(saveBloodType:) forControlEvents:UIControlEventTouchUpInside];
         
         intervalPicker = [[UIPickerView alloc]init];
+        intervalPicker.tag = 2;
         intervalPicker.showsSelectionIndicator = YES;
         intervalPicker.delegate = self;
         intervalPicker.dataSource = self;
-        
+        [intervalPicker selectRow:selectIndex inComponent:0 animated:NO];
         
         [intervalPicker setFrame:CGRectMake(0, 40, 320, 216)];
-        [intervalPicker selectRow:0 inComponent:0 animated:NO];
         [actionSheet addSubview:saveBtn];
         [actionSheet setActionSheetStyle:UIActionSheetStyleBlackOpaque];
         [actionSheet addSubview:cancelBtn];
         [actionSheet addSubview:intervalPicker];
         [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
         [actionSheet showInView:self.view];
-    }
-    else{
+    }else{
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationLeft];
     }
     
@@ -593,12 +637,20 @@
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [self.bloodTypes objectAtIndex:row];
+    if (pickerView.tag == 1) {
+        return [genderTypes objectAtIndex:row];
+    }else{
+        return [bloodTypes objectAtIndex:row];
+    }
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [self.bloodTypes count];
+    if (pickerView.tag == 1) {
+        return [genderTypes count];
+    }else{
+        return [bloodTypes count];
+    }
 }
 
 -(void)dismissActionSheet:(id)sender
@@ -625,15 +677,35 @@
 
 }
 
+-(void)saveGenderType:(id)sender
+{
+    [actionSheet dismissWithClickedButtonIndex:2 animated:YES];
+    NSString *selectedGenderType = [genderTypes objectAtIndex:selectedRow];
+    selectedGenderType = [selectedGenderType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    NSString *gender;
+    if ([@"Male"isEqualToString:selectedGenderType]) {
+        gender = @"1";
+    }else if ([@"Female"isEqualToString:selectedGenderType])
+    {
+        gender = @"0";
+    }
+    
+    [personalInfoDic setValue:gender forKey:@"gender"];
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:selectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+    
+    
+}
+
 -(void)saveBloodType:(id)sender
 {
     [actionSheet dismissWithClickedButtonIndex:2 animated:YES];
-    NSString *selectedBloodType = [self.bloodTypes objectAtIndex:selectedRow];
+    NSString *selectedBloodType = [bloodTypes objectAtIndex:selectedRow];
     selectedBloodType = [selectedBloodType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     [personalInfoDic setValue:selectedBloodType forKey:@"bloodtype"];
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:selectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
-
     
 }
 
