@@ -466,6 +466,18 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:Kdeleatecomment];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"comment.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:commentId     forKey:@"comment.commentId"];;
+    
+    [self setPostUserInfo:item withRequestType:FreebaoDeleteComment];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -941,6 +953,16 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_UPLOAD_PHOTO_RERESH object:nil];
         } else {
             NSLog(@"[levi] update person headImage failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoDeleteComment) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] delete comment dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] delete comment Success...");
+        } else {
+            NSLog(@"[levi] delete comment failed...");
         }
         return;
     }

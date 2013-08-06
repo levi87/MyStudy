@@ -173,4 +173,9 @@ static WeiBoMessageManager * instance=nil;
 -(void)FBUpdatePersonHeaderImageWithUserId:(NSString *)aUserId FacePath:(NSString *)facePath PassId:(NSString *)passId {
     [httpManager didFreebaoUpdatePersonHeaderImageWithUserId:aUserId FacePath:facePath PassId:passId];
 }
+
+//Freebao 删除评论
+-(void)FBDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId {
+    [httpManager didFreebaoDeleteMyCommentWithUserId:aUserId CommentId:commentId PassId:passId];
+}
 @end

@@ -98,4 +98,7 @@
 
 //Freebao update person head image
 -(void)FBUpdatePersonHeaderImageWithUserId:(NSString*)aUserId FacePath:(NSString*)facePath PassId:(NSString*)passId;
+
+//Freebao delete comment
+-(void)FBDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId;
 @end

@@ -159,13 +159,17 @@
     NSString *comentUserId = tmpInfo.commentUserId;
     NSLog(@"comment %@  fuser %@", comentUserId, [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]);
     if ([[NSString stringWithFormat:@"%@",comentUserId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-        return NO;
+        return YES;
     }
-    return YES;
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"comment...");
+    NSLog(@"comment...size %d", [commentsArray count]);
+    NSString *commentId = [(CommentInfo*)[commentsArray objectAtIndex:indexPath.row] commentId];
+    [manager FBDeleteMyCommentWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] CommentId:commentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [commentsArray removeObjectAtIndex:indexPath.row];
+    [self.commentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
