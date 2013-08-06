@@ -16,7 +16,7 @@
 
 @class WeiBoMessageManager;
 @class EGOImageView;
-@interface ProfileViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
+@interface ProfileViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate> {
     UIImagePickerController *_imagePicker;
     CustomActionSheet *_customActionSheet;
     WeiBoMessageManager *manager;
@@ -60,6 +60,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *headerImagesScrollView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
-@property (nonatomic,weak) NSArray *intervalValues;
+@property (nonatomic,strong) NSArray *bloodTypes;
 - (IBAction)addAction:(id)sender;
 @end
