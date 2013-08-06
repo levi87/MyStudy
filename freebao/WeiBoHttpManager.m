@@ -620,6 +620,7 @@
             for (NSInteger index=0; index<[contents count]; index++) {
                 NSDictionary *tmpDic = [contents objectAtIndex:index];
                 StatusInfo *statusInfo = [[StatusInfo alloc] init];
+                statusInfo.isFakeWeibo = NO;
                 statusInfo.originalPicUrl = [tmpDic getStringValueForKey:@"original_pic" defaultValue:@"0"];
                 statusInfo.commentCount = [tmpDic getStringValueForKey:@"comment_count" defaultValue:@"0"];
                 statusInfo.contentId = [tmpDic getStringValueForKey:@"contentId" defaultValue:@"0"];

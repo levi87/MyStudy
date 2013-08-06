@@ -471,6 +471,14 @@
     } else {
         _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
     }
+    if (info.isFakeWeibo) {
+        fakeImage = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:info.originalPicUrl]];
+        fakeImage.frame = CGRectMake(0, 0, 320, 320);
+        fakeImage.hidden = NO;
+        [mainImageView addSubview:fakeImage];
+    } else {
+        fakeImage.hidden = YES;
+    }
     _distanceLabel.text = [NSString stringWithFormat:@"%@km",info.distance];
     _likeCount.text = [NSString stringWithFormat:@"%@",info.likeCount];
     _commentCount.text = [NSString stringWithFormat:@"%@",info.commentCount];

@@ -407,38 +407,33 @@
     [self.voicePlayButton.imageView stopAnimating];
 }
 - (IBAction)PostAciton:(id)sender {
-    Status *status = [[Status alloc] init];
-    status.isFakeWeibo = TRUE;
-    status.language = @"0";
-    status.soundPath = @"";
-    status.soundLength = @"";
-    status.statusId = 0;
-    status.createdAt = @"just now";
-    status.text = self.postTextView.text;
-    status.sourceUrl = @"";
-    status.commentsCount = 0;
-    status.likeCount = 0;
-    status.favorited = FALSE;
-    status.hasImage = _hasPhoto;
+    StatusInfo *fakeStatusInfo = [[StatusInfo alloc] init];
+    fakeStatusInfo.isFakeWeibo = YES;
+    fakeStatusInfo.commentCount = @"0";
+    fakeStatusInfo.likeCount = @"0";
+    fakeStatusInfo.content = self.postTextView.text;
+    fakeStatusInfo.contentId = @"0";
+    fakeStatusInfo.createAt = @"just now";
+    fakeStatusInfo.liked = @"0";
     if (_hasPhoto) {
-        status.originalPic = [self returnFilePath:@"tmpShareJPEG.jpg"];
-        status.bmiddlePic = [self returnFilePath:@"tmpShareJPEG.jpg"];
-        status.thumbnailPic = [self returnFilePath:@"tmpShareJPEG.jpg"];
+        fakeStatusInfo.originalPicUrl = [self returnFilePath:@"tmpShareJPEG.jpg"];
+    } else {
+        fakeStatusInfo.originalPicUrl = @"0";
     }
-    status.longitude = 0.0;
-    status.language = @"0";
-    status.distance = @"0";
-    status.user.userId = [[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] integerValue];
-    status.user.screenName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NAME];
-    status.user.profileImageUrl = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH];
-    status.user.avatarImage = [UIImage imageNamed:@"icon_reply"];
+    fakeStatusInfo.distance = @"0";
+    fakeStatusInfo.postLanguage = @"0";
+    fakeStatusInfo.userFacePath = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH];
+    fakeStatusInfo.userId = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID];
+    fakeStatusInfo.userName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NAME];
+    fakeStatusInfo.rePostDic = nil;
+
     if ([_geocoder isGeocoding]) {
         [_geocoder cancelGeocode];
     }
     [SVProgressHUD dismiss];
     [self dismissModalViewControllerAnimated:YES];
 
-    [self performSelector:@selector(delayPostNotification:) withObject:status afterDelay:0.2];
+    [self performSelector:@selector(delayPostNotification:) withObject:fakeStatusInfo afterDelay:0.2];
 }
 
 -(void)delayPostNotification:(Status *)status{
