@@ -180,6 +180,9 @@
     CommentInfo *tmpInfo = [commentsArray objectAtIndex:indexPath.row];
     tmpHeight = [CommentsCell getJSHeight:tmpInfo.content jsViewWith:230.0];
     NSLog(@"tmpHeight %f", tmpHeight);
+    if (![tmpInfo.voiceUrl isEqualToString:@"0"]) {
+        tmpHeight += 30;
+    }
     return 23 + tmpHeight + 25;
 }
 
@@ -260,7 +263,7 @@
     [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
     [commentsArray insertObject:tmpInfo atIndex:0];
     [self.commentTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:inputText UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@""];
+    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:inputText UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@"" VoiceData:nil];
 }
 
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer {
@@ -320,6 +323,16 @@
 
 -(void)sendVoiceAction {
     NSLog(@"send voice comment...");
+    CommentInfo *tmpInfo = [[CommentInfo alloc] init];
+    tmpInfo.nickName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NICK_NAME];
+    tmpInfo.content = @"";
+    tmpInfo.commentDate = @"just now";
+    tmpInfo.voiceLength = voiceRecordLength;
+    tmpInfo.voiceUrl = tmpVoicePath;
+    [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
+    [commentsArray insertObject:tmpInfo atIndex:0];
+    [self.commentTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:@"" UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@"" VoiceData:[NSData dataWithContentsOfFile:tmpVoicePath]];
 }
 
 - (void)detectionVoice

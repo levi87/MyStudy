@@ -94,8 +94,8 @@ static WeiBoMessageManager * instance=nil;
 }
 
 //Freebao 增加Comment
--(void)FBAddAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId {
-    [httpManager didFreebaoAddWeiboCommentWithContentId:contentId CommentContent:content UserId:aUserId PassId:passId CommentId:aCommentId];
+-(void)FBAddAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId VoiceData:(NSData *)voiceData{
+    [httpManager didFreebaoAddWeiboCommentWithContentId:contentId CommentContent:content UserId:aUserId PassId:passId CommentId:aCommentId VoiceData:voiceData];
 }
 
 //Freebao 获取会话列表

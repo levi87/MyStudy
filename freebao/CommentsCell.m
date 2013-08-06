@@ -139,12 +139,12 @@
         _soundImageView.hidden = NO;
         _commentTextView.hidden = YES;
         _languageImageView.hidden = YES;
-        _transVoiceImageView.hidden = YES;
+//        _transVoiceImageView.hidden = YES;
     } else {
         _soundImageView.hidden = YES;
         _commentTextView.hidden = NO;
         _languageImageView.hidden = NO;
-        _transVoiceImageView.hidden = NO;
+//        _transVoiceImageView.hidden = NO;
     }
     //    if ([info.sex integerValue] == 0) {
     //        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];

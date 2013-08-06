@@ -238,7 +238,7 @@
     [requestQueue addOperation:item];
 }
 
-- (void)didFreebaoAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId {
+- (void)didFreebaoAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId VoiceData:(NSData *)voiceData{
     NSURL *url = [NSURL URLWithString:kAddCommentUrl];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
     
@@ -247,6 +247,9 @@
     [item setPostValue:content    forKey:@"comment.commentBody"];
     [item setPostValue:contentId forKey:@"comment.contentId"];
     [item setPostValue:aCommentId forKey:@"comment.replyId"];
+    if (voiceData != nil) {
+        [item setData:voiceData forKey:@"soundFile"];
+    }
     
     [self setPostUserInfo:item withRequestType:FreebaoAddComment];
     [requestQueue addOperation:item];

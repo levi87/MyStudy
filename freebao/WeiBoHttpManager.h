@@ -358,7 +358,7 @@ typedef enum {
 -(void)didFreebaoGetTranslationVoiceWithBoay:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 
 //Freebao 回复微博
--(void)didFreebaoAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId;
+-(void)didFreebaoAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId VoiceData:(NSData*)voiceData;
 
 //Freebao 获取会话列表
 -(void)didFreebaoGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
