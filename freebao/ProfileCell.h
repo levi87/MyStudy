@@ -17,5 +17,5 @@
 //-(void)setCellValue:(PersonInfo*)value;
 @property UILabel *keyLabel;
 @property UILabel *valueLabel;
-
+@property NSString *key;
 @end

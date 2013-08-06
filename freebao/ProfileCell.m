@@ -11,6 +11,7 @@
 @implementation ProfileCell
 @synthesize keyLabel = _keyLabel;
 @synthesize valueLabel = _valueLabel;
+@synthesize key = _key;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -30,6 +31,7 @@
     return self;
 }
 
+
 -(void)setCellValue:(PersonInfo *)value {
     
 }
@@ -40,5 +42,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end

@@ -27,6 +27,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        personalInfoDic = [[NSDictionary alloc]init];
     }
     return self;
 }
@@ -41,8 +42,12 @@
     
     self.addButton.hidden = YES;
     isEditModel = NO;
-    tittlesForSectionOneArray = [NSArray arrayWithObjects:@"Name",@"Sex",@"Birthday",@"Height",@"Weight",@"Blood Type",@"Constellation",@"Country", nil];
-    tittlesForSectionTwoArray = [NSArray arrayWithObjects:@"Occupation",@"Interests",@"Countries Visited",@"Countries Visited",@"Travelling Plans", nil];
+    keyLabelsForSectionOne = [NSArray arrayWithObjects:@"Name",@"Sex",@"Birthday",@"Height",@"Weight",@"Blood Type",@"Constellation",@"Country", nil];
+    keyLabelsForSectionTwo = [NSArray arrayWithObjects:@"Occupation",@"Interests",@"Countries Visited",@"Travelling Plans", nil];
+    
+    keysForSectionOne = [NSArray arrayWithObjects:@"nickname",@"gender",@"birthday",@"height",@"weight",@"bloodtype",@"constellation",@"nation", nil];
+    keysForSectionTwo = [NSArray arrayWithObjects:@"profession",@"interests",@"country_visited",@"tourism", nil];
+    
     itemsArrayOne = [[NSMutableArray alloc] init];
     for (int i = 0; i < 12; i++) {
         [itemsArrayOne addObject:@""];
@@ -118,6 +123,8 @@
     }
     [manager FBGetPersonInfoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     //    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    
+    [self.tableView setAllowsSelection:NO];
 }
 
 -(void)editButtonPressed
@@ -126,6 +133,7 @@
     isEditModel = YES;
     saveButton.hidden = NO;
     editButton.hidden = YES;
+    [self.tableView setAllowsSelection:YES];
     
 }
 
@@ -135,7 +143,7 @@
     isEditModel = NO;
     saveButton.hidden = YES;
     editButton.hidden = NO;
-    
+    [self.tableView setAllowsSelection:NO];
 }
 
 
@@ -181,6 +189,15 @@
 -(void)onResultPersonInfo:(NSNotification*)notification {
     NSLog(@"result...person...info%@",notification.object);
     NSDictionary *tmpDic = notification.object;
+    personalInfoDic = notification.object;
+    
+    if ([personalInfoDic getIntValueForKey:@"gender" defaultValue:0] == 1) {
+        self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",[personalInfoDic getStringValueForKey:@"age" defaultValue:@"0"]];
+    } else {
+        self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",[personalInfoDic getStringValueForKey:@"age" defaultValue:@"0"]];
+    }
+    [self.tableView reloadData];
+    
     PersonInfo *personInfo = [[PersonInfo alloc] init];
     personInfo.age = [tmpDic getStringValueForKey:@"age" defaultValue:@""];
     if ([[tmpDic getStringValueForKey:@"birthday" defaultValue:@""] length] > 10) {
@@ -211,10 +228,13 @@
     personInfo.tourism = [tmpDic getStringValueForKey:@"tourism" defaultValue:@""];
     personInfo.userId = [tmpDic getStringValueForKey:@"userId" defaultValue:@""];
     personInfo.weight = [tmpDic getStringValueForKey:@"weight" defaultValue:@"0"];
-    [self refreshView:personInfo];
+//    [self refreshView:personInfo];
 }
 
 -(void)refreshView:(PersonInfo*)info {
+    
+    NSLog(@"aaaaadddddd %@",[info valueForKey:@"nickname"]);
+    
     itemsArrayOne = [[NSMutableArray alloc] init];
     headImageView.imageURL = [NSURL URLWithString:info.facePath];
     self.userIdLabel.text = [NSString stringWithFormat:@"ID:%@",info.userId];
@@ -305,19 +325,54 @@
         cell = [[ProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    
+    
     if (indexPath.section == 0) {
-        cell.keyLabel.text = [tittlesForSectionOneArray objectAtIndex:indexPath.row];
+        cell.keyLabel.text = [keyLabelsForSectionOne objectAtIndex:indexPath.row];
+        cell.key = [keysForSectionOne objectAtIndex:indexPath.row];
+        
+        if ([@"height" isEqualToString:cell.key]){
+            cell.valueLabel.text = [NSString stringWithFormat:@"%d cm",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+        }else if([@"weight" isEqualToString:cell.key]){
+            cell.valueLabel.text = [NSString stringWithFormat:@"%d kg",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+        }else if([@"gender" isEqualToString:cell.key]){
+            
+            cell.valueLabel.text = [NSString stringWithFormat:@"%d kg",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+            
+            if ([personalInfoDic getIntValueForKey:cell.key defaultValue:0] == 1) {
+                cell.valueLabel.text = @"Male";
+            } else {
+                cell.valueLabel.text = @"Female";
+            }
+            
+        }else if([@"birthday" isEqualToString:cell.key]){
+            NSString *str = [personalInfoDic getStringValueForKey:cell.key defaultValue:@""];
+            if (str.length > 10) {
+                str = [str substringToIndex:10];
+            }
+            cell.valueLabel.text = str;
+        }
+        else{
+           cell.valueLabel.text = [personalInfoDic getStringValueForKey:cell.key defaultValue:@""];
+        }
+        
+
     }else{
-        cell.keyLabel.text = [tittlesForSectionTwoArray objectAtIndex:indexPath.row];
+        cell.keyLabel.text = [keyLabelsForSectionTwo objectAtIndex:indexPath.row];
+        
+        cell.valueLabel.text = [personalInfoDic getStringValueForKey:[keysForSectionTwo objectAtIndex:indexPath.row] defaultValue:@""];
     }
     
-    if (indexPath.row == 3) {
-        cell.valueLabel.text = [NSString stringWithFormat:@"%@cm", [itemsArrayOne objectAtIndex:indexPath.row]];
-    } else if (indexPath.row == 4) {
-        cell.valueLabel.text = [NSString stringWithFormat:@"%@kg", [itemsArrayOne objectAtIndex:indexPath.row]];
-    } else {
-        cell.valueLabel.text = [itemsArrayOne objectAtIndex:indexPath.row];
-    }
+    
+    
+    
+//    if (indexPath.row == 3) {
+//        cell.valueLabel.text = [NSString stringWithFormat:@"%@cm", [itemsArrayOne objectAtIndex:indexPath.row]];
+//    } else if (indexPath.row == 4) {
+//        cell.valueLabel.text = [NSString stringWithFormat:@"%@kg", [itemsArrayOne objectAtIndex:indexPath.row]];
+//    } else {
+//        cell.valueLabel.text = [itemsArrayOne objectAtIndex:indexPath.row];
+//    }
     // Configure the cell...
     
     return cell;
@@ -377,7 +432,78 @@
     //        [commDialogView.oneLineText setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
     //    }
     //    [commDialogView.oneLineText becomeFirstResponder];
+    
+    if (indexPath.section == 0 && indexPath.row == 2) {
+        
+        NSString *birthday = [personalInfoDic getStringValueForKey:@"birthday" defaultValue:@""];
+        
+        if (birthday.length>10) {
+            birthday = [birthday substringToIndex:10];
+        }
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        NSDate *date = [formatter dateFromString:birthday];
+        
+        actionSheet = [[UIActionSheet alloc]initWithTitle:@"\n\n" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:@"test" otherButtonTitles:@"test",nil];
+        
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        //    UIImage *cancelImage = [UIImage imageNamed:@"cancel2.png"];
+        [cancelBtn setFrame:CGRectMake(11, 7.5, 60, 25)];
+        [cancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+        //    [cancelBtn setBackgroundImage:cancelImage forState:UIControlStateNormal];
+        [cancelBtn addTarget:self action:@selector(dismissActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        //    UIImage *saveImage = [UIImage imageNamed:@"save2.png"];
+        [saveBtn setFrame:CGRectMake(269, 7.5, 40, 25)];
+        [saveBtn setTitle:@"Save" forState:UIControlStateNormal];
+        //    [saveBtn setBackgroundImage:saveImage forState:UIControlStateNormal];
+        [saveBtn addTarget:self action:@selector(saveDate:) forControlEvents:UIControlEventTouchUpInside];
+        
+        datePicker = [[UIDatePicker alloc]init];
+        [datePicker setFrame:CGRectMake(0, 40, 320, 220)];
+        datePicker.datePickerMode = UIDatePickerModeDate;
+        [datePicker setDate:date];
+        [actionSheet addSubview:saveBtn];
+        [actionSheet addSubview:cancelBtn];
+        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+        [actionSheet addSubview:datePicker];
+        [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
+        [actionSheet showInView:self.view];
+    }else{
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+    
     NSLog(@"didSelectRowAtIndexPath");
+}
+
+-(void)dismissActionSheet:(id)sender
+{
+    [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+}
+
+-(void)saveDate:(id)sender
+{
+    [actionSheet dismissWithClickedButtonIndex:2 animated:YES];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    
+    NSDate *selectedDate = [datePicker date];
+    NSString *selectedDateStr =[[NSString alloc]initWithFormat:@"%@",[formatter stringFromDate:selectedDate]];
+
+    NSLog(@"date: %@",selectedDateStr);
+    
+//    NSString *birthday = [personalInfoDic getStringValueForKey:@"birthday" defaultValue:@""];
+    
+    [personalInfoDic setValue:selectedDateStr forKey:@"birthday"];
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:selectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+//    self.dateBtn.dateStr = selectedDateStr;
+//    self.dateBtn.dateLabel.text = selectedDateStr;
+
 }
 
 - (void)viewDidUnload {

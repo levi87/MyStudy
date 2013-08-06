@@ -37,8 +37,13 @@
     
     NSMutableArray *headFacePathArray;
     BOOL isEditModel;
-    NSArray *tittlesForSectionOneArray;
-    NSArray *tittlesForSectionTwoArray;
+    NSArray *keyLabelsForSectionOne;
+    NSArray *keyLabelsForSectionTwo;
+    NSArray *keysForSectionOne;
+    NSArray *keysForSectionTwo;
+    NSDictionary *personalInfoDic;
+    UIActionSheet *actionSheet;
+    UIDatePicker *datePicker;
     NSMutableArray *itemsArrayOne;
     NSMutableArray *itemsArrayTwo;
 }
