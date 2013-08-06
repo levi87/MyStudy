@@ -28,6 +28,11 @@
     if (self) {
         // Custom initialization
         personalInfoDic = [[NSDictionary alloc]init];
+        self.intervalValues = [NSArray arrayWithObjects:
+                               @"                    A",
+                               @"                    B",
+                               @"                    AB",
+                               @"                    O", nil];
     }
     return self;
 }
@@ -325,6 +330,11 @@
         cell = [[ProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+//    if (isEditModel) {
+//        UIView *editCell = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
+//        editCell.backgroundColor = [UIColor grayColor];
+//        [cell.contentView addSubview:editCell];
+//    }
     
     
     if (indexPath.section == 0) {
@@ -472,11 +482,102 @@
         [actionSheet addSubview:datePicker];
         [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
         [actionSheet showInView:self.view];
-    }else{
+    }else if(indexPath.section == 0 && indexPath.row == 5){
+        
+        
+        actionSheet = [[UIActionSheet alloc]initWithTitle:@"\n\n" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:@"test" otherButtonTitles:@"test",nil];
+        
+        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *cancelImage = [UIImage imageNamed:@"cancel2.png"];
+        [cancelBtn setFrame:CGRectMake(11, 7.5, 40, 25)];
+        [cancelBtn setBackgroundImage:cancelImage forState:UIControlStateNormal];
+        [cancelBtn addTarget:self action:@selector(dismissActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *saveImage = [UIImage imageNamed:@"save2.png"];
+        [saveBtn setFrame:CGRectMake(269, 7.5, 40, 25)];
+        [saveBtn setBackgroundImage:saveImage forState:UIControlStateNormal];
+        [saveBtn addTarget:self action:@selector(saveDate:) forControlEvents:UIControlEventTouchUpInside];
+        
+        intervalPicker = [[UIPickerView alloc]init];
+        intervalPicker.showsSelectionIndicator = YES;
+        intervalPicker.delegate = self;
+        intervalPicker.dataSource = self;
+        
+        
+        [intervalPicker setFrame:CGRectMake(0, 40, 320, 216)];
+        [intervalPicker selectRow:0 inComponent:0 animated:NO];
+        [actionSheet addSubview:saveBtn];
+        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+        [actionSheet addSubview:cancelBtn];
+        [actionSheet addSubview:intervalPicker];
+        [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
+        [actionSheet showInView:self.view];
+//        actionSheet = [[UIActionSheet alloc]initWithTitle:@"\n\n" delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:@"test" otherButtonTitles:@"test",nil];
+//        
+//        UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+////        UIImage *cancelImage = [UIImage imageNamed:@"cancel2.png"];
+//        [cancelBtn setFrame:CGRectMake(11, 7.5, 60, 25)];
+//        [cancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+////        [cancelBtn setBackgroundImage:cancelImage forState:UIControlStateNormal];
+//        [cancelBtn addTarget:self action:@selector(dismissActionSheet:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+////        UIImage *saveImage = [UIImage imageNamed:@"save2.png"];
+//        [saveBtn setFrame:CGRectMake(269, 7.5, 40, 25)];
+//        [saveBtn setTitle:@"Save" forState:UIControlStateNormal];
+////        [saveBtn setBackgroundImage:saveImage forState:UIControlStateNormal];
+//        [saveBtn addTarget:self action:@selector(saveDate:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        intervalPicker = [[UIPickerView alloc]init];
+//
+//        intervalPicker.showsSelectionIndicator = YES;
+//        intervalPicker.delegate = self;
+//        intervalPicker.dataSource = self;
+//        
+//        
+//        [intervalPicker setFrame:CGRectMake(0, 40, 320, 216)];
+//        [intervalPicker selectRow:1 inComponent:0 animated:NO];
+//        [actionSheet addSubview:saveBtn];
+//        [actionSheet setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+//        [actionSheet addSubview:cancelBtn];
+//        [actionSheet addSubview:intervalPicker];
+//        [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
+//        [actionSheet showInView:self.view];
+    }
+    else{
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationLeft];
     }
     
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
     NSLog(@"didSelectRowAtIndexPath");
+}
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    selectedRow = row;
+}
+
+-(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    return nil;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSLog(@"mmmmmm %@",[self.intervalValues objectAtIndex:row]);
+    return [self.intervalValues objectAtIndex:row];
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [self.intervalValues count];
 }
 
 -(void)dismissActionSheet:(id)sender
