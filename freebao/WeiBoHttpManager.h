@@ -61,6 +61,7 @@
 #define FB_GET_PERSON_INFO          @"fb_get_person_info"
 #define FB_UPLOAD_PHOTO_HEAD_IMAGE  @"fb_upload_head_image"
 #define FB_UPLOAD_PHOTO_RERESH      @"fb_upload_photo_refresh"
+#define FB_POST_SUCCESS             @"fb_post_success"
 
 /*
  Freebao
@@ -288,6 +289,8 @@ typedef enum {
     FreebaoUpdatePersonInfo,
     FreebaoUpdatePersonHeadImage,
     FreebaoDeleteComment,
+    FreebaoAddfavorite,
+    FreebaoDeleteHomeline,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -407,4 +410,10 @@ typedef enum {
 
 //Freebao 删除自己评论
 -(void)didFreebaoDeleteMyCommentWithUserId:(NSString*)aUserId CommentId:(NSString*)commentId PassId:(NSString*)passId;
+
+//Freebao 收藏分享
+-(void)didFreebaoAddFavouriteWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao 删除分享
+-(void)didFreebaoDeleteHomelineWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 @end

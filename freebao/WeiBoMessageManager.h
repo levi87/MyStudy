@@ -101,4 +101,9 @@
 
 //Freebao delete comment
 -(void)FBDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId;
+
+//Freebao add favorite
+-(void)FBAddFavouriteWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+//Freebao delete homeline
+-(void)FBDeleteHomelineWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 @end

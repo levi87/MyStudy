@@ -61,6 +61,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateResult:)       name:FB_GET_TRANSLATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postSuccessRefresh) name:FB_POST_SUCCESS object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
@@ -93,6 +94,11 @@
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.homeTableView setTableHeaderView:headerView];
+}
+
+-(void)postSuccessRefresh {
+    NSLog(@"post success refresh...");
+    [self handleData];
 }
 
 -(void)refreshView:(UIRefreshControl *)refresh
@@ -243,6 +249,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_FAKE_WEIBO object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_POST_SUCCESS object:nil];
 }
 
 -(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
@@ -267,20 +274,51 @@
 
 -(void)cellMoreDidTaped:(StatusNewCell *)theCell {
     NSLog(@"cell more tap");
-    CustomActionSheet *as = [[CustomActionSheet alloc] init];
-    [as addButtonWithTitle:@"收藏"];
-    [as addButtonWithTitle:@"举报"];
-    [as addButtonWithTitle:@"删除"];
-    [as showInView:self.view];
+    tmpIndexPath = theCell.indexPath;
+    _actionSheet = [[CustomActionSheet alloc] init];
+    _actionSheet.delegate = self;
+    [_actionSheet addButtonWithTitle:@"Favorite"];
+    [_actionSheet addButtonWithTitle:@"Report"];
+    if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+        [_actionSheet addButtonWithTitle:@"Delete"];
+    }
+    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet showInView:self.view];
 }
 
 -(void)imageCellMoreDidTaped:(StatusNewImageCell *)theCell {
     NSLog(@"image cell more tap");
-    CustomActionSheet *as = [[CustomActionSheet alloc] init];
-    [as addButtonWithTitle:@"收藏"];
-    [as addButtonWithTitle:@"举报"];
-    [as addButtonWithTitle:@"删除"];
-    [as showInView:self.view];
+    tmpIndexPath = theCell.indexPath;
+    _actionSheet = [[CustomActionSheet alloc] init];
+    _actionSheet.delegate = self;
+    [_actionSheet addButtonWithTitle:@"Favorite"];
+    [_actionSheet addButtonWithTitle:@"Report"];
+    if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+        [_actionSheet addButtonWithTitle:@"Delete"];
+    }
+    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet showInView:self.view];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    switch (buttonIndex) {
+        case 0:
+            [manager FBAddFavouriteWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+            break;
+        case 1:
+            break;
+        case 2:
+            if (![[NSString stringWithFormat:@"%@",tmpStatusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+                return;
+            }
+            [statusArray removeObjectAtIndex:tmpIndexPath.row];
+            [self.homeTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [manager FBDeleteHomelineWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+            break;
+        default:
+            break;
+    }
 }
 
 -(void)cellLikerDidTaped:(StatusNewCell *)theCell {
@@ -621,17 +659,17 @@
 - (void)insertFakeWeiobo:(NSNotification*)notfication {
     NSLog(@"inser Fake weibo");
     StatusInfo *tmpStatus = (StatusInfo*)notfication.object;
-//    NSDictionary *tmpDic = notfication.userInfo;
+    NSDictionary *tmpDic = notfication.userInfo;
     [statusArray insertObject:tmpStatus atIndex:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-//    [self performSelector:@selector(submitFakeWeibo:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:tmpStatus,@"status", tmpDic, @"userinfo", nil] afterDelay:1];
+    [self performSelector:@selector(submitFakeWeibo:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:tmpStatus,@"status", tmpDic, @"userinfo", nil] afterDelay:1];
 }
 
 -(void)submitFakeWeibo:(NSDictionary *)dictionary {
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
     }
-    Status *status = (Status*)[dictionary objectForKey:@"status"];
+    StatusInfo *status = (StatusInfo*)[dictionary objectForKey:@"status"];
     NSDictionary *userInfo = [dictionary objectForKey:@"userinfo"];
     NSString *postFileType = @"0";
     NSData *mediaData = nil;
@@ -644,6 +682,6 @@
     if ([userInfo objectForKey:@"hasVoice"]) {
         soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
     }
-    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.text AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:@"0" Longgitude:@"0" FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.content AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:@"0" Longgitude:@"0" FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 @end
