@@ -32,7 +32,8 @@
 #define FB_USER_PASSWORD            @"password"
 #define FB_USER_NICK_NAME           @"nickname"
 #define FB_USER_FACE_PATH           @"facepath"
-
+#define FB_USER_LATITUDE            @"latitude"
+#define FB_USER_LONGITUDE           @"longitude"
 //FB_NOTIFICATION
 
 #define FB_NOTIC_LOGIN_SUCCESS      @"fb_success"
