@@ -27,7 +27,6 @@
 
 @implementation HomePageNewViewController
 @synthesize cellContentId = _cellContentId;
-@synthesize isRefresh = _isRefresh;
 @synthesize avPlay = _avPlay;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -49,8 +48,6 @@
     [refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refresh;
 
-    _isRefresh = FALSE;
-    isFirst = TRUE;
     currentPage = 0;
     statusArray = [[NSMutableArray alloc] init];
     if (manager == nil) {

@@ -21,6 +21,8 @@
 #define FANS_PAGE 3
 #define PHOTO_PAGE 4
 
+#define FB_FAKE_WEIBO @"fb_fake_weibo"
+
 #import "REPhotoThumbnailsCell.h"
 
 @interface PageViewController ()
@@ -59,14 +61,36 @@
     currentView = HOME_PAGE;
 
     [self initSegment];
+    NSLog(@"qqqqqqqq");
     [self initFansView];
+    NSLog(@"fffffff");
     [self initFollowView];
+    NSLog(@"dddddddd");
     [self initPhotoView];
+    NSLog(@"~~~~~~~~~~~");
+    
+    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+    refresh.tintColor = [UIColor lightGrayColor];
+    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refresh;
+    
+    currentPage = 0;
+    statusArray = [[NSMutableArray alloc] init];
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_HOMELINE_NEW object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateResult:)       name:FB_GET_TRANSLATION object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postSuccessRefresh) name:FB_POST_SUCCESS object:nil];
+    [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    
+    headPhotos = [[NSMutableArray alloc] init];
     NSLog(@"[levi]view didload");
-    refreshFooterView.hidden = NO;
-    _page = 1;
-    _maxID = -1;
-    _shouldAppendTheDataArr = NO;
     //    UIBarButtonItem *retwitterBtn = [[UIBarButtonItem alloc]initWithTitle:@"发微博" style:UIBarButtonItemStylePlain target:self action:@selector(twitter)];
     //    self.navigationItem.rightBarButtonItem = retwitterBtn;
     UIView *TittleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -94,16 +118,48 @@
     [self.navigationController.view addSubview:backButton];
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.tableView setTableHeaderView:self.profileHeaderView];
-//    [self.tableView setTableFooterView:headerView];
-    
-    [defaultNotifCenter addObserver:self selector:@selector(didGetHomeLine:)    name:FB_GET_HOMELINE          object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetUserInfo:)    name:FB_GET_USERINFO          object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(didGetUnreadCount:) name:FB_GET_UNREAD_COUNT       object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(onRequestResult:)       name:FB_GET_TRANSLATION object:nil];
-    [defaultNotifCenter addObserver:self selector:@selector(onRequestPhotoResult:) name:FB_GET_PHOTO_LIST object:nil];
-    
-    [defaultNotifCenter addObserver:self selector:@selector(appWillResign:)            name:UIApplicationWillResignActiveNotification             object:nil];
+    [self.tableView setTableFooterView:headerView];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestPhotoResult:) name:FB_GET_PHOTO_LIST object:nil];
+}
+
+-(void)postSuccessRefresh {
+    NSLog(@"post success refresh...");
+    [self handleData];
+}
+
+-(void)refreshView:(UIRefreshControl *)refresh
+{
+    if (currentPage != HOME_PAGE) {
+        return;
+    }
+    if (refresh.refreshing) {
+        refresh.attributedTitle = [[NSAttributedString alloc]initWithString:@"Refreshing data..."];
+        [self performSelector:@selector(handleData) withObject:nil afterDelay:2];
+    }
+}
+
+-(void)handleData
+{
+    NSLog(@"hellof....");
+    currentPage = 0;
+    [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+- (void)onRequestHomeLine:(NSNotification*)notification {
+    NSLog(@"new status...");
+    NSMutableArray *tmpArray = notification.object;
+    maxPage = [[notification.userInfo objectForKey:@"maxCount"] integerValue];
+    if (currentPage == 0) {
+        [statusArray removeAllObjects];
+        statusArray = tmpArray;
+        [self.refreshControl endRefreshing];
+    } else {
+        for (int i = 0; i < [tmpArray count]; i ++) {
+            [statusArray addObject:[tmpArray objectAtIndex:i]];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 -(void)initPhotoView {
@@ -219,17 +275,17 @@
             [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPageFollow PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         }
     } else if (currentView == HOME_PAGE) {
-        if (!decelerate)
-        {
-            [self refreshVisibleCellsImages];
+        if (scrollView.contentOffset.y >= fmaxf(0.f, scrollView.contentSize.height - scrollView.frame.size.height) + 40.f) {
+            NSLog(@"current page %d max page %d", maxPage, currentPage);
+            if (currentPage + 1 >= maxPage) {
+                return;
+            }
+            currentPage ++;
+            if (manager == nil) {
+                manager = [WeiBoMessageManager getInstance];
+            }
+            [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         }
-        
-        if (scrollView.contentOffset.y < 200)
-        {
-            [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
-        }
-        else
-            [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     }
 }
 
@@ -256,12 +312,14 @@
         if (index == 0) {
             NSLog(@"home page");
             currentView = HOME_PAGE;
+            currentPage = 0;
+            [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         } else if (index == 1) {
             NSLog(@"fav. page");
             currentView = FAV_PAGE;
         } else if (index == 2) {
             NSLog(@"follow");
-            [statuesArr removeAllObjects];
+            [statusArray removeAllObjects];
             [followersArray removeAllObjects];
             [likersArray removeAllObjects];
 //            [photoArray removeAllObjects];
@@ -273,7 +331,7 @@
             [manager FBFansListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPageFollow PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         } else if (index == 3) {
             NSLog(@"fans");
-            [statuesArr removeAllObjects];
+            [statusArray removeAllObjects];
             [likersArray removeAllObjects];
             [followersArray removeAllObjects];
 //            [photoArray removeAllObjects];
@@ -285,7 +343,7 @@
             [manager FBFollowerListWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] SomeBodyId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
         } else if (index == 4) {
             NSLog(@"photo");
-            [statuesArr removeAllObjects];
+            [statusArray removeAllObjects];
             [followersArray removeAllObjects];
             [likersArray removeAllObjects];
 //            [self.tableView reloadData];
@@ -306,7 +364,7 @@
         REPhotoGroup *group = (REPhotoGroup *)[_ds objectAtIndex:section];
         return ceil([group.items count] / 4.0f);
     }
-    return [statuesArr count];
+    return [statusArray count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -317,56 +375,35 @@
         NSLog(@"photo...");
         return 80;
     }
-    NSInteger  row = indexPath.row;
-    
-    if (row >= [statuesArr count]) {
-        return 1;
+    CGFloat tmpHeight;
+    CGFloat forwordHeight;
+    CGFloat commentsHeight;
+    StatusInfo *tmpInfo = [statusArray objectAtIndex:indexPath.row];
+    tmpHeight = [StatusNewCell getJSHeight:tmpInfo.content jsViewWith:300.0];
+    //    NSLog(@"tmpHeight %f", tmpHeight);
+    if (tmpInfo.rePostDic != nil) {
+        NSDictionary *forwordDic = tmpInfo.rePostDic;
+        NSString *nickName = [forwordDic getStringValueForKey:@"user_name" defaultValue:@""];
+        forwordHeight = [StatusNewCell getJSHeight:[NSString stringWithFormat:@"@%@ %@", nickName, [forwordDic getStringValueForKey:@"text" defaultValue:@""]] jsViewWith:300.0];
+    } else {
+        forwordHeight = 0.0;
     }
-    
-    Status *status          = [statuesArr objectAtIndex:row];
-    Status *retwitterStatus = status.retweetedStatus;
-    NSString *url = status.retweetedStatus.thumbnailPic;
-    NSString *url2 = status.thumbnailPic;
-    
-    StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
-    [cell updateCellTextWith:status];
-    
-    CGFloat height = 0.0f;
-    
-    //有转发的博文
-    if (retwitterStatus && ![retwitterStatus isEqual:[NSNull null]])
-    {
-        height = [cell setTFHeightWithImage:NO
-                         haveRetwitterImage:url != nil && [url length] != 0 ? YES : NO Status:status];//计算cell的高度
+    NSInteger cCount = [tmpInfo.commentCount integerValue];
+    if (cCount == 0) {
+        commentsHeight = 0.0;
+    } else if (cCount == 1) {
+        commentsHeight = 35.0;
+    } else if (cCount == 2) {
+        commentsHeight = 60.0;
+    } else if (cCount >= 3) {
+        commentsHeight = 100.0;
     }
-    
-    //无转发的博文
-    else
-    {
-        height = [cell setTFHeightWithImage:url2 != nil && [url2 length] != 0 ? YES : NO
-                         haveRetwitterImage:NO Status:status];//计算cell的高度
+    NSString *hasImage = tmpInfo.originalPicUrl;
+    if (![hasImage isEqualToString:@"0"]) {
+        return 25 + tmpHeight + 50 + 30 + 330 + forwordHeight + commentsHeight;
+    } else {
+        return 25 + tmpHeight + 50 + 30 + forwordHeight + commentsHeight;
     }
-    //    [cell setCommentPosition:cell.frame.size.height];
-    return height;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return;
-    NSInteger  row = indexPath.row;
-    if (row >= [statuesArr count]) {
-        //        NSLog(@"didSelectRowAtIndexPath error ,index = %d,count = %d",row,[statuesArr count]);
-        return ;
-    }
-    
-    ZJTDetailStatusVC *detailVC = [[ZJTDetailStatusVC alloc] initWithNibName:@"ZJTDetailStatusVC" bundle:nil];
-    Status *status  = [statuesArr objectAtIndex:row];
-    detailVC.status = status;
-    
-    detailVC.avatarImage = status.user.avatarImage;
-    detailVC.contentImage = status.statusImage;
-    detailVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (void)handleSelection:(id)sender {
@@ -381,90 +418,25 @@
 
 - (void)viewDidUnload {
     [self setProfileHeaderView:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_HOMELINE object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_USERINFO object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_UNREAD_COUNT object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_TRANSLATION object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_FANS_LIST object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_FOLLOWER_LIST object:nil];
-    [defaultNotifCenter removeObserver:self name:FB_GET_PHOTO_LIST object:nil];
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_FAIL object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_FAKE_WEIBO object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_POST_SUCCESS object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"[levi]viewWillAppear...");
     [super viewWillAppear:animated];
-    if (shouldLoad)
-    {
-        shouldLoad = NO;
-        //        [manager getUserID];
-        //        [manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-        //        [[SHKActivityIndicator currentIndicator] displayActivity:@"正在载入..." inView:self.view];
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-}
-
--(void)getDataFromCD
-{
-    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"homePageMaxID"];
-    if (number) {
-        _maxID = number.longLongValue;
-    }
-    
-    dispatch_queue_t readQueue = dispatch_queue_create("read from db", NULL);
-    dispatch_async(readQueue, ^(void){
-        if (!statuesArr || statuesArr.count == 0) {
-            statuesArr = [[NSMutableArray alloc] initWithCapacity:70];
-            NSArray *arr = [[CoreDataManager getInstance] readStatusesFromCD];
-            if (arr && arr.count != 0) {
-                for (int i = 0; i < arr.count; i++)
-                {
-                    StatusCDItem *s = [arr objectAtIndex:i];
-                    Status *sts = [[Status alloc]init];
-                    [sts updataStatusFromStatusCDItem:s];
-                    if (i == 0) {
-                        sts.isRefresh = @"YES";
-                    }
-                    [statuesArr insertObject:sts atIndex:s.index.intValue];
-                }
-            }
-        }
-        [[CoreDataManager getInstance] cleanEntityRecords:@"StatusCDItem"];
-        [[CoreDataManager getInstance] cleanEntityRecords:@"UserCDItem"];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    });
-}
-
--(CGFloat)cellHeight:(NSString*)contentText with:(CGFloat)with
-{
-    //    UIFont * font=[UIFont  systemFontOfSize:15];
-    //    CGSize size=[contentText sizeWithFont:font constrainedToSize:CGSizeMake(with - kTextViewPadding, 300000.0f) lineBreakMode:kLineBreakMode];
-    //    CGFloat height = size.height + 44;
-    CGFloat height = [StatusCell getJSHeight:contentText jsViewWith:with];
-    return height;
-}
-
-- (id)cellForTableView:(UITableView *)tableView fromNib:(UINib *)nib {
-    static NSString *cellID = @"StatusCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
-        NSArray *nibObjects = [nib instantiateWithOwner:nil options:nil];
-        cell = [nibObjects objectAtIndex:0];
-    }
-    else {
-        [(LPBaseCell *)cell reset];
-    }
-    
-    return cell;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -514,323 +486,34 @@
         
         return cell;
     }
-    NSInteger  row = indexPath.row;
-    
-    //    if (row == 0 || row == [statuesArr count]) {
-    //        static NSString *CellIdentifier = @"BlankCell";
-    //        BlankCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //        if (cell == nil) {
-    //            cell = [[BlankCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    //        }
-    //        return cell;
-    //    }
-    
-    StatusCell *cell = [self cellForTableView:tableView fromNib:self.statusCellNib];
-    //    [cell setCellLayout];
-    
-    if (row >= [statuesArr count]) {
+    StatusInfo *tmpSI = [statusArray objectAtIndex:indexPath.row];
+    NSString *hasImage = tmpSI.originalPicUrl;
+    //    NSLog(@"has image %@", hasImage);
+    if (![hasImage isEqualToString:@"0"]) {
+        static NSString *CellIdentifier = @"StatusImageCell";
+        StatusNewImageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[StatusNewImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        cell.delegate = self;
+        [cell setCellValue:(StatusInfo*)[statusArray objectAtIndex:indexPath.row]];
+        [cell setSelectionStyle:UITableViewCellEditingStyleNone];
+        cell.indexPath = indexPath;
+        
+        return cell;
+    } else {
+        static NSString *CellIdentifier = @"StatusCell";
+        StatusNewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[StatusNewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        cell.delegate = self;
+        [cell setCellValue:(StatusInfo*)[statusArray objectAtIndex:indexPath.row]];
+        [cell setSelectionStyle:UITableViewCellEditingStyleNone];
+        cell.indexPath = indexPath;
+        
         return cell;
     }
-    
-    Status *status = [statuesArr objectAtIndex:row];
-    status.cellIndexPath = indexPath;
-    cell.delegate = self;
-    cell.cellIndexPath = indexPath;
-    [cell updateCellTextWith:status];
-    if (self.table.dragging == NO && self.table.decelerating == NO)
-    {
-        if (status.user.avatarImage == nil)
-        {
-            [[HHNetDataCacheManager getInstance] getDataWithURL:status.user.profileImageUrl withIndex:row];
-        }
-        
-        if (status.statusImage == nil)
-        {
-            [[HHNetDataCacheManager getInstance] getDataWithURL:status.thumbnailPic withIndex:row];
-            [[HHNetDataCacheManager getInstance] getDataWithURL:status.retweetedStatus.thumbnailPic withIndex:row];
-        }
-    }
-    cell.avatarImage.image = status.user.avatarImage;
-    //    cell.contentImage.image = status.statusImage;
-    cell.mainImageView.image = status.statusImage;
-    
-    //开始绘制第一个cell时，隐藏indecator.
-    if (isFirstCell) {
-        [[SHKActivityIndicator currentIndicator] hide];
-        //        [[ZJTStatusBarAlertWindow getInstance] hide];
-        isFirstCell = NO;
-    }
-    //    [cell setCommentPosition:cell.frame.size.height];
-    return cell;
-}
-
-//上拉
--(void)refresh
-{
-    if (currentView == FANS_PAGE || currentView == FOLLOW_PAGE) {
-        return;
-    }
-    //    [manager getHomeLine:-1 maxID:_maxID count:-1 page:_page baseApp:-1 feature:-1];
-    NSLog(@"[levi]refresh page %d", _page);
-    [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:_page PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    _shouldAppendTheDataArr = YES;
-}
-
--(void)appWillResign:(id)sender
-{
-    for (int i = 0; i < statuesArr.count; i++) {
-        NSLog(@"i = %d",i);
-        [[CoreDataManager getInstance] insertStatusesToCD:[statuesArr objectAtIndex:i] index:i isHomeLine:YES];
-    }
-}
-
--(void)didGetHomeLine:(NSNotification*)sender
-{
-    [self stopLoading];
-    [self doneLoadingTableViewData];
-    
-    if (currentView == HOME_PAGE) {
-        if (statuesArr == nil || _shouldAppendTheDataArr == NO || _maxID < 0) {
-            self.statuesArr = sender.object;
-            Status *sts = [statuesArr objectAtIndex:0];
-            _maxID = sts.statusId;
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLongLong:_maxID] forKey:@"homePageMaxID"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            _page = 1;
-        }
-        else {
-            [statuesArr addObjectsFromArray:sender.object];
-        }
-        _page++;
-        refreshFooterView.hidden = NO;
-        [self.tableView reloadData];
-        [[SHKActivityIndicator currentIndicator] hide];
-        [self refreshVisibleCellsImages];
-    }
-}
-
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
-    NSLog(@"[levi] didtrigger...");
-    if (currentView == FANS_PAGE || currentView == FOLLOW_PAGE) {
-        return;
-    }
-    _reloading = YES;
-    //	[manager getHomeLine:-1 maxID:-1 count:-1 page:-1 baseApp:-1 feature:-1];
-    [manager FBGetHomeline:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    _shouldAppendTheDataArr = NO;
-}
-
--(void)didGetUnreadCount:(NSNotification*)sender
-{
-    NSDictionary *dic = sender.object;
-    NSNumber *num = [dic objectForKey:@"status"];
-    
-    NSLog(@"num = %@",num);
-    if ([num intValue] == 0) {
-        return;
-    }
-    
-    [[ZJTStatusBarAlertWindow getInstance] showWithString:[NSString stringWithFormat:@"有%@条新微博",num]];
-    [[ZJTStatusBarAlertWindow getInstance] performSelector:@selector(hide) withObject:nil afterDelay:10];
-}
-
-
--(void)cellLikerDidTaped:(StatusCell *)theCell {
-    if (likeVC == nil) {
-        likeVC = [[LikersViewController alloc] init];
-    } else {
-        [likeVC setIsRefresh:YES];
-    }
-    Status *tmpS = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
-    likeVC.cellContentId = [NSString stringWithFormat:@"%lld", tmpS.statusId];
-    tittleLabel.text = @"Likers";
-    backButton.hidden = NO;
-    [self.navigationController pushViewController:likeVC animated:YES];
-}
-
--(void)cellCommentDidTaped:(StatusCell *)theCell {
-    if (commentVC == nil) {
-        commentVC = [[CommentViewController alloc] init];
-    } else {
-        [commentVC setIsRefresh:YES];
-    }
-    Status *tmpS = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
-    commentVC.cellContentId = [NSString stringWithFormat:@"%lld", tmpS.statusId];
-    tittleLabel.text = @"Comments";
-    backButton.hidden = NO;
-    [self.navigationController pushViewController:commentVC animated:YES];
-}
-
--(void)cellShowUserLocationTaped:(StatusCell *)theCell {
-    if (KAppDelegate.commMap == nil) {
-        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
-    }
-    CLLocationCoordinate2D userCoordinate;
-    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
-    userCoordinate.latitude = theCell.tmpPoint.x;
-    userCoordinate.longitude = theCell.tmpPoint.y;
-    [KAppDelegate.commMap setUserCoordinate:userCoordinate];
-    [self presentModalViewController:KAppDelegate.commMap animated:YES];
-}
-
--(void)cellPlayTranslateVoiceTaped:(StatusCell *)theCell {
-    if (self.avPlay.playing) {
-        [self.avPlay stop];
-        Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
-        tmpStatus.isPlayTransVoice = NO;
-        [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpStatusCell.cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    [manager FBGetTranslateVoiceWithBody:theCell.contentTF.text Language:theCell.languageStr PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    tmpStatusCell = theCell;
-    Status *tmpStatus = [statuesArr objectAtIndex:theCell.cellIndexPath.row];
-    tmpStatus.isPlayTransVoice = YES;
-    [statuesArr replaceObjectAtIndex:theCell.cellIndexPath.row withObject:tmpStatus];
-    [theCell.playTranslateVoiceImageView startAnimating];
-}
-
--(void)onRequestVoiceResult:(NSNotification*)notification {
-    NSString *voiceUrl = notification.object;
-    //    NSLog(@"[levi] voice url %@",voiceUrl);
-    NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
-    self.avPlay = player;
-    self.avPlay.delegate = self;
-    [self.avPlay play];
-}
-
--(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    NSLog(@"[levi] play completed...");
-    Status *tmpStatus = [statuesArr objectAtIndex:tmpStatusCell.cellIndexPath.row];
-    tmpStatus.isPlayTransVoice = NO;
-    [statuesArr replaceObjectAtIndex:tmpStatusCell.cellIndexPath.row withObject:tmpStatus];
-    //    [tmpStatusCell.playTranslateVoiceImageView stopAnimating];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpStatusCell.cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
--(void)cellPlaySoundTaped:(StatusCell *)theCell {
-    NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:theCell.soundPath]];
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
-    self.avPlay = player;
-    [theCell.voiceImage startAnimating];
-    [self.avPlay play];
-}
-
--(void)cellLanguageSelectTaped:(StatusCell *)theCell {
-    NSLog(@"select language...");
-    tmpStatusCellL = theCell;
-    [self languageMenuAction];
-}
-
-- (void)languageMenuAction {
-    NSArray *menuItems =
-    @[
-    
-    [KxMenuItem menuItem:@"中文"
-                   image:[UIImage imageNamed:@"icon_chat_flag_cn"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"English"
-                   image:[UIImage imageNamed:@"icon_chat_flag_e"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"日本語"
-                   image:[UIImage imageNamed:@"icon_chat_flag_j"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"한국어"
-                   image:[UIImage imageNamed:@"icon_chat_flag_k"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"España"
-                   image:[UIImage imageNamed:@"icon_chat_flag_x"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"Français"
-                   image:[UIImage imageNamed:@"icon_chat_flag_f"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"Deutsch"
-                   image:[UIImage imageNamed:@"icon_chat_flag_d"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    
-    [KxMenuItem menuItem:@"русский"
-                   image:[UIImage imageNamed:@"icon_chat_flag_p"]
-                  target:self
-                  action:@selector(pushMenuItem:)],
-    ];
-    
-    [KxMenu showMenuInView:self.navigationController.view
-                  fromRect:CGRectMake(250, 24, 20, 10)
-                 menuItems:menuItems];
-}
-
-- (void) pushMenuItem:(id)sender
-{
-    KxMenuItem *tmpKxM = sender;
-    NSLog(@"tittle %@", tmpKxM.title);
-    if ([tmpKxM.title isEqualToString:@"中文"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
-        tmpStatusCellL.languageStr = @"zh_CN";
-    } else if ([tmpKxM.title isEqualToString:@"English"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
-        tmpStatusCellL.languageStr = @"en_US";
-    } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
-        tmpStatusCellL.languageStr = @"ja_JP";
-    } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
-        tmpStatusCellL.languageStr = @"ko_KR";
-    } else if ([tmpKxM.title isEqualToString:@"España"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
-        tmpStatusCellL.languageStr = @"es_ES";
-    } else if ([tmpKxM.title isEqualToString:@"Français"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
-        tmpStatusCellL.languageStr = @"fr_FR";
-    } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
-        tmpStatusCellL.languageStr = @"";
-    } else if ([tmpKxM.title isEqualToString:@"русский"]) {
-        [tmpStatusCellL.languageTypeView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
-        tmpStatusCellL.languageStr = @"ru_RU";
-    }
-    [self cellExpandForTranslate:tmpStatusCellL Height:1];
-}
-
--(void)onRequestResult:(NSNotification*)notification {
-    NSLog(@"[levi] translate result %@", notification.object);
-    NSString *transResult = notification.object;
-    NSLog(@"[nnn] %@", tmpStatusCellL.contentTF);
-    [SVProgressHUD dismiss];
-    CGFloat transHeight = [StatusCell getJSHeight:transResult jsViewWith:tmpStatusCellL.contentTF.frame.size.width];
-    for (int i = tmpStatusCellL.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
-        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        tmpCell.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y + transHeight, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height);
-        //        [tmpCell adjustMainImagePosition:100];
-    }
-    tmpStatusCellL.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height + transHeight);
-    [tmpStatusCellL showTranslateTV:100 Content:transResult];
-}
-
--(void)cellExpandForTranslate:(StatusCell *)theCell Height:(NSInteger)height{
-    tmpStatusCellL = theCell;
-    NSLog(@"[levi] tap have image icon... %d", theCell.cellIndexPath.row);
-    [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
-    [manager FBGetTranslateWithBody:theCell.contentTF.text Language:theCell.languageStr PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-}
-
--(void)cellMoreDoTaped:(StatusCell *)theCell {
-    CustomActionSheet *as = [[CustomActionSheet alloc] init];
-    [as addButtonWithTitle:@"举报"];
-    [as addButtonWithTitle:@"删除"];
-    [as showInView:self.view];
 }
 
 - (void)didReceiveMemoryWarning
@@ -838,68 +521,9 @@
     [super didReceiveMemoryWarning];
 }
 
-/**
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    // Configure the cell...
-    
-    return cell;
-}
-**/
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (currentView == HOME_PAGE) {
-        if (scrollView.contentOffset.y < 200) {
-            [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
-        }
-        else
-            [super scrollViewDidScroll:scrollView];
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    if (currentView == HOME_PAGE) {
-        [self refreshVisibleCellsImages];
-    }
-}
-
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
     //    [self refreshVisibleCellsImages];
-}
-
-//Photo
-- (NSMutableArray *)prepareDatasource
-{
-    NSMutableArray *datasource = [[NSMutableArray alloc] init];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage6.s3.amazonaws.com/5acf0f48d5ac11e1a3461231381315e1_5.jpg"
-                                               date:[self dateFromString:@"05/01/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage0.s3.amazonaws.com/622c57d4ced411e1ae7122000a1e86bb_5.jpg"
-                                               date:[self dateFromString:@"05/02/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage7.s3.amazonaws.com/1a8f3db4b87811e1ab011231381052c0_5.jpg"
-                                               date:[self dateFromString:@"05/03/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage6.s3.amazonaws.com/c0039594b74011e181bd12313817987b_5.jpg"
-                                               date:[self dateFromString:@"05/25/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage10.s3.amazonaws.com/b9e61198b69411e180d51231380fcd7e_5.jpg"
-                                               date:[self dateFromString:@"05/25/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage3.s3.amazonaws.com/334b13f4b5ae11e1abd612313810100a_5.jpg"
-                                               date:[self dateFromString:@"05/25/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage2.s3.amazonaws.com/9ab3ff16b59911e1b00112313800c5e4_5.jpg"
-                                               date:[self dateFromString:@"05/26/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage10.s3.amazonaws.com/e02206c8b59511e1be6a12313820455d_5.jpg"
-                                               date:[self dateFromString:@"06/25/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage9.s3.amazonaws.com/3b9c9182b53a11e1be6a12313820455d_5.jpg"
-                                               date:[self dateFromString:@"06/23/2012"]]];
-    [datasource addObject:[Photo photoWithURLString:@"http://distilleryimage6.s3.amazonaws.com/93f1fab2b4b711e192e91231381b3d7a_5.jpg"
-                                               date:[self dateFromString:@"07/25/2012"]]];
-    return datasource;
 }
 
 - (NSDate *)dateFromString:(NSString *)string
@@ -1012,5 +636,481 @@
     } else {
         return 0;
     }
+}
+
+
+-(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"cell like tap");
+    NSInteger isLiked = [theCell.statusInfo.liked integerValue];
+    if (isLiked == 1) {
+        [manager FBAddLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    } else {
+        [manager FBUnLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    }
+}
+
+-(void)imageCellAddLikeDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image cell like tap");
+    NSInteger isLiked = [theCell.statusInfo.liked integerValue];
+    if (isLiked == 1) {
+        [manager FBAddLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    } else {
+        [manager FBUnLikeWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:theCell.statusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    }
+}
+
+-(void)cellMoreDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"cell more tap");
+    tmpIndexPath = theCell.indexPath;
+    _actionSheet = [[CustomActionSheet alloc] init];
+    _actionSheet.delegate = self;
+    [_actionSheet addButtonWithTitle:@"Favorite"];
+    [_actionSheet addButtonWithTitle:@"Report"];
+    if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+        [_actionSheet addButtonWithTitle:@"Delete"];
+    }
+    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet showInView:self.view];
+}
+
+-(void)imageCellMoreDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image cell more tap");
+    tmpIndexPath = theCell.indexPath;
+    _actionSheet = [[CustomActionSheet alloc] init];
+    _actionSheet.delegate = self;
+    [_actionSheet addButtonWithTitle:@"Favorite"];
+    [_actionSheet addButtonWithTitle:@"Report"];
+    if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+        [_actionSheet addButtonWithTitle:@"Delete"];
+    }
+    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet showInView:self.view];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    switch (buttonIndex) {
+        case 0:
+            [manager FBAddFavouriteWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+            break;
+        case 1:
+            break;
+        case 2:
+            if (![[NSString stringWithFormat:@"%@",tmpStatusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
+                return;
+            }
+            [statusArray removeObjectAtIndex:tmpIndexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [manager FBDeleteHomelineWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)cellLikerDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"liker tap");
+    if (likeVC == nil) {
+        likeVC = [[LikersViewController alloc] init];
+    } else {
+        [likeVC setIsRefresh:YES];
+    }
+    likeVC.cellContentId = theCell.statusInfo.contentId;
+    tittleLabel.text = @"Likers";
+    backButton.hidden = NO;
+    [self.navigationController pushViewController:likeVC animated:YES];
+}
+
+-(void)imageCellLikerDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image liker tap");
+    if (likeVC == nil) {
+        likeVC = [[LikersViewController alloc] init];
+    } else {
+        [likeVC setIsRefresh:YES];
+    }
+    likeVC.cellContentId = theCell.statusInfo.contentId;
+    tittleLabel.text = @"Likers";
+    backButton.hidden = NO;
+    [self.navigationController pushViewController:likeVC animated:YES];
+}
+
+-(void)cellCommentDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"comment tap");
+    if (commentVC == nil) {
+        commentVC = [[CommentViewController alloc] init];
+    } else {
+        [commentVC setIsRefresh:YES];
+    }
+    commentVC.cellContentId = theCell.statusInfo.contentId;
+    tittleLabel.text = @"Comments";
+    backButton.hidden = NO;
+    [self.navigationController pushViewController:commentVC animated:YES];
+}
+
+-(void)imageCellCommentDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image commnet tap");
+    if (commentVC == nil) {
+        commentVC = [[CommentViewController alloc] init];
+    } else {
+        [commentVC setIsRefresh:YES];
+    }
+    commentVC.cellContentId = theCell.statusInfo.contentId;
+    tittleLabel.text = @"Comments";
+    backButton.hidden = NO;
+    [self.navigationController pushViewController:commentVC animated:YES];
+}
+
+-(void)cellDistanceDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"distance tap.");
+    if (KAppDelegate.commMap == nil) {
+        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
+    }
+    CLLocationCoordinate2D userCoordinate;
+    //    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
+    NSLog(@"distance %@", theCell.statusInfo.geo);
+    if (theCell.statusInfo.geo != nil) {
+        NSDictionary *tmpDistance = theCell.statusInfo.geo;
+        userCoordinate.longitude = [[tmpDistance getStringValueForKey:@"longitude" defaultValue:@"0.0"] floatValue];
+        userCoordinate.latitude = [[tmpDistance getStringValueForKey:@"latitude" defaultValue:@"0.0"] floatValue];
+    } else {
+        userCoordinate.latitude = 0.0;
+        userCoordinate.longitude = 0.0;
+    }
+    [KAppDelegate.commMap setUserCoordinate:userCoordinate];
+    [self presentModalViewController:KAppDelegate.commMap animated:YES];
+}
+
+-(void)imageCellDistanceDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image distance tap");
+    if (KAppDelegate.commMap == nil) {
+        KAppDelegate.commMap = [[UserLocationViewController alloc] init];
+    }
+    CLLocationCoordinate2D userCoordinate;
+    //    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
+    NSLog(@"distance %@", theCell.statusInfo.geo);
+    if (theCell.statusInfo.geo != nil) {
+        NSDictionary *tmpDistance = theCell.statusInfo.geo;
+        userCoordinate.longitude = [[tmpDistance getStringValueForKey:@"longgitude" defaultValue:@"0.0"] floatValue];
+        userCoordinate.latitude = [[tmpDistance getStringValueForKey:@"latitude" defaultValue:@"0.0"] floatValue];
+    } else {
+        userCoordinate.latitude = 0.0;
+        userCoordinate.longitude = 0.0;
+    }
+    [KAppDelegate.commMap setUserCoordinate:userCoordinate];
+    [self presentModalViewController:KAppDelegate.commMap animated:YES];
+}
+
+-(void)cellTransVoiceDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"trans voice tap");
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.playing) {
+        [_avPlay stop];
+        if ([[self.tableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+            NSLog(@"statusNewCell");
+            StatusNewCell *tmpCell = (StatusNewCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        } else {
+            NSLog(@"statusNewImageCell");
+            StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        }
+        return;
+    }
+    [manager FBGetTranslateVoiceWithBody:theCell.statusInfo.content Language:theCell.statusInfo.postLanguage PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)imageCellTransVoiceDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image trans voice tap");
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.playing) {
+        [_avPlay stop];
+        if ([[self.tableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+            NSLog(@"statusNewCell");
+            StatusNewCell *tmpCell = (StatusNewCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        } else {
+            NSLog(@"statusNewImageCell");
+            StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+            [tmpCell.transVoiceImageView stopAnimating];
+        }
+        return;
+    }
+    [manager FBGetTranslateVoiceWithBody:theCell.statusInfo.content Language:theCell.statusInfo.postLanguage PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    NSString *volumeA = [NSString stringWithFormat:@"%0.1f", player.volume];
+    if ([volumeA isEqualToString:@"1.0"]) {
+        [self stopVoiceAnimating];
+    } else if ([volumeA isEqualToString:@"0.9"]) {
+        [self stopSoundAnimating];
+    }
+}
+
+-(void)stopVoiceAnimating {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    tmpStatusInfo.isPlayingVoice = NO;
+    [statusArray replaceObjectAtIndex:tmpIndexPath.row withObject:tmpStatusInfo];
+    if ([[self.tableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+        NSLog(@"statusNewCell");
+        StatusNewCell *tmpCell = (StatusNewCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.transVoiceImageView stopAnimating];
+    } else {
+        NSLog(@"statusNewImageCell");
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.transVoiceImageView stopAnimating];
+    }
+}
+
+-(void)stopSoundAnimating {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    tmpStatusInfo.isPlayingSound = NO;
+    [statusArray replaceObjectAtIndex:tmpIndexPath.row withObject:tmpStatusInfo];
+    StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+    [tmpCell.voiceImage stopAnimating];
+}
+
+-(void)onRequestVoiceResult:(NSNotification*)notification {
+    NSString *voiceUrl = notification.object;
+    //    NSLog(@"[levi] voice url %@",voiceUrl);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+            [player setVolume:1.0];
+            _avPlay = player;
+            _avPlay.delegate = self;
+            [_avPlay play];
+        });
+    });
+}
+
+-(void)cellLanguageDidTaped:(StatusNewCell *)theCell {
+    NSLog(@"language select...");
+    tmpIndexPath = theCell.indexPath;
+    [self languageMenuAction];
+}
+
+-(void)imageCellLanguageDidTaped:(StatusNewImageCell *)theCell {
+    NSLog(@"image language select...");
+    tmpIndexPath = theCell.indexPath;
+    [self languageMenuAction];
+}
+
+- (void)languageMenuAction {
+    NSArray *menuItems =
+    @[
+      
+      [KxMenuItem menuItem:@"中文"
+                     image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"English"
+                     image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"日本語"
+                     image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"한국어"
+                     image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"España"
+                     image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Français"
+                     image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Deutsch"
+                     image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"русский"
+                     image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      ];
+    
+    [KxMenu showMenuInView:self.navigationController.view
+                  fromRect:CGRectMake(250, 24, 20, 10)
+                 menuItems:menuItems];
+}
+
+- (void) pushMenuItem:(id)sender
+{
+    KxMenuItem *tmpKxM = sender;
+    NSLog(@"tittle %@", tmpKxM.title);
+    if ([[self.tableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+        StatusNewCell *tmpCell = (StatusNewCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        if ([tmpKxM.title isEqualToString:@"中文"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+            tmpCell.statusInfo.postLanguage = @"zh_CN";
+        } else if ([tmpKxM.title isEqualToString:@"English"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+            tmpCell.statusInfo.postLanguage = @"en_US";
+        } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+            tmpCell.statusInfo.postLanguage = @"ja_JP";
+        } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+            tmpCell.statusInfo.postLanguage = @"ko_KR";
+        } else if ([tmpKxM.title isEqualToString:@"España"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+            tmpCell.statusInfo.postLanguage = @"es_ES";
+        } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+            tmpCell.statusInfo.postLanguage = @"fr_FR";
+        } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
+            tmpCell.statusInfo.postLanguage = @"";
+        } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+            tmpCell.statusInfo.postLanguage = @"ru_RU";
+        }
+        [self getTranslate:tmpCell.statusInfo.content Language:tmpCell.statusInfo.postLanguage];
+    } else {
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        if ([tmpKxM.title isEqualToString:@"中文"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+            tmpCell.statusInfo.postLanguage = @"zh_CN";
+        } else if ([tmpKxM.title isEqualToString:@"English"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+            tmpCell.statusInfo.postLanguage = @"en_US";
+        } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+            tmpCell.statusInfo.postLanguage = @"ja_JP";
+        } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+            tmpCell.statusInfo.postLanguage = @"ko_KR";
+        } else if ([tmpKxM.title isEqualToString:@"España"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+            tmpCell.statusInfo.postLanguage = @"es_ES";
+        } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+            tmpCell.statusInfo.postLanguage = @"fr_FR";
+        } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
+            tmpCell.statusInfo.postLanguage = @"";
+        } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+            [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+            tmpCell.statusInfo.postLanguage = @"ru_RU";
+        }
+        [self getTranslate:tmpCell.statusInfo.content Language:tmpCell.statusInfo.postLanguage];
+    }
+}
+
+-(void)getTranslate:(NSString *)content Language:(NSString*)language{
+    [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
+    [manager FBGetTranslateWithBody:content Language:language PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)onTranslateFailResult:(NSNotification*)notification {
+    [SVProgressHUD dismiss];
+}
+
+-(void)onTranslateResult:(NSNotification*)notification {
+    NSLog(@"[levi] translate result %@", notification.object);
+    NSString *transResult = notification.object;
+    CGFloat transHeght = [StatusNewCell getJSHeight:transResult jsViewWith:300];
+    for (int i = tmpIndexPath.row + 1; i < [statusArray count]; i ++) {
+        if ([[self.tableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+            StatusNewCell *tmpCell = (StatusNewCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + transHeght, tmpCell.frame.size.width, tmpCell.frame.size.height);
+        } else {
+            StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            tmpCell.frame = CGRectMake(tmpCell.frame.origin.x, tmpCell.frame.origin.y + transHeght, tmpCell.frame.size.width, tmpCell.frame.size.height);
+        }
+    }
+    if ([[self.tableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
+        StatusNewCell *tmpCell = (StatusNewCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell showTranslateTextView:transResult StatusInfo:[statusArray objectAtIndex:tmpIndexPath.row]];
+        CGRect frame = tmpCell.frame;
+        frame.size.height += transHeght + 10;
+        tmpCell.frame = frame;
+    } else {
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell showTranslateTextView:transResult StatusInfo:[statusArray objectAtIndex:tmpIndexPath.row]];
+        CGRect frame = tmpCell.frame;
+        frame.size.height += transHeght + 10;
+        tmpCell.frame = frame;
+    }
+    [SVProgressHUD dismiss];
+    //    CGFloat transHeight = [StatusCell getJSHeight:transResult jsViewWith:tmpStatusCellL.contentTF.frame.size.width];
+    //    for (int i = tmpStatusCellL.cellIndexPath.row + 1; i < [statuesArr count]; i ++) {
+    //        StatusCell *tmpCell = (StatusCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+    //        tmpCell.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y + transHeight, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height);
+    //        //        [tmpCell adjustMainImagePosition:100];
+    //    }
+    //    tmpStatusCellL.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height + transHeight);
+    //    [tmpStatusCellL showTranslateTV:100 Content:transResult];
+}
+
+- (void)insertFakeWeiobo:(NSNotification*)notfication {
+    NSLog(@"inser Fake weibo");
+    StatusInfo *tmpStatus = (StatusInfo*)notfication.object;
+    NSDictionary *tmpDic = notfication.userInfo;
+    [statusArray insertObject:tmpStatus atIndex:0];
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    [self performSelector:@selector(submitFakeWeibo:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:tmpStatus,@"status", tmpDic, @"userinfo", nil] afterDelay:1];
+}
+
+-(void)submitFakeWeibo:(NSDictionary *)dictionary {
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    StatusInfo *status = (StatusInfo*)[dictionary objectForKey:@"status"];
+    NSDictionary *userInfo = [dictionary objectForKey:@"userinfo"];
+    NSString *postFileType = @"0";
+    NSData *mediaData = nil;
+    NSData *soundData = nil;
+    NSString *latitude = @"0";
+    NSString *longitude = @"0";
+    NSLog(@"userinfo %@", userInfo);
+    if ([[userInfo objectForKey:@"hasPhoto"] integerValue] == 1) {
+        postFileType = @"1";
+        mediaData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"PhotoPath"]];
+    }
+    if ([userInfo objectForKey:@"hasVoice"]) {
+        soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
+    }
+    if ([userInfo objectForKey:@"hasLocation"]) {
+        latitude = [userInfo getStringValueForKey:@"latitude" defaultValue:@"0"];
+        longitude = [userInfo getStringValueForKey:@"longitude" defaultValue:@"0"];
+    }
+    NSLog(@"%@ %@", latitude,longitude);
+    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.content AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:latitude Longgitude:longitude FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)imageCellSoundDidTaped:(StatusNewImageCell *)theCell {
+    NSDictionary *tmp = theCell.statusInfo.soundDic;
+    NSLog(@"sound path %@", [tmp objectForKey:@"soundPath"]);
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.isPlaying) {
+        [_avPlay stop];
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.voiceImage stopAnimating];
+        return;
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[tmp objectForKey:@"soundPath"]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+            [player setVolume:0.9];
+            _avPlay = player;
+            _avPlay.delegate = self;
+            [_avPlay play];
+        });
+    });
 }
 @end
