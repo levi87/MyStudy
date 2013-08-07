@@ -26,5 +26,6 @@
 @synthesize contentId = _contentId;
 @synthesize isPlayingVoice = _isPlayingVoice;
 @synthesize isPlayingSound = _isPlayingSound;
+@synthesize isFakeWeibo = _isFakeWeibo;
 
 @end

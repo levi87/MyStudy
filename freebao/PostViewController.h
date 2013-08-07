@@ -15,6 +15,7 @@
 #import "Status.h"
 #import "WeiBoHttpManager.h"
 #import "WeiBoMessageManager.h"
+#import "StatusInfo.h"
 
 @class WeiBoMessageManager;
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,MKMapViewDelegate,CLLocationManagerDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {

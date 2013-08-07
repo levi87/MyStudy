@@ -19,6 +19,8 @@
 
 #define HIDE_KEYBOARD @"fb_hide_keyboard"
 
+#define FB_FAKE_WEIBO @"fb_fake_weibo"
+
 @interface HomePageNewViewController ()
 
 @end
@@ -58,6 +60,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateResult:)       name:FB_GET_TRANSLATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
@@ -239,6 +242,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_FAIL object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_FAKE_WEIBO object:nil];
 }
 
 -(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
@@ -612,5 +616,34 @@
         }
         [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:currentPage PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     }
+}
+
+- (void)insertFakeWeiobo:(NSNotification*)notfication {
+    NSLog(@"inser Fake weibo");
+    StatusInfo *tmpStatus = (StatusInfo*)notfication.object;
+//    NSDictionary *tmpDic = notfication.userInfo;
+    [statusArray insertObject:tmpStatus atIndex:0];
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+//    [self performSelector:@selector(submitFakeWeibo:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:tmpStatus,@"status", tmpDic, @"userinfo", nil] afterDelay:1];
+}
+
+-(void)submitFakeWeibo:(NSDictionary *)dictionary {
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    Status *status = (Status*)[dictionary objectForKey:@"status"];
+    NSDictionary *userInfo = [dictionary objectForKey:@"userinfo"];
+    NSString *postFileType = @"0";
+    NSData *mediaData = nil;
+    NSData *soundData = nil;
+    NSLog(@"userinfo %@", userInfo);
+    if ([[userInfo objectForKey:@"hasPhoto"] integerValue] == 1) {
+        postFileType = @"1";
+        mediaData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"PhotoPath"]];
+    }
+    if ([userInfo objectForKey:@"hasVoice"]) {
+        soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
+    }
+    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.text AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:@"0" Longgitude:@"0" FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 @end

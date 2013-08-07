@@ -238,7 +238,7 @@
     [requestQueue addOperation:item];
 }
 
-- (void)didFreebaoAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId {
+- (void)didFreebaoAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId VoiceData:(NSData *)voiceData{
     NSURL *url = [NSURL URLWithString:kAddCommentUrl];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
     
@@ -247,6 +247,9 @@
     [item setPostValue:content    forKey:@"comment.commentBody"];
     [item setPostValue:contentId forKey:@"comment.contentId"];
     [item setPostValue:aCommentId forKey:@"comment.replyId"];
+    if (voiceData != nil) {
+        [item setData:voiceData forKey:@"soundFile"];
+    }
     
     [self setPostUserInfo:item withRequestType:FreebaoAddComment];
     [requestQueue addOperation:item];
@@ -466,6 +469,18 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:Kdeleatecomment];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"comment.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:commentId     forKey:@"comment.commentId"];;
+    
+    [self setPostUserInfo:item withRequestType:FreebaoDeleteComment];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -605,6 +620,7 @@
             for (NSInteger index=0; index<[contents count]; index++) {
                 NSDictionary *tmpDic = [contents objectAtIndex:index];
                 StatusInfo *statusInfo = [[StatusInfo alloc] init];
+                statusInfo.isFakeWeibo = NO;
                 statusInfo.originalPicUrl = [tmpDic getStringValueForKey:@"original_pic" defaultValue:@"0"];
                 statusInfo.commentCount = [tmpDic getStringValueForKey:@"comment_count" defaultValue:@"0"];
                 statusInfo.contentId = [tmpDic getStringValueForKey:@"contentId" defaultValue:@"0"];
@@ -941,6 +957,16 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_UPLOAD_PHOTO_RERESH object:nil];
         } else {
             NSLog(@"[levi] update person headImage failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoDeleteComment) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] delete comment dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] delete comment Success...");
+        } else {
+            NSLog(@"[levi] delete comment failed...");
         }
         return;
     }

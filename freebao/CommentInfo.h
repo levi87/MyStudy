@@ -18,6 +18,8 @@
     NSString *_commentId;
     NSString *_commentDate;
     NSString *_commentUserId;
+    BOOL _isPlayingVoice;
+    BOOL _isPlayingSound;
 }
 
 @property (nonatomic, retain) NSString *nickName;
@@ -29,4 +31,6 @@
 @property (nonatomic, retain) NSString *commentId;
 @property (nonatomic, retain) NSString *commentDate;
 @property (nonatomic, retain) NSString *commentUserId;
+@property (nonatomic) BOOL isPlayingVoice;
+@property (nonatomic) BOOL isPlayingSound;
 @end

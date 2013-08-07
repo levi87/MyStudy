@@ -55,6 +55,7 @@
         tmpInfo.commentDate = [tmpDic objectForKey:@"historyInfo"];
         tmpInfo.voiceUrl = [tmpDic getStringValueForKey:@"soundPath" defaultValue:@"0"];
         tmpInfo.voiceLength = [tmpDic getStringValueForKey:@"soundTime" defaultValue:@"0"];
+        tmpInfo.languageType = [tmpDic getStringValueForKey:@"language" defaultValue:@""];
         NSLog(@"voiceUrl %@", tmpInfo.voiceUrl);
         [commentsArray addObject:tmpInfo];
         [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
@@ -88,6 +89,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGetComments:) name:FB_GET_COMMENT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAddComments:) name:FB_ADD_COMMENT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:COMMENT_VOICE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] init];
@@ -95,12 +97,12 @@
     [self.commentTableView setTableHeaderView:headerView];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"selected row %d", indexPath.row);
-    CommentInfo *tmpInfo = [commentsArray objectAtIndex:indexPath.row];
-    bar.textView.text = [NSString stringWithFormat:@"@%@ ", tmpInfo.nickName];
-    [bar.textView becomeFirstResponder];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"selected row %d", indexPath.row);
+//    CommentInfo *tmpInfo = [commentsArray objectAtIndex:indexPath.row];
+//    bar.textView.text = [NSString stringWithFormat:@"@%@ ", tmpInfo.nickName];
+//    [bar.textView becomeFirstResponder];
+//}
 
 - (void)clearCache {
     //    [[EGOCache currentCache] clearCache];
@@ -149,6 +151,7 @@
     [cell setCellValue:(CommentInfo*)[commentsArray objectAtIndex:indexPath.row]];
     [cell setSelectionStyle:UITableViewCellEditingStyleNone];
     cell.indexPath = indexPath;
+    cell.delegate = self;
     [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     return cell;
@@ -159,13 +162,17 @@
     NSString *comentUserId = tmpInfo.commentUserId;
     NSLog(@"comment %@  fuser %@", comentUserId, [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]);
     if ([[NSString stringWithFormat:@"%@",comentUserId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-        return NO;
+        return YES;
     }
-    return YES;
+    return NO;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"comment...");
+    NSLog(@"comment...size %d", [commentsArray count]);
+    NSString *commentId = [(CommentInfo*)[commentsArray objectAtIndex:indexPath.row] commentId];
+    [manager FBDeleteMyCommentWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] CommentId:commentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [commentsArray removeObjectAtIndex:indexPath.row];
+    [self.commentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -173,6 +180,9 @@
     CommentInfo *tmpInfo = [commentsArray objectAtIndex:indexPath.row];
     tmpHeight = [CommentsCell getJSHeight:tmpInfo.content jsViewWith:230.0];
     NSLog(@"tmpHeight %f", tmpHeight);
+    if (![tmpInfo.voiceUrl isEqualToString:@"0"]) {
+        tmpHeight += 30;
+    }
     return 23 + tmpHeight + 25;
 }
 
@@ -253,7 +263,7 @@
     [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
     [commentsArray insertObject:tmpInfo atIndex:0];
     [self.commentTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
-    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:inputText UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@""];
+    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:inputText UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@"" VoiceData:nil];
 }
 
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer {
@@ -295,6 +305,7 @@
             }
             if (cTime > 2) {//如果录制时间<2 不发送
                 NSLog(@"send voice...");
+                [self sendVoiceAction];
             }else {
                 NSLog(@"delete voice...");
                 //删除记录的文件
@@ -303,7 +314,6 @@
             }
             [recorder stop];
             [recordtTimer invalidate];
-            [self sendVoiceAction];
         }
             break;
         default:
@@ -313,6 +323,16 @@
 
 -(void)sendVoiceAction {
     NSLog(@"send voice comment...");
+    CommentInfo *tmpInfo = [[CommentInfo alloc] init];
+    tmpInfo.nickName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NICK_NAME];
+    tmpInfo.content = @"";
+    tmpInfo.commentDate = @"just now";
+    tmpInfo.voiceLength = voiceRecordLength;
+    tmpInfo.voiceUrl = tmpVoicePath;
+    [headPhotos insertObject:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH] atIndex:0];
+    [commentsArray insertObject:tmpInfo atIndex:0];
+    [self.commentTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    [manager FBAddAddWeiboCommentWithContentId:_cellContentId CommentContent:@"" UserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID] CommentId:@"" VoiceData:[NSData dataWithContentsOfFile:tmpVoicePath]];
 }
 
 - (void)detectionVoice
@@ -413,5 +433,135 @@
 //    data.isPlayAnimation = NO;
 //    [bubbleData replaceObjectAtIndex:tmpIndexP.row - 1 withObject:data];
 //    [self.commentTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexP] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+-(void)cellTransVoiceDidTaped:(CommentsCell *)theCell {
+    NSLog(@"play trans Voice...");
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.playing) {
+        [_avPlay stop];
+        CommentsCell *tmpCell = (CommentsCell*)[self.commentTableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.transVoiceImageView stopAnimating];
+        return;
+    }
+    [manager FBGetTranslateVoiceWithBody:theCell.commentInfo.content Language:theCell.commentInfo.languageType PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)onRequestVoiceResult:(NSNotification*)notification {
+    NSString *voiceUrl = notification.object;
+    //    NSLog(@"[levi] voice url %@",voiceUrl);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+            _avPlay = player;
+            _avPlay.delegate = self;
+            [_avPlay play];
+        });
+    });
+}
+
+-(void)cellLanguageDidTaped:(CommentsCell *)theCell {
+    NSLog(@"select language....sss");
+    tmpIndexPath = theCell.indexPath;
+    [self languageMenuAction];
+}
+
+- (void)languageMenuAction {
+    NSArray *menuItems =
+    @[
+      
+      [KxMenuItem menuItem:@"中文"
+                     image:[UIImage imageNamed:@"icon_chat_flag_cn"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"English"
+                     image:[UIImage imageNamed:@"icon_chat_flag_e"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"日本語"
+                     image:[UIImage imageNamed:@"icon_chat_flag_j"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"한국어"
+                     image:[UIImage imageNamed:@"icon_chat_flag_k"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"España"
+                     image:[UIImage imageNamed:@"icon_chat_flag_x"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Français"
+                     image:[UIImage imageNamed:@"icon_chat_flag_f"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Deutsch"
+                     image:[UIImage imageNamed:@"icon_chat_flag_d"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"русский"
+                     image:[UIImage imageNamed:@"icon_chat_flag_p"]
+                    target:self
+                    action:@selector(pushMenuItem:)],
+      ];
+    
+    [KxMenu showMenuInView:self.navigationController.view
+                  fromRect:CGRectMake(250, 24, 20, 10)
+                 menuItems:menuItems];
+}
+
+- (void) pushMenuItem:(id)sender
+{
+    KxMenuItem *tmpKxM = sender;
+    NSLog(@"tittle %@", tmpKxM.title);
+    CommentsCell *tmpCell = (CommentsCell*)[self.commentTableView cellForRowAtIndexPath:tmpIndexPath];
+    if ([tmpKxM.title isEqualToString:@"中文"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+        tmpCell.commentInfo.languageType = @"zh_CN";
+    } else if ([tmpKxM.title isEqualToString:@"English"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+        tmpCell.commentInfo.languageType = @"en_US";
+    } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+        tmpCell.commentInfo.languageType = @"ja_JP";
+    } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+        tmpCell.commentInfo.languageType = @"ko_KR";
+    } else if ([tmpKxM.title isEqualToString:@"España"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+        tmpCell.commentInfo.languageType = @"es_ES";
+    } else if ([tmpKxM.title isEqualToString:@"Français"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+        tmpCell.commentInfo.languageType = @"fr_FR";
+    } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
+        tmpCell.commentInfo.languageType = @"";
+    } else if ([tmpKxM.title isEqualToString:@"русский"]) {
+        [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+        tmpCell.commentInfo.languageType = @"ru_RU";
+    }
+    [self getTranslate:tmpCell.commentInfo.content Language:tmpCell.commentInfo.languageType];
+}
+
+-(void)getTranslate:(NSString *)content Language:(NSString*)language{
+    NSLog(@"language %@", language);
+    [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
+    [manager FBGetTranslateWithBody:content Language:language PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)onTranslateFailResult:(NSNotification*)notification {
+    [SVProgressHUD dismiss];
+}
+
+-(void)onTranslateResult:(NSNotification*)notification {
+    NSLog(@"[levi] translate result %@", notification.object);
+    [SVProgressHUD dismiss];
 }
 @end

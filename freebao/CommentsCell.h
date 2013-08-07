@@ -10,6 +10,16 @@
 #import "CommentInfo.h"
 #import "JSTwitterCoreTextView.h"
 
+@class CommentsCell;
+
+@protocol CommentsCellDelegate <NSObject>
+
+-(void)cellTransVoiceDidTaped:(CommentsCell *)theCell;
+
+-(void)cellLanguageDidTaped:(CommentsCell *)theCell;
+
+@end
+
 @class EGOImageView;
 @interface CommentsCell : UITableViewCell <UIGestureRecognizerDelegate, JSCoreTextViewDelegate>{
 @private
@@ -21,6 +31,9 @@
     UIImageView *_transVoiceImageView;
     UILabel *_commentDateLabel;
     UIImageView *_soundImageView;
+    id<CommentsCellDelegate> _delegate;
+    
+    CommentInfo *_commentInfo;
 }
 
 @property (nonatomic, strong) UIImageView *deleteGreyImageView;
@@ -33,6 +46,10 @@
 @property (nonatomic, retain) UIImageView *soundImageView;
 
 @property (nonatomic, retain) NSIndexPath *indexPath;
+
+@property (nonatomic, retain) id<CommentsCellDelegate> delegate;
+
+@property (nonatomic, retain) CommentInfo *commentInfo;
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
 

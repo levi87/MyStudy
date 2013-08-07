@@ -25,6 +25,8 @@
 @synthesize commentDateLabel = _commentDateLabel;
 @synthesize soundImageView = _soundImageView;
 @synthesize indexPath = _indexPath;
+@synthesize delegate = _delegate;
+@synthesize commentInfo = _commentInfo;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -33,7 +35,7 @@
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
-        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 230, 50)];
+        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 260, 50)];
         nickNameLabel = [[UILabel alloc] init];
         nickNameLabel.frame = CGRectMake(0, 0, 80, 16);
         nickNameLabel.text = @"levi";
@@ -46,9 +48,18 @@
                                                 [UIImage imageNamed:@"con-speek04"],
                                                 [UIImage imageNamed:@"con-speek06"],
                                                 nil];
-        [_upperView addSubview:_transVoiceImageView];
+        _transVoiceImageView.animationDuration = 1;
+//        [_upperView addSubview:_transVoiceImageView];
+        [_transVoiceImageView setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *tapTransVoice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(transVoiceTapAction)];
+        tapTransVoice.numberOfTapsRequired = 1;
+        [_transVoiceImageView addGestureRecognizer:tapTransVoice];
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+        UITapGestureRecognizer *tapLanguage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectTapAction)];
+        tapLanguage.numberOfTapsRequired = 1;
+        [_languageImageView addGestureRecognizer:tapLanguage];
+        [_languageImageView setUserInteractionEnabled:YES];
         [_upperView addSubview:_languageImageView];
         _commentDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
         _commentDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
@@ -89,6 +100,20 @@
     return self;
 }
 
+-(void)transVoiceTapAction {
+    if ([_delegate respondsToSelector:@selector(cellTransVoiceDidTaped:)])
+    {
+        if (_commentInfo.isPlayingVoice) {
+            _commentInfo.isPlayingVoice = NO;
+            [_transVoiceImageView stopAnimating];
+        } else {
+            _commentInfo.isPlayingVoice = YES;
+            [_transVoiceImageView startAnimating];
+        }
+        [_delegate cellTransVoiceDidTaped:self];
+    }
+}
+
 -(void)playVoice {
     NSLog(@"play comment voice...");
     NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:self,@"cell", nil];
@@ -96,6 +121,12 @@
 }
 
 -(void)setCellValue:(CommentInfo *)info {
+    _commentInfo = info;
+    if (info.isPlayingVoice) {
+        [_transVoiceImageView startAnimating];
+    } else {
+        [_transVoiceImageView stopAnimating];
+    }
     nickNameLabel.text = info.nickName;
     _commentTextView.text = info.content;
     _soundImageView.animationRepeatCount = [info.voiceLength integerValue];
@@ -108,12 +139,12 @@
         _soundImageView.hidden = NO;
         _commentTextView.hidden = YES;
         _languageImageView.hidden = YES;
-        _transVoiceImageView.hidden = YES;
+//        _transVoiceImageView.hidden = YES;
     } else {
         _soundImageView.hidden = YES;
         _commentTextView.hidden = NO;
         _languageImageView.hidden = NO;
-        _transVoiceImageView.hidden = NO;
+//        _transVoiceImageView.hidden = NO;
     }
     //    if ([info.sex integerValue] == 0) {
     //        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
@@ -175,6 +206,14 @@
                                                     paddingTop:PADDING_TOP
                                                    paddingLeft:PADDING_LEFT];
     return height;
+}
+
+-(void)languageSelectTapAction {
+    NSLog(@"select language");
+    if ([_delegate respondsToSelector:@selector(cellLanguageDidTaped:)])
+    {
+        [_delegate cellLanguageDidTaped:self];
+    }
 }
 
 @end

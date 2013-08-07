@@ -66,6 +66,7 @@
     JSTwitterCoreTextView *_line3TextView;
     
     StatusInfo *_statusInfo;
+    UIImageView *fakeImage;
 }
 
 @property (nonatomic, retain) id<StatusNewImageCellDelegate> delegate;

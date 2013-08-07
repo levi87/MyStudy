@@ -27,6 +27,7 @@
     
     BOOL _isPlayingVoice;
     BOOL _isPlayingSound;
+    BOOL _isFakeWeibo;
 }
 
 @property (nonatomic) NSString *originalPicUrl;
@@ -47,5 +48,6 @@
 
 @property (nonatomic) BOOL isPlayingVoice;
 @property (nonatomic) BOOL isPlayingSound;
+@property (nonatomic) BOOL isFakeWeibo;
 
 @end

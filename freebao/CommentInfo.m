@@ -18,5 +18,7 @@
 @synthesize commentDate = _commentDate;
 @synthesize voiceLength = _voiceLength;
 @synthesize commentUserId = _commentUserId;
+@synthesize isPlayingSound = _isPlayingSound;
+@synthesize isPlayingVoice = _isPlayingVoice;
 
 @end

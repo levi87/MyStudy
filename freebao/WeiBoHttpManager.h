@@ -289,6 +289,7 @@ typedef enum {
     FreebaounFollowFriend,
     FreebaoUpdatePersonInfo,
     FreebaoUpdatePersonHeadImage,
+    FreebaoDeleteComment,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -359,7 +360,7 @@ typedef enum {
 -(void)didFreebaoGetTranslationVoiceWithBoay:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 
 //Freebao 回复微博
--(void)didFreebaoAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId;
+-(void)didFreebaoAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId VoiceData:(NSData*)voiceData;
 
 //Freebao 获取会话列表
 -(void)didFreebaoGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
@@ -405,4 +406,7 @@ typedef enum {
 
 //Freebao 更新个人头像
 -(void)didFreebaoUpdatePersonHeaderImageWithUserId:(NSString*)aUserId FacePath:(NSString*)facePath PassId:(NSString*)passId;
+
+//Freebao 删除自己评论
+-(void)didFreebaoDeleteMyCommentWithUserId:(NSString*)aUserId CommentId:(NSString*)commentId PassId:(NSString*)passId;
 @end

@@ -16,7 +16,7 @@
 #import "FaceToolBar.h"
 
 @class WeiBoMessageManager;
-@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {
+@interface CommentViewController : ViewController <UITableViewDataSource,UITableViewDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate,CommentsCellDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;
@@ -37,6 +37,7 @@
     NSMutableArray *headPhotos;
     NSMutableArray *commentsArray;
     FaceToolBar* bar;
+    NSIndexPath *tmpIndexPath;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *commentTableView;

@@ -52,7 +52,7 @@
 -(void)FBGetTranslateVoiceWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 
 //Freebao Add Comment
--(void)FBAddAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId;
+-(void)FBAddAddWeiboCommentWithContentId:(NSString*)contentId CommentContent:(NSString*)content UserId:(NSString*)aUserId PassId:(NSString*)passId CommentId:(NSString*)aCommentId VoiceData:(NSData*)voiceData;
 
 //Freebao Get Conversation
 -(void)FBGetConversationListWithUserId:(NSString*)aUserId Page:(NSInteger)page PassId:(NSString*)passId;
@@ -98,4 +98,7 @@
 
 //Freebao update person head image
 -(void)FBUpdatePersonHeaderImageWithUserId:(NSString*)aUserId FacePath:(NSString*)facePath PassId:(NSString*)passId;
+
+//Freebao delete comment
+-(void)FBDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId;
 @end

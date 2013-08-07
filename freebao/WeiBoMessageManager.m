@@ -94,8 +94,8 @@ static WeiBoMessageManager * instance=nil;
 }
 
 //Freebao 增加Comment
--(void)FBAddAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId {
-    [httpManager didFreebaoAddWeiboCommentWithContentId:contentId CommentContent:content UserId:aUserId PassId:passId CommentId:aCommentId];
+-(void)FBAddAddWeiboCommentWithContentId:(NSString *)contentId CommentContent:(NSString *)content UserId:(NSString *)aUserId PassId:(NSString *)passId CommentId:(NSString *)aCommentId VoiceData:(NSData *)voiceData{
+    [httpManager didFreebaoAddWeiboCommentWithContentId:contentId CommentContent:content UserId:aUserId PassId:passId CommentId:aCommentId VoiceData:voiceData];
 }
 
 //Freebao 获取会话列表
@@ -172,5 +172,10 @@ static WeiBoMessageManager * instance=nil;
 //Freebao 更新个人头像
 -(void)FBUpdatePersonHeaderImageWithUserId:(NSString *)aUserId FacePath:(NSString *)facePath PassId:(NSString *)passId {
     [httpManager didFreebaoUpdatePersonHeaderImageWithUserId:aUserId FacePath:facePath PassId:passId];
+}
+
+//Freebao 删除评论
+-(void)FBDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId {
+    [httpManager didFreebaoDeleteMyCommentWithUserId:aUserId CommentId:commentId PassId:passId];
 }
 @end
