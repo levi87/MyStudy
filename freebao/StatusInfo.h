@@ -24,6 +24,7 @@
     NSDictionary *_rePostDic;
     NSMutableArray *_commentArray;
     NSString *_contentId;
+    NSDictionary *_geo;
     
     BOOL _isPlayingVoice;
     BOOL _isPlayingSound;
@@ -45,6 +46,7 @@
 @property (nonatomic) NSDictionary *rePostDic;
 @property (nonatomic) NSMutableArray *commentArray;
 @property (nonatomic) NSString *contentId;
+@property (nonatomic) NSDictionary *geo;
 
 @property (nonatomic) BOOL isPlayingVoice;
 @property (nonatomic) BOOL isPlayingSound;

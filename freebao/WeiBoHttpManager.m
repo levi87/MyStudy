@@ -332,8 +332,8 @@
     [item setPostValue:[NSNumber numberWithBool:isComment]     forKey:@"content.allowComment"];
     [item setPostValue:[NSNumber numberWithInteger:[circleId integerValue]] forKey:@"content.teamIds"];
     [item setPostValue:location forKey:@"content.location"];//地点
-    [item setPostValue:aLatitude forKey:@"content.longgitude"];//经度
-    [item setPostValue:aLonggitude forKey:@"content.latitude"];//维度
+    [item setPostValue:aLatitude forKey:@"content.latitude"];//经度
+    [item setPostValue:aLonggitude forKey:@"content.longgitude"];//维度
     
     if (mediaData != nil) {
         [item setPostValue:[NSNumber numberWithInt:[fileType integerValue]] forKey:@"content.filetype"];
@@ -688,6 +688,7 @@
                 statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
                 statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
                 statusInfo.soundDic = [tmpDic objectForKey:@"sound"];
+                statusInfo.geo = [tmpDic objectForKey:@"geo"];
                 statusInfo.isPlayingVoice = NO;
                 statusInfo.isPlayingSound = NO;
                 [timeline addObject:statusInfo];

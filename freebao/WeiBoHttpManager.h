@@ -36,6 +36,8 @@
 #define FB_LOGIN                    @"login"
 #define FB_LOGOFF                   @"logoff"
 
+#define FB_USER_LATITUDE            @"latitude"
+#define FB_USER_LONGITUDE           @"longitude"
 //FB_NOTIFICATION
 
 #define FB_NOTIC_LOGIN_SUCCESS      @"fb_login_success"

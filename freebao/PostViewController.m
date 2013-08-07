@@ -82,6 +82,9 @@
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
     NSLog(@" x, %f y, %f", userLocation.coordinate.latitude, userLocation.coordinate.longitude);
     CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%f",userLocation.coordinate.latitude] forKey:FB_USER_LATITUDE];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%f",userLocation.coordinate.longitude] forKey:FB_USER_LONGITUDE];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [_geocoder reverseGeocodeLocation:tmpLocation completionHandler:^(NSArray *placeMarks, NSError *error) {
 //        NSLog(@"[levi] place Marks %@", placeMarks);
         for (CLPlacemark *placeMark in placeMarks)  {
@@ -444,6 +447,8 @@
     [tmpDic setValue:[self returnFilePath:@"tmpShareJPEG@2x.jpg"] forKey:@"PhotoPath"];
     [tmpDic setValue:tmpVoicePath forKey:@"VoicePath"];
     [tmpDic setValue:defaultCircle forKey:@"defaultCircle"];
+    [tmpDic setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_LATITUDE] forKey:@"latitude"];
+    [tmpDic setValue:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_LONGITUDE] forKey:@"longitude"];
     [[NSNotificationCenter defaultCenter] postNotificationName:FB_FAKE_WEIBO object:status userInfo:tmpDic];
     [self clearData];
 }

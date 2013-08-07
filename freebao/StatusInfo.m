@@ -27,5 +27,6 @@
 @synthesize isPlayingVoice = _isPlayingVoice;
 @synthesize isPlayingSound = _isPlayingSound;
 @synthesize isFakeWeibo = _isFakeWeibo;
+@synthesize geo = _geo;
 
 @end

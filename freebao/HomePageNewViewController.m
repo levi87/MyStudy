@@ -380,8 +380,15 @@
     }
     CLLocationCoordinate2D userCoordinate;
 //    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
-    userCoordinate.latitude = 0.0;
-    userCoordinate.longitude = 0.0;
+    NSLog(@"distance %@", theCell.statusInfo.geo);
+    if (theCell.statusInfo.geo != nil) {
+        NSDictionary *tmpDistance = theCell.statusInfo.geo;
+        userCoordinate.longitude = [[tmpDistance getStringValueForKey:@"longitude" defaultValue:@"0.0"] floatValue];
+        userCoordinate.latitude = [[tmpDistance getStringValueForKey:@"latitude" defaultValue:@"0.0"] floatValue];
+    } else {
+        userCoordinate.latitude = 0.0;
+        userCoordinate.longitude = 0.0;
+    }
     [KAppDelegate.commMap setUserCoordinate:userCoordinate];
     [self presentModalViewController:KAppDelegate.commMap animated:YES];
 }
@@ -393,8 +400,15 @@
     }
     CLLocationCoordinate2D userCoordinate;
 //    NSLog(@"[levi] x %f y %f", theCell.tmpPoint.x, theCell.tmpPoint.y);
-    userCoordinate.latitude = 0.0;
-    userCoordinate.longitude = 0.0;
+    NSLog(@"distance %@", theCell.statusInfo.geo);
+    if (theCell.statusInfo.geo != nil) {
+        NSDictionary *tmpDistance = theCell.statusInfo.geo;
+        userCoordinate.longitude = [[tmpDistance getStringValueForKey:@"longgitude" defaultValue:@"0.0"] floatValue];
+        userCoordinate.latitude = [[tmpDistance getStringValueForKey:@"latitude" defaultValue:@"0.0"] floatValue];
+    } else {
+        userCoordinate.latitude = 0.0;
+        userCoordinate.longitude = 0.0;
+    }
     [KAppDelegate.commMap setUserCoordinate:userCoordinate];
     [self presentModalViewController:KAppDelegate.commMap animated:YES];
 }
@@ -687,6 +701,8 @@
     NSString *postFileType = @"0";
     NSData *mediaData = nil;
     NSData *soundData = nil;
+    NSString *latitude = @"0";
+    NSString *longitude = @"0";
     NSLog(@"userinfo %@", userInfo);
     if ([[userInfo objectForKey:@"hasPhoto"] integerValue] == 1) {
         postFileType = @"1";
@@ -695,7 +711,12 @@
     if ([userInfo objectForKey:@"hasVoice"]) {
         soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
     }
-    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.content AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:@"0" Longgitude:@"0" FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    if ([userInfo objectForKey:@"hasLocation"]) {
+        latitude = [userInfo getStringValueForKey:@"latitude" defaultValue:@"0"];
+        longitude = [userInfo getStringValueForKey:@"longitude" defaultValue:@"0"];
+    }
+    NSLog(@"%@ %@", latitude,longitude);
+    [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.content AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:latitude Longgitude:longitude FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)imageCellSoundDidTaped:(StatusNewImageCell *)theCell {
