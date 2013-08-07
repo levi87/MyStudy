@@ -24,7 +24,7 @@
 #define FONT @"HelveticaNeue-Light"
 
 @class WeiBoMessageManager;
-@interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate> {
+@interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
     BOOL _isRefresh;
@@ -44,6 +44,7 @@
     
     int currentPage;
     int maxPage;
+    CustomActionSheet *_actionSheet;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;

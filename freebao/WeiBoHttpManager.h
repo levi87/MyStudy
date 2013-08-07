@@ -64,6 +64,9 @@
 #define FB_UPDATE_PERSONALDIC      @"update_Personal_Dic"
 
 
+#define FB_POST_SUCCESS             @"fb_post_success"
+
+
 /*
  Freebao
  */
@@ -290,6 +293,8 @@ typedef enum {
     FreebaoUpdatePersonInfo,
     FreebaoUpdatePersonHeadImage,
     FreebaoDeleteComment,
+    FreebaoAddfavorite,
+    FreebaoDeleteHomeline,
 }RequestType;
 
 @class ASINetworkQueue;
@@ -409,4 +414,10 @@ typedef enum {
 
 //Freebao 删除自己评论
 -(void)didFreebaoDeleteMyCommentWithUserId:(NSString*)aUserId CommentId:(NSString*)commentId PassId:(NSString*)passId;
+
+//Freebao 收藏分享
+-(void)didFreebaoAddFavouriteWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao 删除分享
+-(void)didFreebaoDeleteHomelineWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 @end

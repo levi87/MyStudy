@@ -178,4 +178,14 @@ static WeiBoMessageManager * instance=nil;
 -(void)FBDeleteMyCommentWithUserId:(NSString *)aUserId CommentId:(NSString *)commentId PassId:(NSString *)passId {
     [httpManager didFreebaoDeleteMyCommentWithUserId:aUserId CommentId:commentId PassId:passId];
 }
+
+//Freebao 收藏分享
+-(void)FBAddFavouriteWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    [httpManager didFreebaoAddFavouriteWithUserId:aUserId ContentId:aContentId PassId:passId];
+}
+
+//Freebao 删除分享
+-(void)FBDeleteHomelineWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    [httpManager didFreebaoDeleteHomelineWithUserId:aUserId ContentId:aContentId PassId:passId];
+}
 @end

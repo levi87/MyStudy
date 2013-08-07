@@ -28,6 +28,9 @@
 
 -(void)imageCellLanguageDidTaped:(StatusNewImageCell *)theCell;
 
+-(void)imageCellSoundDidTaped:(StatusNewImageCell *)theCell;
+
+
 @end
 
 @class EGOImageView;
@@ -67,6 +70,9 @@
     
     StatusInfo *_statusInfo;
     UIImageView *fakeImage;
+    
+    UIView *voiceView;
+    UILabel *voiceLengthLabel;
 }
 
 @property (nonatomic, retain) id<StatusNewImageCellDelegate> delegate;
@@ -89,6 +95,8 @@
 @property (nonatomic, retain) NSIndexPath *indexPath;
 
 @property (nonatomic, retain) StatusInfo *statusInfo;
+
+@property (nonatomic, retain) UIImageView *voiceImage;
 
 - (void)setHeadPhoto:(NSString*)headPhoto;
 

@@ -36,6 +36,7 @@
 @synthesize distanceLabel = _distanceLabel;
 @synthesize statusInfo = _statusInfo;
 @synthesize translateContentTextView = _translateContentTextView;
+@synthesize voiceImage = _voiceImage;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -45,6 +46,33 @@
 		headImageView.frame = CGRectMake(9.0f, 339.0f, 40.0f, 40.0f);
         mainImageView = [[EGOImageView alloc] init];
         mainImageView.frame = CGRectMake(0, 0, 320, 320);
+        
+        voiceView = [[UIView alloc] initWithFrame:CGRectMake(240, 10, 80, 30)];
+        _voiceImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, 24, 24)];
+        _voiceImage.animationImages = [NSArray arrayWithObjects:
+                                       [UIImage imageNamed:@"con-voice-01"],
+                                       [UIImage imageNamed:@"con-voice-02"],
+                                       [UIImage imageNamed:@"con-voice-03"],
+                                       nil];
+        _voiceImage.animationDuration = 1;
+        [_voiceImage setImage:[UIImage imageNamed:@"con-voice-images"]];
+        UITapGestureRecognizer *tapSound = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playSound)];
+        tapSound.numberOfTapsRequired = 1;
+        [_voiceImage addGestureRecognizer:tapSound];
+        [_voiceImage setUserInteractionEnabled:YES];
+        [voiceView addSubview:_voiceImage];
+        voiceLengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 30, 15)];
+        voiceLengthLabel.text = @"30 s";
+        voiceLengthLabel.backgroundColor = [UIColor clearColor];
+        voiceLengthLabel.font = [UIFont systemFontOfSize:13.0];
+        [voiceLengthLabel setTextColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]];
+        [voiceView addSubview:voiceLengthLabel];
+        [voiceView setBackgroundColor:[UIColor clearColor]];
+        [voiceView setAlpha:0.5];
+        [mainImageView addSubview:voiceView];
+        [mainImageView setUserInteractionEnabled:YES];
+        voiceView.hidden = YES;
+        
         [self.contentView addSubview:mainImageView];
 		[self.contentView addSubview:headImageView];
         _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 339, 260, 50)];
@@ -271,6 +299,20 @@
     return self;
 }
 
+-(void)playSound {
+    if ([_delegate respondsToSelector:@selector(imageCellSoundDidTaped:)])
+    {
+        if (_statusInfo.isPlayingSound) {
+            _statusInfo.isPlayingSound = NO;
+            [_voiceImage stopAnimating];
+        } else {
+            _statusInfo.isPlayingSound = YES;
+            [_voiceImage startAnimating];
+        }
+        [_delegate imageCellSoundDidTaped:self];
+    }
+}
+
 -(void)playVoice {
     NSLog(@"play comment voice...");
     NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:self,@"cell", nil];
@@ -443,7 +485,13 @@
 
 -(void)setCellValue:(StatusInfo *)info {
     _translateContentTextView.hidden = YES;
+    voiceView.hidden = YES;
     _statusInfo = info;
+    if(info.soundDic != nil) {
+        voiceView.hidden = NO;
+        NSDictionary *tmpSound = info.soundDic;
+        voiceLengthLabel.text = [NSString stringWithFormat:@"%@ s",[tmpSound getStringValueForKey:@"soundTime" defaultValue:@"0"]];
+    }
     if ([info.postLanguage isEqualToString:@"zh_CN"]) {
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
     } else if ([info.postLanguage isEqualToString:@"en_US"]) {
@@ -465,6 +513,11 @@
         [_transVoiceImageView startAnimating];
     } else {
         [_transVoiceImageView stopAnimating];
+    }
+    if (info.isPlayingSound) {
+        [_voiceImage startAnimating];
+    } else {
+        [_voiceImage stopAnimating];
     }
     if ([info.liked integerValue] == 1) {
         _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];

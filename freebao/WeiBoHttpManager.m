@@ -481,6 +481,30 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoAddFavouriteWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kAddFavouriteTimeline];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aContentId     forKey:@"favorite.contentId"];;
+    
+    [self setPostUserInfo:item withRequestType:FreebaoAddfavorite];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoDeleteHomelineWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kDeleteTimelineUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aContentId     forKey:@"content.contentid"];;
+    
+    [self setPostUserInfo:item withRequestType:FreebaoDeleteHomeline];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -609,7 +633,7 @@
     if (requestType == FreebaoGetHomelineNew) {
         NSMutableDictionary *tmpDic = returnObject;
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
-//            NSLog(@"[levi] request new HomeLine Success...");
+            NSLog(@"[levi] request new HomeLine Success... %@", tmpDic);
             NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
             NSDictionary *maxCount = [NSDictionary dictionaryWithObjectsAndKeys:[[resultMap objectForKey:@"currentPageInfo"] objectForKey:@"totalPage"],@"maxCount", nil];
             
@@ -635,6 +659,7 @@
                 statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@"0"];
                 statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
                 statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
+                statusInfo.soundDic = [tmpDic objectForKey:@"sound"];
                 statusInfo.isPlayingVoice = NO;
                 statusInfo.isPlayingSound = NO;
                 [timeline addObject:statusInfo];
@@ -840,6 +865,7 @@
 //        NSLog(@"[levi] post dic %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSLog(@"[levi] post Success...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_POST_SUCCESS object:nil];
         } else {
             NSLog(@"[levi] post failed...");
         }
@@ -967,6 +993,26 @@
             NSLog(@"[levi] delete comment Success...");
         } else {
             NSLog(@"[levi] delete comment failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoAddfavorite) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] add favorite dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] add favorite Success...");
+        } else {
+            NSLog(@"[levi] add favorite failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoDeleteHomeline) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] delete homeline dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] delete homeline Success...");
+        } else {
+            NSLog(@"[levi] delete homeline failed...");
         }
         return;
     }
