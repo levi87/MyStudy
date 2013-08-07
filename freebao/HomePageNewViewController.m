@@ -438,8 +438,12 @@
 }
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    NSLog(@"[levi] play completed...");
-    [self stopVoiceAnimating];
+    NSString *volumeA = [NSString stringWithFormat:@"%0.1f", player.volume];
+    if ([volumeA isEqualToString:@"1.0"]) {
+        [self stopVoiceAnimating];
+    } else if ([volumeA isEqualToString:@"0.9"]) {
+        [self stopSoundAnimating];
+    }
 }
 
 -(void)stopVoiceAnimating {
@@ -457,6 +461,14 @@
     }
 }
 
+-(void)stopSoundAnimating {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    tmpStatusInfo.isPlayingSound = NO;
+    [statusArray replaceObjectAtIndex:tmpIndexPath.row withObject:tmpStatusInfo];
+    StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+    [tmpCell.voiceImage stopAnimating];
+}
+
 -(void)onRequestVoiceResult:(NSNotification*)notification {
     NSString *voiceUrl = notification.object;
     //    NSLog(@"[levi] voice url %@",voiceUrl);
@@ -464,6 +476,7 @@
         NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:voiceUrl]];
         dispatch_async(dispatch_get_main_queue(), ^{
             AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+            [player setVolume:1.0];
             _avPlay = player;
             _avPlay.delegate = self;
             [_avPlay play];
@@ -683,5 +696,27 @@
         soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
     }
     [manager FBPostWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Boay:status.content AllowShare:YES AllowComment:YES CircleId:[userInfo objectForKey:@"defaultCircle"] Location:@"0" Latitude:@"0" Longgitude:@"0" FileType:postFileType MediaFile:mediaData SoundFile:soundData PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)imageCellSoundDidTaped:(StatusNewImageCell *)theCell {
+    NSDictionary *tmp = theCell.statusInfo.soundDic;
+    NSLog(@"sound path %@", [tmp objectForKey:@"soundPath"]);
+    tmpIndexPath = theCell.indexPath;
+    if (_avPlay.isPlaying) {
+        [_avPlay stop];
+        StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
+        [tmpCell.voiceImage stopAnimating];
+        return;
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *tmpVoiceData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[tmp objectForKey:@"soundPath"]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithData:tmpVoiceData error:nil];
+            [player setVolume:0.9];
+            _avPlay = player;
+            _avPlay.delegate = self;
+            [_avPlay play];
+        });
+    });
 }
 @end

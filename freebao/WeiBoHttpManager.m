@@ -659,6 +659,7 @@
                 statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@"0"];
                 statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
                 statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
+                statusInfo.soundDic = [tmpDic objectForKey:@"sound"];
                 statusInfo.isPlayingVoice = NO;
                 statusInfo.isPlayingSound = NO;
                 [timeline addObject:statusInfo];
