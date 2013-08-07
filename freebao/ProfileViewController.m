@@ -15,6 +15,8 @@
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
+#define FONT_SIZE 15.0
+#define FONT @"HelveticaNeue-Light"
 
 @interface ProfileViewController ()
 
@@ -77,6 +79,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultPersonInfo:) name:FB_GET_PERSON_INFO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultUploadPhotoHeadImage:) name:FB_UPLOAD_PHOTO_HEAD_IMAGE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onResultUploadComplete) name:FB_UPLOAD_PHOTO_RERESH object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePersonalDicValue:) name:FB_UPDATE_PERSONALDIC object:nil];
+    
     [self.tableView setTableHeaderView:self.headerView];
     headImageView = [[EGOImageView alloc] init];
     headImageView.frame = CGRectMake(0, 0, 60, 60);
@@ -90,7 +94,7 @@
     _tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: _tittleLabel];
     _tittleLabel.center = CGPointMake(160, 22);
-    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,16, 80, 12)];
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,0, 80, 44)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     editButton = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 40, 44)];
     [editButton addTarget:self action:@selector(editButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -105,13 +109,15 @@
     [saveButton setBackgroundColor:[UIColor clearColor]];
     saveButton.hidden = YES;
     
-    [self.chatButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_chat_normal.png"] forState:UIControlStateNormal];
-    [self.chatButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_chat_pressed.png"] forState:UIControlStateSelected];
+    [self.chatButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_chat_disabled.png"] forState:UIControlStateNormal];
+
+    [self.chatButton setEnabled:NO];
     
-    [self.FBButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_follow_normal.png"] forState:UIControlStateNormal];
-    [self.FBButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_follow_pressed.png"] forState:UIControlStateSelected];
+    [self.FBButton setBackgroundImage:[UIImage imageNamed:@"icon_profile_follow_disabled.png"] forState:UIControlStateNormal];
+    [self.FBButton setEnabled:NO];
     
     self.describeTextView.editable = NO;
+    self.describeTextView.textColor = [UIColor grayColor];
     [self.describeTextView setDelegate:self];
     UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editDescribe)];
     tap1.numberOfTapsRequired = 1;
@@ -119,10 +125,10 @@
     tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
-    [imgV setFrame:CGRectMake(0, 0, 7, 12)];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonAction)];
-    tap.numberOfTapsRequired = 1;
-    [imgV addGestureRecognizer:tap];
+    [imgV setFrame:CGRectMake(0, 16, 7, 12)];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonAction)];
+//    tap.numberOfTapsRequired = 1;
+//    [imgV addGestureRecognizer:tap];
     [backButton addSubview:imgV];
     [self.navigationController.view addSubview:tittleView];
     [self.navigationController.view addSubview:tittleLineView];
@@ -141,6 +147,32 @@
     //    [manager FBGetPersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     [self.tableView setAllowsSelection:NO];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [nc addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapAnywhere:)];
+}
+
+-(void)keyboardWillShow:(NSNotification *)note
+{
+    [self.view addGestureRecognizer:tapRecognizer];
+}
+
+-(void)keyboardWillHide:(NSNotification *)note
+{
+    [self.view removeGestureRecognizer:tapRecognizer];
+}
+
+-(void)didTapAnywhere:(UITapGestureRecognizer *) recognizer
+{
+    [self.describeTextView resignFirstResponder];
+////    NSIndexPath *selectedIndex = [self.tableView indexPathForSelectedRow];
+//    ProfileCell *cell = (ProfileCell*)[self.tableView cellForRowAtIndexPath:previousSelectedIndexPath];
+//    NSLog(@"%@",previousSelectedIndexPath);
+//    [cell setEditModel];
+//    cell.isEdit = NO;
+//    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:previousSelectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 -(void)editButtonPressed
@@ -151,6 +183,7 @@
     editButton.hidden = YES;
     self.describeTextView.editable = YES;
     [self.tableView setAllowsSelection:YES];
+    
     
 }
 
@@ -195,7 +228,16 @@
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
-    [self.tableView setContentOffset:CGPointMake(0, 100)];
+//    [self.tableView setContentOffset:CGPointMake(0, 119)];
+    [self.tableView setContentOffset:CGPointMake(0, 119) animated:YES];
+    self.tableView.scrollEnabled = NO;
+     self.describeTextView.editable = NO;
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    self.tableView.scrollEnabled = YES;
+     self.describeTextView.editable = YES;
 }
 
 -(void)editDescribe {
@@ -252,6 +294,8 @@
         self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",[personalInfoDic getStringValueForKey:@"age" defaultValue:@"0"]];
     }
     self.describeTextView.text = [personalInfoDic getStringValueForKey:@"biography" defaultValue:@""];
+    
+    
     [self.tableView reloadData];
     
 //    PersonInfo *personInfo = [[PersonInfo alloc] init];
@@ -379,12 +423,12 @@
     ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[ProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        [cell setSelectionStyle:UITableViewCellEditingStyleNone];
     }
     
+    
 //    if (isEditModel) {
-//        UIView *editCell = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
-//        editCell.backgroundColor = [UIColor grayColor];
-//        [cell.contentView addSubview:editCell];
+//        [cell setEditModel];
 //    }
     
     
@@ -393,17 +437,21 @@
         cell.key = [keysForSectionOne objectAtIndex:indexPath.row];
         
         if ([@"height" isEqualToString:cell.key]){
-            cell.valueLabel.text = [NSString stringWithFormat:@"%d cm",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+//            cell.valueLabel.text = [NSString stringWithFormat:@"%d cm",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+            cell.valueTextField.text = [NSString stringWithFormat:@"%d",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
         }else if([@"weight" isEqualToString:cell.key]){
-            cell.valueLabel.text = [NSString stringWithFormat:@"%d kg",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+//            cell.valueLabel.text = [NSString stringWithFormat:@"%d kg",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+            cell.valueTextField.text = [NSString stringWithFormat:@"%d",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
         }else if([@"gender" isEqualToString:cell.key]){
             
-            cell.valueLabel.text = [NSString stringWithFormat:@"%d kg",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
-            
+//            cell.valueLabel.text = [NSString stringWithFormat:@"%d kg",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
+            cell.valueTextField.text = [NSString stringWithFormat:@"%d",[personalInfoDic getIntValueForKey:cell.key defaultValue:0]];
             if ([personalInfoDic getIntValueForKey:cell.key defaultValue:0] == 1) {
-                cell.valueLabel.text = @"Male";
+//                cell.valueLabel.text = @"Male";
+                cell.valueTextField.text = @"Male";
             } else {
-                cell.valueLabel.text = @"Female";
+//                cell.valueLabel.text = @"Female";
+                cell.valueTextField.text = @"Female";
             }
             
         }else if([@"birthday" isEqualToString:cell.key]){
@@ -411,17 +459,21 @@
             if (str.length > 10) {
                 str = [str substringToIndex:10];
             }
-            cell.valueLabel.text = str;
+//            cell.valueLabel.text = str;
+            cell.valueTextField.text = str;
         }
         else{
-           cell.valueLabel.text = [personalInfoDic getStringValueForKey:cell.key defaultValue:@""];
+//           cell.valueLabel.text = [personalInfoDic getStringValueForKey:cell.key defaultValue:@""];
+            cell.valueTextField.text = [personalInfoDic getStringValueForKey:cell.key defaultValue:@""];
         }
         
 
     }else{
         cell.keyLabel.text = [keyLabelsForSectionTwo objectAtIndex:indexPath.row];
+        cell.key = [keysForSectionTwo objectAtIndex:indexPath.row];
         
-        cell.valueLabel.text = [personalInfoDic getStringValueForKey:[keysForSectionTwo objectAtIndex:indexPath.row] defaultValue:@""];
+//        cell.valueLabel.text = [personalInfoDic getStringValueForKey:[keysForSectionTwo objectAtIndex:indexPath.row] defaultValue:@""];
+        cell.valueTextField.text = [personalInfoDic getStringValueForKey:[keysForSectionTwo objectAtIndex:indexPath.row] defaultValue:@""];
     }
     
     
@@ -495,6 +547,12 @@
     //    [commDialogView.oneLineText becomeFirstResponder];
     
     [self.describeTextView resignFirstResponder];
+    contentSize = [self.tableView contentSize];
+    CGSize newContentSize = CGSizeMake(contentSize.width, contentSize.height*3);
+//    [self.tableView setContentOffset:CGPointMake(0, 320)];
+//    [self.tableView setContentOffset:CGPointMake(0, 320) animated:YES];
+    
+    ProfileCell *cell  = (ProfileCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     
     if (indexPath.section == 0 && indexPath.row == 2) {
         
@@ -614,13 +672,43 @@
         [actionSheet addSubview:intervalPicker];
         [actionSheet setBounds:CGRectMake(0, 0, 320, 500)];
         [actionSheet showInView:self.view];
-    }else{
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+//    else if(indexPath.section == 0 && indexPath.row == 3){
+//        cell  = (ProfileCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+//        [cell.valueTextField setKeyboardType:UIKeyboardTypeDecimalPad];
+//        cell.valueTextField.enabled = YES;
+//        [cell.valueTextField becomeFirstResponder];
+//    }else if(indexPath.section == 0 && indexPath.row == 4){
+//        [cell.valueTextField setKeyboardType:UIKeyboardTypeDecimalPad];
+//        cell.valueTextField.enabled = YES;
+//        [cell.valueTextField becomeFirstResponder];
+//    }
+    else{
+        cell  = (ProfileCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        cell.valueTextField.enabled = YES;
+        [cell.valueTextField becomeFirstResponder];
+//        [cell setEditModel];
+//        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+        
     }
     
+    if (indexPath.section == 1 && indexPath.row == 3) {
+        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, 218, 0)];
+    }else if(indexPath.section == 1 && indexPath.row == 2){
+        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, 174, 0)];
+    }else if(indexPath.section == 1 && indexPath.row == 1){
+        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, 130, 0)];
+    }else if(indexPath.section == 1 && indexPath.row == 0){
+        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, 86, 0)];
+    }else if(indexPath.section == 0){
+        [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, 20, 0)];
+    }
     
+    previousSelectedIndexPath = indexPath;
+    
+    [self.tableView setContentSize:newContentSize];
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    
+    self.tableView.scrollEnabled = NO;
     NSLog(@"didSelectRowAtIndexPath");
 }
 
@@ -673,7 +761,23 @@
     [personalInfoDic setValue:selectedDateStr forKey:@"birthday"];
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:selectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
-
+    
+    NSString *birthdayYear = [selectedDateStr substringToIndex:4];
+    NSDate *currentDay = [NSDate date];
+    NSString *currentDayStr = [formatter stringFromDate:currentDay];
+    NSString *currentYearStr = [currentDayStr substringToIndex:4];
+    
+    
+    int birthdayYearInt = [birthdayYear intValue];
+    int currentYearInt = [currentYearStr intValue];
+    int age = currentYearInt - birthdayYearInt;
+    if ([personalInfoDic getIntValueForKey:@"gender" defaultValue:0] == 1) {
+        self.userAgeLabel.text = [NSString stringWithFormat:@"M %d",age];
+    } else {
+        self.userAgeLabel.text = [NSString stringWithFormat:@"F %d",age];
+    }
+    NSLog(@"age %d",age);
+    
 
 }
 
@@ -684,17 +788,21 @@
     selectedGenderType = [selectedGenderType stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
     NSString *gender;
+    NSString *ageStr = self.userAgeLabel.text;
+    ageStr = [ageStr substringFromIndex:2];
+    
     if ([@"Male"isEqualToString:selectedGenderType]) {
         gender = @"1";
+        self.userAgeLabel.text = [NSString stringWithFormat:@"M %@",ageStr];
     }else if ([@"Female"isEqualToString:selectedGenderType])
     {
         gender = @"0";
+        self.userAgeLabel.text = [NSString stringWithFormat:@"F %@",ageStr];
     }
     
     [personalInfoDic setValue:gender forKey:@"gender"];
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:selectedIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
-    
     
 }
 
@@ -722,6 +830,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_PERSON_INFO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_UPLOAD_PHOTO_RERESH object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_UPLOAD_PHOTO_HEAD_IMAGE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_UPDATE_PERSONALDIC object:nil];
 }
 
 - (void)loadingPics:(NSMutableArray*)faceArray {
@@ -761,19 +870,19 @@
 }
 
 - (void)longPressTap:(UILongPressGestureRecognizer *)recogonizer {
-    NSLog(@"long tap....");
-    switch (recogonizer.state) {
-        case UIGestureRecognizerStateBegan:
-        {
-            EGOImageView *tmpEgo = (EGOImageView*)recogonizer.view;
-            [manager FBDeletePersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PhotoUrl:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-            [headImageArray removeObjectAtIndex:[[NSString stringWithFormat:@"%d",tmpEgo.tag] integerValue]];
-        }
-            break;
-            
-        default:
-            break;
-    }
+//    NSLog(@"long tap....");
+//    switch (recogonizer.state) {
+//        case UIGestureRecognizerStateBegan:
+//        {
+//            EGOImageView *tmpEgo = (EGOImageView*)recogonizer.view;
+//            [manager FBDeletePersonPhotoWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PhotoUrl:[headImageArray objectAtIndex:tmpEgo.tag] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+//            [headImageArray removeObjectAtIndex:[[NSString stringWithFormat:@"%d",tmpEgo.tag] integerValue]];
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
 }
 
 -(void)onResultUploadComplete {
@@ -835,6 +944,17 @@
     NSString *filePath = [documentPath stringByAppendingPathComponent:nameStr];
     
     return filePath;
+}
+
+-(void)updatePersonalDicValue:(NSNotification*)notification
+{
+    NSDictionary *dic = notification.object;
+    [personalInfoDic setValue:[dic objectForKey:@"value"] forKey:[dic objectForKey:@"key"]];
+    
+    [self.tableView setContentSize:contentSize];
+    self.tableView.scrollEnabled = YES;
+    
+    NSLog(@"updatePersonalDicValue");
 }
 
 - (IBAction)addAction:(id)sender {

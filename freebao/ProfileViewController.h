@@ -48,6 +48,9 @@
     NSInteger selectedRow;
     NSArray *bloodTypes;
     NSArray *genderTypes;
+    UITapGestureRecognizer *tapRecognizer;
+    NSIndexPath *previousSelectedIndexPath;
+    CGSize contentSize;
     
     NSMutableArray *itemsArrayOne;
     NSMutableArray *itemsArrayTwo;

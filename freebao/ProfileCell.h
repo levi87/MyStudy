@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PersonInfo.h"
 
-@interface ProfileCell : UITableViewCell {
+@interface ProfileCell : UITableViewCell <UITextFieldDelegate>{
     UILabel *_keyLabel;
     UILabel *_valueLabel;
 }
@@ -17,5 +17,11 @@
 //-(void)setCellValue:(PersonInfo*)value;
 @property UILabel *keyLabel;
 @property UILabel *valueLabel;
+@property UITextField *valueTextField;
 @property NSString *key;
+@property BOOL *isEdit;
+
+-(void)setEditModel;
+-(void)resignTextField;
+
 @end
