@@ -27,8 +27,6 @@
 @interface HomePageNewViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
-    BOOL _isRefresh;
-    BOOL isFirst;
 @private
     NSMutableArray *headPhotos;
     NSMutableArray *statusArray;

@@ -25,23 +25,20 @@
 #import "REPhotoGroup.h"
 #import "Photo.h"
 #import "ThumbnailView.h"
+#import "CustomActionSheet.h"
+#import "StatusNewCell.h"
+#import "StatusNewImageCell.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
-@interface PageViewController : StatusViewContrillerBase <AVAudioPlayerDelegate>
+@class WeiBoMessageManager;
+@interface PageViewController : UITableViewController <StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate>
 {
     NSString *userID;
-    int _page;
-    long long _maxID;
-    BOOL _shouldAppendTheDataArr;
     UILabel *tittleLabel;
     UIButton *backButton;
     
-    LikersViewController *likeVC;
-    CommentViewController *commentVC;
-    StatusCell *tmpStatusCell;
-    StatusCell *tmpStatusCellL;
-    
     int currentView;
+    WeiBoMessageManager *manager;
     
     
     //Fans
@@ -65,6 +62,15 @@
     
     //Photo
     NSMutableArray *_ds;
+    
+    //Home
+    CustomActionSheet *_actionSheet;
+    NSString *currentTransLanguage;
+    NSIndexPath *tmpIndexPath;
+    NSMutableArray *statusArray;
+    
+    LikersViewController *likeVC;
+    CommentViewController *commentVC;
 }
 
 @property (nonatomic, copy)     NSString *userID;
