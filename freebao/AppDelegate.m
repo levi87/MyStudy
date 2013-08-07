@@ -20,6 +20,7 @@
 #import "MessageViewController.h"
 #import "tabbarViewController.h"
 #import "LoginVC.h"
+#import "NewLoginViewController.h"
 
 #define MSG_TYPE_TEXT   1
 #define MSG_TYPR_PIC    2
@@ -90,8 +91,14 @@
     tabbarViewController *tabBarVC = [[tabbarViewController alloc] init];
     self.window.rootViewController = tabBarVC;
     [self.window makeKeyAndVisible];
+    
+    NewLoginViewController *loginVC = [[NewLoginViewController alloc]init];
+    
+    UINavigationController *navNewlogin = [[UINavigationController alloc]initWithRootViewController:loginVC];
+    
 
-    [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
+//    [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
+    [self.window.rootViewController presentViewController:navNewlogin animated:YES completion:nil];
     return YES;
 }
 

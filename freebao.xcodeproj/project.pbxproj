@@ -361,6 +361,19 @@
 		D9715F2817B0EB8E0090ABBB /* icon_profile_follow_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F2017B0EB8E0090ABBB /* icon_profile_follow_disabled.png */; };
 		D9715F2917B0EB8E0090ABBB /* icon_profile_follow_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F2117B0EB8E0090ABBB /* icon_profile_follow_normal.png */; };
 		D9715F2A17B0EB8E0090ABBB /* icon_profile_follow_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F2217B0EB8E0090ABBB /* icon_profile_follow_pressed.png */; };
+		D9715F2F17B1F75B0090ABBB /* NewLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9715F2D17B1F75B0090ABBB /* NewLoginViewController.m */; };
+		D9715F3017B1F75B0090ABBB /* NewLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9715F2E17B1F75B0090ABBB /* NewLoginViewController.xib */; };
+		D9715F3417B217850090ABBB /* NewRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9715F3217B217840090ABBB /* NewRegisterViewController.m */; };
+		D9715F3517B217850090ABBB /* NewRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3317B217840090ABBB /* NewRegisterViewController.xib */; };
+		D9715F3C17B2196F0090ABBB /* bg_forgotpasswprd.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3617B2196E0090ABBB /* bg_forgotpasswprd.png */; };
+		D9715F3D17B2196F0090ABBB /* bg_Registrate.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3717B2196E0090ABBB /* bg_Registrate.png */; };
+		D9715F3E17B2196F0090ABBB /* box_login.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3817B2196E0090ABBB /* box_login.png */; };
+		D9715F3F17B2196F0090ABBB /* chat_Unsent.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3917B2196E0090ABBB /* chat_Unsent.png */; };
+		D9715F4017B2196F0090ABBB /* checkbox_login_off.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3A17B2196E0090ABBB /* checkbox_login_off.png */; };
+		D9715F4117B2196F0090ABBB /* checkbox_login_on.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3B17B2196E0090ABBB /* checkbox_login_on.png */; };
+		D9715F4517B21F140090ABBB /* btn_login_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */; };
+		D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */; };
+		D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword.png */; };
 		DB1B1E391789378E00B90C75 /* UIView+AnimationOptionsForCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */; };
 		DB1B1E4A1789396900B90C75 /* face.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3C1789396900B90C75 /* face.png */; };
 		DB1B1E4B1789396900B90C75 /* face@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3D1789396900B90C75 /* face@2x.png */; };
@@ -1244,6 +1257,21 @@
 		D9715F2017B0EB8E0090ABBB /* icon_profile_follow_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_profile_follow_disabled.png; sourceTree = "<group>"; };
 		D9715F2117B0EB8E0090ABBB /* icon_profile_follow_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_profile_follow_normal.png; sourceTree = "<group>"; };
 		D9715F2217B0EB8E0090ABBB /* icon_profile_follow_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_profile_follow_pressed.png; sourceTree = "<group>"; };
+		D9715F2C17B1F75B0090ABBB /* NewLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewLoginViewController.h; path = ../NewLoginViewController.h; sourceTree = "<group>"; };
+		D9715F2D17B1F75B0090ABBB /* NewLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewLoginViewController.m; path = ../NewLoginViewController.m; sourceTree = "<group>"; };
+		D9715F2E17B1F75B0090ABBB /* NewLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewLoginViewController.xib; path = ../NewLoginViewController.xib; sourceTree = "<group>"; };
+		D9715F3117B217840090ABBB /* NewRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewRegisterViewController.h; path = ../NewRegisterViewController.h; sourceTree = "<group>"; };
+		D9715F3217B217840090ABBB /* NewRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewRegisterViewController.m; path = ../NewRegisterViewController.m; sourceTree = "<group>"; };
+		D9715F3317B217840090ABBB /* NewRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewRegisterViewController.xib; path = ../NewRegisterViewController.xib; sourceTree = "<group>"; };
+		D9715F3617B2196E0090ABBB /* bg_forgotpasswprd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_forgotpasswprd.png; sourceTree = "<group>"; };
+		D9715F3717B2196E0090ABBB /* bg_Registrate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_Registrate.png; sourceTree = "<group>"; };
+		D9715F3817B2196E0090ABBB /* box_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = box_login.png; sourceTree = "<group>"; };
+		D9715F3917B2196E0090ABBB /* chat_Unsent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chat_Unsent.png; sourceTree = "<group>"; };
+		D9715F3A17B2196E0090ABBB /* checkbox_login_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_login_off.png; sourceTree = "<group>"; };
+		D9715F3B17B2196E0090ABBB /* checkbox_login_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_login_on.png; sourceTree = "<group>"; };
+		D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_normal@2x.png"; sourceTree = "<group>"; };
+		D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_preesed@2x.png"; sourceTree = "<group>"; };
+		D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titlebar_login_forgotpassword.png; sourceTree = "<group>"; };
 		DB1B1E3517892C0800B90C75 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		DB1B1E371789378E00B90C75 /* UIView+AnimationOptionsForCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnimationOptionsForCurve.h"; sourceTree = "<group>"; };
 		DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnimationOptionsForCurve.m"; sourceTree = "<group>"; };
@@ -2867,6 +2895,15 @@
 		DB6433B617585A03005CAD2F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */,
+				D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */,
+				D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword.png */,
+				D9715F3617B2196E0090ABBB /* bg_forgotpasswprd.png */,
+				D9715F3717B2196E0090ABBB /* bg_Registrate.png */,
+				D9715F3817B2196E0090ABBB /* box_login.png */,
+				D9715F3917B2196E0090ABBB /* chat_Unsent.png */,
+				D9715F3A17B2196E0090ABBB /* checkbox_login_off.png */,
+				D9715F3B17B2196E0090ABBB /* checkbox_login_on.png */,
 				D9715F1B17B0EB8E0090ABBB /* btn_input_delete_normal.png */,
 				D9715F1C17B0EB8E0090ABBB /* btn_input_delete_pressed.png */,
 				D9715F1D17B0EB8E0090ABBB /* icon_profile_chat_disabled.png */,
@@ -3199,6 +3236,12 @@
 				DB6433B1175856FA005CAD2F /* LoginViewController.h */,
 				DB6433B2175856FA005CAD2F /* LoginViewController.m */,
 				DB6433B3175856FA005CAD2F /* LoginViewController.xib */,
+				D9715F2C17B1F75B0090ABBB /* NewLoginViewController.h */,
+				D9715F2D17B1F75B0090ABBB /* NewLoginViewController.m */,
+				D9715F2E17B1F75B0090ABBB /* NewLoginViewController.xib */,
+				D9715F3117B217840090ABBB /* NewRegisterViewController.h */,
+				D9715F3217B217840090ABBB /* NewRegisterViewController.m */,
+				D9715F3317B217840090ABBB /* NewRegisterViewController.xib */,
 				DB9FCFE61758314700AE837D /* FollowerVC.h */,
 				DB9FCFE71758314700AE837D /* FollowerVC.m */,
 				DB9FCFE81758314700AE837D /* FollowerVC.xib */,
@@ -4001,6 +4044,17 @@
 				D9715F2817B0EB8E0090ABBB /* icon_profile_follow_disabled.png in Resources */,
 				D9715F2917B0EB8E0090ABBB /* icon_profile_follow_normal.png in Resources */,
 				D9715F2A17B0EB8E0090ABBB /* icon_profile_follow_pressed.png in Resources */,
+				D9715F3017B1F75B0090ABBB /* NewLoginViewController.xib in Resources */,
+				D9715F3517B217850090ABBB /* NewRegisterViewController.xib in Resources */,
+				D9715F3C17B2196F0090ABBB /* bg_forgotpasswprd.png in Resources */,
+				D9715F3D17B2196F0090ABBB /* bg_Registrate.png in Resources */,
+				D9715F3E17B2196F0090ABBB /* box_login.png in Resources */,
+				D9715F3F17B2196F0090ABBB /* chat_Unsent.png in Resources */,
+				D9715F4017B2196F0090ABBB /* checkbox_login_off.png in Resources */,
+				D9715F4117B2196F0090ABBB /* checkbox_login_on.png in Resources */,
+				D9715F4517B21F140090ABBB /* btn_login_normal@2x.png in Resources */,
+				D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */,
+				D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4308,6 +4362,8 @@
 				DBE08BD717A6B0B9007CC169 /* StatusNewImageCell.m in Sources */,
 				DBE08BDA17A6B738007CC169 /* StatusInfo.m in Sources */,
 				A239FBD617A75D99003B67D2 /* OneLineDialogView.m in Sources */,
+				D9715F2F17B1F75B0090ABBB /* NewLoginViewController.m in Sources */,
+				D9715F3417B217850090ABBB /* NewRegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
