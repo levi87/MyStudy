@@ -374,6 +374,7 @@
 		D9715F4517B21F140090ABBB /* btn_login_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */; };
 		D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */; };
 		D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword@2x.png */; };
+		D9715F4917B363100090ABBB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4817B363100090ABBB /* Localizable.strings */; };
 		DB1B1E391789378E00B90C75 /* UIView+AnimationOptionsForCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */; };
 		DB1B1E4A1789396900B90C75 /* face.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3C1789396900B90C75 /* face.png */; };
 		DB1B1E4B1789396900B90C75 /* face@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3D1789396900B90C75 /* face@2x.png */; };
@@ -1272,6 +1273,7 @@
 		D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_normal@2x.png"; sourceTree = "<group>"; };
 		D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_preesed@2x.png"; sourceTree = "<group>"; };
 		D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titlebar_login_forgotpassword@2x.png"; sourceTree = "<group>"; };
+		D9715F4817B363100090ABBB /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		DB1B1E3517892C0800B90C75 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		DB1B1E371789378E00B90C75 /* UIView+AnimationOptionsForCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnimationOptionsForCurve.h"; sourceTree = "<group>"; };
 		DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnimationOptionsForCurve.m"; sourceTree = "<group>"; };
@@ -2824,6 +2826,7 @@
 		A2FF2CA817544BF200D31B2F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D9715F4817B363100090ABBB /* Localizable.strings */,
 				A2FF2CA917544BF200D31B2F /* freebao-Info.plist */,
 				A2FF2CAA17544BF200D31B2F /* InfoPlist.strings */,
 				A2FF2CAD17544BF200D31B2F /* main.m */,
@@ -4055,6 +4058,7 @@
 				D9715F4517B21F140090ABBB /* btn_login_normal@2x.png in Resources */,
 				D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */,
 				D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword@2x.png in Resources */,
+				D9715F4917B363100090ABBB /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
