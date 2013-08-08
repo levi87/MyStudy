@@ -16,7 +16,7 @@
     UILabel *nickNameLabel;
     UIImageView *sexImageV;
     UILabel *ageLabel;
-    UILabel *city;
+    UILabel *cityLabel;
 }
 
 - (void)setHeadPhoto:(NSString*)headPhoto;

@@ -28,7 +28,7 @@
         headImageView.userInteractionEnabled = YES;
 		[self.contentView addSubview:headImageView];
         nickNameLabel = [[UILabel alloc] init];
-        nickNameLabel.frame = CGRectMake(58, 9, 80, 13);
+        nickNameLabel.frame = CGRectMake(58, 9, 80, 15);
         nickNameLabel.text = @"levi";
         nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [self.contentView addSubview:nickNameLabel];
@@ -42,20 +42,22 @@
         ageLabel.text = @"26";
         ageLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:ageLabel];
+        cityLabel = [[UILabel alloc] initWithFrame:CGRectMake(58, 33, 260, 15)];
+        cityLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
+        [self.contentView addSubview:cityLabel];
     }
     return self;
 }
 
 -(void)setCellValue:(LikerInfo *)info {
-    NSLog(@".........");
-    nickNameLabel.text = info.nickName;
-//    if ([info.sex integerValue] == 0) {
-//        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
-//    } else {
-//        sexImageV.image = [UIImage imageNamed:@"sex-female.png"];
-//    }
-//    ageLabel.text = info.age;
-//    city.text = info.city;
+    nickNameLabel.text = [NSString stringWithFormat:@"%@",info.nickName];
+    if ([[NSString stringWithFormat:@"%@",info.sex] isEqualToString:@"0"]) {
+        sexImageV.image = [UIImage imageNamed:@"sex-male.png"];
+    } else {
+        sexImageV.image = [UIImage imageNamed:@"sex-female.png"];
+    }
+    ageLabel.text = [NSString stringWithFormat:@"%@",info.age];
+    cityLabel.text = [NSString stringWithFormat:@"%@",info.city];
 }
 
 -(void)tapHeadIcon {
