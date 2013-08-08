@@ -2926,8 +2926,6 @@
 				D9715F2017B0EB8E0090ABBB /* icon_profile_follow_disabled.png */,
 				D9715F2117B0EB8E0090ABBB /* icon_profile_follow_normal.png */,
 				D9715F2217B0EB8E0090ABBB /* icon_profile_follow_pressed.png */,
-				A2D3BF7517B338CB00695913 /* icon_titlebar_back_normal@2x.png */,
-				A2D3BF7617B338CB00695913 /* icon_titlebar_back_pressed@2x.png */,
 				A2D3BF8017B36FC200695913 /* icon_titlebar_back_normal@2x.png */,
 				A2D3BF8117B36FC200695913 /* icon_titlebar_back_pressed@2x.png */,
 				A2D3BF7C17B36FB100695913 /* icon_chat_addchat_normal@2x.png */,
@@ -4078,8 +4076,6 @@
 				D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */,
 				D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword@2x.png in Resources */,
 				D9715F4917B363100090ABBB /* Localizable.strings in Resources */,
-				A2D3BF7717B338CB00695913 /* icon_titlebar_back_normal@2x.png in Resources */,
-				A2D3BF7817B338CB00695913 /* icon_titlebar_back_pressed@2x.png in Resources */,
 				A2D3BF7E17B36FB100695913 /* icon_chat_addchat_normal@2x.png in Resources */,
 				A2D3BF7F17B36FB100695913 /* icon_chat_addchat_pressed@2x.png in Resources */,
 				A2D3BF8217B36FC200695913 /* icon_titlebar_back_normal@2x.png in Resources */,
@@ -4478,8 +4474,8 @@
 		A2FF2CC217544BF200D31B2F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: xulei xu (Q72295PD5P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: xulei xu (Q72295PD5P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cao qingchun (WPS8ZK3442)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: cao qingchun (WPS8ZK3442)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "freebao/freebao-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -4491,8 +4487,8 @@
 					"\"$(SRCROOT)/freebao/Extensions\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D1DCDF06-A1E4-427E-B516-7132B5E03F62";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1DCDF06-A1E4-427E-B516-7132B5E03F62";
+				PROVISIONING_PROFILE = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4500,8 +4496,8 @@
 		A2FF2CC317544BF200D31B2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: xulei xu (Q72295PD5P)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: xulei xu (Q72295PD5P)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cao qingchun (WPS8ZK3442)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: cao qingchun (WPS8ZK3442)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "freebao/freebao-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
@@ -4513,8 +4509,8 @@
 					"\"$(SRCROOT)/freebao/Extensions\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D1DCDF06-A1E4-427E-B516-7132B5E03F62";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D1DCDF06-A1E4-427E-B516-7132B5E03F62";
+				PROVISIONING_PROFILE = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "92E4CAFC-3398-4525-85C4-BE41A6C818A2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
