@@ -44,8 +44,8 @@
     self.passwordField.delegate = self;
     
     //test  //
-    self.emailField.text = @"truth273@163.com";
-    self.passwordField.text = @"xxl04024754";
+//    self.emailField.text = @"truth273@163.com";
+//    self.passwordField.text = @"xxl04024754";
     ///
     
     [self.registerLabel addGestureRecognizer:registerTapRecognizer];
@@ -91,8 +91,9 @@
     NSLog(@"didTapOnRegister");
     
     NewRegisterViewController *registerVC = [[NewRegisterViewController alloc]init];
-    
-    
+    registerVC.delegate = self;
+    [self.emailField resignFirstResponder];
+    [self.passwordField resignFirstResponder];
     [self.navigationController pushViewController:registerVC animated:YES];
     
 }
@@ -263,6 +264,13 @@
     NSLog(@"[xxl] failed alert...");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Login Faild" delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
     [alert show];
+}
+
+- (void)updateUsername:(NSString *)username
+{
+    self.emailField.text = username;
+    self.passwordField.text = @"";
+    [self.passwordField becomeFirstResponder];
 }
 
 @end

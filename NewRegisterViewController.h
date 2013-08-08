@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "WeiBoMessageManager.h"
 
-@interface NewRegisterViewController : UIViewController<UITextFieldDelegate>
+@protocol NewRegisterViewControllerDelegate<NSObject>
+- (void)updateUsername:(NSString *)username;
+@end
+
+@interface NewRegisterViewController : UIViewController<UITextFieldDelegate,UIAlertViewDelegate>
 {
     UITapGestureRecognizer *tapRecognizer;
     WeiBoMessageManager *manager; 
@@ -25,6 +29,9 @@
 @property(nonatomic, strong) IBOutlet UIImageView *boxView3;
 @property(nonatomic, strong) IBOutlet UIImageView *boxView4;
 
-- (IBAction)signUpButtonPressed;
+@property(nonatomic, strong) IBOutlet UIImageView *emailUnMatch;
+@property(nonatomic, strong) IBOutlet UIImageView *passwordUnMatch;
+
+@property (assign,nonatomic)id<NewRegisterViewControllerDelegate> delegate;
 
 @end

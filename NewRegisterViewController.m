@@ -78,6 +78,9 @@
 
     [self.signUpBtn addSubview:signUpLabel];
     [self.view addSubview:self.signUpBtn];
+    
+    self.emailUnMatch.hidden = YES;
+    self.passwordUnMatch.hidden = YES;
  
 }
 
@@ -204,6 +207,9 @@
         self.passwordTextFeild.frame        = CGRectMake(43, 238-OFFSET, 232, 30);
         self.confirmPasswordTextFeild.frame = CGRectMake(43, 289-OFFSET, 232, 30);
         
+        self.emailUnMatch.frame = CGRectMake(295, 194-OFFSET, 18, 17);
+        self.passwordUnMatch.frame = CGRectMake(295, 295-OFFSET, 18, 17);
+        
         self.signUpBtn.frame = CGRectMake(31, 371-BUTTON_OFFSET, 258, 40);
         
     }];
@@ -223,6 +229,9 @@
         self.passwordTextFeild.frame = CGRectMake(43, 238, 232, 30);
         self.confirmPasswordTextFeild.frame = CGRectMake(43, 289, 232, 30);
         
+        self.emailUnMatch.frame = CGRectMake(295, 194, 18, 17);
+        self.passwordUnMatch.frame = CGRectMake(295, 295, 18, 17);
+        
         self.signUpBtn.frame = CGRectMake(31, 371, 258, 40);
     }];
 }
@@ -239,8 +248,8 @@
     NSString *username = [self.emailTextFeild.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *usernametwo = [self.confirmEmailTextFeild.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    NSString *password = [self.emailTextFeild.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *passwordTwo = [self.confirmEmailTextFeild.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *password = [self.passwordTextFeild.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *passwordTwo = [self.confirmPasswordTextFeild.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if (![self isUsernameLegal:username])
     {
@@ -251,20 +260,30 @@
     }
     
     if ([self isUsernameLegal:username]&&![username isEqualToString:usernametwo]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ui_text168", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ui_text168", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
+//        [alert show];
+        
+        self.emailUnMatch.hidden = NO;
+        
         return;
+    }else{
+        self.emailUnMatch.hidden = YES;
     }
+    
     if (password.length<=0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ui_text65", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
         [alert show];
         return;
     }
-    if ([password isEqualToString:passwordTwo]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"密码不一致" delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
-        [alert show];
+    if (![password isEqualToString:passwordTwo]) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"密码不一致" delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
+//        [alert show];
+        self.passwordUnMatch.hidden = NO;
         return;
+    }else{
+        self.passwordUnMatch.hidden = YES;
     }
+    
 //    if (agreeButton_.selected) {
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ui_text167", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
 //        [alert show];
@@ -281,16 +300,40 @@
 -(void)OnResultRegisterSuccess:(NSNotification*)result
 {
     NSLog(@"OnResultRegisterSuccess");
+   
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ui_text145", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
+    alert.tag = 1;
+    alert.delegate = self;
+    [alert show];
+        
+   
 }
 
 -(void)OnResultRegisterFailed
 {
     NSLog(@"OnResultRegisterFailed");
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"ui_text144", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
+    [alert show];
+        
+
+}
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.delegate updateUsername:self.emailTextFeild.text];
+
 }
 
 - (void)backButtonAction {
+    [self.emailTextFeild resignFirstResponder];
+    [self.confirmEmailTextFeild resignFirstResponder];
+    [self.passwordTextFeild resignFirstResponder];
+    [self.confirmPasswordTextFeild resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
-    self.navigationController.view.hidden = YES;
+
 }
 
 - (void)didReceiveMemoryWarning

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WeiBoMessageManager.h"
+#import "NewRegisterViewController.h"
 
-@interface NewLoginViewController : UIViewController<UITextFieldDelegate>
+@interface NewLoginViewController : UIViewController<UITextFieldDelegate,NewRegisterViewControllerDelegate>
 {
     UITapGestureRecognizer *tapRecognizer;
     WeiBoMessageManager *manager; 
