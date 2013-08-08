@@ -10,6 +10,8 @@
 
 #define HIDE_KEYBOARD @"fb_hide_keyboard"
 
+#define INIT_FACEVIEW_POSITION @"init_faceview_position"
+
 @interface FaceToolBar() {
     OCExpandableButton *button;
 }
@@ -37,6 +39,7 @@
         keyboardIsShow=NO;
         self.theSuperView=superView;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideKeyboardAndFaceView) name:HIDE_KEYBOARD object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initFaceViewPosition) name:INIT_FACEVIEW_POSITION object:nil];
 
         //默认toolBar在视图最下方
         toolBar = [[CustomToolbar alloc] initWithFrame:CGRectMake(0.0f,superView.bounds.size.height - toolBarHeight,superView.bounds.size.width,toolBarHeight)];
@@ -315,6 +318,17 @@
     {
         [delegate expandButtonAction:sender];
     }
+}
+
+-(void)initFaceViewPosition {
+    [UIView animateWithDuration:Time animations:^{
+        toolBar.frame = CGRectMake(0, self.theSuperView.frame.size.height-toolBarHeight,  self.theSuperView.bounds.size.width,toolBarHeight);
+    }];
+    [UIView animateWithDuration:Time animations:^{
+        [scrollView setFrame:CGRectMake(0, self.theSuperView.frame.size.height, self.theSuperView.frame.size.width, keyboardHeight)];
+    }];
+    [_textView resignFirstResponder];
+    [pageControl setHidden:YES];
 }
 
 -(void)hideKeyboardAndFaceView {
