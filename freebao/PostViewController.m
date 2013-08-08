@@ -336,6 +336,24 @@
 }
 
 -(void)voiceLongPressAction:(UILongPressGestureRecognizer *)recogonizer {
+    if (!_hasPhoto) {
+        NSLog(@"please select a photo.");
+        switch (recogonizer.state) {
+            case UIGestureRecognizerStateBegan:
+            {
+                iToast *itoast = [[iToast alloc] initWithText:@"please select a photo first"];
+                [itoast setToastPosition:kToastPositionCenter];
+                [itoast setToastDuration:kToastDurationNormal];
+                [itoast show];
+            }
+                break;
+            case UIGestureRecognizerStateEnded:
+                break;
+            default:
+                break;
+        }
+        return;
+    }
     CGPoint p = [recogonizer locationInView:self.view];
     //    NSLog(@"[levi] finger position... x %f y %f", p.x, p.y);
     fingerX = p.x;

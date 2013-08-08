@@ -94,7 +94,7 @@
     _tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: _tittleLabel];
     _tittleLabel.center = CGPointMake(160, 22);
-    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,0, 80, 44)];
+    backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,9, 51, 26)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
     editButton = [[UIButton alloc] initWithFrame:CGRectMake(270, 0, 40, 44)];
     [editButton addTarget:self action:@selector(editButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -124,12 +124,7 @@
     [self.describeTextView addGestureRecognizer:tap1];
     tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
-    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
-    [imgV setFrame:CGRectMake(0, 16, 7, 12)];
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonAction)];
-//    tap.numberOfTapsRequired = 1;
-//    [imgV addGestureRecognizer:tap];
-    [backButton addSubview:imgV];
+    [backButton setImage:[UIImage imageNamed:@"icon_titlebar_back_normal"] forState:UIControlStateNormal];
     [self.navigationController.view addSubview:tittleView];
     [self.navigationController.view addSubview:tittleLineView];
     [self.navigationController.view addSubview:backButton];

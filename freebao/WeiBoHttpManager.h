@@ -304,6 +304,7 @@ typedef enum {
     FreebaoDeleteComment,
     FreebaoAddfavorite,
     FreebaoDeleteHomeline,
+    FreebaoReportShare,
 }RequestType;
 
 
@@ -433,4 +434,7 @@ typedef enum {
 
 //Freebao 删除分享
 -(void)didFreebaoDeleteHomelineWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao 举报微博
+-(void)didFreebaoReportShareWithUserId:(NSString*)aUserId ReportType:(NSString*)type ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 @end

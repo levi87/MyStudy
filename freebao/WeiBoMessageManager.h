@@ -109,4 +109,7 @@
 -(void)FBAddFavouriteWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 //Freebao delete homeline
 -(void)FBDeleteHomelineWithUserId:(NSString*)aUserId ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao report
+-(void)FBReportShareWithUserId:(NSString*)aUserId ReportType:(NSString*)type ContentId:(NSString*)aContentId PassId:(NSString*)passId;
 @end

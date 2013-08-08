@@ -512,9 +512,22 @@
     
     [item setPostValue:aUserId    forKey:@"userId"];
     [item setPostValue:passId      forKey:@"passId"];
-    [item setPostValue:aContentId     forKey:@"content.contentid"];;
+    [item setPostValue:aContentId     forKey:@"content.contentid"];
     
     [self setPostUserInfo:item withRequestType:FreebaoDeleteHomeline];
+    [requestQueue addOperation:item];
+}
+
+-(void)didFreebaoReportShareWithUserId:(NSString *)aUserId ReportType:(NSString *)type ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kReportContentUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"report.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aContentId     forKey:@"report.objectId"];
+    [item setPostValue:type forKey:@"report.type"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoReportShare];
     [requestQueue addOperation:item];
 }
 
@@ -1042,6 +1055,16 @@
             NSLog(@"[levi] delete homeline Success...");
         } else {
             NSLog(@"[levi] delete homeline failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoReportShare) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] report dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] report Success...");
+        } else {
+            NSLog(@"[levi] report failed...");
         }
         return;
     }
