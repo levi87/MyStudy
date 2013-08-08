@@ -90,6 +90,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAddComments:) name:FB_ADD_COMMENT object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:COMMENT_VOICE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateResult:)       name:FB_GET_TRANSLATION_COMMENT object:nil];
     [manager FBGetCommentWithHomelineId:_cellContentId StatusType:@"0" Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] init];
@@ -553,7 +554,7 @@
 -(void)getTranslate:(NSString *)content Language:(NSString*)language{
     NSLog(@"language %@", language);
     [SVProgressHUD showWithStatus:@"request translate..." maskType:SVProgressHUDMaskTypeGradient];
-    [manager FBGetTranslateWithBody:content Language:language PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetTranslateWithBodyComment:content Language:language PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)onTranslateFailResult:(NSNotification*)notification {
@@ -561,7 +562,20 @@
 }
 
 -(void)onTranslateResult:(NSNotification*)notification {
+    NSLog(@"fdafbakhkflkah");
     NSLog(@"[levi] translate result %@", notification.object);
+    NSString *transResult = notification.object;
+    CGFloat transHeght = [CommentsCell getJSHeight:transResult jsViewWith:300];
+    NSLog(@"trans %f", transHeght);
+    for (int i = tmpIndexPath.row + 1; i < [commentsArray count]; i ++) {
+        CommentsCell *tmpCommentCell = (CommentsCell*)[self.commentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        tmpCommentCell.frame = CGRectMake(tmpCommentCell.frame.origin.x, tmpCommentCell.frame.origin.y + transHeght, tmpCommentCell.frame.size.width, tmpCommentCell.frame.size.height);
+    }
+    CommentsCell *tmpCell = (CommentsCell*)[self.commentTableView cellForRowAtIndexPath:tmpIndexPath];
+    [tmpCell showTranslateTextView:transResult StatusInfo:[commentsArray objectAtIndex:tmpIndexPath.row]];
+    CGRect frame = tmpCell.frame;
+    frame.size.height += transHeght + 10;
+    tmpCell.frame = frame;
     [SVProgressHUD dismiss];
 }
 @end

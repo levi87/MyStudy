@@ -51,6 +51,9 @@
 //Freebao Translate
 -(void)FBGetTranslateWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 
+//Freebao Translate comment
+-(void)FBGetTranslateWithBodyComment:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
+
 //Freebao Translate Voice
 -(void)FBGetTranslateVoiceWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 

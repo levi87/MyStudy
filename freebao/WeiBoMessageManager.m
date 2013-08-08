@@ -93,6 +93,11 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetTranslationWithBody:content Language:language PassId:passId];
 }
 
+//Freebao 获取Translate Comment
+-(void)FBGetTranslateWithBodyComment:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
+    [httpManager didFreebaoGetTranslationWithBodyComment:content Language:language PassId:passId];
+}
+
 //Freebao 获取Translate Voice
 -(void)FBGetTranslateVoiceWithBody:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
     [httpManager didFreebaoGetTranslationVoiceWithBoay:content Language:language PassId:passId];

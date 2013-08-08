@@ -239,6 +239,18 @@
     [requestQueue addOperation:item];
 }
 
+- (void)didFreebaoGetTranslationWithBodyComment:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetMessageTrans];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:content    forKey:@"body"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:language forKey:@"language"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoGetTranslateComment];
+    [requestQueue addOperation:item];
+}
+
 - (void)didFreebaoGetTranslationVoiceWithBoay:(NSString *)content Language:(NSString *)language PassId:(NSString *)passId {
     NSURL *url = [NSURL URLWithString:kGetMessageTransVoice];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
@@ -821,6 +833,23 @@
 //            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
 //            NSArray *resultArray = [resultMap objectForKey:@"likeUsers"];
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION object:contents];
+        } else {
+            NSLog(@"[levi] request Translate failed...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION_FAIL object:nil];
+        }
+        return;
+    }
+    if (requestType == FreebaoGetTranslateComment) {
+        NSMutableDictionary *tmpDic = returnObject;
+        //        NSLog(@"[levi] get Translate... %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request Translate Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            
+            NSString *contents = [resultMap objectForKey:@"response"];
+            //            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            //            NSArray *resultArray = [resultMap objectForKey:@"likeUsers"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION_COMMENT object:contents];
         } else {
             NSLog(@"[levi] request Translate failed...");
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_TRANSLATION_FAIL object:nil];

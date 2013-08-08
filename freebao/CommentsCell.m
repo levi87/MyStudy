@@ -27,6 +27,7 @@
 @synthesize indexPath = _indexPath;
 @synthesize delegate = _delegate;
 @synthesize commentInfo = _commentInfo;
+@synthesize translateTextView = _translateTextView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -78,6 +79,23 @@
         _commentTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
         _commentTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         _commentTextView.text = @"test message.";
+        
+        _translateTextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(9, 50, 230, 25)];
+        [_translateTextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        [_translateTextView setDelegate:self];
+        [_translateTextView setFontName:FONT];
+        [_translateTextView setFontSize:FONT_SIZE];
+        [_translateTextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+        [_translateTextView setBackgroundColor:[UIColor clearColor]];
+        [_translateTextView setPaddingTop:PADDING_TOP];
+        [_translateTextView setPaddingLeft:PADDING_LEFT];
+        //        _JSContentTF.userInteractionEnabled = NO;
+        _translateTextView.backgroundColor = [UIColor clearColor];
+        _translateTextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _translateTextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
+        _translateTextView.text = @"test message.";
+        _translateTextView.hidden = YES;
+        
         _soundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(9, 52, 20, 20)];
         [_soundImageView setImage:[UIImage imageNamed:@"con-voice"]];
         _soundImageView.animationImages = [NSArray arrayWithObjects:
@@ -94,10 +112,21 @@
         [self.contentView addSubview:_soundImageView];
         [self.contentView addSubview:_commentTextView];
         [self.contentView addSubview:_upperView];
+        [self.contentView addSubview:_translateTextView];
         
         [self initialize];
     }
     return self;
+}
+
+-(void)showTranslateTextView:(NSString *)content StatusInfo:(CommentInfo *)info {
+    CGFloat transHeight = [CommentsCell getJSHeight:content jsViewWith:300];
+    _translateTextView.hidden = NO;
+    _translateTextView.text = content;
+    CGRect frame = _translateTextView.frame;
+    frame.size.height = transHeight;
+    frame.origin.y = _commentTextView.frame.origin.y + _commentTextView.frame.size.height + 5;
+    _translateTextView.frame = frame;
 }
 
 -(void)transVoiceTapAction {

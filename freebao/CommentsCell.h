@@ -26,6 +26,7 @@
     EGOImageView* headImageView;
     UILabel *nickNameLabel;
     JSTwitterCoreTextView *_commentTextView;
+    JSTwitterCoreTextView *_translateTextView;
     UIView *_upperView;
     UIImageView *_languageImageView;
     UIImageView *_transVoiceImageView;
@@ -39,6 +40,7 @@
 @property (nonatomic, strong) UIImageView *deleteGreyImageView;
 @property (nonatomic, strong) UIImageView *deleteRedImageView;
 @property (nonatomic, retain) JSTwitterCoreTextView *commentTextView;
+@property (nonatomic, retain) JSTwitterCoreTextView *translateTextView;
 @property (nonatomic, retain) UIView *upperView;
 @property (nonatomic, retain) UIImageView *languageImageView;
 @property (nonatomic, retain) UIImageView *transVoiceImageView;
@@ -63,5 +65,7 @@
 -(void)setCellValue:(CommentInfo *)info;
 
 +(CGFloat)getJSHeight:(NSString*)text jsViewWith:(CGFloat)with;
+
+-(void)showTranslateTextView:(NSString*)content StatusInfo:(CommentInfo*)info;
 
 @end

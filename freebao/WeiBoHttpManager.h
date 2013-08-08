@@ -57,6 +57,7 @@
 #define FB_UN_LIKE                  @"fb_un_like"
 #define FB_GET_LIKERS               @"fb_get_likers"
 #define FB_GET_TRANSLATION          @"fb_get_translation"
+#define FB_GET_TRANSLATION_COMMENT  @"fb_get_translation_comment"
 #define FB_GET_TRANSLATION_FAIL     @"fb_get_translation_fail"
 #define FB_GET_TRANSLATION_VOICE    @"fb_get_translation_voice"
 #define FB_ADD_COMMENT              @"fb_add_comment"
@@ -285,6 +286,7 @@ typedef enum {
     FreebaoUnlike,
     FreebaoGetLikers,
     FreebaoGetTranslate,
+    FreebaoGetTranslateComment,
     FreebaoGetTranslateVoice,
     FreebaoAddComment,
     FreebaoGetConversationList,
@@ -375,6 +377,9 @@ typedef enum {
 
 //Freebao 获取翻译
 -(void)didFreebaoGetTranslationWithBody:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
+
+//Freebao 获取评论翻译
+-(void)didFreebaoGetTranslationWithBodyComment:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
 
 //Freebao 获取语音翻译
 -(void)didFreebaoGetTranslationVoiceWithBoay:(NSString*)content Language:(NSString*)language PassId:(NSString*)passId;
