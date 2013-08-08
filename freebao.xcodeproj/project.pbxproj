@@ -373,7 +373,7 @@
 		D9715F4117B2196F0090ABBB /* checkbox_login_on.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F3B17B2196E0090ABBB /* checkbox_login_on.png */; };
 		D9715F4517B21F140090ABBB /* btn_login_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */; };
 		D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */; };
-		D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword.png */; };
+		D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword@2x.png */; };
 		DB1B1E391789378E00B90C75 /* UIView+AnimationOptionsForCurve.m in Sources */ = {isa = PBXBuildFile; fileRef = DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */; };
 		DB1B1E4A1789396900B90C75 /* face.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3C1789396900B90C75 /* face.png */; };
 		DB1B1E4B1789396900B90C75 /* face@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB1B1E3D1789396900B90C75 /* face@2x.png */; };
@@ -1271,7 +1271,7 @@
 		D9715F3B17B2196E0090ABBB /* checkbox_login_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_login_on.png; sourceTree = "<group>"; };
 		D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_normal@2x.png"; sourceTree = "<group>"; };
 		D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_preesed@2x.png"; sourceTree = "<group>"; };
-		D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titlebar_login_forgotpassword.png; sourceTree = "<group>"; };
+		D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "titlebar_login_forgotpassword@2x.png"; sourceTree = "<group>"; };
 		DB1B1E3517892C0800B90C75 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		DB1B1E371789378E00B90C75 /* UIView+AnimationOptionsForCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AnimationOptionsForCurve.h"; sourceTree = "<group>"; };
 		DB1B1E381789378E00B90C75 /* UIView+AnimationOptionsForCurve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AnimationOptionsForCurve.m"; sourceTree = "<group>"; };
@@ -2897,7 +2897,7 @@
 			children = (
 				D9715F4217B21F140090ABBB /* btn_login_normal@2x.png */,
 				D9715F4317B21F140090ABBB /* btn_login_preesed@2x.png */,
-				D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword.png */,
+				D9715F4417B21F140090ABBB /* titlebar_login_forgotpassword@2x.png */,
 				D9715F3617B2196E0090ABBB /* bg_forgotpasswprd.png */,
 				D9715F3717B2196E0090ABBB /* bg_Registrate.png */,
 				D9715F3817B2196E0090ABBB /* box_login.png */,
@@ -4054,7 +4054,7 @@
 				D9715F4117B2196F0090ABBB /* checkbox_login_on.png in Resources */,
 				D9715F4517B21F140090ABBB /* btn_login_normal@2x.png in Resources */,
 				D9715F4617B21F140090ABBB /* btn_login_preesed@2x.png in Resources */,
-				D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword.png in Resources */,
+				D9715F4717B21F140090ABBB /* titlebar_login_forgotpassword@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

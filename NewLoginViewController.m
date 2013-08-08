@@ -8,6 +8,7 @@
 
 #import "NewLoginViewController.h"
 #import "AppDelegate.h"
+#import "NewRegisterViewController.h"
 
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
@@ -33,12 +34,21 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginSuccess:) name:FB_NOTIC_LOGIN_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OnResultLoginFailed) name:FB_NOTIC_LOGIN_FAILED object:nil];
+    tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapAnywhere:)];
+    UITapGestureRecognizer *registerTapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapOnRegister:)];
     
     self.navigationController.navigationBar.hidden = YES;
     self.passwordField.secureTextEntry = YES;
     
     self.emailField.delegate = self;
     self.passwordField.delegate = self;
+    
+    //test  //
+    self.emailField.text = @"truth273@163.com";
+    self.passwordField.text = @"xxl04024754";
+    ///
+    
+    [self.registerLabel addGestureRecognizer:registerTapRecognizer];
     
     [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"btn_login_normal.png"] forState:UIControlStateNormal];
     
@@ -48,15 +58,9 @@
     [nc addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [nc addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didTapAnywhere:)];
+
     
     // Do any additional setup after loading the view from its nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)keyboardWillShow:(NSNotification *)note
@@ -69,11 +73,30 @@
     [self.view removeGestureRecognizer:tapRecognizer];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 -(void)didTapAnywhere:(UITapGestureRecognizer *) recognizer
 {
     [self.emailField resignFirstResponder];
     [self.passwordField resignFirstResponder];
 }
+
+-(void)didTapOnRegister:(UITapGestureRecognizer *) recognizer
+{
+    NSLog(@"didTapOnRegister");
+    
+    NewRegisterViewController *registerVC = [[NewRegisterViewController alloc]init];
+    
+    
+    [self.navigationController pushViewController:registerVC animated:YES];
+    
+}
+
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -224,7 +247,6 @@
     [[NSUserDefaults standardUserDefaults] setObject:username forKey:FB_USER_NAME];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    
 }
 
 
@@ -238,7 +260,7 @@
 }
 
 - (void)OnResultLoginFailed {
-    NSLog(@"[levi] failed alert...");
+    NSLog(@"[xxl] failed alert...");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Login Faild" delegate:nil cancelButtonTitle:NSLocalizedString(@"alert_dialog_ok", nil) otherButtonTitles:nil];
     [alert show];
 }

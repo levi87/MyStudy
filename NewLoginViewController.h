@@ -18,6 +18,7 @@
 @property(nonatomic, strong) IBOutlet UIButton *loginBtn;
 @property(nonatomic, strong) IBOutlet UITextField *emailField;
 @property(nonatomic, strong) IBOutlet UITextField *passwordField;
+@property(nonatomic, strong) IBOutlet UILabel *registerLabel;
 
 - (IBAction)loginButtonPressed;
 

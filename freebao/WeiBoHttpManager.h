@@ -35,8 +35,11 @@
 
 //FB_NOTIFICATION
 
-#define FB_NOTIC_LOGIN_SUCCESS      @"fb_success"
-#define FB_NOTIC_LOGIN_FAILED       @"fb_failed"
+#define FB_NOTIC_LOGIN_SUCCESS      @"fb_login_success"
+#define FB_NOTIC_LOGIN_FAILED       @"fb_login_failed"
+
+#define FB_NOTIC_REGISTER_SUCCESS      @"fb_register_success"
+#define FB_NOTIC_REGISTER_FAILED       @"fb_register_failed"
 
 //FB_HOMELINE
 #define FB_GET_HOMELINE             @"fb_get_homeline"
@@ -266,6 +269,7 @@ typedef enum {
     SinaCommentAStatus,             //对一条微博进行评论
     
     FreebaoLogin,
+    FreebaoRegister,
     FreebaoGetUserInfo,
     FreebaoGetHomeline,
     FreebaoGetHomelineNew,
@@ -333,6 +337,9 @@ typedef enum {
 
 //Freebao登陆
 -(void)didFreebaoLogin:(NSString*)username Password:(NSString*)password Token:(NSString*)token Platform:(NSString*)platform;
+
+//Freebao 注册
+-(void)didFreebaoRegister:(NSString *)username Password:(NSString *)password;
 
 //Freebao获取用户信息
 -(void)didFreebaoGetUserInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;

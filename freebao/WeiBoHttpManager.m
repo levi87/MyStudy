@@ -95,6 +95,19 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoRegister:(NSString *)username Password:(NSString *)password{
+    
+    NSURL *url = [NSURL URLWithString:kRegUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:username    forKey:@"user.logname"];
+    [item setPostValue:password      forKey:@"user.password"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoRegister];
+    [requestQueue addOperation:item];
+    
+}
+
 -(void)didFreebaoGetUserInfoWithUserId:(NSString *)aUserId PassId:(NSString *)passId{
     NSURL *url = [NSURL URLWithString:kRequestUserInfoUrl];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
@@ -591,6 +604,21 @@
         }
         return;
     }
+    
+    //Freebao注册
+    if (requestType == FreebaoRegister) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSMutableDictionary *tmp = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"userInfo"];
+           
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_REGISTER_SUCCESS object:tmp];
+        } else {
+            NSLog(@"[levi] login failed...");
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_NOTIC_REGISTER_FAILED object:nil];
+        }
+        return;
+    }
+    
     //Freebao获取用户信息
     if (requestType == FreebaoGetUserInfo) {
         NSMutableDictionary *tmpDic = returnObject;

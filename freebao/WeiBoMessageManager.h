@@ -21,6 +21,9 @@
 //Freebao登陆
 -(void)FBLogin:(NSString*)username Password:(NSString*)password Token:(NSString*)token;
 
+//Freebao登陆
+-(void)FBRegister:(NSString *)username Password:(NSString *)password;
+
 //Freebao获取用户信息
 -(void)FBGetUserInfoWithUsetId:(NSString*)userId PassId:(NSString*)passId;
 
