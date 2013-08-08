@@ -98,7 +98,12 @@
     
 
 //    [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
-    [self.window.rootViewController presentViewController:navNewlogin animated:YES completion:nil];
+    NSString *logStatus = [[NSUserDefaults standardUserDefaults] objectForKey:FB_LOGIN_STATUS];
+    if ([logStatus isEqualToString:FB_LOGOFF]) {
+        [self.window.rootViewController presentViewController:navNewlogin animated:YES completion:nil];
+    }
+    
+    
     return YES;
 }
 

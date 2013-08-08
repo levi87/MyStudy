@@ -9,6 +9,7 @@
 #import "NewLoginViewController.h"
 #import "AppDelegate.h"
 #import "NewRegisterViewController.h"
+#import "tabbarViewController.h"
 
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
@@ -47,6 +48,9 @@
 //    self.emailField.text = @"truth273@163.com";
 //    self.passwordField.text = @"xxl04024754";
     ///
+    
+    NSString *defaultUserName = [[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_NAME];
+    self.emailField.text = defaultUserName;
     
     [self.registerLabel addGestureRecognizer:registerTapRecognizer];
     
@@ -229,8 +233,8 @@
         manager = [WeiBoMessageManager getInstance];
     }
     [manager FBLogin:username Password:password Token:@""];
-    NSString *isAutoLogin = @"0";
-    NSString *isRemember = @"0";
+//    NSString *isAutoLogin = @"0";
+//    NSString *isRemember = @"0";
 //    if (autoLoginButton_.selected) {
 //        isAutoLogin = @"1";
 //    } else {
@@ -243,10 +247,10 @@
 //        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:FB_USER_PASSWORD];
 //        isRemember = @"0";
 //    }
-    [[NSUserDefaults standardUserDefaults] setObject:isAutoLogin forKey:FB_AUTOLOGIN];
-    [[NSUserDefaults standardUserDefaults] setObject:isRemember forKey:FB_REMEMBER];
-    [[NSUserDefaults standardUserDefaults] setObject:username forKey:FB_USER_NAME];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[NSUserDefaults standardUserDefaults] setObject:isAutoLogin forKey:FB_AUTOLOGIN];
+//    [[NSUserDefaults standardUserDefaults] setObject:isRemember forKey:FB_REMEMBER];
+    
+    
     
 }
 
@@ -256,8 +260,15 @@
     //    NSString *passId = [tmp objectForKey:@"passId"];
     //    NSString *passwordKey = [tmp objectForKey:@"passwordKey"];
     //    NSString *usrId = [tmp objectForKey:@"userId"];
+    [[NSUserDefaults standardUserDefaults] setObject:FB_LOGIN forKey:FB_LOGIN_STATUS];
+    [[NSUserDefaults standardUserDefaults] setObject:self.emailField.text forKey:FB_USER_NAME];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [KAppDelegate connect];
     [self dismissViewControllerAnimated:YES completion:nil];
+    tabbarViewController *tabBarVC = (tabbarViewController*)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [tabBarVC selectTabAtIndex:0];
+
+    
 }
 
 - (void)OnResultLoginFailed {

@@ -7,6 +7,7 @@
 //
 
 #import "MoreTableViewCell.h"
+#import "NewLoginViewController.h"
 
 @implementation MoreTableViewCell
 
@@ -17,9 +18,10 @@
         logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
         logoutButton.frame = CGRectMake(10, 20, 300, 44);
         logoutButton.backgroundColor = [UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1];
-        [logoutButton setTitle:@"Log out" forState:UIControlStateNormal];
+        [logoutButton setTitle:NSLocalizedString(@"MENU_Logout", nil) forState:UIControlStateNormal];
         [logoutButton.titleLabel setFont:[UIFont fontWithName:FONT size:18]];
         [logoutButton setTitleColor:[UIColor colorWithRed:255/255.0 green:44/255.0 blue:44/255.0 alpha:1] forState:UIControlStateNormal];
+        [logoutButton addTarget:self action:@selector(logOutButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:logoutButton];
         tmpImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_more_chevron.png"]];
         self.accessoryView = tmpImageV;
@@ -57,6 +59,30 @@
 
 - (void)setAccessoryViewHide:(BOOL)value {
     tmpImageV.hidden = value;
+}
+
+-(void)logOutButtonPressed
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString(@"MENU_Logout", nil) delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:@"cancel",nil];
+    alert.delegate = self;
+    
+    [alert show];
+    [[NSUserDefaults standardUserDefaults] setObject:FB_LOGIN forKey:FB_LOGIN_STATUS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        NSLog(@"ok");
+        NewLoginViewController *loginVC = [[NewLoginViewController alloc]init];
+        [[NSUserDefaults standardUserDefaults] setObject:FB_LOGOFF forKey:FB_LOGIN_STATUS];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        UINavigationController *navNewlogin = [[UINavigationController alloc]initWithRootViewController:loginVC];
+
+        [self.window.rootViewController presentViewController:navNewlogin animated:YES completion:nil];
+        
+    }
 }
 
 @end

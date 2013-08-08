@@ -32,6 +32,9 @@
 #define FB_USER_PASSWORD            @"password"
 #define FB_USER_NICK_NAME           @"nickname"
 #define FB_USER_FACE_PATH           @"facepath"
+#define FB_LOGIN_STATUS             @"loginStatus"
+#define FB_LOGIN                    @"login"
+#define FB_LOGOFF                   @"logoff"
 
 //FB_NOTIFICATION
 
@@ -300,6 +303,7 @@ typedef enum {
     FreebaoAddfavorite,
     FreebaoDeleteHomeline,
 }RequestType;
+
 
 @class ASINetworkQueue;
 @class Status;

@@ -108,4 +108,9 @@
     
 }
 
+-(void)selectTabAtIndex:(int) index
+{
+    [_tabbar selectTabAtIndex:index];
+}
+
 @end
