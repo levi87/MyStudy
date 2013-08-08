@@ -9,6 +9,7 @@
 #import "PostViewController.h"
 #define FONT @"HelveticaNeue-Light"
 #define FB_FAKE_WEIBO @"fb_fake_weibo"
+#define INIT_FACEVIEW_POSITION @"init_faceview_position"
 
 @interface PostViewController ()
 
@@ -168,6 +169,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] postNotificationName:INIT_FACEVIEW_POSITION object:nil];
+    if ([[UIScreen mainScreen] bounds].size.height == 568) {
+        [self.mainScrollView setFrame:CGRectMake(0, 44, 320, 568)];
+    } else {
+        [self.mainScrollView setFrame:CGRectMake(0, 44, 320, 460)];
+    }
 }
 
 - (void)didReceiveMemoryWarning
