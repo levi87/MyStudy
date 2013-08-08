@@ -12,6 +12,9 @@
 
 #define CHECK_TAG 1110
 
+#define HIDE_TABBAR @"10000"
+#define SHOW_TABBAR @"10001"
+
 @interface ContactsViewController ()
 @property NSUInteger curSection;
 @property NSUInteger curRow;
@@ -376,6 +379,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     tittleView.hidden = NO;
     tittleLineView.hidden = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
 }
 
 - (IBAction)noticeButtonAction:(id)sender {

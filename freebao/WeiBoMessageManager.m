@@ -188,4 +188,9 @@ static WeiBoMessageManager * instance=nil;
 -(void)FBDeleteHomelineWithUserId:(NSString *)aUserId ContentId:(NSString *)aContentId PassId:(NSString *)passId {
     [httpManager didFreebaoDeleteHomelineWithUserId:aUserId ContentId:aContentId PassId:passId];
 }
+
+//Freebao 举报微博
+-(void)FBReportShareWithUserId:(NSString *)aUserId ReportType:(NSString *)type ContentId:(NSString *)aContentId PassId:(NSString *)passId {
+    [httpManager didFreebaoReportShareWithUserId:aUserId ReportType:type ContentId:aContentId PassId:passId];
+}
 @end
