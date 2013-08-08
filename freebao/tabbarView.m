@@ -167,6 +167,67 @@
     }
 }
 
+-(void)selectTabAtIndex:(int) index
+{
+    switch (index) {
+        case 0:
+        {
+            //            [_tabbarView setImage:[UIImage imageNamed:@"tabbar_0"]];
+            [_button_1 setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
+            [_button_2 setBackgroundColor:[UIColor clearColor]];
+            [_button_3 setBackgroundColor:[UIColor clearColor]];
+            [_button_4 setBackgroundColor:[UIColor clearColor]];
+            [_button_center setBackgroundColor:[UIColor clearColor]];
+            
+            [self.delegate touchBtnAtIndex:0];
+            
+            break;
+        }
+        case 1:
+        {
+            //            [_tabbarView setImage:[UIImage imageNamed:@"tabbar_1"]];
+            [_button_2 setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
+            [_button_1 setBackgroundColor:[UIColor clearColor]];
+            [_button_3 setBackgroundColor:[UIColor clearColor]];
+            [_button_4 setBackgroundColor:[UIColor clearColor]];
+            [_button_center setBackgroundColor:[UIColor clearColor]];
+            
+            [self.delegate touchBtnAtIndex:1];
+            break;
+        }
+        case 2:
+            //            [_tabbarView setImage:[UIImage imageNamed:@"tabbar_3"]];
+            [_button_3 setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
+            [_button_2 setBackgroundColor:[UIColor clearColor]];
+            [_button_1 setBackgroundColor:[UIColor clearColor]];
+            [_button_4 setBackgroundColor:[UIColor clearColor]];
+            [_button_center setBackgroundColor:[UIColor clearColor]];
+            
+            [self.delegate touchBtnAtIndex:3];
+            break;
+        case 3:
+            //            [_tabbarView setImage:[UIImage imageNamed:@"tabbar_4"]];
+            [_button_4 setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
+            [_button_2 setBackgroundColor:[UIColor clearColor]];
+            [_button_3 setBackgroundColor:[UIColor clearColor]];
+            [_button_1 setBackgroundColor:[UIColor clearColor]];
+            [_button_center setBackgroundColor:[UIColor clearColor]];
+            
+            [self.delegate touchBtnAtIndex:2];
+            break;
+        case 4:
+            [_button_center setBackgroundColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.3]];
+            [_button_2 setBackgroundColor:[UIColor clearColor]];
+            [_button_3 setBackgroundColor:[UIColor clearColor]];
+            [_button_4 setBackgroundColor:[UIColor clearColor]];
+            [_button_1 setBackgroundColor:[UIColor clearColor]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_POST_VIEW object:nil];
+            break;
+        default:
+            break;
+    }
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

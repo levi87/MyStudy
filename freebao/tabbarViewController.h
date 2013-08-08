@@ -34,6 +34,9 @@
 
 @property(nonatomic,strong) tabbarView *tabbar;
 @property(nonatomic,strong) NSArray *arrayViewcontrollers;
+
+-(void)selectTabAtIndex:(int) index;
+
 @end
 
 

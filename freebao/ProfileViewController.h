@@ -16,25 +16,44 @@
 
 @class WeiBoMessageManager;
 @class EGOImageView;
-@interface ProfileViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UIActionSheetDelegate> {
+@interface ProfileViewController : UITableViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate> {
     UIImagePickerController *_imagePicker;
     CustomActionSheet *_customActionSheet;
     WeiBoMessageManager *manager;
     UILabel *_tittleLabel;
     UIButton *backButton;
     UIButton *editButton;
+    UIButton *saveButton;
     UIButton *languageButton;
     UIView *tittleView;
     UIView *tittleLineView;
     
     NSMutableArray *headImageArray;
     EGOImageView *headImageView;
-    NSMutableArray *itemsArray;
+    
     
     OneLineDialogView *commDialogView;
     UITextField *tmpTextField;
     
     NSMutableArray *headFacePathArray;
+    BOOL isEditModel;
+    NSArray *keyLabelsForSectionOne;
+    NSArray *keyLabelsForSectionTwo;
+    NSArray *keysForSectionOne;
+    NSArray *keysForSectionTwo;
+    NSDictionary *personalInfoDic;
+    UIActionSheet *actionSheet;
+    UIDatePicker *datePicker;
+    UIPickerView *intervalPicker;
+    NSInteger selectedRow;
+    NSArray *bloodTypes;
+    NSArray *genderTypes;
+    UITapGestureRecognizer *tapRecognizer;
+    NSIndexPath *previousSelectedIndexPath;
+    CGSize contentSize;
+    
+    NSMutableArray *itemsArrayOne;
+    NSMutableArray *itemsArrayTwo;
 }
 @property (weak, nonatomic) IBOutlet UITextView *describeTextView;
 @property (weak, nonatomic) IBOutlet UILabel *userAgeLabel;
@@ -45,5 +64,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *headerImagesScrollView;
 @property (strong, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
+@property (weak, nonatomic) IBOutlet UIButton *chatButton;
+@property (weak, nonatomic) IBOutlet UIButton *FBButton;
 - (IBAction)addAction:(id)sender;
 @end

@@ -23,4 +23,6 @@
 
 @property(nonatomic,weak) id<tabbarDelegate> delegate;
 
+-(void)selectTabAtIndex:(int) index;
+
 @end

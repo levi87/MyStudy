@@ -32,12 +32,19 @@
 #define FB_USER_PASSWORD            @"password"
 #define FB_USER_NICK_NAME           @"nickname"
 #define FB_USER_FACE_PATH           @"facepath"
+#define FB_LOGIN_STATUS             @"loginStatus"
+#define FB_LOGIN                    @"login"
+#define FB_LOGOFF                   @"logoff"
+
 #define FB_USER_LATITUDE            @"latitude"
 #define FB_USER_LONGITUDE           @"longitude"
 //FB_NOTIFICATION
 
-#define FB_NOTIC_LOGIN_SUCCESS      @"fb_success"
-#define FB_NOTIC_LOGIN_FAILED       @"fb_failed"
+#define FB_NOTIC_LOGIN_SUCCESS      @"fb_login_success"
+#define FB_NOTIC_LOGIN_FAILED       @"fb_login_failed"
+
+#define FB_NOTIC_REGISTER_SUCCESS      @"fb_register_success"
+#define FB_NOTIC_REGISTER_FAILED       @"fb_register_failed"
 
 //FB_HOMELINE
 #define FB_GET_HOMELINE             @"fb_get_homeline"
@@ -62,8 +69,12 @@
 #define FB_GET_PERSON_INFO          @"fb_get_person_info"
 #define FB_UPLOAD_PHOTO_HEAD_IMAGE  @"fb_upload_head_image"
 #define FB_UPLOAD_PHOTO_RERESH      @"fb_upload_photo_refresh"
+#define FB_UPDATE_PERSONALDIC      @"update_Personal_Dic"
+
+
 #define FB_POST_SUCCESS             @"fb_post_success"
 #define FB_USER_LOCATION            @"fb_user_location"
+
 
 /*
  Freebao
@@ -264,6 +275,7 @@ typedef enum {
     SinaCommentAStatus,             //对一条微博进行评论
     
     FreebaoLogin,
+    FreebaoRegister,
     FreebaoGetUserInfo,
     FreebaoGetHomeline,
     FreebaoGetHomelineNew,
@@ -295,6 +307,7 @@ typedef enum {
     FreebaoDeleteHomeline,
     FreebaoReportShare,
 }RequestType;
+
 
 @class ASINetworkQueue;
 @class Status;
@@ -332,6 +345,9 @@ typedef enum {
 
 //Freebao登陆
 -(void)didFreebaoLogin:(NSString*)username Password:(NSString*)password Token:(NSString*)token Platform:(NSString*)platform;
+
+//Freebao 注册
+-(void)didFreebaoRegister:(NSString *)username Password:(NSString *)password;
 
 //Freebao获取用户信息
 -(void)didFreebaoGetUserInfoWithUserId:(NSString*)aUserId PassId:(NSString*)passId;

@@ -20,6 +20,7 @@
 #import "MessageViewController.h"
 #import "tabbarViewController.h"
 #import "LoginVC.h"
+#import "NewLoginViewController.h"
 
 #define MSG_TYPE_TEXT   1
 #define MSG_TYPR_PIC    2
@@ -90,8 +91,19 @@
     tabbarViewController *tabBarVC = [[tabbarViewController alloc] init];
     self.window.rootViewController = tabBarVC;
     [self.window makeKeyAndVisible];
+    
+    NewLoginViewController *loginVC = [[NewLoginViewController alloc]init];
+    
+    UINavigationController *navNewlogin = [[UINavigationController alloc]initWithRootViewController:loginVC];
+    
 
-    [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
+//    [self.window.rootViewController presentViewController:navLogin animated:NO completion:nil];
+    NSString *logStatus = [[NSUserDefaults standardUserDefaults] objectForKey:FB_LOGIN_STATUS];
+    if ([logStatus isEqualToString:FB_LOGOFF]) {
+        [self.window.rootViewController presentViewController:navNewlogin animated:YES completion:nil];
+    }
+    
+    
     return YES;
 }
 
@@ -117,8 +129,8 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
 #if TARGET_IPHONE_SIMULATOR
-	DDLogError(@"The iPhone simulator does not process background network traffic. "
-			   @"Inbound traffic is queued until the keepAliveTimeout:handler: fires.");
+//	DDLogError(@"The iPhone simulator does not process background network traffic. "
+//			   @"Inbound traffic is queued until the keepAliveTimeout:handler: fires.");
 #endif
     
 	if ([application respondsToSelector:@selector(setKeepAliveTimeout:handler:)])

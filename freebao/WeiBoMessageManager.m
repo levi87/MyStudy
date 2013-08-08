@@ -43,6 +43,11 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoLogin:username Password:password Token:token Platform:@"2"];
 }
 
+//Freebao 注册
+-(void)FBRegister:(NSString *)username Password:(NSString *)password{
+    [httpManager didFreebaoRegister:username Password:password];
+}
+
 //Freebao 获取用户信息
 -(void)FBGetUserInfoWithUsetId:(NSString *)userId PassId:(NSString *)passId{
     [httpManager didFreebaoGetUserInfoWithUserId:userId PassId:passId];
