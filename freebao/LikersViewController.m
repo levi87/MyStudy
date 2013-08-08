@@ -8,6 +8,7 @@
 
 #import "LikersViewController.h"
 #import "EGOCache.h"
+#import "NSDictionaryAdditions.h"
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
@@ -37,16 +38,16 @@
 
 -(void)resultOfRequest:(NSNotification*)notification {
     NSMutableArray *tmpArray = notification.object;
-    NSLog(@"tmpArray Array %@", tmpArray);
+//    NSLog(@"tmpArray Array %@", tmpArray);
     [likersArray removeAllObjects];
     headPhotos = [[NSMutableArray alloc] init];
     for (int i = 0; i < [tmpArray count]; i ++) {
         NSDictionary *tmpDic = [tmpArray objectAtIndex:i];
         LikerInfo *tmpInfo = [[LikerInfo alloc] init];
-        tmpInfo.nickName = [tmpDic objectForKey:@"url"];
-        tmpInfo.sex = [tmpDic objectForKey:@"userGender"];
-        tmpInfo.age = [tmpDic objectForKey:@"age"];
-        tmpInfo.city = [tmpDic objectForKey:@"city"];
+        tmpInfo.nickName = [tmpDic getStringValueForKey:@"url" defaultValue:@""];
+        tmpInfo.sex = [tmpDic getStringValueForKey:@"userGender" defaultValue:@"1"];
+        tmpInfo.age = [tmpDic getStringValueForKey:@"age" defaultValue:@"0"];
+        tmpInfo.city = [tmpDic getStringValueForKey:@"city" defaultValue:@""];
         [likersArray addObject:tmpInfo];
         [headPhotos addObject:[tmpDic objectForKey:@"facePath"]];
     }

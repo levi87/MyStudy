@@ -59,9 +59,9 @@
     tittleLabel.center = CGPointMake(160, 22);
     tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
-    UIButton *newConversationButton = [[UIButton alloc] initWithFrame:CGRectMake(260, 10, 50, 20)];
-    newConversationButton.titleLabel.text = @" + ";
-    newConversationButton.backgroundColor = [UIColor whiteColor];
+    UIButton *newConversationButton = [[UIButton alloc] initWithFrame:CGRectMake(280, 7, 30, 30)];
+    [newConversationButton setImage:[UIImage imageNamed:@"icon_chat_addchat_normal"] forState:UIControlStateNormal];
+    newConversationButton.backgroundColor = [UIColor clearColor];
     [newConversationButton addTarget:self action:@selector(createNewConversation) forControlEvents:UIControlEventTouchUpInside];
     [tittleView addSubview:newConversationButton];
     [self.navigationController.view addSubview:tittleView];
@@ -80,6 +80,8 @@
 
 -(void)createNewConversation {
     NSLog(@"[levi] create...");
+    tittleView.hidden = YES;
+    tittleLineView.hidden = YES;
     FansViewController *fanVC = [[FansViewController alloc] init];
     [self.navigationController pushViewController:fanVC animated:YES];
 }
