@@ -10,6 +10,7 @@
 #import "ZJTHelpler.h"
 #import "ZJTStatusBarAlertWindow.h"
 #import "CoreDataManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
@@ -59,15 +60,17 @@
 {
     [super viewDidLoad];
     currentView = HOME_PAGE;
+    headImageView = [[EGOImageView alloc] init];
+    headImageView.frame = CGRectMake(0.0f, 0.0f, 80.0f, 80.0f);
+    headImageView.imageURL = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_FACE_PATH]];
+    [self.userHeadImage addSubview:headImageView];
+    self.userHeadImage.layer.masksToBounds =YES;
+    self.userHeadImage.layer.cornerRadius = 40;
 
     [self initSegment];
-    NSLog(@"qqqqqqqq");
     [self initFansView];
-    NSLog(@"fffffff");
     [self initFollowView];
-    NSLog(@"dddddddd");
     [self initPhotoView];
-    NSLog(@"~~~~~~~~~~~");
     
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     refresh.tintColor = [UIColor lightGrayColor];
@@ -86,6 +89,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postSuccessRefresh) name:FB_POST_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPoint:) name:FB_USER_LOCATION object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
@@ -414,6 +418,8 @@
 
 - (void)viewDidUnload {
     [self setProfileHeaderView:nil];
+    [self setUserHeadImage:nil];
+    [self setMapView:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_VOICE object:nil];
@@ -421,6 +427,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_FAKE_WEIBO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_POST_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_USER_LOCATION object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -1050,6 +1057,29 @@
     //    }
     //    tmpStatusCellL.frame = CGRectMake(tmpStatusCellL.frame.origin.x, tmpStatusCellL.frame.origin.y, tmpStatusCellL.frame.size.width, tmpStatusCellL.frame.size.height + transHeight);
     //    [tmpStatusCellL showTranslateTV:100 Content:transResult];
+}
+
+- (void)addPoint:(NSNotification*)notfication {
+    NSArray *footmarkArray = notfication.object;
+    NSLog(@"foot mark%@", footmarkArray);
+    if ([footmarkArray count] == 0) {
+        return;
+    }
+    CLLocationCoordinate2D tmpCoordinate;
+    for (int i = 0; i < [footmarkArray count]; i ++) {
+        NSDictionary *tmpDic = [footmarkArray objectAtIndex:i];
+        MKPointAnnotation *ann = [[MKPointAnnotation alloc] init];
+        tmpCoordinate.latitude = [[tmpDic objectForKey:@"latitude"] floatValue];
+        tmpCoordinate.longitude = [[tmpDic objectForKey:@"longgitude"] floatValue];
+        ann.coordinate = tmpCoordinate;
+        [self.mapView addAnnotation:ann];
+    }
+    MKCoordinateRegion region;
+    region.span.latitudeDelta = 0.03;
+    region.span.longitudeDelta = 0.03;
+    region.center = tmpCoordinate;
+    [self.mapView setRegion:region animated:YES];
+    [self.mapView regionThatFits:region];
 }
 
 - (void)insertFakeWeiobo:(NSNotification*)notfication {

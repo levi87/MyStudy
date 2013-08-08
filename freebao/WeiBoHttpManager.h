@@ -73,6 +73,7 @@
 
 
 #define FB_POST_SUCCESS             @"fb_post_success"
+#define FB_USER_LOCATION            @"fb_user_location"
 
 
 /*

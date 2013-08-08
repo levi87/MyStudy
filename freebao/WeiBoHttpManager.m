@@ -635,14 +635,17 @@
     //Freebao获取用户信息
     if (requestType == FreebaoGetUserInfo) {
         NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"userInfo %@", tmpDic);
         if ([[tmpDic objectForKey:@"OK"] boolValue]) {
             NSMutableDictionary *tmp = [[tmpDic objectForKey:@"resultMap"] objectForKey:@"user"];
             NSString *nickName = [tmp objectForKey:@"url"];
             NSString *facePath = [tmp objectForKey:@"facePath"];
+            NSArray *footmarkArray = [tmp objectForKey:@"footmark"];
             NSLog(@"[levi] request UserInfo Success...");
             [[NSUserDefaults standardUserDefaults] setObject:facePath forKey:FB_USER_FACE_PATH];
             [[NSUserDefaults standardUserDefaults] setObject:nickName forKey:FB_USER_NICK_NAME];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_USER_LOCATION object:footmarkArray];
         } else {
             NSLog(@"[levi] request UserInfo failed...");
         }
