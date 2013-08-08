@@ -194,6 +194,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1) {
         tittleView.hidden = YES;
         tittleLineView.hidden = YES;

@@ -30,12 +30,14 @@
 #import "StatusNewImageCell.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
+@class EGOImageView;
 @class WeiBoMessageManager;
 @interface PageViewController : UITableViewController <StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate>
 {
     NSString *userID;
     UILabel *tittleLabel;
     UIButton *backButton;
+    EGOImageView* headImageView;
     
     int currentView;
     WeiBoMessageManager *manager;
@@ -76,8 +78,10 @@
 @property (nonatomic, copy)     NSString *userID;
 @property (nonatomic, retain) NSTimer *timer;
 
+@property (weak, nonatomic) IBOutlet UIImageView *userHeadImage;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
 @property (strong, nonatomic) IBOutlet UIView *profileHeaderView;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 //Fans
 @property NSString *cellContentId;

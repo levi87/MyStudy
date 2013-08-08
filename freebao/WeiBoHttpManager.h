@@ -63,6 +63,7 @@
 #define FB_UPLOAD_PHOTO_HEAD_IMAGE  @"fb_upload_head_image"
 #define FB_UPLOAD_PHOTO_RERESH      @"fb_upload_photo_refresh"
 #define FB_POST_SUCCESS             @"fb_post_success"
+#define FB_USER_LOCATION            @"fb_user_location"
 
 /*
  Freebao
