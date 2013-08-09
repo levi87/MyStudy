@@ -522,33 +522,34 @@
 {
     KxMenuItem *tmpKxM = sender;
     NSLog(@"tittle %@", tmpKxM.title);
+    translateLanguage = @"zh_CN";
     CommentsCell *tmpCell = (CommentsCell*)[self.commentTableView cellForRowAtIndexPath:tmpIndexPath];
     if ([tmpKxM.title isEqualToString:@"中文"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
-        tmpCell.commentInfo.languageType = @"zh_CN";
+        translateLanguage = @"zh_CN";
     } else if ([tmpKxM.title isEqualToString:@"English"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
-        tmpCell.commentInfo.languageType = @"en_US";
+        translateLanguage = @"en_US";
     } else if ([tmpKxM.title isEqualToString:@"日本語"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
-        tmpCell.commentInfo.languageType = @"ja_JP";
+        translateLanguage = @"ja_JP";
     } else if ([tmpKxM.title isEqualToString:@"한국어"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
-        tmpCell.commentInfo.languageType = @"ko_KR";
+        translateLanguage = @"ko_KR";
     } else if ([tmpKxM.title isEqualToString:@"España"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
-        tmpCell.commentInfo.languageType = @"es_ES";
+        translateLanguage = @"es_ES";
     } else if ([tmpKxM.title isEqualToString:@"Français"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
-        tmpCell.commentInfo.languageType = @"fr_FR";
+        translateLanguage = @"fr_FR";
     } else if ([tmpKxM.title isEqualToString:@"Deutsch"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_d"]];
-        tmpCell.commentInfo.languageType = @"";
+        translateLanguage = @"";
     } else if ([tmpKxM.title isEqualToString:@"русский"]) {
         [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
-        tmpCell.commentInfo.languageType = @"ru_RU";
+        translateLanguage = @"ru_RU";
     }
-    [self getTranslate:tmpCell.commentInfo.content Language:tmpCell.commentInfo.languageType];
+    [self getTranslate:tmpCell.commentInfo.content Language:translateLanguage];
 }
 
 -(void)getTranslate:(NSString *)content Language:(NSString*)language{

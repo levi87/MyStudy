@@ -151,6 +151,25 @@
 
 -(void)setCellValue:(CommentInfo *)info {
     _commentInfo = info;
+    _translateTextView.hidden = YES;
+    NSLog(@"comment type %@", info.languageType);
+    if ([info.languageType isEqualToString:@"zh_CN"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+    } else if ([info.languageType isEqualToString:@"en_US"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_e"]];
+    } else if ([info.languageType isEqualToString:@"fr_FR"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_f"]];
+    } else if ([info.languageType isEqualToString:@"hi_IN"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
+    } else if ([info.languageType isEqualToString:@"ja_JP"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_j"]];
+    } else if ([info.languageType isEqualToString:@"ru_RU"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_p"]];
+    } else if ([info.languageType isEqualToString:@"es_ES"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_x"]];
+    } else if ([info.languageType isEqualToString:@"ko_KR"]) {
+        [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_k"]];
+    }
     if (info.isPlayingVoice) {
         [_transVoiceImageView startAnimating];
     } else {

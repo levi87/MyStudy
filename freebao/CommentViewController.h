@@ -38,6 +38,7 @@
     NSMutableArray *commentsArray;
     FaceToolBar* bar;
     NSIndexPath *tmpIndexPath;
+    NSString *translateLanguage;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *commentTableView;
