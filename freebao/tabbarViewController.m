@@ -8,6 +8,7 @@
 
 #import "tabbarViewController.h"
 #import "tabbarView.h"
+#import "NewContactViewController.h"
 
 #define SELECTED_VIEW_CONTROLLER_TAG 98456345
 
@@ -90,7 +91,12 @@
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:MesVC];
     nav3.navigationBar.tintColor = [UIColor blackColor];
     
-    ContactsViewController *ContactVC = [[ContactsViewController alloc] initWithNibName:@"ContactsViewController" bundle:nil];
+//    ContactsViewController *ContactVC = [[ContactsViewController alloc] initWithNibName:@"ContactsViewController" bundle:nil];
+//    UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:ContactVC];
+//    nav4.navigationBar.tintColor = [UIColor blackColor];
+//    [nav4.navigationBar setHidden:YES];
+    
+    NewContactViewController *ContactVC = [[NewContactViewController alloc] init];
     UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:ContactVC];
     nav4.navigationBar.tintColor = [UIColor blackColor];
     [nav4.navigationBar setHidden:YES];

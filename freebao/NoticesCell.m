@@ -19,6 +19,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
         UITapGestureRecognizer *singleGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHeadIcon)];
@@ -28,7 +29,7 @@
 		[self.contentView addSubview:headImageView];
         nickNameLabel = [[UILabel alloc] init];
         nickNameLabel.frame = CGRectMake(58, 9, 160, 13);
-        nickNameLabel.text = @"levi";
+        nickNameLabel.text = @"test";
         nickNameLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [self.contentView addSubview:nickNameLabel];
     }
