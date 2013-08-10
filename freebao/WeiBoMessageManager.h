@@ -33,6 +33,9 @@
 //Freebao获取微博new
 -(void)FBGetHomelineNew:(NSString*)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 
+//Freebao 获取AtMePost
+-(void)FBGetAtMePost:(NSString *)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;
+
 //Freebao获取微博评论
 -(void)FBGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString*)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 

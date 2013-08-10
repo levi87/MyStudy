@@ -42,11 +42,9 @@
     UIView *tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
     
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,0, 80, 44)];
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(6,9, 51, 26)];
     [backButton addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
-    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-back.png"]];
-    [imgV setFrame:CGRectMake(0, 16, 7, 12)];
-    [backButton addSubview:imgV];
+    [backButton setImage:[UIImage imageNamed:@"icon_titlebar_back_normal"] forState:UIControlStateNormal];
     
     [tittleView addSubview:backButton];
     [self.view addSubview:tittleView];
@@ -58,7 +56,7 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:_tableView];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR_TO_BOTTOM object:nil];
 
     // Do any additional setup after loading the view from its nib.
 }
@@ -130,7 +128,7 @@
 
 - (void)backButtonAction {
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR_FROM_BOTTOM object:nil];
     [self.navigationController popViewControllerAnimated:YES];
     
 }

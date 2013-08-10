@@ -24,7 +24,7 @@
 #define FONT @"HelveticaNeue-Light"
 
 @class WeiBoMessageManager;
-@interface NewAtMeViewController : UITableViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate> {
+@interface NewAtMeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate> {
     WeiBoMessageManager *manager;
     NSString *_cellContentId;
 @private
@@ -45,7 +45,8 @@
     CustomActionSheet *_actionSheet;
 }
 
-@property (strong, nonatomic) IBOutlet UITableView *homeTableView;
+@property (strong, nonatomic) UITableView *homeTableView;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (retain, nonatomic) AVAudioPlayer *avPlay;
 
 @property NSString *cellContentId;

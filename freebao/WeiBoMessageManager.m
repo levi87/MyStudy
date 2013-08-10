@@ -63,7 +63,7 @@ static WeiBoMessageManager * instance=nil;
     [httpManager didFreebaoGetHomelineNew:userId Page:page PageSize:pageSize PassId:passId];
 }
 
-//Freebao 获取微博信息new
+//Freebao 获取AtMePost
 -(void)FBGetAtMePost:(NSString *)userId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
     [httpManager didFreebaoGetAtMePost:userId Page:page PageSize:pageSize PassId:passId];
 }

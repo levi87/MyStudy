@@ -9,6 +9,7 @@
 #import "NewContactViewController.h"
 #import "NewNoticesViewController.h"
 #import "NewAtMeViewController.h"
+#import "PersonAddress.h"
 
 @interface NewContactViewController ()
 
@@ -21,14 +22,92 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        _addressBook = [[NSMutableArray alloc]init];
+        [self readContactFromLocal];
         
     }
     return self;
 }
 
+
+- (void)readContactFromLocal {
+    CFErrorRef error = NULL;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error){
+        if (granted) {
+            NSLog(@"read works.");
+            [self filterContentForSearchText:@""];
+        }
+    });
+    CFRelease(addressBook);
+}
+
+- (void)filterContentForSearchText:(NSString*)searchText {
+    //如果没有授权则退出
+    if (ABAddressBookGetAuthorizationStatus() != kABAuthorizationStatusAuthorized) {
+        return;
+    }
+    CFErrorRef error = NULL;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
+    if([searchText length]==0) {
+        //查询所有
+        NSArray *r = CFBridgingRelease(ABAddressBookCopyArrayOfAllPeople(addressBook));
+        for (int i = 0; i < [r count]; i ++) {
+            ABRecordRef thisPerson = CFBridgingRetain([r objectAtIndex:i]);
+            NSString *firstName = CFBridgingRelease(ABRecordCopyValue(thisPerson, kABPersonFirstNameProperty));
+            firstName = firstName != nil?firstName:@"";
+            
+            NSString *lastName =  CFBridgingRelease(ABRecordCopyValue(thisPerson, kABPersonLastNameProperty));
+            lastName = lastName != nil?lastName:@"";
+            NSString *tel;
+            ABMultiValueRef phoneNumber = CFBridgingRetain(CFBridgingRelease(ABRecordCopyValue(thisPerson, kABPersonPhoneProperty)));
+            if (ABMultiValueGetCount(phoneNumber) > 0) {
+                tel = CFBridgingRelease(ABMultiValueCopyValueAtIndex(phoneNumber, 0));
+            }
+            
+//            NSLog(@"name %@",[NSString stringWithFormat:@"%@ %@",firstName,lastName]);
+            NSString *name = [NSString stringWithFormat:@"%@ %@",lastName,firstName];
+            NSString *strPhone = [tel stringByReplacingOccurrencesOfString:@"-" withString:@""];
+            strPhone = [strPhone stringByReplacingOccurrencesOfString:@" " withString:@""];
+            strPhone = [strPhone stringByReplacingOccurrencesOfString:@"(" withString:@""];
+            strPhone = [strPhone stringByReplacingOccurrencesOfString:@")" withString:@""];
+//            NSLog(@"phone %@", strPhone);
+            PersonAddress *personAddress = [[PersonAddress alloc]init];
+            personAddress.Name = name;
+            personAddress.phone = strPhone;
+            [_addressBook addObject:personAddress];
+            CFRelease(phoneNumber);
+            CFRelease(thisPerson);
+        }
+    } else {
+        //条件查询
+        CFStringRef cfSearchText = (CFStringRef)CFBridgingRetain(searchText);
+        //        self.listContacts = CFBridgingRelease(ABAddressBookCopyPeopleWithName(addressBook, cfSearchText));
+        CFRelease(cfSearchText);
+    }
+    CFRelease(addressBook);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+//    addressBookSorted = [_addressBook sortedArrayUsingComparator:^(id a, id b) {
+//        
+//        char c1=pinyinFirstLetterNew([(NSString*)a characterAtIndex:0]);
+//        
+//        char c2=pinyinFirstLetterNew([(NSString*)b characterAtIndex:0]);
+//        
+//        NSString* s1=[[NSString stringWithFormat:@"%c",c1] uppercaseString];
+//        
+//        NSString* s2=[[NSString stringWithFormat:@"%c",c2] uppercaseString];
+//        
+//        return [s1 compare:s2];
+//        
+//    }];
+//    
+//    NSLog(@"%@",addressBookSorted);
+    
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [nc addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -65,17 +144,25 @@
     
     [self.view addSubview:_tableView];
    
+    
     // Do any additional setup after loading the view from its nib.
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 9;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    if (section == 0) {
+        return 3;
+    }else if(section == 1){
+        return 4;
+    }else{
+        return [_addressBook count];
+    }
+    
 }
 
 
@@ -127,7 +214,7 @@
     //        }
     //        return cell;
     //    }
-    
+    PersonAddress *personAddress;
     
     static NSString *CellIdentifier = @"Cell";
     ContactCommonCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -154,6 +241,9 @@
             [cell setNum:@"0"];
         }
     }else{
+        personAddress = [_addressBook objectAtIndex:indexPath.row];
+        [cell setType:personAddress.Name];
+        [cell setDetail:personAddress.phone];
         [cell setNum:@"0"];
     }
     

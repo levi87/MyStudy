@@ -147,7 +147,10 @@
 
 //get at me post
 - (void)didFreebaoGetAtMePost:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
-    NSURL *url = [NSURL URLWithString:kRequestAtMePostUrl];
+    
+//    NSURL *url = [NSURL URLWithString:kRequestAtMePostUrl];
+    
+    NSURL *url = [NSURL URLWithString:kRequestTimeLinesUrl];
     ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
     
     [item setPostValue:aUserId    forKey:@"userId"];
@@ -765,7 +768,7 @@
                 statusInfo.isPlayingSound = NO;
                 [timeline addObject:statusInfo];
             }
-            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW object:timeline userInfo:maxCount];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_AT_ME_POST object:timeline userInfo:maxCount];
             NSLog(@"[xxl] new status array count : %d",[timeline count]);
         } else {
             NSLog(@"[xxl] new request HomeLine failed...");

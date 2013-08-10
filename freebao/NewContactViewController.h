@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "ContactCommonCell.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 @interface NewContactViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
     UITapGestureRecognizer *tapRecognizer;
     UITableView *_tableView;
     UISearchBar *searchBar;
+    NSMutableArray *_addressBook;
+    NSArray *addressBookSorted;
 }
 
 //@property(nonatomic,strong) IBOutlet UISearchDisplayController *searchDisplay;

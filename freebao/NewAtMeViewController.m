@@ -29,11 +29,12 @@
 @synthesize cellContentId = _cellContentId;
 @synthesize avPlay = _avPlay;
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
@@ -53,14 +54,14 @@
     if (manager == nil) {
         manager = [WeiBoMessageManager getInstance];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_HOMELINE_NEW object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestHomeLine:) name:FB_GET_AT_ME_POST object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestVoiceResult:) name:FB_GET_TRANSLATION_VOICE object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateResult:)       name:FB_GET_TRANSLATION object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postSuccessRefresh) name:FB_POST_SUCCESS object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-    [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+    [manager FBGetAtMePost:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     headPhotos = [[NSMutableArray alloc] init];
     
@@ -79,13 +80,19 @@
     [backButton setImage:[UIImage imageNamed:@"icon_titlebar_back_normal"] forState:UIControlStateNormal];
     UIView *tittleLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 0.5)];
     [tittleLineView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:77/255.0 blue:105/255.0 alpha:0.7]];
-    [self.navigationController.view addSubview:tittleView];
-    [self.navigationController.view addSubview:tittleLineView];
-    [self.navigationController.view addSubview:backButton];
-    backButton.hidden = YES;
+    [self.view addSubview:tittleView];
+    [self.view addSubview:tittleLineView];
+    [self.view addSubview:backButton];
+
     
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    [self.homeTableView setTableHeaderView:headerView];
+//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    self.homeTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, 568)];
+    self.homeTableView.delegate = self;
+    self.homeTableView.dataSource = self;
+//    self.homeTableView.frame = CGRectMake(0, 0, 320, 44);
+//    [self.homeTableView setTableHeaderView:headerView];
+    [self.view addSubview:self.homeTableView];
+    [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR_TO_BOTTOM object:nil];
 }
 
 -(void)postSuccessRefresh {
@@ -110,13 +117,11 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR object:nil];
 }
 
 - (void)backButtonAction {
-    NSLog(@"[levi]back...");
-    backButton.hidden = YES;
-    tittleLabel.text = @"Freebao";
+    [[NSNotificationCenter defaultCenter] postNotificationName:SHOW_TABBAR_FROM_BOTTOM object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -681,7 +686,7 @@
     StatusInfo *tmpStatus = (StatusInfo*)notfication.object;
     NSDictionary *tmpDic = notfication.userInfo;
     [statusArray insertObject:tmpStatus atIndex:0];
-    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+    [self.homeTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
     [self performSelector:@selector(submitFakeWeibo:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:tmpStatus,@"status", tmpDic, @"userinfo", nil] afterDelay:1];
 }
 
