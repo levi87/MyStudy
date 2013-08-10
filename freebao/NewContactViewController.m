@@ -10,6 +10,7 @@
 #import "NewNoticesViewController.h"
 #import "NewAtMeViewController.h"
 #import "PersonAddress.h"
+#import "NewCommentsViewController.h"
 
 @interface NewContactViewController ()
 
@@ -158,7 +159,7 @@
     if (section == 0) {
         return 3;
     }else if(section == 1){
-        return 4;
+        return 2;
     }else{
         return [_addressBook count];
     }
@@ -240,6 +241,18 @@
             [cell setDetail:@"Michael commented on you"];
             [cell setNum:@"0"];
         }
+    }else if(indexPath.section == 1){
+        if (indexPath.row == 0) {
+            [cell setType:@"Jason"];
+//            [cell setHeadImage:[UIImage imageNamed:@"icon_contact_notice_normal.png"]];
+            [cell setDetail:@"Fighting! Fighting! Fighting!"];
+            [cell setNum:@"0"];
+        }else if(indexPath.row == 1){
+            [cell setType:@"William"];
+//            [cell setHeadImage:[UIImage imageNamed:@"icon_contact_atme_normal.png"]];
+            [cell setDetail:@"Fighting!"];
+            [cell setNum:@"0"];
+        }
     }else{
         personAddress = [_addressBook objectAtIndex:indexPath.row];
         [cell setType:personAddress.Name];
@@ -262,6 +275,9 @@
         }else if(indexPath.row == 1){
             NewAtMeViewController *homeCV = [[NewAtMeViewController alloc]init];
             [self.navigationController pushViewController:homeCV animated:YES];
+        }else if(indexPath.row == 2){
+            NewCommentsViewController *commentVC = [[NewCommentsViewController alloc]init];
+            [self.navigationController pushViewController:commentVC animated:YES];
         }
     }
 }
