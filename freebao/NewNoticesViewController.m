@@ -70,7 +70,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 15;
+    return 3;
 }
 
 
@@ -87,31 +87,31 @@
     
     
     static NSString *CellIdentifier = @"Cell";
-    ContactCommonCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NoticeCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[ContactCommonCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[NoticeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            [cell setType:@"Notices"];
+            [cell setName:@"Michael"];
             [cell setHeadImage:[UIImage imageNamed:@"icon_contact_notice_normal.png"]];
             [cell setDetail:@"Michael took a photo"];
-            [cell setNum:@"0"];
+            [cell setTime:@"16:30"];
         }else if(indexPath.row == 1){
-            [cell setType:@"@Me"];
+            [cell setName:@"William"];
             [cell setHeadImage:[UIImage imageNamed:@"icon_contact_atme_normal.png"]];
-            [cell setDetail:@"Michael in your release status @ you"];
-            [cell setNum:@"0"];
+            [cell setDetail:@"William took a photo"];
+            [cell setTime:@"Yesterday"];
         }else{
-            [cell setType:@"Comments"];
+            [cell setName:@"Jason"];
             [cell setHeadImage:[UIImage imageNamed:@"icon_contact_comment_normal.png"]];
-            [cell setDetail:@"Michael commented on you"];
-            [cell setNum:@"0"];
+            [cell setDetail:@"2013-8-8"];
+            [cell setTime:@"0"];
         }
     }else{
-        [cell setNum:@"0"];
+//        [cell setTime:@"0"];
     }
     
     

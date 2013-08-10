@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ContactCommonCell.h"
+#import "NoticeCell.h"
 
 @interface NewNoticesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 {
