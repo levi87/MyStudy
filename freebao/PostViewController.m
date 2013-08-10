@@ -10,6 +10,7 @@
 #define FONT @"HelveticaNeue-Light"
 #define FB_FAKE_WEIBO @"fb_fake_weibo"
 #define INIT_FACEVIEW_POSITION @"init_faceview_position"
+#define FB_SET_AT_NAME @"fb_set_at_name"
 
 @interface PostViewController ()
 
@@ -72,6 +73,12 @@
     }
     [manager FBGetCircleWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestCircle:) name:FB_GET_CIRCLE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setAtName:) name:FB_SET_AT_NAME object:nil];
+}
+
+-(void)setAtName:(NSNotification*)notification {
+    NSLog(@"at %@", notification.object);
+    self.postTextView.text = [NSString stringWithFormat:@"%@ @%@ ",self.postTextView.text, notification.object];
 }
 
 - (void)onRequestCircle:(NSNotification*)notification {
@@ -185,6 +192,7 @@
 
 - (void)viewDidUnload {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_CIRCLE object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_SET_AT_NAME object:nil];
     [self setSelectPictureButton:nil];
     [self setUpperView:nil];
     [self setUserLocationButton:nil];
@@ -492,5 +500,11 @@
     self.VoiceImageView.hidden = YES;
     [self.userLocationButton setImage:[UIImage imageNamed:@"icon_postedit_location_off"] forState:UIControlStateNormal];
     [self.selectPictureButton setBackgroundImage:[UIImage imageNamed:@"icon_postedit_camera_normal"] forState:UIControlStateNormal];
+}
+
+-(void)atView {
+    NSLog(@"post view...");
+    AtPostViewController *fanVC = [[AtPostViewController alloc] init];
+    [self presentViewController:fanVC animated:YES completion:nil];
 }
 @end

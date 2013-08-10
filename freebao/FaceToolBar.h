@@ -31,6 +31,8 @@
 
 -(void)inputText:(NSString*)str;
 
+-(void)atView;
+
 
 -(void)hideKeyboardPost;
 -(void)showKeyboardPost;
@@ -39,9 +41,10 @@
 {
     CustomToolbar *toolBar;//工具栏
     UIExpandingTextView *_textView;//文本输入框
-    UIButton *faceButton ;
+    UIButton *faceButton;
     UIButton *voiceButton;
     UIButton *sendButton;
+    UIButton *atButton;
     
     BOOL keyboardIsShow;//键盘是否显示
     

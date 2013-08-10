@@ -17,6 +17,7 @@
 #import "WeiBoMessageManager.h"
 #import "StatusInfo.h"
 #import "iToast.h"
+#import "AtPostViewController.h"
 
 @class WeiBoMessageManager;
 @interface PostViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate,MKMapViewDelegate,CLLocationManagerDelegate,FaceToolBarDelegate,AVAudioRecorderDelegate,AVAudioPlayerDelegate> {

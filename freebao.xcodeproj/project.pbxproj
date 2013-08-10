@@ -197,6 +197,8 @@
 		A2DE86251786BC8800170907 /* bg_chat_white_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86241786BC8800170907 /* bg_chat_white_normal.png */; };
 		A2DE86271786C2D200170907 /* bg_chat_white_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */; };
 		A2DE86291786C31000170907 /* bg_chat_blue_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A2DE86281786C31000170907 /* bg_chat_blue_normal.png */; };
+		A2E063A617B5DBDB00DCF64E /* AtPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E063A417B5DBDB00DCF64E /* AtPostViewController.m */; };
+		A2E063A717B5DBDB00DCF64E /* AtPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2E063A517B5DBDB00DCF64E /* AtPostViewController.xib */; };
 		A2E1A09317A2478A002C2867 /* ContactsUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E1A09217A2478A002C2867 /* ContactsUserCell.m */; };
 		A2E1A09717A2479C002C2867 /* ContactsNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2E1A09617A2479C002C2867 /* ContactsNoticeCell.m */; };
 		A2E1A0A217A24F28002C2867 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2E1A0A117A24F28002C2867 /* AddressBook.framework */; };
@@ -944,6 +946,9 @@
 		A2DE86241786BC8800170907 /* bg_chat_white_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_chat_white_normal.png; sourceTree = "<group>"; };
 		A2DE86261786C2D200170907 /* bg_chat_white_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_chat_white_normal@2x.png"; sourceTree = "<group>"; };
 		A2DE86281786C31000170907 /* bg_chat_blue_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_chat_blue_normal.png; sourceTree = "<group>"; };
+		A2E063A317B5DBDA00DCF64E /* AtPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtPostViewController.h; sourceTree = "<group>"; };
+		A2E063A417B5DBDB00DCF64E /* AtPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtPostViewController.m; sourceTree = "<group>"; };
+		A2E063A517B5DBDB00DCF64E /* AtPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AtPostViewController.xib; sourceTree = "<group>"; };
 		A2E1A09117A2478A002C2867 /* ContactsUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsUserCell.h; sourceTree = "<group>"; };
 		A2E1A09217A2478A002C2867 /* ContactsUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsUserCell.m; sourceTree = "<group>"; };
 		A2E1A09517A2479C002C2867 /* ContactsNoticeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsNoticeCell.h; sourceTree = "<group>"; };
@@ -3332,6 +3337,9 @@
 				DBE08BD017A6AB3B007CC169 /* HomePageNewViewController.h */,
 				DBE08BD117A6AB3B007CC169 /* HomePageNewViewController.m */,
 				DBE08BD217A6AB3B007CC169 /* HomePageNewViewController.xib */,
+				A2E063A317B5DBDA00DCF64E /* AtPostViewController.h */,
+				A2E063A417B5DBDB00DCF64E /* AtPostViewController.m */,
+				A2E063A517B5DBDB00DCF64E /* AtPostViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -4080,6 +4088,7 @@
 				A2D3BF7F17B36FB100695913 /* icon_chat_addchat_pressed@2x.png in Resources */,
 				A2D3BF8217B36FC200695913 /* icon_titlebar_back_normal@2x.png in Resources */,
 				A2D3BF8317B36FC200695913 /* icon_titlebar_back_pressed@2x.png in Resources */,
+				A2E063A717B5DBDB00DCF64E /* AtPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4390,6 +4399,7 @@
 				D9715F2F17B1F75B0090ABBB /* NewLoginViewController.m in Sources */,
 				D9715F3417B217850090ABBB /* NewRegisterViewController.m in Sources */,
 				A2D3BF7B17B3453500695913 /* iToast.m in Sources */,
+				A2E063A617B5DBDB00DCF64E /* AtPostViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

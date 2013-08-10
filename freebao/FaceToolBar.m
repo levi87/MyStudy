@@ -136,6 +136,12 @@
             faceButton.frame = CGRectMake(toolBar.bounds.size.width - 70.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
         } else {
             faceButton.frame = CGRectMake(toolBar.bounds.size.width - 150.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
+            atButton = [[UIButton alloc] initWithFrame:CGRectMake(toolBar.bounds.size.width - 270.0f,toolBar.bounds.size.height-40.0f,buttonWh,buttonWh)];
+            atButton.backgroundColor = [UIColor clearColor];
+            [atButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more-"] forState:UIControlStateNormal];
+            //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
+            [atButton addTarget:self action:@selector(atFriendsView) forControlEvents:UIControlEventTouchUpInside];
+            [toolBar addSubview:atButton];
         }
 //        [toolBar addSubview:faceButton];
         
@@ -195,6 +201,13 @@
         // Do any additional setup after loading the view, typically from a nib.
     }
     return self;
+}
+
+-(void)atFriendsView {
+    if ([delegate respondsToSelector:@selector(atView)])
+    {
+        [delegate atView];
+    }
 }
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
