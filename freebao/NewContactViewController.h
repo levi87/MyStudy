@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "ContactCommonCell.h"
 
-@interface NewContactViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface NewContactViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 {
+    UITapGestureRecognizer *tapRecognizer;
     UITableView *_tableView;
+    UISearchBar *searchBar;
 }
 
-@property(nonatomic,strong) IBOutlet UISearchBar *searchBar;
 //@property(nonatomic,strong) IBOutlet UISearchDisplayController *searchDisplay;
 
 @end

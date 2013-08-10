@@ -18,7 +18,6 @@
     if (self) {
         _headImageView = [[UIImageView alloc] init];
 		_headImageView.frame = CGRectMake(8.0f, 4.0f, 40.0f, 40.0f);
-//        [_headImageView setImage:[UIImage imageNamed:@"icon_contact_atme_normal.png"]];
         _headImageView.userInteractionEnabled = YES;
     
         _typeLabel = [[UILabel alloc] init];
@@ -34,11 +33,10 @@
         
         _rightImageView = [[UIImageView alloc] init];
 		_rightImageView.frame = CGRectMake(299, 19, 15, 15);
-        //        [_headImageView setImage:[UIImage imageNamed:@"icon_contact_atme_normal.png"]];
+        [_rightImageView setImage:[UIImage imageNamed:@"bg_contacts_boy.png"]];
         _rightImageView.userInteractionEnabled = YES;
         
-        _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 13, 13)];
-        _numLabel.text = @"12";
+        _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(1, 0, 13, 13)];
         _numLabel.textAlignment = UITextAlignmentCenter;
         [_numLabel setAdjustsFontSizeToFitWidth:YES];
         _numLabel.textColor = [UIColor whiteColor];
@@ -68,14 +66,16 @@
     _detailLabel.text = detail;
 }
 
-- (void)setRightImage:(UIImage *) rightImage
-{
-    _rightImageView.image = rightImage;
-}
 
 - (void)setNum:(NSString *)num
 {
-    _numLabel.text = num;
+    if ([@"0"isEqualToString:num]) {
+        _rightImageView.hidden = YES;
+    }else{
+        _rightImageView.hidden = NO;
+        _numLabel.text = num;
+    }
+    
 }
 
 -(void)prepareForReuse
@@ -83,6 +83,7 @@
     _headImageView.image = nil;
     _typeLabel.text = @"";
     _detailLabel.text = @"";
+    _rightImageView.hidden = YES;
     
 }
 
