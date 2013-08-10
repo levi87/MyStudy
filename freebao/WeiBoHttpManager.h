@@ -161,6 +161,7 @@
 #define kLogoutUrl                      kHostUrl@"login/logout.html"
 #define kRequestCirclesUrl              kHostUrl@"team/findUserTeams.html"
 #define kRequestTimeLinesUrl            kHostUrl@"content/findFriendsPost.html"
+#define kRequestAtMePostUrl            kHostUrl@"clientContent/atMePost.html"
 #define kRequestConversationListUrl     kHostUrl@"message/findChatRecordList.html"
 #define kRequestRecommendedUsers        kHostUrl@"clientUser/recommendFriendList.html"
 #define kRequestFriendsUrl              kHostUrl@"friend/followList.html"
@@ -279,6 +280,7 @@ typedef enum {
     FreebaoGetUserInfo,
     FreebaoGetHomeline,
     FreebaoGetHomelineNew,
+    FreebaoGetAtMePost,
     FreebaoGetComment,
     FreebaoGetMention,
     FreebaoLike,
@@ -357,6 +359,9 @@ typedef enum {
 
 //Freebao获取微博信息new
 -(void)didFreebaoGetHomelineNew:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao获取@Me
+- (void)didFreebaoGetAtMePost:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;
 
 //Freebao获取微博评论
 -(void)didFreebaoGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;

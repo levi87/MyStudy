@@ -35,7 +35,7 @@
     UILabel *tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
-    tittleLabel.text = @"Contacts";
+    tittleLabel.text = @"Notices";
     tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
@@ -124,8 +124,6 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             NSLog(@" section0  row0");
-            NewNoticesViewController *noticeVC = [[NewNoticesViewController alloc]init];
-            [self.navigationController pushViewController:noticeVC animated:YES ];
         }
     }
 }

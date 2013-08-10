@@ -8,6 +8,7 @@
 
 #import "NewContactViewController.h"
 #import "NewNoticesViewController.h"
+#import "NewAtMeViewController.h"
 
 @interface NewContactViewController ()
 
@@ -38,7 +39,7 @@
     UILabel *tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     tittleLabel.textAlignment = UITextAlignmentCenter;
     [tittleLabel setBackgroundColor:[UIColor clearColor]];
-    tittleLabel.text = @"Notices";
+    tittleLabel.text = @"Contacts";
     tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: tittleLabel];
     tittleLabel.center = CGPointMake(160, 22);
@@ -168,6 +169,9 @@
             NSLog(@" section0  row0");
             NewNoticesViewController *noticeVC = [[NewNoticesViewController alloc]init];
             [self.navigationController pushViewController:noticeVC animated:YES ];
+        }else if(indexPath.row == 1){
+            NewAtMeViewController *homeCV = [[NewAtMeViewController alloc]init];
+            [self.navigationController pushViewController:homeCV animated:YES];
         }
     }
 }
