@@ -35,6 +35,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] postNotificationName:HIDE_TABBAR object:nil];
+    tittleView.hidden = NO;
+    tittleLineView.hidden = NO;
+    backButton.hidden = NO;
 }
 
 - (void)viewDidLoad
@@ -74,6 +77,7 @@
     [self.navigationController.view addSubview:tittleView];
     [self.navigationController.view addSubview:tittleLineView];
     [self.navigationController.view addSubview:backButton];
+    
 }
 
 - (void)backButtonAction {
@@ -83,6 +87,7 @@
     backButton.hidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -110,9 +115,10 @@
     NoticesCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[NoticesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.frame = CGRectMake(0, 0, 320, 50);
     }
-    [cell setCellValue:(NoticeInfo*)[likersArray objectAtIndex:indexPath.row]];
-    [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
+//    [cell setCellValue:(NoticeInfo*)[likersArray objectAtIndex:indexPath.row]];
+//    [cell setHeadPhoto:[headPhotos objectAtIndex:indexPath.row]];
     
     // Configure the cell...
     

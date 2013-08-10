@@ -145,6 +145,22 @@
     [requestQueue addOperation:item];
 }
 
+//get at me post
+- (void)didFreebaoGetAtMePost:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    
+//    NSURL *url = [NSURL URLWithString:kRequestAtMePostUrl];
+    
+    NSURL *url = [NSURL URLWithString:kRequestTimeLinesUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    [self setPostUserInfo:item withRequestType:FreebaoGetAtMePost];
+    [requestQueue addOperation:item];
+}
+
 - (void)didFreebaoGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
     NSURL *url;
     NSInteger statusT = [statusType integerValue];
@@ -725,6 +741,49 @@
             NSLog(@"[levi] new status array count : %d",[timeline count]);
         } else {
             NSLog(@"[levi] new request HomeLine failed...");
+        }
+        return;
+    }
+    
+    if (requestType == FreebaoGetAtMePost) {
+        NSMutableDictionary *tmpDic = returnObject;
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] request new HomeLine Success... %@", tmpDic);
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSDictionary *maxCount = [NSDictionary dictionaryWithObjectsAndKeys:[[resultMap objectForKey:@"currentPageInfo"] objectForKey:@"totalPage"],@"maxCount", nil];
+            
+            NSArray *contents = [resultMap objectForKey:@"posts"];
+            NSLog(@"post new %@",contents);
+            
+            NSMutableArray *timeline = [NSMutableArray array];
+            for (NSInteger index=0; index<[contents count]; index++) {
+                NSDictionary *tmpDic = [contents objectAtIndex:index];
+                StatusInfo *statusInfo = [[StatusInfo alloc] init];
+                statusInfo.isFakeWeibo = NO;
+                statusInfo.originalPicUrl = [tmpDic getStringValueForKey:@"original_pic" defaultValue:@"0"];
+                statusInfo.commentCount = [tmpDic getStringValueForKey:@"comment_count" defaultValue:@"0"];
+                statusInfo.contentId = [tmpDic getStringValueForKey:@"contentId" defaultValue:@"0"];
+                statusInfo.createAt = [tmpDic getStringValueForKey:@"create_at" defaultValue:@"0"];
+                statusInfo.distance = [tmpDic getStringValueForKey:@"distance" defaultValue:@"0"];
+                statusInfo.likeCount = [tmpDic getStringValueForKey:@"like_count" defaultValue:@"0"];
+                statusInfo.liked = [tmpDic getStringValueForKey:@"liked" defaultValue:@"0"];
+                statusInfo.postLanguage = [tmpDic getStringValueForKey:@"post_language" defaultValue:@"0"];
+                statusInfo.content = [tmpDic getStringValueForKey:@"text" defaultValue:@"0"];
+                statusInfo.userFacePath = [tmpDic getStringValueForKey:@"user_face_path" defaultValue:@"0"];
+                statusInfo.userId = [tmpDic getStringValueForKey:@"user_id" defaultValue:@"0"];
+                statusInfo.userName = [tmpDic getStringValueForKey:@"user_name" defaultValue:@"0"];
+                statusInfo.rePostDic = [tmpDic objectForKey:@"postVO"];
+                statusInfo.commentArray = [tmpDic objectForKey:@"comments"];
+                statusInfo.soundDic = [tmpDic objectForKey:@"sound"];
+                statusInfo.geo = [tmpDic objectForKey:@"geo"];
+                statusInfo.isPlayingVoice = NO;
+                statusInfo.isPlayingSound = NO;
+                [timeline addObject:statusInfo];
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_AT_ME_POST object:timeline userInfo:maxCount];
+            NSLog(@"[xxl] new status array count : %d",[timeline count]);
+        } else {
+            NSLog(@"[xxl] new request HomeLine failed...");
         }
         return;
     }

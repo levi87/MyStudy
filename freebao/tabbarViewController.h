@@ -31,6 +31,9 @@
 @class tabbarView;
 
 @interface tabbarViewController : UIViewController<tabbarDelegate>
+{
+    CGFloat orginHeight;
+}
 
 @property(nonatomic,strong) tabbarView *tabbar;
 @property(nonatomic,strong) NSArray *arrayViewcontrollers;

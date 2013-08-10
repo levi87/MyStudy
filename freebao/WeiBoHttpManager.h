@@ -49,6 +49,7 @@
 //FB_HOMELINE
 #define FB_GET_HOMELINE             @"fb_get_homeline"
 #define FB_GET_HOMELINE_NEW         @"fb_get_homeline_new"
+#define FB_GET_AT_ME_POST           @"fb_get_at_me_post"
 #define FB_GET_USERINFO             @"fb_get_userinfo"
 #define FB_GET_UNREAD_COUNT         @"fb_get_unread_count"
 #define FB_GET_COMMENT              @"fb_get_comment"
@@ -76,6 +77,8 @@
 #define FB_POST_SUCCESS             @"fb_post_success"
 #define FB_USER_LOCATION            @"fb_user_location"
 
+#define HIDE_TABBAR_TO_BOTTOM @"hide_tabbar_to_bottom"
+#define SHOW_TABBAR_FROM_BOTTOM @"show_tabbar_from_bottom"
 
 /*
  Freebao
@@ -162,6 +165,7 @@
 #define kLogoutUrl                      kHostUrl@"login/logout.html"
 #define kRequestCirclesUrl              kHostUrl@"team/findUserTeams.html"
 #define kRequestTimeLinesUrl            kHostUrl@"content/findFriendsPost.html"
+#define kRequestAtMePostUrl            kHostUrl@"clientContent/atMePost.html"
 #define kRequestConversationListUrl     kHostUrl@"message/findChatRecordList.html"
 #define kRequestRecommendedUsers        kHostUrl@"clientUser/recommendFriendList.html"
 #define kRequestFriendsUrl              kHostUrl@"friend/followList.html"
@@ -280,6 +284,7 @@ typedef enum {
     FreebaoGetUserInfo,
     FreebaoGetHomeline,
     FreebaoGetHomelineNew,
+    FreebaoGetAtMePost,
     FreebaoGetComment,
     FreebaoGetMention,
     FreebaoLike,
@@ -359,6 +364,9 @@ typedef enum {
 
 //Freebao获取微博信息new
 -(void)didFreebaoGetHomelineNew:(NSString*)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
+
+//Freebao获取@Me
+- (void)didFreebaoGetAtMePost:(NSString *)aUserId Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;
 
 //Freebao获取微博评论
 -(void)didFreebaoGetCommentWithHomelineId:(NSString*)StatusId StatusType:(NSString *)statusType Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId;

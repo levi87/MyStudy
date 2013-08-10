@@ -8,6 +8,7 @@
 
 #import "tabbarViewController.h"
 #import "tabbarView.h"
+#import "NewContactViewController.h"
 
 #define SELECTED_VIEW_CONTROLLER_TAG 98456345
 
@@ -24,7 +25,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    CGFloat orginHeight = self.view.frame.size.height- 45.5;
+    orginHeight = self.view.frame.size.height- 45.5;
     if (iPhone5) {
         orginHeight = self.view.frame.size.height- 45.5 + addHeight;
     }
@@ -37,6 +38,10 @@
     [self touchBtnAtIndex:0];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSelf) name:HIDE_TABBAR object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSelf) name:SHOW_TABBAR object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSelfToBottom) name:HIDE_TABBAR_TO_BOTTOM object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSelfFromBottom) name:SHOW_TABBAR_FROM_BOTTOM object:nil];
+    
 }
 
 - (void)hideSelf {
@@ -45,6 +50,20 @@
 
 - (void)showSelf {
     [_tabbar setHidden:NO];
+}
+
+- (void)hideSelfToBottom {
+    
+    [UIView animateWithDuration:0.3 animations:^(void){
+        _tabbar.frame = CGRectMake(0, orginHeight+45.5, 320, 45.5);
+    }];
+}
+
+- (void)showSelfFromBottom {
+    
+    [UIView animateWithDuration:0.3 animations:^(void){
+        _tabbar.frame = CGRectMake(0, orginHeight, 320, 45.5);
+    }];
 }
 
 - (void)viewDidUnload {
@@ -90,7 +109,12 @@
     UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:MesVC];
     nav3.navigationBar.tintColor = [UIColor blackColor];
     
-    ContactsViewController *ContactVC = [[ContactsViewController alloc] initWithNibName:@"ContactsViewController" bundle:nil];
+//    ContactsViewController *ContactVC = [[ContactsViewController alloc] initWithNibName:@"ContactsViewController" bundle:nil];
+//    UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:ContactVC];
+//    nav4.navigationBar.tintColor = [UIColor blackColor];
+//    [nav4.navigationBar setHidden:YES];
+    
+    NewContactViewController *ContactVC = [[NewContactViewController alloc] init];
     UINavigationController *nav4 = [[UINavigationController alloc] initWithRootViewController:ContactVC];
     nav4.navigationBar.tintColor = [UIColor blackColor];
     [nav4.navigationBar setHidden:YES];

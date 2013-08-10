@@ -95,6 +95,7 @@
     [_dataArr addObject:@"Kobe Brand"];
     [_dataArr addObject:@"Kobe Crand"];
     _contactsArray = [self getChineseStringArr:_dataArr];
+    self.tableView.frame = CGRectMake(0, 44, 320, 480) ;
     [self.tableView setTableHeaderView:self.headerView];
 }
 
