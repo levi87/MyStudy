@@ -56,6 +56,10 @@
 		A22F270217951F7300069DA4 /* con-voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A22F270117951F7300069DA4 /* con-voice@2x.png */; };
 		A22F270617953C0300069DA4 /* UserLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22F270417953C0200069DA4 /* UserLocationViewController.m */; };
 		A22F270717953C0300069DA4 /* UserLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A22F270517953C0200069DA4 /* UserLocationViewController.xib */; };
+		A231029817B874090089397B /* PeopleUMayKnowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A231029617B874090089397B /* PeopleUMayKnowViewController.m */; };
+		A231029917B874090089397B /* PeopleUMayKnowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A231029717B874090089397B /* PeopleUMayKnowViewController.xib */; };
+		A231029C17B87BA90089397B /* PeopleMayKnowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A231029B17B87BA90089397B /* PeopleMayKnowCell.m */; };
+		A231029F17B87CB30089397B /* PeopleMayKnowInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A231029E17B87CB30089397B /* PeopleMayKnowInfo.m */; };
 		A23504AA1797943C0070343E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A23504A81797943C0070343E /* CommentViewController.m */; };
 		A23504AB1797943C0070343E /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A23504A91797943C0070343E /* CommentViewController.xib */; };
 		A23504AE1797C9AF0070343E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A23504AD1797C9AF0070343E /* Default-568h@2x.png */; };
@@ -795,6 +799,13 @@
 		A22F270317953C0200069DA4 /* UserLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLocationViewController.h; sourceTree = "<group>"; };
 		A22F270417953C0200069DA4 /* UserLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLocationViewController.m; sourceTree = "<group>"; };
 		A22F270517953C0200069DA4 /* UserLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserLocationViewController.xib; sourceTree = "<group>"; };
+		A231029517B874090089397B /* PeopleUMayKnowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleUMayKnowViewController.h; sourceTree = "<group>"; };
+		A231029617B874090089397B /* PeopleUMayKnowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleUMayKnowViewController.m; sourceTree = "<group>"; };
+		A231029717B874090089397B /* PeopleUMayKnowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PeopleUMayKnowViewController.xib; sourceTree = "<group>"; };
+		A231029A17B87BA90089397B /* PeopleMayKnowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleMayKnowCell.h; sourceTree = "<group>"; };
+		A231029B17B87BA90089397B /* PeopleMayKnowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleMayKnowCell.m; sourceTree = "<group>"; };
+		A231029D17B87CB30089397B /* PeopleMayKnowInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleMayKnowInfo.h; sourceTree = "<group>"; };
+		A231029E17B87CB30089397B /* PeopleMayKnowInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleMayKnowInfo.m; sourceTree = "<group>"; };
 		A23504A71797943C0070343E /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		A23504A81797943C0070343E /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		A23504A91797943C0070343E /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
@@ -3450,6 +3461,9 @@
 				A2E063A317B5DBDA00DCF64E /* AtPostViewController.h */,
 				A2E063A417B5DBDB00DCF64E /* AtPostViewController.m */,
 				A2E063A517B5DBDB00DCF64E /* AtPostViewController.xib */,
+				A231029517B874090089397B /* PeopleUMayKnowViewController.h */,
+				A231029617B874090089397B /* PeopleUMayKnowViewController.m */,
+				A231029717B874090089397B /* PeopleUMayKnowViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -3548,6 +3562,8 @@
 				DBE08BCE17A6A350007CC169 /* StatusNewCell.m */,
 				DBE08BD517A6B0B9007CC169 /* StatusNewImageCell.h */,
 				DBE08BD617A6B0B9007CC169 /* StatusNewImageCell.m */,
+				A231029A17B87BA90089397B /* PeopleMayKnowCell.h */,
+				A231029B17B87BA90089397B /* PeopleMayKnowCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -3645,6 +3661,8 @@
 				A2C1B5D517A647B3001E84DF /* PersonInfo.m */,
 				DBE08BD817A6B738007CC169 /* StatusInfo.h */,
 				DBE08BD917A6B738007CC169 /* StatusInfo.m */,
+				A231029D17B87CB30089397B /* PeopleMayKnowInfo.h */,
+				A231029E17B87CB30089397B /* PeopleMayKnowInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -4232,6 +4250,7 @@
 				D9715F8B17B5082A0090ABBB /* NewNoticesViewController.xib in Resources */,
 				D90AF70917B5E0AA00528AFD /* NewAtMeViewController.xib in Resources */,
 				D90AF71117B6123B00528AFD /* NewCommentsViewController.xib in Resources */,
+				A231029917B874090089397B /* PeopleUMayKnowViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4550,6 +4569,9 @@
 				D90AF70817B5E0AA00528AFD /* NewAtMeViewController.m in Sources */,
 				D90AF70C17B6015D00528AFD /* PersonAddress.m in Sources */,
 				D90AF71017B6123B00528AFD /* NewCommentsViewController.m in Sources */,
+				A231029817B874090089397B /* PeopleUMayKnowViewController.m in Sources */,
+				A231029C17B87BA90089397B /* PeopleMayKnowCell.m in Sources */,
+				A231029F17B87CB30089397B /* PeopleMayKnowInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

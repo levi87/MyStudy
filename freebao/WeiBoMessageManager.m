@@ -208,4 +208,9 @@ static WeiBoMessageManager * instance=nil;
 -(void)FBReportShareWithUserId:(NSString *)aUserId ReportType:(NSString *)type ContentId:(NSString *)aContentId PassId:(NSString *)passId {
     [httpManager didFreebaoReportShareWithUserId:aUserId ReportType:type ContentId:aContentId PassId:passId];
 }
+
+//Freebao 附近的人
+-(void)FBYouMayKnowWithUserId:(NSString *)aUserId PageSize:(NSString *)size PassId:(NSString *)passId {
+    [httpManager didFreebaoMayKnowWithUserId:aUserId PageSize:size PassId:passId];
+}
 @end

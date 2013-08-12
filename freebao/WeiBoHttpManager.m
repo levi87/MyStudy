@@ -559,6 +559,18 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoMayKnowWithUserId:(NSString *)aUserId PageSize:(NSString *)size PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kRequestRecommendedUsers];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:size     forKey:@"userSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoYouMayKnow];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -1156,6 +1168,19 @@
             NSLog(@"[levi] report Success...");
         } else {
             NSLog(@"[levi] report failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoYouMayKnow) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] may know dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] may know Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSArray *resultArray = [resultMap objectForKey:@"recommentList"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_PEOPLE_YOU_MAY_KNOW object:resultArray];
+        } else {
+            NSLog(@"[levi] may know failed...");
         }
         return;
     }

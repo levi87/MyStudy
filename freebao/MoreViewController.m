@@ -205,6 +205,11 @@
         tittleLineView.hidden = YES;
         ProfileViewController *proVC = [[ProfileViewController alloc] init];
         [self.navigationController pushViewController:proVC animated:YES];
+    } else if (indexPath.row == 4) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        PeopleUMayKnowViewController *pumkVC = [[PeopleUMayKnowViewController alloc] init];
+        [self.navigationController pushViewController:pumkVC animated:YES];
     } else if (indexPath.row == 5) {
         tittleView.hidden = YES;
         tittleLineView.hidden = YES;

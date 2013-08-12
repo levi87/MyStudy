@@ -118,4 +118,7 @@
 
 //Freebao report
 -(void)FBReportShareWithUserId:(NSString*)aUserId ReportType:(NSString*)type ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao you may know
+-(void)FBYouMayKnowWithUserId:(NSString*)aUserId PageSize:(NSString*)size PassId:(NSString*)passId;
 @end

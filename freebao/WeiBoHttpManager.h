@@ -72,6 +72,7 @@
 #define FB_UPLOAD_PHOTO_HEAD_IMAGE  @"fb_upload_head_image"
 #define FB_UPLOAD_PHOTO_RERESH      @"fb_upload_photo_refresh"
 #define FB_UPDATE_PERSONALDIC      @"update_Personal_Dic"
+#define FB_PEOPLE_YOU_MAY_KNOW      @"fb_people_you_may_know"
 
 
 #define FB_POST_SUCCESS             @"fb_post_success"
@@ -313,6 +314,7 @@ typedef enum {
     FreebaoAddfavorite,
     FreebaoDeleteHomeline,
     FreebaoReportShare,
+    FreebaoYouMayKnow,
 }RequestType;
 
 
@@ -451,4 +453,7 @@ typedef enum {
 
 //Freebao 举报微博
 -(void)didFreebaoReportShareWithUserId:(NSString*)aUserId ReportType:(NSString*)type ContentId:(NSString*)aContentId PassId:(NSString*)passId;
+
+//Freebao 获取推荐的人
+-(void)didFreebaoMayKnowWithUserId:(NSString*)aUserId PageSize:(NSString*)size PassId:(NSString*)passId;
 @end
