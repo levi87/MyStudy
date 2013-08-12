@@ -15,6 +15,7 @@
 #import "FeedbackViewController.h"
 #import "SearchViewController.h"
 #import "PeopleUMayKnowViewController.h"
+#import "CitiesViewController.h"
 
 @interface MoreViewController : UITableViewController {
     UILabel *tittleLabel;

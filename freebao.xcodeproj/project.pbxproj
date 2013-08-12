@@ -60,6 +60,8 @@
 		A231029917B874090089397B /* PeopleUMayKnowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A231029717B874090089397B /* PeopleUMayKnowViewController.xib */; };
 		A231029C17B87BA90089397B /* PeopleMayKnowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A231029B17B87BA90089397B /* PeopleMayKnowCell.m */; };
 		A231029F17B87CB30089397B /* PeopleMayKnowInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A231029E17B87CB30089397B /* PeopleMayKnowInfo.m */; };
+		A23102AE17B8E2170089397B /* CitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A23102AC17B8E2150089397B /* CitiesViewController.m */; };
+		A23102AF17B8E2170089397B /* CitiesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A23102AD17B8E2160089397B /* CitiesViewController.xib */; };
 		A23504AA1797943C0070343E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A23504A81797943C0070343E /* CommentViewController.m */; };
 		A23504AB1797943C0070343E /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A23504A91797943C0070343E /* CommentViewController.xib */; };
 		A23504AE1797C9AF0070343E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A23504AD1797C9AF0070343E /* Default-568h@2x.png */; };
@@ -806,6 +808,9 @@
 		A231029B17B87BA90089397B /* PeopleMayKnowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleMayKnowCell.m; sourceTree = "<group>"; };
 		A231029D17B87CB30089397B /* PeopleMayKnowInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleMayKnowInfo.h; sourceTree = "<group>"; };
 		A231029E17B87CB30089397B /* PeopleMayKnowInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleMayKnowInfo.m; sourceTree = "<group>"; };
+		A23102AB17B8E2140089397B /* CitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitiesViewController.h; sourceTree = "<group>"; };
+		A23102AC17B8E2150089397B /* CitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitiesViewController.m; sourceTree = "<group>"; };
+		A23102AD17B8E2160089397B /* CitiesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CitiesViewController.xib; sourceTree = "<group>"; };
 		A23504A71797943C0070343E /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		A23504A81797943C0070343E /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		A23504A91797943C0070343E /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
@@ -3464,6 +3469,9 @@
 				A231029517B874090089397B /* PeopleUMayKnowViewController.h */,
 				A231029617B874090089397B /* PeopleUMayKnowViewController.m */,
 				A231029717B874090089397B /* PeopleUMayKnowViewController.xib */,
+				A23102AB17B8E2140089397B /* CitiesViewController.h */,
+				A23102AC17B8E2150089397B /* CitiesViewController.m */,
+				A23102AD17B8E2160089397B /* CitiesViewController.xib */,
 			);
 			name = VCs;
 			sourceTree = "<group>";
@@ -4251,6 +4259,7 @@
 				D90AF70917B5E0AA00528AFD /* NewAtMeViewController.xib in Resources */,
 				D90AF71117B6123B00528AFD /* NewCommentsViewController.xib in Resources */,
 				A231029917B874090089397B /* PeopleUMayKnowViewController.xib in Resources */,
+				A23102AF17B8E2170089397B /* CitiesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4572,6 +4581,7 @@
 				A231029817B874090089397B /* PeopleUMayKnowViewController.m in Sources */,
 				A231029C17B87BA90089397B /* PeopleMayKnowCell.m in Sources */,
 				A231029F17B87CB30089397B /* PeopleMayKnowInfo.m in Sources */,
+				A23102AE17B8E2170089397B /* CitiesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

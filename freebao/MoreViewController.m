@@ -205,6 +205,11 @@
         tittleLineView.hidden = YES;
         ProfileViewController *proVC = [[ProfileViewController alloc] init];
         [self.navigationController pushViewController:proVC animated:YES];
+    } else if (indexPath.row == 3) {
+        tittleView.hidden = YES;
+        tittleLineView.hidden = YES;
+        CitiesViewController *myCityVC = [[CitiesViewController alloc] init];
+        [self.navigationController pushViewController:myCityVC animated:YES];
     } else if (indexPath.row == 4) {
         tittleView.hidden = YES;
         tittleLineView.hidden = YES;
