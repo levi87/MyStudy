@@ -10,6 +10,7 @@
 #import "CityUserInfo.h"
 #import "WeiBoMessageManager.h"
 #import "CityUserCell.h"
+#import "ChatViewController.h"
 
 @class WeiBoMessageManager;
 @interface CityUserViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
@@ -27,6 +28,7 @@
     int currentPage;
     int maxPage;
     UILabel *tittleLabel;
+    ChatViewController *commChatV;
 }
 
 @property (nonatomic, retain) NSString *aCityName;

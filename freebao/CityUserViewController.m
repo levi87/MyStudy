@@ -162,6 +162,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.cityUserTableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (commChatV == nil) {
+        commChatV = [[ChatViewController alloc] init];
+    } else {
+        commChatV.isFirst = FALSE;
+        commChatV.isReload = TRUE;
+    }
+    CityUserInfo *tmpInfo = [peopleArray objectAtIndex:indexPath.row];
+    [commChatV setToUserId:tmpInfo.userId];
+    [commChatV.tittleLabel setText:tmpInfo.userName];
+
+    [self.navigationController pushViewController:commChatV animated:YES];
 }
 
 @end
