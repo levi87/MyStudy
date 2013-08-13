@@ -581,6 +581,20 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoCityUsersWithUserId:(NSString *)aUserId City:(NSString *)aCity Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetChatCityUserUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+    
+    [item setPostValue:aUserId    forKey:@"query.userId"];
+    [item setPostValue:passId      forKey:@"passId"];
+    [item setPostValue:aCity     forKey:@"query.city"];
+    [item setPostValue:[NSNumber numberWithInteger:page+1]     forKey:@"query.toPage"];
+    [item setPostValue:[NSNumber numberWithInteger:pageSize]       forKey:@"query.perPageSize"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoCityUser];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -1204,6 +1218,20 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CITIES object:resultArray];
         } else {
             NSLog(@"[levi] cities failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoCityUser) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] city user dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] city user Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSDictionary *maxCount = [NSDictionary dictionaryWithObjectsAndKeys:[[resultMap objectForKey:@"currentPageInfo"] objectForKey:@"totalPage"],@"maxCount", nil];
+            NSArray *resultArray = [resultMap objectForKey:@"list"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CITY_USERS object:resultArray userInfo:maxCount];
+        } else {
+            NSLog(@"[levi] city user failed...");
         }
         return;
     }

@@ -218,4 +218,9 @@ static WeiBoMessageManager * instance=nil;
 -(void)FBCitiesWithPassId:(NSString *)passId {
     [httpManager didFreebaoCitiesWithPassId:passId];
 }
+
+//Freebao 获取城市用户列表
+-(void)FBCityUsersWithUserId:(NSString *)aUserId City:(NSString *)aCity Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString *)passId {
+    [httpManager didFreebaoCityUsersWithUserId:aUserId City:aCity Page:page PageSize:pageSize PassId:passId];
+}
 @end

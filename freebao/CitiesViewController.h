@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WeiBoMessageManager.h"
+#import "CityUserViewController.h"
 @class WeiBoMessageManager;
 @interface CitiesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     WeiBoMessageManager *manager;
@@ -17,6 +18,7 @@
     UIView *tittleView;
     UIView *tittleLineView;
     NSMutableArray *_dataArr;
+    CityUserViewController *commCityUserView;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *citiesTableView;

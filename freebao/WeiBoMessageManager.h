@@ -124,4 +124,7 @@
 
 //Freebao cities
 -(void)FBCitiesWithPassId:(NSString*)passId;
+
+//Freebao city user
+-(void)FBCityUsersWithUserId:(NSString*)aUserId City:(NSString*)aCity Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

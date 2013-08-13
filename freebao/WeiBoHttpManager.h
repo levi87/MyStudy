@@ -74,6 +74,7 @@
 #define FB_UPDATE_PERSONALDIC      @"update_Personal_Dic"
 #define FB_PEOPLE_YOU_MAY_KNOW      @"fb_people_you_may_know"
 #define FB_GET_CITIES               @"fb_get_cities"
+#define FB_GET_CITY_USERS           @"fb_get_city_users"
 
 
 #define FB_POST_SUCCESS             @"fb_post_success"
@@ -317,6 +318,7 @@ typedef enum {
     FreebaoReportShare,
     FreebaoYouMayKnow,
     FreebaoCities,
+    FreebaoCityUser,
 }RequestType;
 
 
@@ -461,4 +463,7 @@ typedef enum {
 
 //Freebao 获取城市列表
 -(void)didFreebaoCitiesWithPassId:(NSString*)passId;
+
+//Freebao 获取城市用户列表
+-(void)didFreebaoCityUsersWithUserId:(NSString*)aUserId City:(NSString*)aCity Page:(NSInteger)page PageSize:(NSInteger)pageSize PassId:(NSString*)passId;
 @end

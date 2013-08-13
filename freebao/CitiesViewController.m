@@ -56,6 +56,7 @@
     _sectionHeadsKeys = [[NSMutableArray alloc] init];      //initialize a array to hold keys like A,B,C ...
     
     //add test data
+    [_dataArr addObject:@"da lian"];
     [_dataArr addObject:@"郭靖"];
     [_dataArr addObject:@"黄蓉"];
     [_dataArr addObject:@"杨过"];
@@ -94,12 +95,13 @@
     [_dataArr addObject:@"Ethan"];
     [_dataArr addObject:@"Green小"];
     [_dataArr addObject:@"Green大"];
+    [_dataArr addObject:@"Col ssa"];
     [_dataArr addObject:@"DavidSmall"];
     [_dataArr addObject:@"DavidBig"];
     [_dataArr addObject:@"James"];
     [_dataArr addObject:@"Kobe Brand"];
     [_dataArr addObject:@"Kobe Crand"];
-    _contactsArray = [self getChineseStringArr:_dataArr];
+//    _contactsArray = [self getChineseStringArr:_dataArr];
     UIView *blankView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.citiesTableView setTableHeaderView:blankView];
 }
@@ -107,14 +109,14 @@
 -(void)onRequestCities:(NSNotification*)notification {
     NSArray *cityArray = notification.object;
     NSLog(@"city %@", cityArray);
-    [_dataArr removeAllObjects];
+    _dataArr = [[NSMutableArray alloc] init];
+    _sortedArrForArrays = [[NSMutableArray alloc] init];
+    _sectionHeadsKeys = [[NSMutableArray alloc] init];
     for (int i = 1; i < [cityArray count] - 1; i ++) {
         NSDictionary *tmpDic = [cityArray objectAtIndex:i];
         NSString *tmpStr = [tmpDic getStringValueForKey:@"city" defaultValue:@"blank"];
-        NSLog(@"tmpStr %@", tmpStr);
         [_dataArr addObject:tmpStr];
     }
-    NSLog(@"_______dataArr %@", _dataArr);
     _contactsArray = [self getChineseStringArr:_dataArr];
     [self.citiesTableView reloadData];
 }
@@ -235,8 +237,8 @@
         ChineseString *chineseStr = (ChineseString *)[chineseStringsArray objectAtIndex:index];
         NSMutableString *strchar= [NSMutableString stringWithString:chineseStr.pinYin];
         NSString *sr= [strchar substringToIndex:1];
-        NSLog(@"%@",sr);        //sr containing here the first character of each string
-        NSLog(@"section key %@  sr %@", _sectionHeadsKeys, [sr uppercaseString]);
+//        NSLog(@"%@",sr);        //sr containing here the first character of each string
+//        NSLog(@"section key %@  sr %@", _sectionHeadsKeys, [sr uppercaseString]);
         if(![_sectionHeadsKeys containsObject:[sr uppercaseString]])//here I'm checking whether the character already in the selection header keys or not
         {
             [_sectionHeadsKeys addObject:[sr uppercaseString]];
@@ -287,5 +289,17 @@
     [self setCitiesTableView:nil];
     [super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_CITIES object:nil];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.citiesTableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (commCityUserView == nil) {
+        commCityUserView = [[CityUserViewController alloc] init];
+    } else {
+        [commCityUserView setIsRefreshPeople:YES];
+    }
+    UITableViewCell *tmpCell = [self.citiesTableView cellForRowAtIndexPath:indexPath];
+    [commCityUserView setACityName:tmpCell.textLabel.text];
+    [self.navigationController pushViewController:commCityUserView animated:YES];
 }
 @end
