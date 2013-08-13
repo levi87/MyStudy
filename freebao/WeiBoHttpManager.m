@@ -571,6 +571,16 @@
     [requestQueue addOperation:item];
 }
 
+-(void)didFreebaoCitiesWithPassId:(NSString *)passId {
+    NSURL *url = [NSURL URLWithString:kGetChatCityUrl];
+    ASIFormDataRequest *item = [[ASIFormDataRequest alloc] initWithURL:url];
+
+    [item setPostValue:passId      forKey:@"passId"];
+    
+    [self setPostUserInfo:item withRequestType:FreebaoCities];
+    [requestQueue addOperation:item];
+}
+
 #pragma mark - Operate queue
 - (BOOL)isRunning
 {
@@ -1181,6 +1191,19 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_PEOPLE_YOU_MAY_KNOW object:resultArray];
         } else {
             NSLog(@"[levi] may know failed...");
+        }
+        return;
+    }
+    if (requestType == FreebaoCities) {
+        NSMutableDictionary *tmpDic = returnObject;
+        NSLog(@"[levi] cities dic %@", tmpDic);
+        if ([[tmpDic objectForKey:@"OK"] boolValue]) {
+            NSLog(@"[levi] cities Success...");
+            NSDictionary *resultMap = [tmpDic objectForKey:@"resultMap"];
+            NSArray *resultArray = [resultMap objectForKey:@"kingUsers"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_CITIES object:resultArray];
+        } else {
+            NSLog(@"[levi] cities failed...");
         }
         return;
     }

@@ -219,6 +219,7 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{30, -3}, {270, 21}}</string>
 										<reference key="NSSuperview" ref="453001340"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -859,10 +860,10 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="i_edit_bigvoice@2x.png">{16, 16}</string>
-			<string key="icon_postedit_camera_normal@2x.png">{16, 16}</string>
+			<string key="i_edit_bigvoice@2x.png">{188, 186}</string>
+			<string key="icon_postedit_camera_normal@2x.png">{120, 120}</string>
 			<string key="icon_postedit_location_off.png">{16, 16}</string>
-			<string key="icon_postedit_voice_normal@2x.png">{16, 16}</string>
+			<string key="icon_postedit_voice_normal@2x.png">{100, 100}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

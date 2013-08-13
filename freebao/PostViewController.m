@@ -28,6 +28,26 @@
     return self;
 }
 
+-(void)voiceBtnLongPress:(UILongPressGestureRecognizer *)recogonizer {
+    switch (recogonizer.state) {
+        case UIGestureRecognizerStateBegan:
+            NSLog(@"begin");
+            if (self.avPlay.playing) {
+                [self.voicePlayButton.imageView stopAnimating];
+                [playTimer invalidate];
+                [self.avPlay stop];
+            }
+            _hasVoice = NO;
+            self.VoiceImageView.hidden = YES;
+            break;
+        case UIGestureRecognizerStateCancelled:
+            NSLog(@"cancel");
+            break;
+        default:
+            break;
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -42,6 +62,8 @@
         frame.size.height = 460;
         self.view.frame = frame;
     }
+    UILongPressGestureRecognizer *longGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(voiceBtnLongPress:)];
+    [self.voicePlayButton addGestureRecognizer:longGesture];
     _imagePicker = [[UIImagePickerController alloc] init];
     _imagePicker.allowsEditing = YES;
     _imagePicker.delegate = self;

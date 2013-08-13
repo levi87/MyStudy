@@ -121,4 +121,7 @@
 
 //Freebao you may know
 -(void)FBYouMayKnowWithUserId:(NSString*)aUserId PageSize:(NSString*)size PassId:(NSString*)passId;
+
+//Freebao cities
+-(void)FBCitiesWithPassId:(NSString*)passId;
 @end

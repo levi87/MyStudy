@@ -701,10 +701,10 @@
         postFileType = @"1";
         mediaData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"PhotoPath"]];
     }
-    if ([userInfo objectForKey:@"hasVoice"]) {
+    if ([[userInfo objectForKey:@"hasVoice"] integerValue] == 1) {
         soundData = [NSData dataWithContentsOfFile:[userInfo objectForKey:@"VoicePath"]];
     }
-    if ([userInfo objectForKey:@"hasLocation"]) {
+    if ([[userInfo objectForKey:@"hasLocation"] integerValue] == 1) {
         latitude = [userInfo getStringValueForKey:@"latitude" defaultValue:@"0"];
         longitude = [userInfo getStringValueForKey:@"longitude" defaultValue:@"0"];
     }

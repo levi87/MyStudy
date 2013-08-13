@@ -7,15 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WeiBoMessageManager.h"
+@class WeiBoMessageManager;
 @interface CitiesViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+    WeiBoMessageManager *manager;
     NSMutableArray *_contactsArray;
     NSArray *_keys;
     
     UIView *tittleView;
     UIView *tittleLineView;
+    NSMutableArray *_dataArr;
 }
 
+@property (weak, nonatomic) IBOutlet UITableView *citiesTableView;
 @property (nonatomic, retain) NSMutableArray *contactsArray;
 @property (nonatomic, retain) NSArray *keys;
 @property (nonatomic, retain) NSMutableArray *sortedArrForArrays;

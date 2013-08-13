@@ -9,6 +9,7 @@
 #import "CitiesViewController.h"
 #import "pinyin.h"
 #import "ChineseString.h"
+#import "NSDictionaryAdditions.h"
 
 #define CHECK_TAG 1110
 
@@ -41,11 +42,16 @@
 {
     [super viewDidLoad];
     [self initTitleBar];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRequestCities:) name:FB_GET_CITIES object:nil];
+    if (manager == nil) {
+        manager = [WeiBoMessageManager getInstance];
+    }
+    [manager FBCitiesWithPassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
     curRowCities = NSNotFound;
     
     _keys = [NSArray arrayWithObjects:@"",@"",@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
-    NSMutableArray *_dataArr = [[NSMutableArray alloc] init];
+    _dataArr = [[NSMutableArray alloc] init];
     _sortedArrForArrays = [[NSMutableArray alloc] init];
     _sectionHeadsKeys = [[NSMutableArray alloc] init];      //initialize a array to hold keys like A,B,C ...
     
@@ -94,6 +100,23 @@
     [_dataArr addObject:@"Kobe Brand"];
     [_dataArr addObject:@"Kobe Crand"];
     _contactsArray = [self getChineseStringArr:_dataArr];
+    UIView *blankView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    [self.citiesTableView setTableHeaderView:blankView];
+}
+
+-(void)onRequestCities:(NSNotification*)notification {
+    NSArray *cityArray = notification.object;
+    NSLog(@"city %@", cityArray);
+    [_dataArr removeAllObjects];
+    for (int i = 1; i < [cityArray count] - 1; i ++) {
+        NSDictionary *tmpDic = [cityArray objectAtIndex:i];
+        NSString *tmpStr = [tmpDic getStringValueForKey:@"city" defaultValue:@"blank"];
+        NSLog(@"tmpStr %@", tmpStr);
+        [_dataArr addObject:tmpStr];
+    }
+    NSLog(@"_______dataArr %@", _dataArr);
+    _contactsArray = [self getChineseStringArr:_dataArr];
+    [self.citiesTableView reloadData];
 }
 
 -(void)initTitleBar {
@@ -205,7 +228,7 @@
     
     NSMutableArray *arrayForArrays = [NSMutableArray array];
     BOOL checkValueAtIndex= NO;  //flag to check
-    NSMutableArray *TempArrForGrouping = nil;
+    NSMutableArray *TempArrForGrouping = [[NSMutableArray alloc] init];
     
     for(int index = 0; index < [chineseStringsArray count]; index++)
     {
@@ -213,6 +236,7 @@
         NSMutableString *strchar= [NSMutableString stringWithString:chineseStr.pinYin];
         NSString *sr= [strchar substringToIndex:1];
         NSLog(@"%@",sr);        //sr containing here the first character of each string
+        NSLog(@"section key %@  sr %@", _sectionHeadsKeys, [sr uppercaseString]);
         if(![_sectionHeadsKeys containsObject:[sr uppercaseString]])//here I'm checking whether the character already in the selection header keys or not
         {
             [_sectionHeadsKeys addObject:[sr uppercaseString]];
@@ -248,10 +272,20 @@
     return key;
 }
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return _keys;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setCitiesTableView:nil];
+    [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_CITIES object:nil];
+}
 @end

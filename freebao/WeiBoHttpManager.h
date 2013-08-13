@@ -73,6 +73,7 @@
 #define FB_UPLOAD_PHOTO_RERESH      @"fb_upload_photo_refresh"
 #define FB_UPDATE_PERSONALDIC      @"update_Personal_Dic"
 #define FB_PEOPLE_YOU_MAY_KNOW      @"fb_people_you_may_know"
+#define FB_GET_CITIES               @"fb_get_cities"
 
 
 #define FB_POST_SUCCESS             @"fb_post_success"
@@ -315,6 +316,7 @@ typedef enum {
     FreebaoDeleteHomeline,
     FreebaoReportShare,
     FreebaoYouMayKnow,
+    FreebaoCities,
 }RequestType;
 
 
@@ -456,4 +458,7 @@ typedef enum {
 
 //Freebao 获取推荐的人
 -(void)didFreebaoMayKnowWithUserId:(NSString*)aUserId PageSize:(NSString*)size PassId:(NSString*)passId;
+
+//Freebao 获取城市列表
+-(void)didFreebaoCitiesWithPassId:(NSString*)passId;
 @end

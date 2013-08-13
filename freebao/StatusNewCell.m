@@ -80,7 +80,7 @@
                                                 [UIImage imageNamed:@"con-speek06"],
                                                 nil];
         _transVoiceImageView.animationDuration = 1;
-        [_upperView addSubview:_transVoiceImageView];
+//        [_upperView addSubview:_transVoiceImageView];
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
         UITapGestureRecognizer *languageGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectAction)];
         languageGesTap.numberOfTapsRequired = 1;
