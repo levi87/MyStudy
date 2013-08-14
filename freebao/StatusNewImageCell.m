@@ -17,6 +17,7 @@
 #define PADDING_LEFT 0.0
 
 #define COMMENT_VOICE @"fb_comment_voice"
+#import "EGOCache.h"
 
 @implementation StatusNewImageCell
 @synthesize delegate = _delegate;
@@ -701,8 +702,16 @@
     }
     
     _statusDateLabel.text = info.createAt;
-    headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
-    mainImageView.imageURL = [NSURL URLWithString:info.originalPicUrl];
+    if ([[EGOImageLoader sharedImageLoader] hasLoadedImageURL:[NSURL URLWithString:info.userFacePath]]) {
+        headImageView.image = [[EGOImageLoader sharedImageLoader] imageForURL:[NSURL URLWithString:info.userFacePath] shouldLoadWithObserver:nil];
+    } else {
+        headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
+    }
+    if ([[EGOImageLoader sharedImageLoader] hasLoadedImageURL:[NSURL URLWithString:info.originalPicUrl]]) {
+        mainImageView.image = [[EGOImageLoader sharedImageLoader] imageForURL:[NSURL URLWithString:info.originalPicUrl] shouldLoadWithObserver:nil];
+    } else {
+        mainImageView.imageURL = [NSURL URLWithString:info.originalPicUrl];
+    }
 }
 
 -(void)setHeadPhoto:(NSString *)headPhoto {

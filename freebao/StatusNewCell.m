@@ -639,7 +639,11 @@
     }
     
     _statusDateLabel.text = info.createAt;
-    headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
+    if ([[EGOImageLoader sharedImageLoader] hasLoadedImageURL:[NSURL URLWithString:info.userFacePath]]) {
+        headImageView.image = [[EGOImageLoader sharedImageLoader] imageForURL:[NSURL URLWithString:info.userFacePath] shouldLoadWithObserver:nil];
+    } else {
+        headImageView.imageURL = [NSURL URLWithString:info.userFacePath];
+    }
 }
 
 -(void)setHeadPhoto:(NSString *)headPhoto {

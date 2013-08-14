@@ -107,7 +107,7 @@ inline static NSString* keyForURL(NSURL* url, NSString* style) {
 }
 
 - (void)clearCacheForURL:(NSURL*)aURL style:(NSString*)style {
-	[[EGOCache currentCache] removeCacheForKey:keyForURL(aURL, style)];
+    [[EGOCache globalCache] removeCacheForKey:keyForURL(aURL, style)];
 }
 
 - (BOOL)isLoadingImageURL:(NSURL*)aURL {
@@ -158,8 +158,7 @@ inline static NSString* keyForURL(NSURL* url, NSString* style) {
 - (UIImage*)imageForURL:(NSURL*)aURL shouldLoadWithObserver:(id<EGOImageLoaderObserver>)observer {
 	if(!aURL) return nil;
 	
-	UIImage* anImage = [[EGOCache currentCache] imageForKey:keyForURL(aURL,nil)];
-	
+    UIImage* anImage = [UIImage imageWithData:[[EGOCache globalCache] dataForKey:keyForURL(aURL,nil)]];
 	if(anImage) {
 		return anImage;
 	} else {
@@ -225,7 +224,7 @@ inline static NSString* keyForURL(NSURL* url, NSString* style) {
 #endif
 
 - (BOOL)hasLoadedImageURL:(NSURL*)aURL {
-	return [[EGOCache currentCache] hasCacheForKey:keyForURL(aURL,nil)];
+    return [[EGOCache globalCache] hasCacheForKey:keyForURL(aURL,nil)];
 }
 
 #pragma mark -
@@ -249,7 +248,7 @@ inline static NSString* keyForURL(NSURL* url, NSString* style) {
 		[self handleCompletionsForConnection:connection image:nil error:error];
 		#endif
 	} else {
-		[[EGOCache currentCache] setData:connection.responseData forKey:keyForURL(connection.imageURL,nil) withTimeoutInterval:604800];
+        [[EGOCache globalCache] setData:connection.responseData forKey:keyForURL(connection.imageURL,nil) withTimeoutInterval:604800];
 		
 		[currentConnections removeObjectForKey:connection.imageURL];
 		self.currentConnections = [[currentConnections copy] autorelease];
