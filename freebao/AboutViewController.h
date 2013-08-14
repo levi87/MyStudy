@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AboutCell.h"
 
 @interface AboutViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     NSMutableArray *itemsArray;

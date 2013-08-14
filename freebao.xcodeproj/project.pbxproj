@@ -24,6 +24,7 @@
 		A208F43D17968FDD0007878F /* chat_Translation_sanjiao@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A208F43B17968FDD0007878F /* chat_Translation_sanjiao@2x.png */; };
 		A208F43E17968FDD0007878F /* chat_Translation_select_sanjiao@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A208F43C17968FDD0007878F /* chat_Translation_select_sanjiao@2x.png */; };
 		A208F4411796938D0007878F /* StatusCDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A208F4401796938D0007878F /* StatusCDItem.m */; };
+		A2220E6017BB7887001351BA /* AboutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2220E5F17BB7887001351BA /* AboutCell.m */; };
 		A2291EA2178122C700DFAFBB /* tabbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2291EA1178122C700DFAFBB /* tabbarView.m */; };
 		A2291EB0178122E900DFAFBB /* tabbar_0.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA4178122E900DFAFBB /* tabbar_0.png */; };
 		A2291EB1178122E900DFAFBB /* tabbar_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2291EA5178122E900DFAFBB /* tabbar_0@2x.png */; };
@@ -770,6 +771,8 @@
 		A208F43C17968FDD0007878F /* chat_Translation_select_sanjiao@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat_Translation_select_sanjiao@2x.png"; sourceTree = "<group>"; };
 		A208F43F1796938D0007878F /* StatusCDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusCDItem.h; sourceTree = "<group>"; };
 		A208F4401796938D0007878F /* StatusCDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusCDItem.m; sourceTree = "<group>"; };
+		A2220E5E17BB7886001351BA /* AboutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutCell.h; sourceTree = "<group>"; };
+		A2220E5F17BB7887001351BA /* AboutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutCell.m; sourceTree = "<group>"; };
 		A2291EA0178122C700DFAFBB /* tabbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabbarView.h; sourceTree = "<group>"; };
 		A2291EA1178122C700DFAFBB /* tabbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabbarView.m; sourceTree = "<group>"; };
 		A2291EA4178122E900DFAFBB /* tabbar_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_0.png; sourceTree = "<group>"; };
@@ -3588,6 +3591,8 @@
 				A231029B17B87BA90089397B /* PeopleMayKnowCell.m */,
 				A2E27F4F17BA0E91004404D3 /* CityUserCell.h */,
 				A2E27F5017BA0E91004404D3 /* CityUserCell.m */,
+				A2220E5E17BB7886001351BA /* AboutCell.h */,
+				A2220E5F17BB7887001351BA /* AboutCell.m */,
 			);
 			name = TableCell;
 			sourceTree = "<group>";
@@ -4604,6 +4609,7 @@
 				A2E27F4D17BA0E1D004404D3 /* CityUserViewController.m in Sources */,
 				A2E27F5117BA0E91004404D3 /* CityUserCell.m in Sources */,
 				A2E27F5417BA0EFF004404D3 /* CityUserInfo.m in Sources */,
+				A2220E6017BB7887001351BA /* AboutCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
