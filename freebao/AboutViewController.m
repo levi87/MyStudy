@@ -107,5 +107,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.aboutTableview deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString:@"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=508367765"]];
+    } else if (indexPath.row == 1) {
+        
+    } else if (indexPath.row == 2) {
+        NSLog(@"check new version");
+        iToast *itoast = [[iToast alloc] initWithText:@"Your software is up to date."];
+        [itoast setToastPosition:kToastPositionCenter];
+        [itoast setToastDuration:kToastDurationNormal];
+        [itoast show];
+    }
 }
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AboutCell.h"
+#import "iToast.h"
 
 @interface AboutViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
     NSMutableArray *itemsArray;
