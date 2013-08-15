@@ -76,7 +76,7 @@
         
         [self.contentView addSubview:mainImageView];
 		[self.contentView addSubview:headImageView];
-        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 339, 260, 50)];
+        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 339, 280, 50)];
         _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 339, 320, 20)];
         _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 6, 23, 7)];
         _moreImageView.image = [UIImage imageNamed:@"con-moredo.png"];
@@ -113,7 +113,7 @@
                                                 nil];
         _transVoiceImageView.animationDuration = 1;
 //        [_upperView addSubview:_transVoiceImageView];
-        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
+        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 24, 16)];
         UITapGestureRecognizer *languageGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectAction)];
         languageGesTap.numberOfTapsRequired = 1;
         [_languageImageView addGestureRecognizer:languageGesTap];

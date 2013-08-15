@@ -214,9 +214,9 @@
     }
     NSString *hasImage = tmpInfo.originalPicUrl;
     if (![hasImage isEqualToString:@"0"]) {
-        return 25 + tmpHeight + 50 + 30 + 330 + forwordHeight + commentsHeight;
+        return 30 + tmpHeight + 50 + 30 + 330 + forwordHeight + commentsHeight;
     } else {
-        return 25 + tmpHeight + 50 + 30 + forwordHeight + commentsHeight;
+        return 30 + tmpHeight + 50 + 30 + forwordHeight + commentsHeight;
     }
 }
 

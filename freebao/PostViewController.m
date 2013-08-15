@@ -199,11 +199,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] postNotificationName:INIT_FACEVIEW_POSITION object:nil];
-    if ([[UIScreen mainScreen] bounds].size.height == 568) {
-        [self.mainScrollView setFrame:CGRectMake(0, 44, 320, 568)];
-    } else {
-        [self.mainScrollView setFrame:CGRectMake(0, 44, 320, 460)];
-    }
+    CGRect frame = self.mainScrollView.frame;
+    frame.size.height = self.view.bounds.size.height - 45;
+    self.mainScrollView.frame = frame;
 }
 
 - (void)didReceiveMemoryWarning
