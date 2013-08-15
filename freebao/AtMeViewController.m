@@ -13,7 +13,7 @@
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 @interface AtMeViewController ()
 -(void)getDataFromCD;

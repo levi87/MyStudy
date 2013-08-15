@@ -16,7 +16,7 @@
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
 #define FONT_SIZE 15.0
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 @interface ProfileViewController ()
 

@@ -14,7 +14,7 @@
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 #define HOME_PAGE 0
 #define FAV_PAGE 1
@@ -399,9 +399,9 @@
     }
     NSString *hasImage = tmpInfo.originalPicUrl;
     if (![hasImage isEqualToString:@"0"]) {
-        return 25 + tmpHeight + 50 + 30 + 330 + forwordHeight + commentsHeight;
+        return 40 + tmpHeight + 50 + 30 + 330 + forwordHeight + commentsHeight;
     } else {
-        return 25 + tmpHeight + 50 + 30 + forwordHeight + commentsHeight;
+        return 40 + tmpHeight + 50 + 30 + forwordHeight + commentsHeight;
     }
 }
 

@@ -39,7 +39,7 @@
 #import "KxMenu.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 const CGFloat kArrowSize = 0;
 

@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define FONT_SIZE 15.0
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 @implementation CityUserCell
 

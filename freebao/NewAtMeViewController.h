@@ -21,7 +21,7 @@
 #import <AVFoundation/AVFoundation.h>
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 @class WeiBoMessageManager;
 @interface NewAtMeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,StatusNewCellDelegate,StatusNewImageCellDelegate,AVAudioPlayerDelegate,UIActionSheetDelegate> {

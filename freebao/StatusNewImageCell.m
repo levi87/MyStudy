@@ -12,7 +12,7 @@
 #import "NSDictionaryAdditions.h"
 
 #define FONT_SIZE 15.0
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 0.0
 
@@ -49,24 +49,24 @@
         mainImageView.frame = CGRectMake(0, 0, 320, 320);
         
         voiceView = [[UIView alloc] initWithFrame:CGRectMake(240, 10, 80, 30)];
-        _voiceImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, 24, 24)];
+        _voiceImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, 40, 40)];
         _voiceImage.animationImages = [NSArray arrayWithObjects:
                                        [UIImage imageNamed:@"con-voice-01"],
                                        [UIImage imageNamed:@"con-voice-02"],
                                        [UIImage imageNamed:@"con-voice-03"],
                                        nil];
         _voiceImage.animationDuration = 1;
-        [_voiceImage setImage:[UIImage imageNamed:@"con-voice-images"]];
+        [_voiceImage setImage:[UIImage imageNamed:@"icon_home_voice_normal"]];
         UITapGestureRecognizer *tapSound = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playSound)];
         tapSound.numberOfTapsRequired = 1;
         [_voiceImage addGestureRecognizer:tapSound];
         [_voiceImage setUserInteractionEnabled:YES];
         [voiceView addSubview:_voiceImage];
-        voiceLengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 8, 30, 15)];
+        voiceLengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, 40, 25)];
         voiceLengthLabel.text = @"30 s";
         voiceLengthLabel.backgroundColor = [UIColor clearColor];
-        voiceLengthLabel.font = [UIFont systemFontOfSize:13.0];
-        [voiceLengthLabel setTextColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]];
+        voiceLengthLabel.font = [UIFont systemFontOfSize:17.0];
+        [voiceLengthLabel setTextColor:[UIColor colorWithRed:35/255.0 green:166/255.0 blue:210/255.0 alpha:0.9]];
         [voiceView addSubview:voiceLengthLabel];
         [voiceView setBackgroundColor:[UIColor clearColor]];
         [voiceView setAlpha:0.5];
@@ -78,20 +78,24 @@
 		[self.contentView addSubview:headImageView];
         _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 339, 280, 50)];
         _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 339, 320, 20)];
-        _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 6, 23, 7)];
-        _moreImageView.image = [UIImage imageNamed:@"con-moredo.png"];
+        _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        _moreImageView.image = [UIImage imageNamed:@"icon_home_more_normal"];
         UITapGestureRecognizer *moreGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreTapAction)];
         moreGesTap.numberOfTapsRequired = 1;
         [_moreImageView addGestureRecognizer:moreGesTap];
         [_moreImageView setUserInteractionEnabled:YES];
-        _likeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250, 2, 18, 16)];
-        _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+        _likeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(245, 2, 40, 40)];
+        _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_off"];
         UITapGestureRecognizer *likeGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addLikeTapAction)];
         likeGesTap.numberOfTapsRequired = 1;
         [_likeImageView addGestureRecognizer:likeGesTap];
         [_likeImageView setUserInteractionEnabled:YES];
-        _commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(290, 2, 18, 16)];
-        _commentImageView.image = [UIImage imageNamed:@"con-comment.png"];
+        _commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(285, 2, 40, 40)];
+        UITapGestureRecognizer *commentTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapAction)];
+        likeGesTap.numberOfTapsRequired = 1;
+        [_commentImageView addGestureRecognizer:commentTap];
+        [_commentImageView setUserInteractionEnabled:YES];
+        _commentImageView.image = [UIImage imageNamed:@"icon_home_comment_normal"];
         [_lowerView addSubview:_moreImageView];
         [_lowerView addSubview:_likeImageView];
         [_lowerView addSubview:_commentImageView];
@@ -521,9 +525,9 @@
         [_voiceImage stopAnimating];
     }
     if ([info.liked integerValue] == 1) {
-        _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
+        _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_on"];
     } else {
-        _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+        _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_off"];
     }
     if (info.isFakeWeibo) {
         fakeImage = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:info.originalPicUrl]];
@@ -753,12 +757,12 @@
             _statusInfo.liked = @"0";
             _statusInfo.likeCount = [NSString stringWithFormat:@"%d",[_statusInfo.likeCount integerValue] - 1];
             _likeCount.text = _statusInfo.likeCount;
-            _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+            _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_off"];
         } else {
             _statusInfo.liked = @"1";
             _statusInfo.likeCount = [NSString stringWithFormat:@"%d",[_statusInfo.likeCount integerValue] + 1];
             _likeCount.text = _statusInfo.likeCount;
-            _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
+            _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_on"];
         }
         [_delegate imageCellAddLikeDidTaped:self];
     }

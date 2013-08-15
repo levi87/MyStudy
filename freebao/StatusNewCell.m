@@ -12,7 +12,7 @@
 #import "NSDictionaryAdditions.h"
 
 #define FONT_SIZE 15.0
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 0.0
 
@@ -46,20 +46,24 @@
 		[self.contentView addSubview:headImageView];
         _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 280, 50)];
         _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-        _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 6, 23, 7)];
-        _moreImageView.image = [UIImage imageNamed:@"con-moredo.png"];
+        _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        _moreImageView.image = [UIImage imageNamed:@"icon_home_more_normal"];
         UITapGestureRecognizer *moreGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreTapAction)];
         moreGesTap.numberOfTapsRequired = 1;
         [_moreImageView addGestureRecognizer:moreGesTap];
         [_moreImageView setUserInteractionEnabled:YES];
-        _likeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250, 2, 18, 16)];
-        _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+        _likeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(245, 0, 40, 40)];
+        _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_off"];
         UITapGestureRecognizer *likeGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addLikeTapAction)];
         likeGesTap.numberOfTapsRequired = 1;
         [_likeImageView addGestureRecognizer:likeGesTap];
         [_likeImageView setUserInteractionEnabled:YES];
-        _commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(290, 2, 18, 16)];
-        _commentImageView.image = [UIImage imageNamed:@"con-comment.png"];
+        _commentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(285, 0, 40, 40)];
+        UITapGestureRecognizer *commentTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapAction)];
+        likeGesTap.numberOfTapsRequired = 1;
+        [_commentImageView addGestureRecognizer:commentTap];
+        [_commentImageView setUserInteractionEnabled:YES];
+        _commentImageView.image = [UIImage imageNamed:@"icon_home_comment_normal"];
         [_lowerView addSubview:_moreImageView];
         [_lowerView addSubview:_likeImageView];
         [_lowerView addSubview:_commentImageView];
@@ -465,9 +469,9 @@
         [_transVoiceImageView stopAnimating];
     }
     if ([info.liked integerValue] == 1) {
-        _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
+        _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_on"];
     } else {
-        _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+        _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_off"];
     }
     _distanceLabel.text = [NSString stringWithFormat:@"%@km",info.distance];
     _likeCount.text = [NSString stringWithFormat:@"%@",info.likeCount];
@@ -684,12 +688,12 @@
             _statusInfo.liked = @"0";
             _statusInfo.likeCount = [NSString stringWithFormat:@"%d",[_statusInfo.likeCount integerValue] - 1];
             _likeCount.text = _statusInfo.likeCount;
-            _likeImageView.image = [UIImage imageNamed:@"con-like.png"];
+            _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_off"];
         } else {
             _statusInfo.liked = @"1";
             _statusInfo.likeCount = [NSString stringWithFormat:@"%d",[_statusInfo.likeCount integerValue] + 1];
             _likeCount.text = _statusInfo.likeCount;
-            _likeImageView.image = [UIImage imageNamed:@"con-liked.png"];
+            _likeImageView.image = [UIImage imageNamed:@"icon_home_favorite_on"];
         }
         [_delegate cellAddLikeDidTaped:self];
     }

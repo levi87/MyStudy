@@ -8,7 +8,7 @@
 
 #import "MoreViewController.h"
 
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 #define HIDE_TABBAR @"10000"
 #define SHOW_TABBAR @"10001"

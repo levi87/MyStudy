@@ -9,7 +9,7 @@
 #import "ContactCommonCell.h"
 
 #define FONT_SIZE 18.0
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 @implementation ContactCommonCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

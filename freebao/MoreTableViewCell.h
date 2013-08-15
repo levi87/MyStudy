@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WeiBoHttpManager.h"
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 
 @interface MoreTableViewCell : UITableViewCell <UIAlertViewDelegate> {
     UIButton *logoutButton;

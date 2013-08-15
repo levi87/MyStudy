@@ -7,7 +7,7 @@
 //
 
 #import "PostViewController.h"
-#define FONT @"HelveticaNeue-Light"
+#define FONT @"HelveticaNeue"
 #define FB_FAKE_WEIBO @"fb_fake_weibo"
 #define INIT_FACEVIEW_POSITION @"init_faceview_position"
 #define FB_SET_AT_NAME @"fb_set_at_name"
