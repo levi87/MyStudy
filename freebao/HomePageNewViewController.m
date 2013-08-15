@@ -546,6 +546,8 @@
                    image:[UIImage imageNamed:@"icon_chat_flag_p"]
                   target:self
                   action:@selector(pushMenuItem:)],
+    
+    [KxMenuItem menuItem:@"Cancel" image:nil target:self action:@selector(pushMenuItem:)],
     ];
     
     [KxMenu showMenuInView:self.navigationController.view
@@ -559,7 +561,9 @@
     NSLog(@"tittle %@", tmpKxM.title);
     if ([[self.homeTableView cellForRowAtIndexPath:tmpIndexPath] isKindOfClass:[StatusNewCell class]]) {
         StatusNewCell *tmpCell = (StatusNewCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
-        if ([tmpKxM.title isEqualToString:@"中文"]) {
+        if ([tmpKxM.title isEqualToString:@"Cancel"]) {
+            return;
+        } else if ([tmpKxM.title isEqualToString:@"中文"]) {
             [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
             tmpCell.statusInfo.postLanguage = @"zh_CN";
         } else if ([tmpKxM.title isEqualToString:@"English"]) {
@@ -587,7 +591,9 @@
         [self getTranslate:tmpCell.statusInfo.content Language:tmpCell.statusInfo.postLanguage];
     } else {
         StatusNewImageCell *tmpCell = (StatusNewImageCell*)[self.homeTableView cellForRowAtIndexPath:tmpIndexPath];
-        if ([tmpKxM.title isEqualToString:@"中文"]) {
+        if ([tmpKxM.title isEqualToString:@"Cancel"]) {
+            return;
+        } else if ([tmpKxM.title isEqualToString:@"中文"]) {
             [tmpCell.languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
             tmpCell.statusInfo.postLanguage = @"zh_CN";
         } else if ([tmpKxM.title isEqualToString:@"English"]) {

@@ -109,6 +109,8 @@
                      image:[UIImage imageNamed:@"icon_chat_flag_p"]
                     target:self
                     action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Cancel" image:nil target:self action:@selector(pushMenuItem:)],
       ];
     
     [KxMenu showMenuInView:self.view
@@ -120,7 +122,9 @@
 {
     KxMenuItem *tmpKxM = sender;
     NSLog(@"tittle %@", tmpKxM.title);
-    if ([tmpKxM.title isEqualToString:@"中文"]) {
+    if ([tmpKxM.title isEqualToString:@"Cancel"]) {
+        return;
+    } else if ([tmpKxM.title isEqualToString:@"中文"]) {
         currentLanguage = @"zh_CN";
         [languageButton setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"icon_chat_flag_cn"]]];
     } else if ([tmpKxM.title isEqualToString:@"English"]) {

@@ -113,7 +113,7 @@
                                                 nil];
         _transVoiceImageView.animationDuration = 1;
 //        [_upperView addSubview:_transVoiceImageView];
-        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 24, 16)];
+        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(210, 17, 24, 16)];
         UITapGestureRecognizer *languageGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectAction)];
         languageGesTap.numberOfTapsRequired = 1;
         [_languageImageView addGestureRecognizer:languageGesTap];
