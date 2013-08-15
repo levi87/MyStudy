@@ -10,6 +10,7 @@
 #import "WeiBoMessageManager.h"
 #import "FansCell.h"
 #import "FansInfo.h"
+#import "ChatViewController.h"
 
 @class WeiBoMessageManager;
 @interface FansViewController : UITableViewController {
@@ -27,6 +28,7 @@
     NSMutableArray *likersArray;
     int currentPage;
     int maxPage;
+    ChatViewController *commChatV;
 }
 
 @property NSString *cellContentId;

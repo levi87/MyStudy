@@ -62,7 +62,7 @@
     _tittleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     _tittleLabel.textAlignment = UITextAlignmentCenter;
     [_tittleLabel setBackgroundColor:[UIColor clearColor]];
-    _tittleLabel.text = @"Test";
+    _tittleLabel.text = @"My Friends";
     _tittleLabel.textColor = [UIColor whiteColor];
     [tittleView addSubview: _tittleLabel];
     _tittleLabel.center = CGPointMake(160, 22);
@@ -204,16 +204,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (KAppDelegate.commChat == nil) {
-        KAppDelegate.commChat = [[ChatViewController alloc] init];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (commChatV == nil) {
+        commChatV = [[ChatViewController alloc] init];
     } else {
-        KAppDelegate.commChat.isFirst = FALSE;
-        KAppDelegate.commChat.isReload = TRUE;
+        commChatV.isFirst = FALSE;
+        commChatV.isReload = TRUE;
     }
     FansInfo *tmpFaninfo = [likersArray objectAtIndex:indexPath.row];
-    [KAppDelegate.commChat setToUserId:tmpFaninfo.userId];
-    [KAppDelegate.commChat.tittleLabel setText:tmpFaninfo.userName];
-    [self.navigationController pushViewController:KAppDelegate.commChat animated:YES];
+    [commChatV setToUserId:tmpFaninfo.userId];
+    [commChatV.tittleLabel setText:tmpFaninfo.userName];
+    
+    [self.navigationController pushViewController:commChatV animated:YES];
 }
 
 @end
