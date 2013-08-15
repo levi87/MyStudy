@@ -60,6 +60,12 @@
 - (void)backButtonAction {
     NSLog(@"[levi]back...");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RECEIVE_REFRESH_VIEW object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IMAGE_TAP object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:VOICE_DATA object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MAP_POINT object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:SHOW_LANGUAGE_MENU object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:LONG_PRESS object:nil];
+    
     tittleView.hidden = YES;
     tittleLineView.hidden = YES;
     backButton.hidden = YES;
@@ -911,6 +917,11 @@
         NSLog(@"[here...]");
         _isFirst = FALSE;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewByNewMsg:) name:RECEIVE_REFRESH_VIEW object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidTap:) name:IMAGE_TAP object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVoice:) name:VOICE_DATA object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showMapView:) name:MAP_POINT object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLanguageMenu) name:SHOW_LANGUAGE_MENU object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(longPress:) name:LONG_PRESS object:nil];
     }
     if (_isReload) {
         _isReload = FALSE;
