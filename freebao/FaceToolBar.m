@@ -138,7 +138,7 @@
             faceButton.frame = CGRectMake(toolBar.bounds.size.width - 150.0f,toolBar.bounds.size.height-38.0f,buttonWh,buttonWh);
             atButton = [[UIButton alloc] initWithFrame:CGRectMake(toolBar.bounds.size.width - 270.0f,toolBar.bounds.size.height-40.0f,buttonWh,buttonWh)];
             atButton.backgroundColor = [UIColor clearColor];
-            [atButton setBackgroundImage:[UIImage imageNamed:@"i_edit_more-"] forState:UIControlStateNormal];
+            [atButton setBackgroundImage:[UIImage imageNamed:@"i_edit_at"] forState:UIControlStateNormal];
             //            [numberButton setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
             [atButton addTarget:self action:@selector(atFriendsView) forControlEvents:UIControlEventTouchUpInside];
             [toolBar addSubview:atButton];
