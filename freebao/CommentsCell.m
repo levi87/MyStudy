@@ -36,7 +36,7 @@
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
-        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 260, 50)];
+        _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 270, 50)];
         nickNameLabel = [[UILabel alloc] init];
         nickNameLabel.frame = CGRectMake(0, 0, 80, 16);
         nickNameLabel.text = @"levi";
@@ -55,7 +55,7 @@
         UITapGestureRecognizer *tapTransVoice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(transVoiceTapAction)];
         tapTransVoice.numberOfTapsRequired = 1;
         [_transVoiceImageView addGestureRecognizer:tapTransVoice];
-        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 21, 13)];
+        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 24, 16)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         UITapGestureRecognizer *tapLanguage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectTapAction)];
         tapLanguage.numberOfTapsRequired = 1;

@@ -511,10 +511,12 @@
                      image:[UIImage imageNamed:@"icon_chat_flag_p"]
                     target:self
                     action:@selector(pushMenuItem:)],
+      
+      [KxMenuItem menuItem:@"Cancel" image:nil target:self action:@selector(pushMenuItem:)],
       ];
     
     [KxMenu showMenuInView:self.navigationController.view
-                  fromRect:CGRectMake(250, 24, 20, 10)
+                  fromRect:CGRectMake(150, 24, 20, 10)
                  menuItems:menuItems];
 }
 
