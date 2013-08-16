@@ -45,7 +45,7 @@
 		headImageView.frame = CGRectMake(8.0f, 8.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
         _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 280, 50)];
-        _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
         _moreImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
         _moreImageView.image = [UIImage imageNamed:@"icon_home_more_normal"];
         UITapGestureRecognizer *moreGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(moreTapAction)];
