@@ -35,6 +35,7 @@
     id<CommentsCellDelegate> _delegate;
     
     CommentInfo *_commentInfo;
+    UIImageView *arrowImage;
 }
 
 @property (nonatomic, strong) UIImageView *deleteGreyImageView;

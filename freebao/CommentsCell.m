@@ -55,13 +55,18 @@
         UITapGestureRecognizer *tapTransVoice = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(transVoiceTapAction)];
         tapTransVoice.numberOfTapsRequired = 1;
         [_transVoiceImageView addGestureRecognizer:tapTransVoice];
-        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(225, 17, 24, 16)];
+        _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(210, 17, 24, 16)];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         UITapGestureRecognizer *tapLanguage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectTapAction)];
         tapLanguage.numberOfTapsRequired = 1;
-        [_languageImageView addGestureRecognizer:tapLanguage];
+//        [_languageImageView addGestureRecognizer:tapLanguage];
         [_languageImageView setUserInteractionEnabled:YES];
         [_upperView addSubview:_languageImageView];
+        arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake(210, 10, 45, 30)];
+        [arrowImage setImage:[UIImage imageNamed:@"icon_home_flagarrow_down"]];
+        [arrowImage addGestureRecognizer:tapLanguage];
+        [arrowImage setUserInteractionEnabled:YES];
+        [_upperView addSubview:arrowImage];
         _commentDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 180, 15)];
         _commentDateLabel.font = [UIFont fontWithName:FONT size:FONT_SIZE];
         [_upperView addSubview:_commentDateLabel];
@@ -187,11 +192,13 @@
         _soundImageView.hidden = NO;
         _commentTextView.hidden = YES;
         _languageImageView.hidden = YES;
+        arrowImage.hidden = YES;
 //        _transVoiceImageView.hidden = YES;
     } else {
         _soundImageView.hidden = YES;
         _commentTextView.hidden = NO;
         _languageImageView.hidden = NO;
+        arrowImage.hidden = NO;
 //        _transVoiceImageView.hidden = NO;
     }
     //    if ([info.sex integerValue] == 0) {

@@ -122,10 +122,15 @@
         _languageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(210, 17, 24, 16)];
         UITapGestureRecognizer *languageGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(languageSelectAction)];
         languageGesTap.numberOfTapsRequired = 1;
-        [_languageImageView addGestureRecognizer:languageGesTap];
+//        [_languageImageView addGestureRecognizer:languageGesTap];
         [_languageImageView setUserInteractionEnabled:YES];
         [_languageImageView setImage:[UIImage imageNamed:@"icon_chat_flag_cn"]];
         [_upperView addSubview:_languageImageView];
+        UIImageView *arrowImage = [[UIImageView alloc] initWithFrame:CGRectMake(210, 10, 45, 30)];
+        [arrowImage setImage:[UIImage imageNamed:@"icon_home_flagarrow_down"]];
+        [arrowImage addGestureRecognizer:languageGesTap];
+        [arrowImage setUserInteractionEnabled:YES];
+        [_upperView addSubview:arrowImage];
         _locationImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"con-location.png"]];
         _locationImageView.frame = CGRectMake(0, 24, 15, 15);
         _distanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 24, 43, 15)];
