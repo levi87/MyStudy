@@ -19,6 +19,7 @@
 #import "AppDelegate.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
+#import "BlockActionSheet.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 #define FONT @"HelveticaNeue"
@@ -42,7 +43,7 @@
     
     int currentPage;
     int maxPage;
-    CustomActionSheet *_actionSheet;
+    BlockActionSheet *_actionSheet;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *homeTableView;

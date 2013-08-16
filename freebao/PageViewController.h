@@ -28,6 +28,7 @@
 #import "CustomActionSheet.h"
 #import "StatusNewCell.h"
 #import "StatusNewImageCell.h"
+#import "BlockActionSheet.h"
 #define KAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
 
 @class EGOImageView;
@@ -66,7 +67,7 @@
     NSMutableArray *_ds;
     
     //Home
-    CustomActionSheet *_actionSheet;
+    BlockActionSheet *_actionSheet;
     NSString *currentTransLanguage;
     NSIndexPath *tmpIndexPath;
     NSMutableArray *statusArray;

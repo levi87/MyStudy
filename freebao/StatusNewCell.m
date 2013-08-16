@@ -11,7 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "NSDictionaryAdditions.h"
 
-#define FONT_SIZE 15.0
+#define FONT_SIZE 16.0
 #define FONT @"HelveticaNeue"
 #define PADDING_TOP 8.0
 #define PADDING_LEFT 0.0
@@ -42,7 +42,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         headImageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
-		headImageView.frame = CGRectMake(9.0f, 9.0f, 40.0f, 40.0f);
+		headImageView.frame = CGRectMake(8.0f, 8.0f, 40.0f, 40.0f);
 		[self.contentView addSubview:headImageView];
         _upperView = [[UIView alloc] initWithFrame:CGRectMake(58, 9, 280, 50)];
         _lowerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
@@ -112,6 +112,7 @@
         [_contentTextView setDelegate:self];
         [_contentTextView setFontName:FONT];
         [_contentTextView setFontSize:FONT_SIZE];
+        [_contentTextView setTextColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1]];
         [_contentTextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
         [_contentTextView setBackgroundColor:[UIColor clearColor]];
         [_contentTextView setPaddingTop:PADDING_TOP];
@@ -127,6 +128,7 @@
         [_forwordContentTextView setDelegate:self];
         [_forwordContentTextView setFontName:FONT];
         [_forwordContentTextView setFontSize:FONT_SIZE];
+        [_forwordContentTextView setTextColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1]];
         [_forwordContentTextView setHighlightColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
         [_forwordContentTextView setBackgroundColor:[UIColor clearColor]];
         [_forwordContentTextView setPaddingTop:PADDING_TOP];
@@ -158,7 +160,7 @@
         _line1label = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, 75, 21)];
         [_line1label setText:@"Echo"];
         [_line1label setFont:[UIFont systemFontOfSize:12]];
-        [_line1label setTextColor:[UIColor blueColor]];
+        [_line1label setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         _line1TextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 2, 240, 21)];
         [_line1TextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_line1TextView setDelegate:self];
@@ -169,13 +171,13 @@
         [_line1TextView setPaddingLeft:PADDING_LEFT];
         //        _JSContentTF.userInteractionEnabled = NO;
         _line1TextView.backgroundColor = [UIColor clearColor];
-        _line1TextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line1TextView.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         _line1TextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         _line1TextView.text = @"test message.";
         _line2Label = [[UILabel alloc] initWithFrame:CGRectMake(0, 24, 75, 21)];
         [_line2Label setText:@"Echo"];
         [_line2Label setFont:[UIFont systemFontOfSize:12]];
-        [_line2Label setTextColor:[UIColor blueColor]];
+        [_line2Label setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         _line2TextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 24, 240, 21)];
         [_line2TextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_line2TextView setDelegate:self];
@@ -186,13 +188,13 @@
         [_line2TextView setPaddingLeft:PADDING_LEFT];
         //        _JSContentTF.userInteractionEnabled = NO;
         _line2TextView.backgroundColor = [UIColor clearColor];
-        _line2TextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line2TextView.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         _line2TextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         _line2TextView.text = @"test message.";
         _line3Label = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, 75, 21)];
         [_line3Label setText:@"Echo"];
         [_line3Label setFont:[UIFont systemFontOfSize:12]];
-        [_line3Label setTextColor:[UIColor blueColor]];
+        [_line3Label setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         _line3TextView = [[JSTwitterCoreTextView alloc] initWithFrame:CGRectMake(76, 46, 240, 21)];
         [_line3TextView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_line3TextView setDelegate:self];
@@ -203,7 +205,7 @@
         [_line3TextView setPaddingLeft:PADDING_LEFT];
         //        _JSContentTF.userInteractionEnabled = NO;
         _line3TextView.backgroundColor = [UIColor clearColor];
-        _line3TextView.textColor = [UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1];
+        _line3TextView.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         _line3TextView.linkColor = [UIColor colorWithRed:96/255.0 green:138/255.0 blue:176/255.0 alpha:1];
         _line3TextView.text = @"test message.";
         [_commentsView addSubview:_line1label];
@@ -221,13 +223,13 @@
         [likeLabel addGestureRecognizer:likerGesTap];
         [likeLabel setUserInteractionEnabled:YES];
         [likeLabel setText:@"Like"];
-        [likeLabel setTextColor:[UIColor blueColor]];
+        [likeLabel setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         [likeLabel setFont:[UIFont systemFontOfSize:12]];
         [likeLabel setBackgroundColor:[UIColor clearColor]];
         _likeCount = [[UILabel alloc] initWithFrame:CGRectMake(34, 2, 17, 21)];
         [_likeCount setText:@"10"];
         [_likeCount setFont:[UIFont systemFontOfSize:12]];
-        [_likeCount setTextColor:[UIColor blueColor]];
+        [_likeCount setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         [_likeCount setBackgroundColor:[UIColor clearColor]];
         UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(65, 2, 56, 21)];
         UITapGestureRecognizer *commentGesTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapAction)];
@@ -236,12 +238,12 @@
         [commentLabel setUserInteractionEnabled:YES];
         [commentLabel setText:@"Comment"];
         [commentLabel setFont:[UIFont systemFontOfSize:12]];
-        [commentLabel setTextColor:[UIColor blueColor]];
+        [commentLabel setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         [commentLabel setBackgroundColor:[UIColor clearColor]];
         _commentCount = [[UILabel alloc] initWithFrame:CGRectMake(121, 2, 17, 21)];
         [_commentCount setText:@"10"];
         [_commentCount setFont:[UIFont systemFontOfSize:12]];
-        [_commentCount setTextColor:[UIColor blueColor]];
+        [_commentCount setTextColor:[UIColor colorWithRed:79/255.0 green:193/255.0 blue:233/255.0 alpha:1]];
         [_commentCount setBackgroundColor:[UIColor clearColor]];
         [_middleView addSubview:likeLabel];
         [_middleView addSubview:commentLabel];

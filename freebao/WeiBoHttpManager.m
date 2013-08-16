@@ -776,6 +776,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW object:timeline userInfo:maxCount];
             NSLog(@"[levi] new status array count : %d",[timeline count]);
         } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:FB_GET_HOMELINE_NEW_FAIL object:nil];
             NSLog(@"[levi] new request HomeLine failed...");
         }
         return;

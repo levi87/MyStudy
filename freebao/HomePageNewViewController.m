@@ -59,6 +59,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTranslateFailResult:)       name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(insertFakeWeiobo:) name:FB_FAKE_WEIBO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(postSuccessRefresh) name:FB_POST_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestFail) name:FB_GET_HOMELINE_NEW_FAIL object:nil];
     [manager FBGetUserInfoWithUsetId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     [manager FBGetHomelineNew:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] Page:0 PageSize:kDefaultRequestPageSize PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
     
@@ -86,6 +87,10 @@
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     [self.homeTableView setTableHeaderView:headerView];
+}
+
+-(void)requestFail {
+    [self.refreshControl endRefreshing];
 }
 
 -(void)postSuccessRefresh {
@@ -242,6 +247,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_TRANSLATION_FAIL object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_FAKE_WEIBO object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_POST_SUCCESS object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:FB_GET_HOMELINE_NEW_FAIL object:nil];
 }
 
 -(void)cellAddLikeDidTaped:(StatusNewImageCell *)theCell {
@@ -267,51 +273,68 @@
 -(void)cellMoreDidTaped:(StatusNewCell *)theCell {
     NSLog(@"cell more tap");
     tmpIndexPath = theCell.indexPath;
-    _actionSheet = [[CustomActionSheet alloc] init];
-    _actionSheet.delegate = self;
-    [_actionSheet addButtonWithTitle:@"Favorite"];
-    [_actionSheet addButtonWithTitle:@"Report"];
+    _actionSheet = [BlockActionSheet sheetWithTitle:@""];
+    __block HomePageNewViewController *blockSelf = self;
+    [_actionSheet addButtonWithTitle:@"Favorite" block:^{
+        NSLog(@"Favorite...");
+        [blockSelf addFavorite];
+    }];
+    [_actionSheet addButtonWithTitle:@"Report" block:^{
+        NSLog(@"Report");
+        [blockSelf reportPost];
+    }];
     if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-        [_actionSheet addButtonWithTitle:@"Delete"];
+        [_actionSheet addButtonWithTitle:@"Delete" block:^{
+            NSLog(@"Delete");
+            [blockSelf deletePost];
+        }];
     }
-    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet setDestructiveButtonWithTitle:@"Cancel" block:^{
+        NSLog(@"Cancel");
+    }];
     [_actionSheet showInView:self.view];
 }
 
 -(void)imageCellMoreDidTaped:(StatusNewImageCell *)theCell {
     NSLog(@"image cell more tap");
     tmpIndexPath = theCell.indexPath;
-    _actionSheet = [[CustomActionSheet alloc] init];
-    _actionSheet.delegate = self;
-    [_actionSheet addButtonWithTitle:@"Favorite"];
-    [_actionSheet addButtonWithTitle:@"Report"];
+    _actionSheet = [BlockActionSheet sheetWithTitle:@""];
+    __block HomePageNewViewController *blockSelf = self;
+    [_actionSheet addButtonWithTitle:@"Favorite" block:^{
+        NSLog(@"Favorite...");
+        [blockSelf addFavorite];
+    }];
+    [_actionSheet addButtonWithTitle:@"Report" block:^{
+        NSLog(@"Report");
+        [blockSelf reportPost];
+    }];
     if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-        [_actionSheet addButtonWithTitle:@"Delete"];
+        [_actionSheet addButtonWithTitle:@"Delete" block:^{
+            NSLog(@"Delete");
+            [blockSelf deletePost];
+        }];
     }
-    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet setDestructiveButtonWithTitle:@"Cancel" block:^{
+        NSLog(@"Cancel");
+    }];
     [_actionSheet showInView:self.view];
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)addFavorite {
     StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
-    switch (buttonIndex) {
-        case 0:
-            [manager FBAddFavouriteWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-            break;
-        case 1:
-            [manager FBReportShareWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ReportType:@"1" ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-            break;
-        case 2:
-            if (![[NSString stringWithFormat:@"%@",tmpStatusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-                return;
-            }
-            [statusArray removeObjectAtIndex:tmpIndexPath.row];
-            [self.homeTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [manager FBDeleteHomelineWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-            break;
-        default:
-            break;
-    }
+    [manager FBAddFavouriteWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)reportPost {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    [manager FBReportShareWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ReportType:@"1" ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)deletePost {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    [statusArray removeObjectAtIndex:tmpIndexPath.row];
+    [self.homeTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [manager FBDeleteHomelineWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)cellLikerDidTaped:(StatusNewCell *)theCell {
@@ -551,7 +574,7 @@
     ];
     
     [KxMenu showMenuInView:self.navigationController.view
-                  fromRect:CGRectMake(250, 24, 20, 10)
+                  fromRect:CGRectMake(150, 24, 20, 10)
                  menuItems:menuItems];
 }
 

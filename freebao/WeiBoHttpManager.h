@@ -49,6 +49,7 @@
 //FB_HOMELINE
 #define FB_GET_HOMELINE             @"fb_get_homeline"
 #define FB_GET_HOMELINE_NEW         @"fb_get_homeline_new"
+#define FB_GET_HOMELINE_NEW_FAIL    @"fb_get_homeline_new_fail"
 #define FB_GET_AT_ME_POST           @"fb_get_at_me_post"
 #define FB_GET_USERINFO             @"fb_get_userinfo"
 #define FB_GET_UNREAD_COUNT         @"fb_get_unread_count"

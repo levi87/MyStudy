@@ -665,50 +665,68 @@
 -(void)cellMoreDidTaped:(StatusNewCell *)theCell {
     NSLog(@"cell more tap");
     tmpIndexPath = theCell.indexPath;
-    _actionSheet = [[CustomActionSheet alloc] init];
-    _actionSheet.delegate = self;
-    [_actionSheet addButtonWithTitle:@"Favorite"];
-    [_actionSheet addButtonWithTitle:@"Report"];
+    _actionSheet = [BlockActionSheet sheetWithTitle:@""];
+    __block PageViewController *blockSelf = self;
+    [_actionSheet addButtonWithTitle:@"Favorite" block:^{
+        NSLog(@"Favorite...");
+        [blockSelf addFavorite];
+    }];
+    [_actionSheet addButtonWithTitle:@"Report" block:^{
+        NSLog(@"Report");
+        [blockSelf reportPost];
+    }];
     if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-        [_actionSheet addButtonWithTitle:@"Delete"];
+        [_actionSheet addButtonWithTitle:@"Delete" block:^{
+            NSLog(@"Delete");
+            [blockSelf deletePost];
+        }];
     }
-    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet setDestructiveButtonWithTitle:@"Cancel" block:^{
+        NSLog(@"Cancel");
+    }];
     [_actionSheet showInView:self.view];
 }
 
 -(void)imageCellMoreDidTaped:(StatusNewImageCell *)theCell {
     NSLog(@"image cell more tap");
     tmpIndexPath = theCell.indexPath;
-    _actionSheet = [[CustomActionSheet alloc] init];
-    _actionSheet.delegate = self;
-    [_actionSheet addButtonWithTitle:@"Favorite"];
-    [_actionSheet addButtonWithTitle:@"Report"];
+    _actionSheet = [BlockActionSheet sheetWithTitle:@""];
+    __block PageViewController *blockSelf = self;
+    [_actionSheet addButtonWithTitle:@"Favorite" block:^{
+        NSLog(@"Favorite...");
+        [blockSelf addFavorite];
+    }];
+    [_actionSheet addButtonWithTitle:@"Report" block:^{
+        NSLog(@"Report");
+        [blockSelf reportPost];
+    }];
     if ([[NSString stringWithFormat:@"%@",theCell.statusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-        [_actionSheet addButtonWithTitle:@"Delete"];
+        [_actionSheet addButtonWithTitle:@"Delete" block:^{
+            NSLog(@"Delete");
+            [blockSelf deletePost];
+        }];
     }
-    [_actionSheet addButtonWithTitle:@"Cancel"];
+    [_actionSheet setDestructiveButtonWithTitle:@"Cancel" block:^{
+        NSLog(@"Cancel");
+    }];
     [_actionSheet showInView:self.view];
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+-(void)addFavorite {
     StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
-    switch (buttonIndex) {
-        case 0:
-            [manager FBAddFavouriteWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-            break;
-        case 1:
-            break;
-        case 2:
-            if (![[NSString stringWithFormat:@"%@",tmpStatusInfo.userId] isEqualToString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID]]]) {
-                return;
-            }
-            [statusArray removeObjectAtIndex:tmpIndexPath.row];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [manager FBDeleteHomelineWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
-            break;
-        default:
-            break;
-    }
+    [manager FBAddFavouriteWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)reportPost {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    [manager FBReportShareWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ReportType:@"1" ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
+}
+
+-(void)deletePost {
+    StatusInfo *tmpStatusInfo = [statusArray objectAtIndex:tmpIndexPath.row];
+    [statusArray removeObjectAtIndex:tmpIndexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:tmpIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [manager FBDeleteHomelineWithUserId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_USER_ID] ContentId:tmpStatusInfo.contentId PassId:[[NSUserDefaults standardUserDefaults] objectForKey:FB_PASS_ID]];
 }
 
 -(void)cellLikerDidTaped:(StatusNewCell *)theCell {
